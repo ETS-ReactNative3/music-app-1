@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import Carousel from 'react-elastic-carousel'
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -21,6 +22,7 @@ import {
 } from 'containers/App/selectors';
 import H2 from 'components/H2';
 import ReposList from 'components/ReposList';
+import LatestPosts from 'components/LatestPosts';
 import AtPrefix from './AtPrefix';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
@@ -60,13 +62,530 @@ export function HomePage({
   return (
     <article>
       <Helmet>
-        <title>Home Page</title>
+        <title>Latest Posts</title>
         <meta
           name="description"
           content="A React.js Boilerplate application homepage"
         />
       </Helmet>
-      <div>
+      
+<section>
+<h3>Featured Album</h3>
+<Carousel itemsToShow={4}>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-1.jpg')} alt="" className="slider-img"/>
+                    <div className="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div className="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div className="image-area">
+                    <img src={require('./../../images/album-2.jpg')} alt="" className="slider-img"/>
+                    <div className="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div className="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div className="image-area">
+                    <img src={require('./../../images/album-3.jpg')} alt="" className="slider-img"/>
+                    <div className="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div className="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-4.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-5.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-6.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+            </Carousel>
+</section>
+
+<section className="post-area">
+<h3>Latest Posts</h3>
+<Carousel itemsToShow={3}>
+                <div className="slider-box">
+                  <div class="image-area">
+                  <img src={require('./../../images/post-2.jpg')} alt="" class="slider-img"/>
+                  <div class="caption clearfix">
+                  <div class="float-left">
+                        <h4>Shallow Bay: The Bes</h4>
+                      <h6>Kevin Buckland,</h6>
+                      </div>
+                </div>
+              </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                  <img src={require('./../../images/post-2.jpg')} alt="" class="slider-img"/>
+                  <div class="caption clearfix">
+                  <div class="float-left">
+                        <h4>Shallow Bay: The Bes</h4>
+                      <h6>Kevin Buckland,</h6>
+                      </div>
+                </div>
+              </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                  <img src={require('./../../images/post-2.jpg')} alt="" class="slider-img"/>
+                  <div class="caption clearfix">
+                  <div class="float-left">
+                        <h4>Shallow Bay: The Bes</h4>
+                      <h6>Kevin Buckland,</h6>
+                      </div>
+                </div>
+              </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                  <img src={require('./../../images/post-2.jpg')} alt="" class="slider-img"/>
+                  <div class="caption clearfix">
+                  <div class="float-left">
+                        <h4>Shallow Bay: The Bes</h4>
+                      <h6>Kevin Buckland,</h6>
+                      </div>
+                </div>
+              </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                  <img src={require('./../../images/post-2.jpg')} alt="" class="slider-img"/>
+                  <div class="caption clearfix">
+                  <div class="float-left">
+                        <h4>Shallow Bay: The Bes</h4>
+                      <h6>Kevin Buckland,</h6>
+                      </div>
+                </div>
+              </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                  <img src={require('./../../images/post-2.jpg')} alt="" class="slider-img"/>
+                  <div class="caption clearfix">
+                  <div class="float-left">
+                        <h4>Shallow Bay: The Bes</h4>
+                      <h6>Kevin Buckland,</h6>
+                      </div>
+                </div>
+              </div>
+                </div>
+                </Carousel>
+</section>
+
+
+<section>
+<h3>Weekly Top 12</h3>
+<div class="row">
+	<div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">01</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">02</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">03</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row">
+	<div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">04</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">02</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">03</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row">
+	<div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">07</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">02</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">03</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row">
+	<div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">10</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">02</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    	<div class="weekly-list">
+        	<div class="no-box  d-inline-block">03</div>
+            <div class="img-thumb d-inline-block"><img src={require('./../../images/album-6.jpg')} alt="" /></div>
+            <div class="tag-box d-inline-block">
+            	<h5>Walking Promises</h5>
+                <h6>Anna Ellison, Claire,</h6>
+            </div>
+            <div class="time-box d-inline-block">
+            	0:23
+            </div>
+            <div class="dot-box d-inline-block">
+            	...
+            </div>
+            <div class="play-box d-inline-block">
+                <img src={require('./../../images/play-icon-blue.png')} alt=""/>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+</section>
+
+<section>
+<h3>New Releases</h3>
+<Carousel itemsToShow={4}>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-1.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-2.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-3.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-4.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-5.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-6.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+            </Carousel>
+</section>
+
+
+<section>
+<h3>Recommended For You</h3>
+<Carousel itemsToShow={4}>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-1.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-2.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-3.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-4.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-5.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+                <div className="slider-box">
+                  <div class="image-area">
+                    <img src={require('./../../images/album-6.jpg')} alt="" class="slider-img"/>
+                    <div class="hover-box"><img src={require('./../../images/play-icon.png')} alt=""/></div>
+                  </div>
+                  <div class="caption">
+                      <h4>One More Stranger</h4>
+                      <h6>Kevin Buckland,</h6>
+                  </div>
+                </div>
+            </Carousel>
+</section>
+      {/* <div>
         <CenteredSection>
           <H2>
             <FormattedMessage {...messages.startProjectHeader} />
@@ -75,6 +594,7 @@ export function HomePage({
             <FormattedMessage {...messages.startProjectMessage} />
           </p>
         </CenteredSection>
+        
         <Section>
           <H2>
             <FormattedMessage {...messages.trymeHeader} />
@@ -96,7 +616,7 @@ export function HomePage({
           </Form>
           <ReposList {...reposListProps} />
         </Section>
-      </div>
+      </div> */}
     </article>
   );
 }
