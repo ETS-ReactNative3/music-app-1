@@ -32,8 +32,7 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-
-
+import { fetchPosts } from './containers/App/actions';
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -47,6 +46,7 @@ openSansObserver.load().then(() => {
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
+store.dispatch(fetchPosts());
 const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {

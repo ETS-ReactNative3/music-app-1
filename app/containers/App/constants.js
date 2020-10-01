@@ -12,3 +12,12 @@
 export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
 export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
 export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
+export const LOAD_FEATURED_ALBUM = 'boilerplate/App/LOAD_FEATURED_ALBUM';
+export const LOAD_DEFAULT_DATA = 'boilerplate/App/LOAD_DEFAULT_DATA';
+export const LOAD_DEFAULT_DATA_SUCCESS =
+  'boilerplate/App/LOAD_DEFAULT_DATA_SUCCESS';
+export const SET_PLAYLIST = 'boilerplate/App/SET_PLAYLIST';
+export const LOAD_ALBUM = 'boilerplate/App/LOAD_ALBUM';
+export const LOAD_ALBUM_SUCCESS = 'boilerplate/App/LOAD_ALBUM_SUCCESS';
+export const HANDLE_SONG_PLAYING = 'boilerplate/App/HANDLE_SONG_PLAYING';
+export const HANDLE_SINGLE_SONG = 'boilerplate/App/HANDLE_SINGLE_SONG';

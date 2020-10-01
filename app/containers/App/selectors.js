@@ -39,6 +39,54 @@ const makeSelectLocation = () =>
     routerState => routerState.location,
   );
 
+const makeSelectLatestPosts = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.latestPosts,
+  );
+
+const makeSelectFeaturedAlbums = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.featuredAlbum,
+  );
+
+const makeSelectWeeklyTop = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.weeklyTop,
+  );
+
+const makeSelectNewReleases = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.newReleases,
+  );
+
+const makeSelectRecommended = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.recommended,
+  );
+
+const makeSelectAlbumInfo = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.albumInfo,
+  );
+
+const makeSelectPlaylist = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.currentPlaylist,
+  );
+
+const makeSelectCurrentSong = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.currentSong,
+  );
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -46,4 +94,12 @@ export {
   makeSelectError,
   makeSelectRepos,
   makeSelectLocation,
+  makeSelectLatestPosts,
+  makeSelectFeaturedAlbums,
+  makeSelectWeeklyTop,
+  makeSelectNewReleases,
+  makeSelectRecommended,
+  makeSelectAlbumInfo,
+  makeSelectPlaylist,
+  makeSelectCurrentSong,
 };
