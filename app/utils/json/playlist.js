@@ -12,7 +12,8 @@ export default {
       title: 'Song 1',
       artist: 'John',
       duration: '4:53',
-      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      src:
+        'https://d1royv8y21rl5f.cloudfront.net/Post+Malone%2C+Swae+Lee+-+Sunflower+(Spider-Man_+Into+the+Spider-Verse).mp3',
       trackId: '1',
     },
     {
@@ -20,7 +21,8 @@ export default {
       title: 'Song 2',
       artist: 'Kethrin',
       duration: '6:20',
-      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      src:
+        'https://d1royv8y21rl5f.cloudfront.net/Maroon+5+-+Memories+(Lyrics).mp3',
       trackId: '2',
     },
     {
@@ -28,7 +30,8 @@ export default {
       title: 'Song 3',
       artist: 'Kethrin',
       duration: '3:20',
-      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      src:
+        'https://d1royv8y21rl5f.cloudfront.net/Post+Malone%2C+Swae+Lee+-+Sunflower+(Spider-Man_+Into+the+Spider-Verse).mp3',
       trackId: '3',
     },
     {
@@ -36,7 +39,8 @@ export default {
       title: 'Song 4',
       artist: 'Kethrin',
       duration: '4:20',
-      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      src:
+        'https://d1royv8y21rl5f.cloudfront.net/Maroon+5+-+Memories+(Lyrics).mp3',
       trackId: '4',
     },
     {
@@ -44,7 +48,8 @@ export default {
       title: 'Song 5',
       artist: 'Kethrin',
       duration: '5:20',
-      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      src:
+        'https://d1royv8y21rl5f.cloudfront.net/Post+Malone%2C+Swae+Lee+-+Sunflower+(Spider-Man_+Into+the+Spider-Verse).mp3',
       trackId: '5',
     },
   ],
