@@ -1,51 +1,35 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import Carousel from 'react-bootstrap/Carousel';
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import A from './A';
-import Img from './Img';
-import NavBar from './NavBar';
-import HeaderLink from './HeaderLink';
 import Banner from './../../images/banner-bg.jpg';
-import PlayBtn from './../../images/play-btn.png';
-import UserImg from './../../images/user-img.jpg';
-import messages from './messages';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import './index.scss';
 
 function Header() {
   return (
-    <div className="banner">
-      <div className="top-slider-area">
-        <div className="slide-area">
-          <Img src={Banner} />
-          <div className="slider-left">
-            <div className="jumbotron">
-              <hgroup>
-                <h1>Kanye West</h1>
-                <h2>10 Albums, 235 Songs</h2>
-              </hgroup>
-              <div className="play-row">
-                <a href="#">
-                  <Img src={PlayBtn} /> Play Now
-                </a>
-              </div>
+    <Carousel controls={false}>
+      <Carousel.Item>
+        <img className="d-block w-100" src={Banner} alt="First slide" />
+        <Carousel.Caption>
+          <div className="">
+            <h1 className="text-left mb-3">Kanye West</h1>
+            <h2 className="text-left">10 Albums, 235 Songs</h2>
+            <div className="py-5 d-flex">
+              <a href="javascript:void(0)" className="text-white">
+                <FontAwesomeIcon
+                  icon={faPlayCircle}
+                  size="3x"
+                  color={PLAY_ICON_BG_COLOR}
+                />{' '}
+                <span>Play Now</span>
+              </a>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    // <div>
-    //   <A href="https://www.reactboilerplate.com/">
-    //     <Img src={Banner} alt="react-boilerplate - Logo" />
-    //   </A>
-    //   <NavBar>
-    //     <HeaderLink to="/">
-    //       <FormattedMessage {...messages.home} />
-    //     </HeaderLink>
-    //     <HeaderLink to="/features">
-    //       <FormattedMessage {...messages.features} />
-    //     </HeaderLink>
-    //   </NavBar>
-    // </div>
+        </Carousel.Caption>
+      </Carousel.Item>
+    </Carousel>
   );
 }
 

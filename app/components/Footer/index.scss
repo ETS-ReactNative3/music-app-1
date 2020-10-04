@@ -1,10 +1,15 @@
-$rhap_theme-color: #222222;   // Color of all buttons and volume/progress indicators 
-$rhap_background-color: #222222; // Color of the player background 
-$rhap_bar-color: #b45858;     // Color of volume and progress bar 
-$rhap_time-color: #333;       // Font color of current time and duration 
-$rhap_font-family: inherit;   // Font family of current time and duration 
+$rhap_theme-color: #222222; // Color of all buttons and volume/progress indicators
+$rhap_background-color: #222222; // Color of the player background
+$rhap_bar-color: #b45858; // Color of volume and progress bar
+$rhap_time-color: #333; // Font color of current time and duration
+$rhap_font-family: inherit; // Font family of current time and duration
 
-.rhap_container  {
-    background: $rhap_background-color;
-    outline: none;
+.rhap_container {
+  background: $rhap_background-color;
+  outline: none;
+}
+
+.footer-menu {
+  background: #1a1a1a;
+  flex-basis: 10%;
 }

@@ -90,30 +90,31 @@ const Footer = props => {
 
   return (
     <footer>
-      <div className="footer-left">
-        <a href="#">
-          <img src={require('./../../images/footer-nav-icon.png')} alt="" />
-        </a>
-      </div>
-
-      <div className="footer-center">
-        <AudioPlayer
-          autoPlayAfterSrcChange={true}
-          showSkipControls={true}
-          showJumpControls={false}
-          footer={footerText}
-          ref={audioRef}
-          src={songDetail.src}
-          onClickPrevious={handleClickPrevious}
-          onClickNext={handleClickNext}
-          onEnded={handleClickNext}
-          onPlay={() => {
-            onHandleSongPlaying(true);
-          }}
-          onPause={() => {
-            onHandleSongPlaying(false);
-          }}
-        />
+      <div className="d-flex">
+        <div className="d-inline-flex align-items-center justify-content-center footer-menu">
+          <a href="#">
+            <img src={require('./../../images/footer-nav-icon.png')} alt="" />
+          </a>
+        </div>
+        <div className="d-inline-flex flex-grow-1">
+          <AudioPlayer
+            autoPlayAfterSrcChange={true}
+            showSkipControls={true}
+            showJumpControls={false}
+            footer={footerText}
+            ref={audioRef}
+            src={songDetail.src}
+            onClickPrevious={handleClickPrevious}
+            onClickNext={handleClickNext}
+            onEnded={handleClickNext}
+            onPlay={() => {
+              onHandleSongPlaying(true);
+            }}
+            onPause={() => {
+              onHandleSongPlaying(false);
+            }}
+          />
+        </div>
       </div>
     </footer>
   );

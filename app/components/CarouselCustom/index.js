@@ -1,13 +1,13 @@
 import React from 'react';
 import Carousel from 'react-elastic-carousel';
 
-import H3 from '../H3';
+import SectionHeading from '../SectionHeading';
 
 const CarouselCustom = props => {
   const { list, heading, onClickHandler } = props;
   return (
-    <section>
-      <H3>{heading}</H3>
+    <section className="py-5">
+      <SectionHeading>{heading}</SectionHeading>
       <Carousel itemsToShow={4}>
         {list.map((ele, index) => {
           return (

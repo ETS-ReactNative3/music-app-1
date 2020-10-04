@@ -19,6 +19,7 @@ import reducer from '../App/reducer';
 import saga from '../App/saga';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
+import MainWrapper from '../../components/MainWrapper';
 import './index.scss';
 
 const key = 'global';
@@ -69,7 +70,7 @@ const Playlist = props => {
           Jenny Thomas
         </div>
       </div>
-      <div className="jumbotron jumbotron-content-area jumbotron-bg-inner">
+      <MainWrapper role="main" className="jumbotron-bg-inner">
         <div className="d-flex flex-row album-detail py-5">
           <div>
             <img
@@ -146,7 +147,7 @@ const Playlist = props => {
           heading="Recommended For You"
           onClickHandler={handleAlbumClick}
         />
-      </div>
+      </MainWrapper>
     </>
   );
 };

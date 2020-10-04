@@ -12,7 +12,7 @@ export default {
       title: 'Song 1',
       artist: 'John',
       duration: '4:53',
-      src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/zhiya.mp3',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
       trackId: '1',
     },
     {
@@ -20,7 +20,7 @@ export default {
       title: 'Song 2',
       artist: 'Kethrin',
       duration: '6:20',
-      src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/ziyounvshen.mp3',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       trackId: '2',
     },
     {
@@ -28,7 +28,7 @@ export default {
       title: 'Song 3',
       artist: 'Kethrin',
       duration: '3:20',
-      src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       trackId: '3',
     },
     {
@@ -36,7 +36,7 @@ export default {
       title: 'Song 4',
       artist: 'Kethrin',
       duration: '4:20',
-      src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/suipian.mp3',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       trackId: '4',
     },
     {
@@ -44,8 +44,7 @@ export default {
       title: 'Song 5',
       artist: 'Kethrin',
       duration: '5:20',
-      src:
-        'https://hanzluo.s3-us-west-1.amazonaws.com/music/yonghengdegangwan.mp3',
+      src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       trackId: '5',
     },
   ],

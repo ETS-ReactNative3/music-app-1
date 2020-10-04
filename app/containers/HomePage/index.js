@@ -24,6 +24,7 @@ import saga from './saga';
 import Header from '../../components/Header';
 import CarouselCustom from '../../components/CarouselCustom';
 import SongList from '../../components/SongList';
+import MainWrapper from '../../components/MainWrapper';
 
 const key = 'home';
 
@@ -42,10 +43,7 @@ export function HomePage(props) {
   return (
     <>
       <Header />
-      <main
-        role="main"
-        className="container-fluid jumbotron jumbotron-content-area"
-      >
+      <MainWrapper role="main" className="container-fluid">
         <CarouselCustom
           list={albums}
           heading="Featured Album"
@@ -73,7 +71,7 @@ export function HomePage(props) {
           heading="Recommended For You"
           onClickHandler={handleAlbumClick}
         />
-      </main>
+      </MainWrapper>
     </>
   );
 }
