@@ -1,13 +1,12 @@
 import React from 'react';
 import { faPlayCircle, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import { faGratipay } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import H3 from '../H3';
 import SectionHeading from '../SectionHeading';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 
-const SongList = ({ list, heading }) => {
+const SongList = ({ list, heading, singleSongHandler }) => {
   return (
     <section>
       <SectionHeading>{heading}</SectionHeading>
@@ -41,7 +40,7 @@ const SongList = ({ list, heading }) => {
                   >
                     <FontAwesomeIcon
                       size="3x"
-                      color="#7EE6DC"
+                      color={PLAY_ICON_BG_COLOR}
                       icon={faPlayCircle}
                     />
                   </a>

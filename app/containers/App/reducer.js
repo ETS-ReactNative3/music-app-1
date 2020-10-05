@@ -47,7 +47,7 @@ const appReducer = (state = initialState, action) =>
       case SET_PLAYLIST:
         draft.loading = true;
         draft.error = false;
-        draft.playlist = action.songs;
+        draft.currentPlaylist = action.songs;
         break;
 
       case HANDLE_SONG_PLAYING:
@@ -68,7 +68,7 @@ const appReducer = (state = initialState, action) =>
         draft.featuredAlbum = action.albums;
         draft.weeklyTop = action.weeklyTop;
         draft.newReleases = action.albums;
-        draft.recommended = action.albums;
+        draft.recommended = action.recommendendJson;
         break;
 
       case LOAD_ALBUM_SUCCESS:

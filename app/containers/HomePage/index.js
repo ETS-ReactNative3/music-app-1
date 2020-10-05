@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { FormattedMessage } from 'react-intl';
 
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -18,6 +19,7 @@ import {
   makeSelectWeeklyTop,
   makeSelectNewReleases,
   makeSelectRecommended,
+  makeSelectPlaylist,
 } from '../../containers/App/selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -25,11 +27,23 @@ import Header from '../../components/Header';
 import CarouselCustom from '../../components/CarouselCustom';
 import SongList from '../../components/SongList';
 import MainWrapper from '../../components/MainWrapper';
+import LatestPosts from '../../components/LatestPosts';
+import messages from './messages';
+import { setPlaylist } from '../App/actions';
+import Playlist from '../../utils/json/playlist';
 
 const key = 'home';
 
 export function HomePage(props) {
-  const { posts, albums, newReleases, recommended, weeklyTop } = props;
+  const {
+    posts,
+    albums,
+    newReleases,
+    recommended,
+    weeklyTop,
+    currentPlaylist,
+    onHandleSetPlaylist,
+  } = props;
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
   const redirect = () => {
@@ -40,36 +54,47 @@ export function HomePage(props) {
     props.history.push(`playlist/${slug}`);
   };
 
+  const handleWeeklySong = index => {
+    const { songs } = Playlist;
+    onHandleSetPlaylist(songs);
+  };
+
   return (
     <>
       <Header />
       <MainWrapper role="main" className="container-fluid">
         <CarouselCustom
           list={albums}
-          heading="Featured Album"
+          heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
           onClickHandler={handleAlbumClick}
+          itemsToShow={6}
         />
 
         <section className="post-area">
-          <CarouselCustom list={posts} heading="Latest Posts" />
+          <LatestPosts
+            list={posts}
+            heading={<FormattedMessage {...messages.latestPostsHeading} />}
+          />
         </section>
 
         <SongList
           list={weeklyTop}
-          heading="Weekly Top 12"
-          onClickHandler={handleAlbumClick}
+          heading={<FormattedMessage {...messages.songListHeading} />}
+          singleSongHandler={handleWeeklySong}
         />
 
         <CarouselCustom
           list={newReleases}
-          heading="New Releases"
+          heading={<FormattedMessage {...messages.newReleasesHeading} />}
           onClickHandler={handleAlbumClick}
+          itemsToShow={6}
         />
 
         <CarouselCustom
           list={recommended}
-          heading="Recommended For You"
+          heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}
           onClickHandler={handleAlbumClick}
+          itemsToShow={3}
         />
       </MainWrapper>
     </>
@@ -86,9 +111,19 @@ const mapStateToProps = createStructuredSelector({
   weeklyTop: makeSelectWeeklyTop(),
   newReleases: makeSelectNewReleases(),
   recommended: makeSelectRecommended(),
+  currentPlaylist: makeSelectPlaylist(),
 });
 
-const withConnect = connect(mapStateToProps);
+export function mapDispatchToProps(dispatch) {
+  return {
+    onHandleSetPlaylist: songs => dispatch(setPlaylist(songs)),
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 
 export default compose(
   withConnect,

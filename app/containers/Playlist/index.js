@@ -20,6 +20,8 @@ import saga from '../App/saga';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import MainWrapper from '../../components/MainWrapper';
+import TopHeader from '../../components/TopHeader';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 
 const key = 'global';
@@ -57,19 +59,7 @@ const Playlist = props => {
   const { playing, songIndex } = currentSong;
   return (
     <>
-      <div className="d-flex bg-header px-5 py-4">
-        <div className="align-self-center">
-          <img src={require(`./../../images/logo.png`)} alt="" />
-        </div>
-        <div className="ml-auto user-name">
-          <img
-            src={require(`./../../images/user-img.jpg`)}
-            alt=""
-            className="rounded-circle px-3"
-          />
-          Jenny Thomas
-        </div>
-      </div>
+      <TopHeader />
       <MainWrapper role="main" className="jumbotron-bg-inner">
         <div className="d-flex flex-row album-detail py-5">
           <div>
@@ -94,7 +84,11 @@ const Playlist = props => {
                 {playing ? 'Pause' : 'Play All'}
               </a>
               <a href="javascript:void(0)" className="">
-                <FontAwesomeIcon icon={faGratipay} size="2x" color="#7EE6DC" />
+                <FontAwesomeIcon
+                  icon={faGratipay}
+                  size="3x"
+                  color={PLAY_ICON_BG_COLOR}
+                />
               </a>
             </div>
           </div>
@@ -128,7 +122,7 @@ const Playlist = props => {
                   >
                     <FontAwesomeIcon
                       size="3x"
-                      color="#7EE6DC"
+                      color={PLAY_ICON_BG_COLOR}
                       icon={
                         songIndex === index && playing
                           ? faPauseCircle

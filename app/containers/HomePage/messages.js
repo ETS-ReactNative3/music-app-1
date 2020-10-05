@@ -6,27 +6,27 @@
 import { defineMessages } from 'react-intl';
 
 export const scope = 'boilerplate.containers.HomePage';
+export const scopeGlobal = 'boilerplate.containers.App';
 
 export default defineMessages({
-  startProjectHeader: {
-    id: `${scope}.start_project.header`,
-    defaultMessage: 'Start your next react project in seconds',
+  featuredAlbumHeading: {
+    id: `${scopeGlobal}.FeaturedAlbum.heading`,
+    defaultMessage: 'Featured Album',
   },
-  startProjectMessage: {
-    id: `${scope}.start_project.message`,
-    defaultMessage:
-      'A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices',
+  latestPostsHeading: {
+    id: `${scopeGlobal}.LatestPosts.heading`,
+    defaultMessage: 'Latest Posts',
   },
-  trymeHeader: {
-    id: `${scope}.tryme.header`,
-    defaultMessage: 'Try me!',
+  songListHeading: {
+    id: `${scopeGlobal}.SongList.heading`,
+    defaultMessage: 'Weekly Top 12',
   },
-  trymeMessage: {
-    id: `${scope}.tryme.message`,
-    defaultMessage: 'Show Github repositories by',
+  newReleasesHeading: {
+    id: `${scopeGlobal}.NewReleases.heading`,
+    defaultMessage: 'New Releases',
   },
-  trymeAtPrefix: {
-    id: `${scope}.tryme.atPrefix`,
-    defaultMessage: '@',
+  recommendedAlbumHeading: {
+    id: `${scopeGlobal}.RecommendedAlbum.heading`,
+    defaultMessage: 'Recommended For You',
   },
 });

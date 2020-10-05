@@ -34,6 +34,7 @@ import {
 import albumsJson from '../../utils/json/albums';
 import latestPostsJson from '../../utils/json/posts';
 import weeklyTop from '../../utils/json/weeklyTop';
+import recommendendJson from '../../utils/json/recommended';
 
 /**
  * Load the repositories, this action starts the request saga
@@ -112,12 +113,13 @@ export function loadDefaultData() {
  *
  * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
  */
-export function defaultDataLoaded(posts, albums, weeklyTop) {
+export function defaultDataLoaded(posts, albums, weeklyTop, recommendendJson) {
   return {
     type: LOAD_DEFAULT_DATA_SUCCESS,
     posts,
     albums,
     weeklyTop,
+    recommendendJson,
   };
 }
 
@@ -134,7 +136,14 @@ export const fetchPosts = () => {
         axios.get('https://jsonplaceholder.typicode.com/photos'),
       ]).then(response => {
         // const [posts, users, albums, photos] = response;
-        dispatch(defaultDataLoaded(latestPostsJson, albumsJson, weeklyTop));
+        dispatch(
+          defaultDataLoaded(
+            latestPostsJson,
+            albumsJson,
+            weeklyTop,
+            recommendendJson,
+          ),
+        );
       });
     } catch (e) {
       console.log(e);

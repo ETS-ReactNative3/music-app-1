@@ -9,7 +9,7 @@ export default [
     copyRightDate: '2020-02-18T14:02:57.000Z',
     artwork:
       'https://potentiam-mobile-app.s3.eu-west-2.amazonaws.com/album-images/1581842052073%20-%20IMG_0005.JPG',
-    imageKey: 'album-1.jpg',
+    imageKey: 'post-1.jpg',
     featured: false,
     publish: true,
     buyLink: 'asdf',
@@ -26,7 +26,7 @@ export default [
     copyRightDate: '2020-01-17T13:36:37.000Z',
     artwork:
       'https://firebasestorage.googleapis.com/v0/b/potentiam-a3697.appspot.com/o/album%2Fimages%2F7f124a64-4881-4fa9-b556-54b462879786.jpg?alt=media&token=441d3ade-bf9f-488f-a452-ede85af4b3ad',
-    imageKey: 'album-2.jpg',
+    imageKey: 'post-2.jpg',
     featured: true,
     publish: true,
     buyLink: 'link edited',
@@ -43,7 +43,7 @@ export default [
     copyRightDate: '2020-01-15T12:17:16.000Z',
     artwork:
       'https://firebasestorage.googleapis.com/v0/b/potentiam-a3697.appspot.com/o/album%2Fimages%2F62166486-8614-464b-8580-9a751c5313c2.jpg?alt=media&token=7af5f845-b741-4b62-8511-e9920b8a0a3d',
-    imageKey: 'album-3.jpg',
+    imageKey: 'post-3.jpg',
     featured: true,
     publish: true,
     buyLink: 'link',
@@ -60,7 +60,7 @@ export default [
     copyRightDate: '2020-01-12T17:36:54.000Z',
     artwork:
       'https://firebasestorage.googleapis.com/v0/b/potentiam-a3697.appspot.com/o/album%2Fimages%2F8f898678-e514-4968-b88a-ef0cd0fe78da.jpg?alt=media&token=f0856345-0439-418e-9130-c24185ba4cb4',
-    imageKey: 'album-4.jpg',
+    imageKey: 'post-1.jpg',
     featured: true,
     publish: true,
     buyLink: 'jj',
@@ -77,7 +77,7 @@ export default [
     copyRightDate: null,
     artwork:
       'https://firebasestorage.googleapis.com/v0/b/potentiam-a3697.appspot.com/o/album%2Fimages%2F8f898678-e514-4968-b88a-ef0cd0fe78da.jpg?alt=media&token=f0856345-0439-418e-9130-c24185ba4cb4',
-    imageKey: 'album-5.jpg',
+    imageKey: 'post-2.jpg',
     featured: false,
     publish: true,
     buyLink: '',
@@ -94,7 +94,7 @@ export default [
     copyRightDate: null,
     artwork:
       'https://firebasestorage.googleapis.com/v0/b/potentiam-a3697.appspot.com/o/album%2Fimages%2F8f898678-e514-4968-b88a-ef0cd0fe78da.jpg?alt=media&token=f0856345-0439-418e-9130-c24185ba4cb4',
-    imageKey: 'album-6.jpg',
+    imageKey: 'post-3.jpg',
     featured: false,
     publish: true,
     buyLink: '',
@@ -111,7 +111,7 @@ export default [
     copyRightDate: null,
     artwork:
       'https://firebasestorage.googleapis.com/v0/b/potentiam-a3697.appspot.com/o/album%2Fimages%2F8f898678-e514-4968-b88a-ef0cd0fe78da.jpg?alt=media&token=f0856345-0439-418e-9130-c24185ba4cb4',
-    imageKey: 'album-3.jpg',
+    imageKey: 'post-1.jpg',
     featured: false,
     publish: true,
     buyLink: '',

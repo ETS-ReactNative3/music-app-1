@@ -13,7 +13,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from '../../components/Footer';
-import Playlist from '../../containers/Playlist';
+import Playlist from 'containers/Playlist/Loadable';
 
 import GlobalStyle from '../../global-styles';
 import './index.css';
@@ -29,8 +29,6 @@ const AppWrapper = styled.div`
 `;
 
 const App = () => {
-  // const audio = useRef(null);
-
   return (
     <AppWrapper>
       <GlobalStyle />
