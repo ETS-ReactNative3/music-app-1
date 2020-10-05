@@ -12,10 +12,6 @@ const GlobalStyle = createGlobalStyle`
     color:#fff; font-size:16px; font-family: 'Poppins', sans-serif; font-weight:400;
   }
 
-  body.fontLoaded {
-    color:#fff; font-size:16px; font-family: 'Poppins', sans-serif; font-weight:400;
-  }
-
   img{ max-width:100%;}
 `;
 

@@ -89,7 +89,7 @@ const Footer = props => {
   );
 
   return (
-    <footer>
+    <footer className="fixed-bottom">
       <div className="d-flex">
         <div className="d-inline-flex align-items-center justify-content-center footer-menu">
           <a href="#">
