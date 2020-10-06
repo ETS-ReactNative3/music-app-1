@@ -1,6 +1,5 @@
 /*navigation part*/
 .sidebar-menu {
-  position: absolute;
   top: 40px;
   left: 10px;
   z-index: 999;
@@ -8,50 +7,28 @@
 
 .sidebar {
   height: 100%;
-  position: fixed;
   z-index: 999;
-  top: 0;
-  left: 0;
   background-color: #09113a;
   transition: 0.5s;
   width: 65px;
-}
-
-.sidebar a {
-  padding: 0;
-  text-decoration: none;
-  font-size: 25px;
-  color: #fff;
-  display: block;
-  transition: 0.3s;
-  margin: 15px 0;
-  text-align: center;
-}
-.logo-icon {
-  display: block;
-  margin: 30px auto 0;
-  text-align: center;
-}
-.closebtn:hover,
-.logo-icon:hover {
-  background: none !important;
-}
-.sidebar a:hover {
-  color: #f1f1f1;
-  /* background: url(../../images/nav-hover-bg.png) no-repeat;
-    background-size: 100% 100%; */
-  background: #24e6a9;
-}
-
-.sidebar img {
-  width: 50px;
-  height: 50px;
-}
-
-.sidebar .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+  a {
+    padding: 0;
+    transition: 0.3s;
+    margin: 15px 0;
+    text-align: center;
+  }
+  a:hover {
+    color: #f1f1f1;
+    /* background: url(../../images/nav-hover-bg.png) no-repeat;
+      background-size: 100% 100%; */
+    background: #24e6a9;
+  }
+  .close-btn:hover,
+  .logo-icon:hover {
+    background: none !important;
+  }
+  img {
+    width: 50px;
+    height: 50px;
+  }
 }
