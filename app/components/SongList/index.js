@@ -18,7 +18,9 @@ const SongList = ({ list, heading, singleSongHandler }) => {
                 className="d-flex border-bottom align-items-center songs-ul py-2"
                 key={index}
               >
-                <div className="song-number px-1 mw-60">0{index + 1}</div>
+                <div className="song-number px-1 mw-60">
+                  {('0' + (index + 1)).slice(-2)}
+                </div>
                 <div className="song-profile px-1">
                   <div className="song-img">
                     <img

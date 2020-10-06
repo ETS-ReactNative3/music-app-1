@@ -79,17 +79,17 @@ const Playlist = props => {
               <a
                 href="javascript:void(0);"
                 onClick={playAllSongsHandler}
-                className="play-btn"
+                className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center"
               >
                 {playing ? 'Pause' : 'Play All'}
               </a>
-              <a href="javascript:void(0)" className="">
+              {/* <a href="javascript:void(0)" className="">
                 <FontAwesomeIcon
                   icon={faGratipay}
                   size="3x"
                   color={PLAY_ICON_BG_COLOR}
                 />
-              </a>
+              </a> */}
             </div>
           </div>
           <div className="dot-box ml-auto">...</div>
@@ -104,13 +104,15 @@ const Playlist = props => {
                 className="d-flex border-bottom align-items-center songs-ul py-4"
                 key={index}
               >
-                <div className="song-number px-2">0{index + 1}</div>
+                <div className="song-number px-2">
+                  {('0' + (index + 1)).slice(-2)}
+                </div>
                 <div className="song-profile px-2">
                   <div className="song-img">
                     <img src={require(`./../../images/${ele.img}`)} alt="" />
                   </div>
                 </div>
-                <div className="song-title px-2 w-25">
+                <div className="song-title px-2 min-w15">
                   <h5>{ele.title}</h5>
                   <h6>{ele.artist}</h6>
                 </div>

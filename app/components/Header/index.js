@@ -6,11 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Banner from './../../images/banner-bg.jpg';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import HomePageHeader from '../HomePageHeader';
+import LeftNav from '../LeftNav';
 import './index.scss';
 
 function Header() {
   return (
     <>
+      <LeftNav />
       <HomePageHeader />
       <Carousel controls={false}>
         <Carousel.Item>

@@ -8,8 +8,6 @@ import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
 import thunk from 'redux-thunk';
 
-import getFeaturedAlbumData from './containers/App/saga';
-
 export default function configureStore(initialState = {}, history) {
   let composeEnhancers = compose;
   const reduxSagaMonitorOptions = {};

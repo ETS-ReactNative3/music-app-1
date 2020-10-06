@@ -7,7 +7,6 @@ import messages from './messages';
 import './index.scss';
 
 const HomePageHeader = () => {
-  console.log(messages);
   return (
     <div className="d-flex position-absolute w-100 px-5 py-4 top-header-box">
       <div className="border-bottom border-light flex-grow-1">
@@ -27,12 +26,12 @@ const HomePageHeader = () => {
         </div>
       </div>
       <div className="user-name flex-grow-1 text-right">
-        <img
+        {/* <img
           src={require(`./../../images/user-img.jpg`)}
           alt=""
           className="rounded-circle px-3"
         />
-        Jenny Thomas
+        Jenny Thomas */}
       </div>
     </div>
   );
