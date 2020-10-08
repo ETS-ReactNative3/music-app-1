@@ -62,7 +62,7 @@ export function HomePage(props) {
   return (
     <>
       <Header />
-      <MainWrapper role="main" className="container-fluid">
+      <main role="main" className="px-5">
         <CarouselCustom
           list={albums}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
@@ -96,7 +96,7 @@ export function HomePage(props) {
           onClickHandler={handleAlbumClick}
           itemsToShow={3}
         />
-      </MainWrapper>
+      </main>
     </>
   );
 }

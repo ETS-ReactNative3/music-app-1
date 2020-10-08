@@ -38,6 +38,7 @@ const CarouselCustom = props => {
         arrows={true}
         infinite={true}
         itemClass="px-3"
+        containerClass="mx-n3"
       >
         {list.map((ele, index) => {
           return (

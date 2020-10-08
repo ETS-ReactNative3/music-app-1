@@ -12,31 +12,12 @@ import './index.scss';
 function Header() {
   return (
     <>
-      <LeftNav />
-      <HomePageHeader />
+      {/* <LeftNav />
+      <HomePageHeader /> */}
       <Carousel controls={false}>
         <Carousel.Item>
           <img className="d-block w-100" src={Banner} alt="First slide" />
-          <Carousel.Caption>
-            <div className="">
-              <h1 className="text-left mb-3">Kanye West</h1>
-              <h2 className="text-left">10 Albums, 235 Songs</h2>
-              <div className="py-5 d-flex">
-                <a href="javascript:void(0)" className="text-white">
-                  <FontAwesomeIcon
-                    icon={faPlayCircle}
-                    size="3x"
-                    color={PLAY_ICON_BG_COLOR}
-                  />{' '}
-                  <span>Play Now</span>
-                </a>
-              </div>
-            </div>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={Banner} alt="First slide" />
-          <Carousel.Caption>
+          <Carousel.Caption className="px-5">
             <div className="">
               <h1 className="text-left mb-3">Kanye West</h1>
               <h2 className="text-left">10 Albums, 235 Songs</h2>

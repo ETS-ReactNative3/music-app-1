@@ -8,7 +8,7 @@ import './index.scss';
 
 const HomePageHeader = () => {
   return (
-    <div className="d-flex position-absolute w-100 px-5 py-4 top-header-box">
+    <div className="d-flex top-header-box flex-grow-1 px-5">
       <div className="border-bottom border-light flex-grow-1">
         <div className="input-box">
           <FontAwesomeIcon icon={faSearch} size="1x" className="search-icon" />

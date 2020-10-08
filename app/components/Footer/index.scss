@@ -13,3 +13,10 @@ $rhap_font-family: inherit; // Font family of current time and duration
   background: #1a1a1a;
   flex-basis: 10%;
 }
+
+.footer-fix-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1050;
+}

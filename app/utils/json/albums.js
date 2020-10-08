@@ -1,7 +1,8 @@
 export default [
   {
     id: 24,
-    title: 'Album 1',
+    title: 'One More Stranger',
+    artist: 'Kevin Buckland',
     slug: 'album-1',
     caption: 'Caption 1',
     description: 'Description 1',
@@ -18,7 +19,8 @@ export default [
   },
   {
     id: 12,
-    title: 'Album 2',
+    title: 'One More Stranger',
+    artist: 'Kevin Buckland',
     slug: 'album-2',
     caption: 'Caption 2',
     description: 'Description 2',
@@ -35,7 +37,8 @@ export default [
   },
   {
     id: 13,
-    title: 'Album 3',
+    title: 'One More Stranger',
+    artist: 'Kevin Buckland',
     slug: 'album-3',
     caption: 'Caption 3',
     description: 'Description 3',
@@ -52,7 +55,8 @@ export default [
   },
   {
     id: 11,
-    title: 'Album 4',
+    title: 'One More Stranger',
+    artist: 'Kevin Buckland',
     slug: 'album-4',
     caption: 'Caption 4',
     description: 'Description 4',
@@ -69,7 +73,8 @@ export default [
   },
   {
     id: 19,
-    title: 'Album 5',
+    title: 'One More Stranger',
+    artist: 'Kevin Buckland',
     slug: 'album-5',
     caption: 'Caption 5',
     description: 'Description 5',
@@ -86,7 +91,8 @@ export default [
   },
   {
     id: 20,
-    title: 'Album 6',
+    title: 'One More Stranger',
+    artist: 'Kevin Buckland',
     slug: 'album-6',
     caption: 'Caption 6',
     description: 'Description 6',
@@ -103,7 +109,8 @@ export default [
   },
   {
     id: 21,
-    title: 'Album 7',
+    title: 'One More Stranger',
+    artist: 'Kevin Buckland',
     slug: 'album-7',
     caption: 'Caption 7',
     description: 'Description 7',

@@ -1,7 +1,8 @@
 export default [
   {
     id: 24,
-    title: 'Post 1',
+    title: 'Shallow Bay: The Bes',
+    author: 'Kevin Buckland',
     slug: 'post-1',
     caption: 'Caption 1',
     description: 'Description 1',
@@ -18,7 +19,8 @@ export default [
   },
   {
     id: 12,
-    title: 'Post 2',
+    title: 'Shallow Bay: The Bes',
+    author: 'Kevin Buckland',
     slug: 'post-2',
     caption: 'Caption 2',
     description: 'Description 2',
@@ -35,7 +37,8 @@ export default [
   },
   {
     id: 13,
-    title: 'Post 3',
+    title: 'Shallow Bay: The Bes',
+    author: 'Kevin Buckland',
     slug: 'post-3',
     caption: 'Caption 3',
     description: 'Description 3',
@@ -52,7 +55,8 @@ export default [
   },
   {
     id: 11,
-    title: 'Post 4',
+    title: 'Shallow Bay: The Bes',
+    author: 'Kevin Buckland',
     slug: 'post-4',
     caption: 'Caption 4',
     description: 'Description 4',
@@ -69,7 +73,8 @@ export default [
   },
   {
     id: 19,
-    title: 'Post 5',
+    title: 'Shallow Bay: The Bes',
+    author: 'Kevin Buckland',
     slug: 'post-5',
     caption: 'Caption 5',
     description: 'Description 5',
@@ -86,7 +91,8 @@ export default [
   },
   {
     id: 20,
-    title: 'Post 6',
+    title: 'Shallow Bay: The Bes',
+    author: 'Kevin Buckland',
     slug: 'post-6',
     caption: 'Caption 6',
     description: 'Description 6',
@@ -103,7 +109,8 @@ export default [
   },
   {
     id: 21,
-    title: 'Post 7',
+    title: 'Shallow Bay: The Bes',
+    author: 'Kevin Buckland',
     slug: 'post-7',
     caption: 'Caption 7',
     description: 'Description 7',

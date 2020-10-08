@@ -89,13 +89,13 @@ const Footer = props => {
   );
 
   return (
-    <footer className="fixed-bottom">
-      <div className="d-flex">
-        <div className="d-inline-flex align-items-center justify-content-center footer-menu">
+    <footer className="main-footer">
+      <div className="d-flex footer-fix-bottom">
+        {/* <div className="d-inline-flex align-items-center justify-content-center footer-menu">
           <a href="#">
             <img src={require('./../../images/footer-nav-icon.png')} alt="" />
           </a>
-        </div>
+        </div> */}
         <div className="d-inline-flex flex-grow-1">
           <AudioPlayer
             autoPlayAfterSrcChange={true}

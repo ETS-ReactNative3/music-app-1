@@ -59,8 +59,7 @@ const Playlist = props => {
   const { playing, songIndex } = currentSong;
   return (
     <>
-      <TopHeader />
-      <MainWrapper role="main" className="jumbotron-bg-inner">
+      <main role="main" className="px-5 jumbotron-bg-inner">
         <div className="d-flex flex-row album-detail py-5">
           <div>
             <img
@@ -143,7 +142,7 @@ const Playlist = props => {
           heading="Recommended For You"
           onClickHandler={handleAlbumClick}
         />
-      </MainWrapper>
+      </main>
     </>
   );
 };
