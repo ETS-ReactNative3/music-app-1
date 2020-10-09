@@ -89,4 +89,8 @@
   .content-wrapper {
     margin-left: 4.6rem;
   }
+
+  .footer-fix-bottom {
+    width: calc(100% - 4.6rem);
+  }
 }

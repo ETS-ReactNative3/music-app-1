@@ -7,6 +7,10 @@ $rhap_font-family: inherit; // Font family of current time and duration
 .rhap_container {
   background: $rhap_background-color;
   outline: none;
+
+  .rhap_controls-section {
+    flex: 0 1 auto;
+  }
 }
 
 .footer-menu {
@@ -17,6 +21,6 @@ $rhap_font-family: inherit; // Font family of current time and duration
 .footer-fix-bottom {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: calc(100% - 250px);
   z-index: 1050;
 }

@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
-import AudioPlayer from 'react-h5-audio-player';
+import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -98,10 +98,10 @@ const Footer = props => {
         </div> */}
         <div className="d-inline-flex flex-grow-1">
           <AudioPlayer
+            layout="horizontal-reverse"
             autoPlayAfterSrcChange={true}
             showSkipControls={true}
             showJumpControls={false}
-            footer={footerText}
             ref={audioRef}
             src={songDetail.src}
             onClickPrevious={handleClickPrevious}
@@ -113,6 +113,18 @@ const Footer = props => {
             onPause={() => {
               onHandleSongPlaying(false);
             }}
+            customControlsSection={[
+              RHAP_UI.MAIN_CONTROLS,
+              RHAP_UI.ADDITIONAL_CONTROLS,
+            ]}
+            customProgressBarSection={[
+              RHAP_UI.CURRENT_TIME,
+              RHAP_UI.PROGRESS_BAR,
+              RHAP_UI.DURATION,
+              RHAP_UI.VOLUME,
+              <div>{footerText}</div>,
+            ]}
+            customVolumeControls={[]}
           />
         </div>
       </div>

@@ -13,7 +13,7 @@ const SongList = ({ list, heading, singleSongHandler }) => {
       <div className="row">
         {list.map((ele, index) => {
           return (
-            <div className="col-md-4" key={index}>
+            <div className="col-4" key={index}>
               <div
                 className="d-flex border-bottom align-items-center songs-ul py-2"
                 key={index}
@@ -30,18 +30,18 @@ const SongList = ({ list, heading, singleSongHandler }) => {
                     />
                   </div>
                 </div>
-                <div className="song-title px-1 w-50">
+                <div className="song-title px-1">
                   <h5>{ele.title}</h5>
                   <h6>{ele.artist}</h6>
                 </div>
-                <div className="song-duration px-1">{ele.duration}</div>
-                <div className="song-action px-1">
+                <div className="song-duration px-1 ml-auto">4:25</div>
+                <div className="song-action px-1 ml-auto">
                   <a
                     href="javascript:void(0);"
                     onClick={() => singleSongHandler(index)}
                   >
                     <FontAwesomeIcon
-                      size="3x"
+                      size="2x"
                       color={PLAY_ICON_BG_COLOR}
                       icon={faPlayCircle}
                     />

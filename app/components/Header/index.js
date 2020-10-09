@@ -21,15 +21,13 @@ function Header() {
             <div className="">
               <h1 className="text-left mb-3">Kanye West</h1>
               <h2 className="text-left">10 Albums, 235 Songs</h2>
-              <div className="py-5 d-flex">
-                <a href="javascript:void(0)" className="text-white">
-                  <FontAwesomeIcon
-                    icon={faPlayCircle}
-                    size="3x"
-                    color={PLAY_ICON_BG_COLOR}
-                  />{' '}
-                  <span>Play Now</span>
-                </a>
+              <div className="py-5 d-flex align-items-center">
+                <FontAwesomeIcon
+                  icon={faPlayCircle}
+                  size="3x"
+                  color={PLAY_ICON_BG_COLOR}
+                />{' '}
+                <span className="px-2">Play Now</span>
               </div>
             </div>
           </Carousel.Caption>
