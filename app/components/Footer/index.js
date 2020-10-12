@@ -84,11 +84,6 @@ const Footer = props => {
   };
 
   const handleVolumeChange = e => {
-    if (e.target.volume === 0) {
-      audioRef.current.audio.current.pause();
-    } else {
-      audioRef.current.audio.current.play();
-    }
     volumeRef.current.value = e.target.volume;
   };
 

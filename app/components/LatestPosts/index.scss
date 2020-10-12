@@ -21,3 +21,15 @@
     }
   }
 }
+
+.latest-posts {
+  .react-multiple-carousel__arrow--left {
+    left: 0;
+    outline: none !important;
+  }
+
+  .react-multiple-carousel__arrow--right {
+    right: 0;
+    outline: none !important;
+  }
+}

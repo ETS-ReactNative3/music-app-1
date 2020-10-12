@@ -10,6 +10,6 @@ export const scope = 'boilerplate.components.HomePageHeader';
 export default defineMessages({
   searchPlaceholder: {
     id: `${scope}.search.placeholder`,
-    defaultMessage: 'Search for a Song',
+    defaultMessage: 'Search for an album',
   },
 });

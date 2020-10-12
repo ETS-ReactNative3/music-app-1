@@ -30,16 +30,16 @@ const LatestPosts = props => {
     },
   };
   return (
-    <section className="py-5">
+    <section className="py-5 latest-posts">
       <SectionHeading>{heading}</SectionHeading>
       <Carousel
         responsive={responsive}
-        arrows={false}
+        arrows={true}
         infinite={true}
         itemClass="px-3"
         containerClass="mx-n3"
         partialVisible={false}
-        showDots={true}
+        showDots={false}
       >
         {list.map((ele, index) => {
           return (

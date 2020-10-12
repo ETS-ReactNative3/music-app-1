@@ -7,16 +7,18 @@ h6 {
   opacity: 0.3;
 }
 
-.react-multiple-carousel__arrow--left {
-  left: 0;
-  outline: none !important;
-  top: 28%;
-}
+.caraousel {
+  .react-multiple-carousel__arrow--left {
+    left: 0;
+    outline: none !important;
+    top: 28%;
+  }
 
-.react-multiple-carousel__arrow--right {
-  right: 0;
-  outline: none !important;
-  top: 28%;
+  .react-multiple-carousel__arrow--right {
+    right: 0;
+    outline: none !important;
+    top: 28%;
+  }
 }
 
 .hover-box {
