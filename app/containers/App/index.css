@@ -105,6 +105,7 @@
 .jumbotron-bg-inner {
   background: url(../../images/page-background-inner.jpg) no-repeat;
   position: relative;
+  padding-top: 70px;
 }
 
 .top-header {

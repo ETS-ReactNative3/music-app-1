@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Link } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -34,15 +34,26 @@ const AppWrapper = styled.div`
 
 const App = () => {
   const [wrapperClass, setWrapperClass] = useState('');
+  const headerRef = useRef('');
   const handleSideBar = () => {
     const classSideBar = wrapperClass === '' ? 'sidebar-collapse' : '';
     setWrapperClass(classSideBar);
   };
+  const listenScrollEvent = e => {
+    if (window.scrollY > 50) {
+      headerRef.current.classList.add('bg-body');
+    } else {
+      headerRef.current.classList.remove('bg-body');
+    }
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', listenScrollEvent);
+  }, []);
   return (
     <>
       <GlobalStyle />
       <div className={`wrapper ${wrapperClass}`}>
-        <nav className="main-header bg-dark px-5 pb-3">
+        <nav className="main-header fixed-top px-5 pb-3" ref={headerRef}>
           <div className="d-flex flex-row align-items-center">
             <a
               class="nav-link"

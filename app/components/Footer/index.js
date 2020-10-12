@@ -1,8 +1,9 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
-import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+
 import {
   handleSongPlaying,
   handleSingleSong,
@@ -47,11 +48,12 @@ const Footer = props => {
     onHandleSingleSong,
   } = props;
   const audioRef = useRef(null);
+  const volumeRef = useRef(null);
   const { songIndex } = currentSong;
   let songDetail = {
     src: '',
-    title: 'Title',
-    artist: 'Artist',
+    title: 'Song Title',
+    artist: 'Artist Name',
   };
 
   songDetail =
@@ -81,11 +83,35 @@ const Footer = props => {
     onHandleSingleSong(previousIndex, true);
   };
 
+  const handleVolumeChange = e => {
+    if (e.target.volume === 0) {
+      audioRef.current.audio.current.pause();
+    } else {
+      audioRef.current.audio.current.play();
+    }
+    volumeRef.current.value = e.target.volume;
+  };
+
+  const handleRangVolume = e => {
+    audioRef.current.audio.current.volume = e.target.value;
+  };
+
   const footerText = (
-    <hgroup>
-      <h5>{songDetail.title}</h5>
-      <h6>{songDetail.artist}</h6>
-    </hgroup>
+    <div className="d-flex w-25">
+      <div className="d-flex mr-2">
+        <img
+          src={require('./../../images/album-1.jpg')}
+          alt=""
+          width="40"
+          height="40"
+          className="rounded"
+        />
+      </div>
+      <div className="d-flex flex-column">
+        <h5>{songDetail.title}</h5>
+        <h6>{songDetail.artist}</h6>
+      </div>
+    </div>
   );
 
   return (
@@ -97,7 +123,7 @@ const Footer = props => {
           </a>
         </div> */}
         <div className="d-inline-flex flex-grow-1">
-          <AudioPlayer
+          <H5AudioPlayer
             layout="horizontal-reverse"
             autoPlayAfterSrcChange={true}
             showSkipControls={true}
@@ -113,6 +139,7 @@ const Footer = props => {
             onPause={() => {
               onHandleSongPlaying(false);
             }}
+            onVolumeChange={handleVolumeChange}
             customControlsSection={[
               RHAP_UI.MAIN_CONTROLS,
               RHAP_UI.ADDITIONAL_CONTROLS,
@@ -122,9 +149,19 @@ const Footer = props => {
               RHAP_UI.PROGRESS_BAR,
               RHAP_UI.DURATION,
               RHAP_UI.VOLUME,
-              <div>{footerText}</div>,
+              <div className="volume-progress-bar">
+                <input
+                  ref={volumeRef}
+                  type="range"
+                  min="0"
+                  max="1"
+                  orient="vertical"
+                  step="any"
+                  onChange={handleRangVolume}
+                />
+              </div>,
+              footerText,
             ]}
-            customVolumeControls={[]}
           />
         </div>
       </div>

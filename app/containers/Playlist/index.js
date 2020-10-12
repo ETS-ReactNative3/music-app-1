@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
-import { faGratipay } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import CarouselCustom from '../../components/CarouselCustom';
@@ -19,10 +18,9 @@ import reducer from '../App/reducer';
 import saga from '../App/saga';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
-import MainWrapper from '../../components/MainWrapper';
-import TopHeader from '../../components/TopHeader';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
+import ShareBox from '../../components/ShareBox';
 
 const key = 'global';
 
@@ -68,30 +66,34 @@ const Playlist = props => {
               alt=""
             />
           </div>
-          <div className="px-5">
-            <h5>{albumInfo.artistName}</h5>
-            <h1>{albumInfo.albumType}</h1>
-            <div>
-              {albumInfo.type} | {albumInfo.albumYear} | {albumInfo.totalSongs}
+          <div className="d-flex pl-5 flex-grow-1 flex-column justify-content-between">
+            <div className="d-flex">
+              <div className="d-inline-flex flex-column">
+                <h5>{albumInfo.artistName}</h5>
+                <h1>{albumInfo.albumType}</h1>
+              </div>
+              <div className="dot-box ml-auto">
+                <ShareBox />
+              </div>
             </div>
-            <div className="d-flex align-items-center py-2">
-              <a
-                href="javascript:void(0);"
-                onClick={playAllSongsHandler}
-                className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center"
-              >
-                {playing ? 'Pause' : 'Play All'}
-              </a>
-              {/* <a href="javascript:void(0)" className="">
-                <FontAwesomeIcon
-                  icon={faGratipay}
-                  size="3x"
-                  color={PLAY_ICON_BG_COLOR}
-                />
-              </a> */}
+
+            <div className="d-flex flex-column">
+              <div>
+                {albumInfo.type} | {albumInfo.albumYear} |{' '}
+                {albumInfo.totalSongs}
+              </div>
+
+              <div className="d-flex align-items-center pt-2">
+                <a
+                  href="javascript:void(0);"
+                  onClick={playAllSongsHandler}
+                  className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center"
+                >
+                  {playing ? 'Pause' : 'Play All'}
+                </a>
+              </div>
             </div>
           </div>
-          <div className="dot-box ml-auto">...</div>
         </div>
 
         <section>
@@ -100,7 +102,7 @@ const Playlist = props => {
           {playlist.map((ele, index) => {
             return (
               <div
-                className="d-flex border-bottom align-items-center songs-ul py-4"
+                className="d-flex border-bottom song-border align-items-center songs-ul py-4"
                 key={index}
               >
                 <div className="song-number px-2">
@@ -132,7 +134,9 @@ const Playlist = props => {
                     />
                   </a>
                 </div>
-                <div className="dot-box px-2 ml-auto">...</div>
+                <div className="dot-box px-2 ml-auto">
+                  <ShareBox />
+                </div>
               </div>
             );
           })}

@@ -1,3 +1,9 @@
 .mw-60 {
   min-width: 60px;
 }
+
+.border-bottoms {
+  border-width: 3px;
+  border-style: solid;
+  border-image: linear-gradient(to bottom, red, rgba(0, 0, 0, 0)) 1 100%;
+}

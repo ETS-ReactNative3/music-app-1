@@ -1,13 +1,23 @@
-.caption {
-  bottom: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  h4 {
-    font-size: 21px;
-    font-weight: 600;
-  }
+.img-preview {
+  .caption {
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: 0.5s all linear;
+    h4 {
+      font-size: 21px;
+      font-weight: 600;
+    }
 
-  h6 {
-    font-size: 16px;
+    h6 {
+      font-size: 16px;
+    }
+  }
+  &:hover {
+    .caption {
+      opacity: 1;
+      transition: 0.5s all linear;
+    }
   }
 }

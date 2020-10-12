@@ -13,7 +13,7 @@ import './index.scss';
 function LeftSideBar() {
   return (
     <aside className="main-sidebar fixed-top min-vh-100">
-      <div className="d-flex justify-content-center py-3 border-bottom">
+      <div className="d-flex justify-content-center py-3 border-bottom song-border">
         <Link to="/">
           <img src={require(`./../../images/logo.png`)} alt="" />
         </Link>

@@ -8,8 +8,8 @@ import './index.scss';
 
 const HomePageHeader = () => {
   return (
-    <div className="d-flex top-header-box flex-grow-1 px-5">
-      <div className="border-bottom border-light flex-grow-1">
+    <div className="d-flex top-header-box w-100 px-5">
+      <div className="border-bottom song-border border-light">
         <div className="input-box">
           <FontAwesomeIcon icon={faSearch} size="1x" className="search-icon" />
           <FormattedMessage {...messages.searchPlaceholder}>
@@ -18,7 +18,7 @@ const HomePageHeader = () => {
                 type="text"
                 name="search"
                 id="search"
-                className="px-3 py-2"
+                className="px-3 py-2 text-white"
                 placeholder={formattedValue}
               />
             )}

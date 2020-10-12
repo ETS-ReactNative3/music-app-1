@@ -9,24 +9,26 @@ const SectionHeading = styled.h3`
   margin-bottom: 40px;
   font-family: 'Work Sans', sans-serif;
   font-weight: 500;
+  border-bottom: 3px solid;
+  border-image: linear-gradient(to right, #1fdbae, rgba(0, 0, 0, 0)) 1;
 
-  :before,
-  :after {
-    position: absolute;
-    content: '';
-    height: 2px;
-    bottom: 0;
-  }
-  :before {
-    width: 60%;
-    background: #0284cd;
-    left: 0;
-  }
-  :after {
-    width: 30%;
-    background: #21c583;
-    left: 59%;
-  }
+  // :before,
+  // :after {
+  //   position: absolute;
+  //   content: '';
+  //   height: 2px;
+  //   bottom: 0;
+  // }
+  // :before {
+  //   width: 60%;
+  //   background: #0284cd;
+  //   left: 0;
+  // }
+  // :after {
+  //   width: 30%;
+  //   background: #21c583;
+  //   left: 59%;
+  // }
 `;
 
 export default SectionHeading;

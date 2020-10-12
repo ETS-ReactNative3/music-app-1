@@ -15,7 +15,7 @@ const SongList = ({ list, heading, singleSongHandler }) => {
           return (
             <div className="col-4" key={index}>
               <div
-                className="d-flex border-bottom align-items-center songs-ul py-2"
+                className="d-flex border-bottom song-border align-items-center songs-ul py-2"
                 key={index}
               >
                 <div className="song-number px-1 mw-60">

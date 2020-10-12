@@ -43,26 +43,25 @@ const CarouselCustom = props => {
         {list.map((ele, index) => {
           return (
             <div key={index}>
-              <div className="img-preview rounded">
+              <div
+                className="img-preview rounded"
+                onClick={e => {
+                  e.preventDefault();
+                  onClickHandler(ele.slug);
+                }}
+              >
                 <img
                   src={require(`./../../images/${ele.imageKey}`)}
                   alt=""
                   className="rounded"
                 />
                 <div className="hover-box">
-                  <a
-                    href="javascript:void(0);"
-                    onClick={e => {
-                      e.preventDefault();
-                      onClickHandler(ele.slug);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faPlayCircle}
-                      size="3x"
-                      color={HOVER_PLAY_ICON_COLOR}
-                    />
-                  </a>
+                  <FontAwesomeIcon
+                    icon={faPlayCircle}
+                    className="test"
+                    size="3x"
+                    color={HOVER_PLAY_ICON_COLOR}
+                  />
                 </div>
               </div>
               <div className="pt-4">

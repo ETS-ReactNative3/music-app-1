@@ -1,3 +1,4 @@
+$body-bg: #020f1f;
 .dot-box {
   font-size: 45px;
 }
@@ -93,4 +94,8 @@
   .footer-fix-bottom {
     width: calc(100% - 4.6rem);
   }
+}
+
+.bg-body {
+  background: $body-bg;
 }

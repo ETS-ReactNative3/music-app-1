@@ -24,3 +24,44 @@ $rhap_font-family: inherit; // Font family of current time and duration
   width: calc(100% - 250px);
   z-index: 1050;
 }
+
+input[type='range'][orient='vertical'] {
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* WebKit */
+  width: 8px;
+  height: 175px;
+  padding: 0 5px;
+}
+
+.rhap_volume-container:hover + .volume-progress-bar {
+  display: block;
+}
+
+.volume-progress-bar {
+  position: absolute;
+  right: 287px;
+  bottom: 47px;
+  border: 1px solid #ffffff;
+  border-radius: 3px;
+  padding: 9px;
+  display: none;
+
+  &:hover {
+    display: block;
+  }
+}
+
+.rhap_volume-container {
+  flex: 0;
+  margin-left: 5px;
+}
+.rhap_volume-bar-area {
+  display: none;
+}
+
+.rhap_main-controls-button,
+.rhap_repeat-button,
+.rhap_time,
+.rhap_volume-button {
+  color: #ffffff;
+}

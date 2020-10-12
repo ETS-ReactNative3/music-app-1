@@ -1,11 +1,16 @@
 .top-header-box {
-  z-index: 99;
-
+  div {
+    flex: 1;
+  }
   .input-box {
     input {
       background: transparent;
       outline: none;
       border: none;
+    }
+
+    ::placeholder {
+      color: #ffffff;
     }
   }
 }

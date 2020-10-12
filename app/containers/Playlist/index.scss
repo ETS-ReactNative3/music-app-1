@@ -1,6 +1,6 @@
 .album-detail {
   h1 {
-    font-size: 110px;
+    font-size: 50px;
     color: #00ff94;
     line-height: 100%;
     margin-bottom: 30px;
@@ -19,4 +19,42 @@
   .min-w15 {
     min-width: 15%;
   }
+}
+
+.dot-box-share {
+  background: transparent;
+  font-size: inherit;
+
+  &:hover {
+    background: transparent;
+  }
+
+  &:visited {
+    background: transparent;
+  }
+
+  ::after {
+    display: none;
+  }
+}
+
+.dropdown-toggle {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0;
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.dropdown-toggle {
+  background: none;
+  &::after {
+    display: none;
+  }
+}
+
+.dropdown-menu {
+  transform: translate(-25px, 72px) !important;
+  min-width: 0;
 }
