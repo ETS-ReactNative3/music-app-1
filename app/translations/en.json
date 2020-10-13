@@ -29,10 +29,10 @@
   "boilerplate.containers.LocaleToggle.de": "de",
   "boilerplate.containers.LocaleToggle.en": "en",
   "boilerplate.containers.NotFoundPage.header": "Page not found.",
-  "boilerplate.containers.App.FeaturedAlbum.heading": "Featured Album",
+  "boilerplate.containers.App.FeaturedAlbum.heading": "Featured Albums",
   "boilerplate.containers.App.LatestPosts.heading": "Latest Posts",
   "boilerplate.containers.App.SongList.heading": "Weekly Top 12",
   "boilerplate.containers.App.NewReleases.heading": "New Releases",
   "boilerplate.containers.App.RecommendedAlbum.heading": "Recommended For You",
-  "boilerplate.components.HomePageHeader.search.placeholder": "Search for a Song"
+  "boilerplate.components.HomePageHeader.search.placeholder": "Search for an album"
 }

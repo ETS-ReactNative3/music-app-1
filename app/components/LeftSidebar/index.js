@@ -48,7 +48,7 @@ function LeftSideBar() {
             <a href="pages/widgets.html" class="nav-link">
               <FontAwesomeIcon icon={faCog} color="#ffffff" />
               <div className="d-inline-block mx-2 text-white li-label">
-                Setting
+                Settings
               </div>
             </a>
           </li>

@@ -97,7 +97,7 @@ const Playlist = props => {
         </div>
 
         <section>
-          <h3>{albumInfo.artistName} songs </h3>
+          {/* <h3>{albumInfo.artistName} songs </h3> */}
 
           {playlist.map((ele, index) => {
             return (
@@ -108,11 +108,11 @@ const Playlist = props => {
                 <div className="song-number px-2">
                   {('0' + (index + 1)).slice(-2)}
                 </div>
-                <div className="song-profile px-2">
+                {/* <div className="song-profile px-2">
                   <div className="song-img">
                     <img src={require(`./../../images/${ele.img}`)} alt="" />
                   </div>
-                </div>
+                </div> */}
                 <div className="song-title px-2 min-w15">
                   <h5>{ele.title}</h5>
                   <h6>{ele.artist}</h6>

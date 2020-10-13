@@ -11,7 +11,7 @@ export const scopeGlobal = 'boilerplate.containers.App';
 export default defineMessages({
   featuredAlbumHeading: {
     id: `${scopeGlobal}.FeaturedAlbum.heading`,
-    defaultMessage: 'Featured Album',
+    defaultMessage: 'Featured Albums',
   },
   latestPostsHeading: {
     id: `${scopeGlobal}.LatestPosts.heading`,
