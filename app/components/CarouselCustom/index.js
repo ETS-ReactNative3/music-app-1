@@ -50,11 +50,7 @@ const CarouselCustom = props => {
                   onClickHandler(ele.slug);
                 }}
               >
-                <img
-                  src={require(`./../../images/${ele.imageKey}`)}
-                  alt=""
-                  className="rounded"
-                />
+                <img src={ele.artwork} alt="" className="rounded" />
                 <div className="hover-box">
                   <FontAwesomeIcon
                     icon={faPlayCircle}

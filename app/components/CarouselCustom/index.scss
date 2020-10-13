@@ -40,7 +40,18 @@ h6 {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  min-height: 165px;
+
+  img {
+    min-height: inherit;
+  }
 }
 .img-preview:hover .hover-box {
   display: flex;
+}
+
+.caraousel {
+  .img-preview {
+    max-height: 180px;
+  }
 }

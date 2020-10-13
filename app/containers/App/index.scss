@@ -94,8 +94,20 @@ $body-bg: #020f1f;
   .footer-fix-bottom {
     width: calc(100% - 4.6rem);
   }
+
+  .weekly-song-list {
+    .song-duration {
+      display: inline-block;
+    }
+  }
 }
 
 .bg-body {
   background: $body-bg;
+}
+
+.weekly-song-list {
+  .song-duration {
+    display: none;
+  }
 }

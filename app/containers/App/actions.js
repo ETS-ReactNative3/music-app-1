@@ -113,13 +113,20 @@ export function loadDefaultData() {
  *
  * @return {object}      An action object with a type of LOAD_REPOS_SUCCESS passing the repos
  */
-export function defaultDataLoaded(posts, albums, weeklyTop, recommendendJson) {
+export function defaultDataLoaded(
+  posts,
+  albums,
+  weeklyTop,
+  recommendendJson,
+  latestReleases,
+) {
   return {
     type: LOAD_DEFAULT_DATA_SUCCESS,
     posts,
     albums,
     weeklyTop,
     recommendendJson,
+    latestReleases,
   };
 }
 
@@ -131,17 +138,18 @@ export const fetchPosts = () => {
     try {
       Promise.all([
         axios.get('https://jsonplaceholder.typicode.com/posts'),
-        axios.get('https://jsonplaceholder.typicode.com/users'),
-        axios.get('https://jsonplaceholder.typicode.com/albums'),
-        axios.get('https://jsonplaceholder.typicode.com/photos'),
+        axios.get('https://bliiink.ga/songs/top'),
+        axios.get('https://bliiink.ga/albums/featured'),
+        axios.get('https://bliiink.ga/albums/latest'),
       ]).then(response => {
-        // const [posts, users, albums, photos] = response;
+        const [posts, weeklyTop, featuredAlbums, latestReleases] = response;
         dispatch(
           defaultDataLoaded(
             latestPostsJson,
-            albumsJson,
-            weeklyTop,
+            featuredAlbums.data,
+            weeklyTop.data,
             recommendendJson,
+            latestReleases.data,
           ),
         );
       });

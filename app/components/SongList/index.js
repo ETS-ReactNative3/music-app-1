@@ -8,7 +8,7 @@ import './index.scss';
 
 const SongList = ({ list, heading, singleSongHandler }) => {
   return (
-    <section>
+    <section className="weekly-song-list">
       <SectionHeading>{heading}</SectionHeading>
       <div className="row">
         {list.map((ele, index) => {
@@ -18,16 +18,12 @@ const SongList = ({ list, heading, singleSongHandler }) => {
                 className="d-flex border-bottom song-border align-items-center songs-ul py-2"
                 key={index}
               >
-                <div className="song-number px-1 mw-60">
+                <div className="song-number px-1 mw-65">
                   {('0' + (index + 1)).slice(-2)}
                 </div>
                 <div className="song-profile px-1">
                   <div className="song-img">
-                    <img
-                      src={require(`./../../images/${ele.imageKey}`)}
-                      alt=""
-                      className="rounded"
-                    />
+                    <img src={ele.artwork} alt="" className="rounded" />
                   </div>
                 </div>
                 <div className="song-title px-1">

@@ -67,7 +67,7 @@ const appReducer = (state = initialState, action) =>
         draft.latestPosts = action.posts;
         draft.featuredAlbum = action.albums;
         draft.weeklyTop = action.weeklyTop;
-        draft.newReleases = action.albums;
+        draft.newReleases = action.latestReleases;
         draft.recommended = action.recommendendJson;
         break;
 
