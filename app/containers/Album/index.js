@@ -94,7 +94,6 @@ const Album = props => {
 
         <section>
           {playlist.map((ele, index) => {
-            const { song } = ele;
             return (
               <div
                 className="d-flex border-bottom blick-border align-items-center songs-ul py-4"
@@ -104,8 +103,8 @@ const Album = props => {
                   {('0' + (index + 1)).slice(-2)}
                 </div>
                 <div className="song-title px-2 min-w15">
-                  <h5>{song.title}</h5>
-                  <h6>{song.description}</h6>
+                  <h5>{ele.title}</h5>
+                  <h6>{ele.description}</h6>
                 </div>
                 <div className="song-duration px-2">4:25</div>
                 <div className="song-action px-2">

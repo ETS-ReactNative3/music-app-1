@@ -36,10 +36,10 @@ const Footer = props => {
     playlist.length > 0
       ? {
           ...songDetail,
-          src: playlist[songIndex].song.url,
-          title: playlist[songIndex].song.title,
+          src: playlist[songIndex].url,
+          title: playlist[songIndex].title,
           artist: 'Mayur',
-          artwork: playlist[songIndex].song.artwork,
+          artwork: playlist[songIndex].artwork,
         }
       : songDetail;
 
@@ -51,13 +51,17 @@ const Footer = props => {
   }, [currentSong]);
 
   const handleClickPrevious = () => {
-    const previousIndex = songIndex - 1;
-    onHandleSingleSong(previousIndex, true);
+    if (songIndex !== 0) {
+      const previousIndex = songIndex - 1;
+      onHandleSingleSong(previousIndex, true);
+    }
   };
 
   const handleClickNext = () => {
-    const previousIndex = songIndex + 1;
-    onHandleSingleSong(previousIndex, true);
+    const nextIndex = songIndex + 1;
+    if (nextIndex < playlist.length) {
+      onHandleSingleSong(nextIndex, true);
+    }
   };
 
   const handleVolumeChange = e => {
@@ -88,7 +92,9 @@ const Footer = props => {
 
   return (
     <footer
-      className={playlist.length === 0 ? `d-none main-footer` : `main-footer`}
+      className={
+        playlist.length === 0 ? `d-none main-footer` : `main-footer pt-10`
+      }
     >
       <div className="d-flex footer-fix-bottom">
         <div className="d-inline-flex flex-grow-1">

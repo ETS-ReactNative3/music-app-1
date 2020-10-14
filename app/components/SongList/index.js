@@ -1,12 +1,17 @@
 import React from 'react';
-import { faPlayCircle, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlayCircle,
+  faEllipsisH,
+  faPauseCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import SectionHeading from '../SectionHeading';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 
-const SongList = ({ list, heading, singleSongHandler }) => {
+const SongList = ({ list, heading, singleSongHandler, currentSong }) => {
+  const { playing, songIndex } = currentSong;
   return (
     <section className="weekly-song-list">
       <SectionHeading>{heading}</SectionHeading>
@@ -39,7 +44,11 @@ const SongList = ({ list, heading, singleSongHandler }) => {
                     <FontAwesomeIcon
                       size="2x"
                       color={PLAY_ICON_BG_COLOR}
-                      icon={faPlayCircle}
+                      icon={
+                        songIndex === index && playing
+                          ? faPauseCircle
+                          : faPlayCircle
+                      }
                     />
                   </a>
                 </div>

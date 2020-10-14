@@ -35,7 +35,8 @@ export function* getAlbumInfo() {
     const response = yield call(request, requestURL);
     console.log(response);
     const { albumSongs = [] } = response;
-    yield put(loadAlbumSuccess(response, albumSongs));
+    const songs = albumSongs.map(ele => ele.song);
+    yield put(loadAlbumSuccess(response, songs));
   } catch (err) {
     // yield put(loadFeaturedAlbum([]));
   }

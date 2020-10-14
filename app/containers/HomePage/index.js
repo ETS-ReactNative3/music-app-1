@@ -20,6 +20,7 @@ import {
   makeSelectNewReleases,
   makeSelectRecommended,
   makeSelectPlaylist,
+  makeSelectCurrentSong,
 } from '../../containers/App/selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -28,8 +29,7 @@ import CarouselCustom from '../../components/CarouselCustom';
 import SongList from '../../components/SongList';
 import LatestPosts from '../../components/LatestPosts';
 import messages from './messages';
-import { setPlaylist } from '../App/actions';
-import Playlist from '../../utils/json/playlist';
+import { setPlaylist, handleSingleSong } from '../App/actions';
 
 const key = 'home';
 
@@ -41,6 +41,9 @@ export function HomePage(props) {
     recommended,
     weeklyTop,
     onHandleSetPlaylist,
+    onHandleSingleSong,
+    currentPlaylist,
+    currentSong,
   } = props;
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
@@ -53,8 +56,15 @@ export function HomePage(props) {
   };
 
   const handleWeeklySong = index => {
-    const { songs } = Playlist;
-    onHandleSetPlaylist(songs);
+    const { playing, songIndex } = currentSong;
+    let status = !playing;
+    if (currentPlaylist.length === 0) {
+      onHandleSetPlaylist(weeklyTop);
+    }
+    if (songIndex !== index) {
+      status = true;
+    }
+    onHandleSingleSong(index, status);
   };
 
   return (
@@ -79,6 +89,7 @@ export function HomePage(props) {
           list={weeklyTop}
           heading={<FormattedMessage {...messages.songListHeading} />}
           singleSongHandler={handleWeeklySong}
+          currentSong={currentSong}
         />
 
         <CarouselCustom
@@ -111,11 +122,14 @@ const mapStateToProps = createStructuredSelector({
   newReleases: makeSelectNewReleases(),
   recommended: makeSelectRecommended(),
   currentPlaylist: makeSelectPlaylist(),
+  currentSong: makeSelectCurrentSong(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
     onHandleSetPlaylist: songs => dispatch(setPlaylist(songs)),
+    onHandleSingleSong: (index, status) =>
+      dispatch(handleSingleSong(index, status)),
   };
 }
 
