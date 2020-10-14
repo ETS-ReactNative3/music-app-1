@@ -70,7 +70,6 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.0",
     "@fortawesome/free-solid-svg-icons": "^5.15.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "chalk": "^2.4.2",
     "compression": "1.7.4",

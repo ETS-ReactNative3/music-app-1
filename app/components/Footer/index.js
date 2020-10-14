@@ -16,30 +16,6 @@ import {
 } from '../../containers/App/selectors';
 import './index.scss';
 
-let songsList = [
-  {
-    name: '枝芽',
-    src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/zhiya.mp3',
-  },
-  {
-    name: '自由女神',
-    src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/ziyounvshen.mp3',
-  },
-  {
-    name: '无雨无晴',
-    src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/wuyuwuqing.mp3',
-  },
-  {
-    name: '碎片',
-    src: 'https://hanzluo.s3-us-west-1.amazonaws.com/music/suipian.mp3',
-  },
-  {
-    name: '永恒的港湾',
-    src:
-      'https://hanzluo.s3-us-west-1.amazonaws.com/music/yonghengdegangwan.mp3',
-  },
-];
-
 const Footer = props => {
   const {
     playlist = [],
@@ -60,9 +36,10 @@ const Footer = props => {
     playlist.length > 0
       ? {
           ...songDetail,
-          src: playlist[songIndex].src,
-          title: playlist[songIndex].title,
-          artist: playlist[songIndex].title,
+          src: playlist[songIndex].song.url,
+          title: playlist[songIndex].song.title,
+          artist: 'Mayur',
+          artwork: playlist[songIndex].song.artwork,
         }
       : songDetail;
 
@@ -92,10 +69,10 @@ const Footer = props => {
   };
 
   const footerText = (
-    <div className="d-flex w-25">
-      <div className="d-flex mr-2">
+    <div className="d-flex">
+      <div className="d-flex mx-5">
         <img
-          src={require('./../../images/album-1.jpg')}
+          src={songDetail.artwork}
           alt=""
           width="40"
           height="40"
@@ -110,17 +87,14 @@ const Footer = props => {
   );
 
   return (
-    <footer className="main-footer">
+    <footer
+      className={playlist.length === 0 ? `d-none main-footer` : `main-footer`}
+    >
       <div className="d-flex footer-fix-bottom">
-        {/* <div className="d-inline-flex align-items-center justify-content-center footer-menu">
-          <a href="#">
-            <img src={require('./../../images/footer-nav-icon.png')} alt="" />
-          </a>
-        </div> */}
         <div className="d-inline-flex flex-grow-1">
           <H5AudioPlayer
-            layout="horizontal-reverse"
-            autoPlayAfterSrcChange={true}
+            layout="stacked-reverse"
+            autoPlayAfterSrcChange={false}
             showSkipControls={true}
             showJumpControls={false}
             ref={audioRef}
@@ -135,26 +109,10 @@ const Footer = props => {
               onHandleSongPlaying(false);
             }}
             onVolumeChange={handleVolumeChange}
-            customControlsSection={[
-              RHAP_UI.MAIN_CONTROLS,
-              RHAP_UI.ADDITIONAL_CONTROLS,
-            ]}
             customProgressBarSection={[
               RHAP_UI.CURRENT_TIME,
               RHAP_UI.PROGRESS_BAR,
               RHAP_UI.DURATION,
-              RHAP_UI.VOLUME,
-              <div className="volume-progress-bar">
-                <input
-                  ref={volumeRef}
-                  type="range"
-                  min="0"
-                  max="1"
-                  orient="vertical"
-                  step="any"
-                  onChange={handleRangVolume}
-                />
-              </div>,
               footerText,
             ]}
           />

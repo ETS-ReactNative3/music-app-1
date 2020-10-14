@@ -6,10 +6,10 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import './index.scss';
 
-const HomePageHeader = () => {
+const TopNavBar = () => {
   return (
     <div className="d-flex top-header-box w-100 px-5">
-      <div className="border-bottom song-border border-light">
+      <div className="border-bottom blick-border border-light">
         <div className="input-box">
           <FontAwesomeIcon icon={faSearch} size="1x" className="search-icon" />
           <FormattedMessage {...messages.searchPlaceholder}>
@@ -25,16 +25,9 @@ const HomePageHeader = () => {
           </FormattedMessage>
         </div>
       </div>
-      <div className="user-name flex-grow-1 text-right">
-        {/* <img
-          src={require(`./../../images/user-img.jpg`)}
-          alt=""
-          className="rounded-circle px-3"
-        />
-        Jenny Thomas */}
-      </div>
+      <div className="user-name flex-grow-1 text-right" />
     </div>
   );
 };
 
-export default HomePageHeader;
+export default TopNavBar;

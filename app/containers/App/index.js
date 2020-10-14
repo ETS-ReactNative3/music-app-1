@@ -7,30 +7,19 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from '../../components/Footer';
-import Playlist from 'containers/Playlist/Loadable';
-import HomePageHeader from '../../components/HomePageHeader';
+import Album from 'containers/Album/Loadable';
+import TopNavBar from '../../components/TopNavBar';
 import LeftSideBar from '../../components/LeftSidebar';
 
-import GlobalStyle from '../../global-styles';
-import './index.css';
+import '../../styles/global-style.scss';
 import './index.scss';
-
-const AppWrapper = styled.div`
-  // max-width: calc(768px + 16px * 2);
-  // margin: 0 auto;
-  // display: flex;
-  // min-height: 100%;
-  // padding: 0 16px;
-  // flex-direction: column;
-`;
 
 const App = () => {
   const [wrapperClass, setWrapperClass] = useState('');
@@ -41,9 +30,9 @@ const App = () => {
   };
   const listenScrollEvent = e => {
     if (window.scrollY > 50) {
-      headerRef.current.classList.add('bg-body');
+      headerRef.current.classList.add('nav-bar');
     } else {
-      headerRef.current.classList.remove('bg-body');
+      headerRef.current.classList.remove('nav-bar');
     }
   };
   useEffect(() => {
@@ -51,7 +40,6 @@ const App = () => {
   }, []);
   return (
     <>
-      <GlobalStyle />
       <div className={`wrapper ${wrapperClass}`}>
         <nav className="main-header fixed-top px-5 pb-3" ref={headerRef}>
           <div className="d-flex flex-row align-items-center">
@@ -65,7 +53,7 @@ const App = () => {
             >
               <FontAwesomeIcon icon={faBars} />
             </a>
-            <HomePageHeader />
+            <TopNavBar />
           </div>
         </nav>
         <LeftSideBar />
@@ -73,7 +61,7 @@ const App = () => {
           <section className="content">
             <Switch>
               <Route exact path="/" component={HomePage} />
-              <Route path="/playlist/:slug" component={Playlist} />
+              <Route path="/album/:slug" component={Album} />
               <Route path="" component={NotFoundPage} />
             </Switch>
           </section>

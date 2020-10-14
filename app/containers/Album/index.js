@@ -24,7 +24,7 @@ import ShareBox from '../../components/ShareBox';
 
 const key = 'global';
 
-const Playlist = props => {
+const Album = props => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
   const {
@@ -37,11 +37,11 @@ const Playlist = props => {
     onHandleSingleSong,
   } = props;
   const handleAlbumClick = slug => {
-    props.history.replace(`/playlist/${slug}`);
+    props.history.replace(`/album/${slug}`);
   };
   useEffect(() => {
     onLoadAlbum('album-1');
-  }, [currentSong]);
+  }, []);
 
   const playAllSongsHandler = () => {
     const { playing } = currentSong;
@@ -55,22 +55,19 @@ const Playlist = props => {
   };
 
   const { playing, songIndex } = currentSong;
+  const { albumSongs = [] } = albumInfo;
   return (
     <>
       <main role="main" className="px-5 jumbotron-bg-inner">
         <div className="d-flex flex-row album-detail py-5">
           <div>
-            <img
-              src={require(`./../../images/selena.jpg`)}
-              className="rounded-lg"
-              alt=""
-            />
+            <img src={albumInfo.artwork} className="rounded-lg" alt="" />
           </div>
           <div className="d-flex pl-5 flex-grow-1 flex-column justify-content-between">
             <div className="d-flex">
               <div className="d-inline-flex flex-column">
-                <h5>{albumInfo.artistName}</h5>
-                <h1>{albumInfo.albumType}</h1>
+                <h5>{albumInfo.title}</h5>
+                <h1>{albumInfo.caption}</h1>
               </div>
               <div className="dot-box ml-auto">
                 <ShareBox />
@@ -79,8 +76,7 @@ const Playlist = props => {
 
             <div className="d-flex flex-column">
               <div>
-                {albumInfo.type} | {albumInfo.albumYear} |{' '}
-                {albumInfo.totalSongs}
+                Album | {albumInfo.releaseDate} | {albumSongs.length}
               </div>
 
               <div className="d-flex align-items-center pt-2">
@@ -97,27 +93,21 @@ const Playlist = props => {
         </div>
 
         <section>
-          {/* <h3>{albumInfo.artistName} songs </h3> */}
-
           {playlist.map((ele, index) => {
+            const { song } = ele;
             return (
               <div
-                className="d-flex border-bottom song-border align-items-center songs-ul py-4"
+                className="d-flex border-bottom blick-border align-items-center songs-ul py-4"
                 key={index}
               >
                 <div className="song-number px-2">
                   {('0' + (index + 1)).slice(-2)}
                 </div>
-                {/* <div className="song-profile px-2">
-                  <div className="song-img">
-                    <img src={require(`./../../images/${ele.img}`)} alt="" />
-                  </div>
-                </div> */}
                 <div className="song-title px-2 min-w15">
-                  <h5>{ele.title}</h5>
-                  <h6>{ele.artist}</h6>
+                  <h5>{song.title}</h5>
+                  <h6>{song.description}</h6>
                 </div>
-                <div className="song-duration px-2">{ele.duration}</div>
+                <div className="song-duration px-2">4:25</div>
                 <div className="song-action px-2">
                   <a
                     href="javascript:void(0);"
@@ -176,4 +166,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(Playlist);
+)(Album);

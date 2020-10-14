@@ -9,9 +9,6 @@
 
 import produce from 'immer';
 import {
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
-  LOAD_REPOS_ERROR,
   LOAD_DEFAULT_DATA_SUCCESS,
   SET_PLAYLIST,
   LOAD_ALBUM_SUCCESS,
@@ -76,23 +73,6 @@ const appReducer = (state = initialState, action) =>
         draft.error = false;
         draft.albumInfo = action.albumInfo;
         draft.currentPlaylist = action.playlist;
-        break;
-
-      case LOAD_REPOS:
-        draft.loading = true;
-        draft.error = false;
-        draft.userData.repositories = false;
-        break;
-
-      case LOAD_REPOS_SUCCESS:
-        draft.userData.repositories = action.repos;
-        draft.loading = false;
-        draft.currentUser = action.username;
-        break;
-
-      case LOAD_REPOS_ERROR:
-        draft.error = action.error;
-        draft.loading = false;
         break;
     }
   });

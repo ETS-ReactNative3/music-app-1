@@ -30,15 +30,12 @@ export function* getFeaturedAlbum() {
  * Default Data request/response handler
  */
 export function* getAlbumInfo() {
+  const requestURL = `https://bliiink.ga/albums/songs/slug/album-1`;
   try {
-    const [posts, users, albums, photos] = yield all([
-      call(request, 'https://jsonplaceholder.typicode.com/posts'),
-      call(request, 'https://jsonplaceholder.typicode.com/users'),
-      call(request, 'https://jsonplaceholder.typicode.com/albums'),
-      call(request, 'https://jsonplaceholder.typicode.com/photos'),
-    ]);
-    const { songs = [] } = albumInfo;
-    yield put(loadAlbumSuccess(albumInfo, songs));
+    const response = yield call(request, requestURL);
+    console.log(response);
+    const { albumSongs = [] } = response;
+    yield put(loadAlbumSuccess(response, albumSongs));
   } catch (err) {
     // yield put(loadFeaturedAlbum([]));
   }
@@ -48,7 +45,6 @@ export function* getAlbumInfo() {
  * Root saga manages watcher lifecycle
  */
 export default function* getFeaturedAlbumData() {
-  console.log('LOAD_DEFAULT_DATA');
   // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution

@@ -9,8 +9,13 @@ import { HOVER_PLAY_ICON_COLOR } from '../../utils/constants';
 import './index.scss';
 
 const CarouselCustom = props => {
-  const { list, heading, onClickHandler, itemsToShow = 3 } = props;
-  console.log(itemsToShow);
+  const {
+    list,
+    heading,
+    onClickHandler,
+    itemsToShow = 3,
+    clasess = '',
+  } = props;
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -31,7 +36,7 @@ const CarouselCustom = props => {
     },
   };
   return (
-    <section className="py-5 caraousel">
+    <section className={`py-5 caraousel ${clasess}`}>
       <SectionHeading>{heading}</SectionHeading>
       <Carousel
         responsive={responsive}

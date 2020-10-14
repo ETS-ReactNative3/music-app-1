@@ -26,7 +26,6 @@ import saga from './saga';
 import Header from '../../components/Header';
 import CarouselCustom from '../../components/CarouselCustom';
 import SongList from '../../components/SongList';
-import MainWrapper from '../../components/MainWrapper';
 import LatestPosts from '../../components/LatestPosts';
 import messages from './messages';
 import { setPlaylist } from '../App/actions';
@@ -41,17 +40,16 @@ export function HomePage(props) {
     newReleases,
     recommended,
     weeklyTop,
-    currentPlaylist,
     onHandleSetPlaylist,
   } = props;
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
   const redirect = () => {
-    props.history.push('/playlist');
+    props.history.push('/album');
   };
 
   const handleAlbumClick = slug => {
-    props.history.push(`playlist/${slug}`);
+    props.history.push(`album/${slug}`);
   };
 
   const handleWeeklySong = index => {
@@ -95,6 +93,7 @@ export function HomePage(props) {
           heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}
           onClickHandler={handleAlbumClick}
           itemsToShow={3}
+          clasess="recommended-box"
         />
       </main>
     </>

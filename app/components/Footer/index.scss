@@ -7,10 +7,6 @@ $rhap_font-family: inherit; // Font family of current time and duration
 .rhap_container {
   background: $rhap_background-color;
   outline: none;
-
-  .rhap_controls-section {
-    flex: 0 1 auto;
-  }
 }
 
 .footer-menu {
@@ -31,32 +27,6 @@ input[type='range'][orient='vertical'] {
   width: 8px;
   height: 175px;
   padding: 0 5px;
-}
-
-.rhap_volume-container:hover + .volume-progress-bar {
-  display: block;
-}
-
-.volume-progress-bar {
-  position: absolute;
-  right: 287px;
-  bottom: 47px;
-  border: 1px solid #ffffff;
-  border-radius: 3px;
-  padding: 9px;
-  display: none;
-
-  &:hover {
-    display: block;
-  }
-}
-
-.rhap_volume-container {
-  flex: 0;
-  margin-left: 5px;
-}
-.rhap_volume-bar-area {
-  display: none;
 }
 
 .rhap_main-controls-button,

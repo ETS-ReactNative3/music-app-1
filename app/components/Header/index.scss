@@ -1,10 +1,15 @@
+.carousel-caption {
+  bottom: -20px;
+  left: 0;
+}
+
 h1 {
-  font-size: 75px;
+  font-size: 5rem;
   color: #00ff94;
   font-weight: 700;
 }
 h2 {
-  font-size: 35px;
+  font-size: 2.25rem;
   font-weight: 500;
 }
 
@@ -30,8 +35,4 @@ h2 {
 
 .pl-10 {
   padding-left: 7rem;
-}
-
-.carousel-caption {
-  bottom: -20px;
 }

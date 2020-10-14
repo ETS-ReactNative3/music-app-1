@@ -15,7 +15,7 @@
  *    }
  */
 
-import axios from 'axios';
+import request from '../../utils/request';
 
 import {
   LOAD_REPOS,
@@ -30,11 +30,7 @@ import {
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
 } from './constants';
-
-import albumsJson from '../../utils/json/albums';
 import latestPostsJson from '../../utils/json/posts';
-import weeklyTop from '../../utils/json/weeklyTop';
-import recommendendJson from '../../utils/json/recommended';
 
 /**
  * Load the repositories, this action starts the request saga
@@ -133,23 +129,22 @@ export function defaultDataLoaded(
 /*asynchronous thunk action creator
   calls the api, then dispatches the synchronous action creator
 */
-export const fetchPosts = () => {
+export const fetchDefaultData = () => {
   return async dispatch => {
     try {
       Promise.all([
-        axios.get('https://jsonplaceholder.typicode.com/posts'),
-        axios.get('https://bliiink.ga/songs/top'),
-        axios.get('https://bliiink.ga/albums/featured'),
-        axios.get('https://bliiink.ga/albums/latest'),
+        request('https://bliiink.ga/songs/top'),
+        request('https://bliiink.ga/albums/featured'),
+        request('https://bliiink.ga/albums/latest'),
       ]).then(response => {
-        const [posts, weeklyTop, featuredAlbums, latestReleases] = response;
+        const [weeklyTop, featuredAlbums, latestReleases] = response;
         dispatch(
           defaultDataLoaded(
             latestPostsJson,
-            featuredAlbums.data,
-            weeklyTop.data,
-            recommendendJson,
-            latestReleases.data,
+            featuredAlbums,
+            weeklyTop,
+            featuredAlbums,
+            latestReleases,
           ),
         );
       });
