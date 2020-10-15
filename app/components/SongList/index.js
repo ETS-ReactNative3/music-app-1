@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SectionHeading from '../SectionHeading';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
+import ShareBox from '../ShareBox';
 
 const SongList = ({ list, heading, singleSongHandler, currentSong }) => {
   const { playing, songIndex } = currentSong;
@@ -53,7 +54,7 @@ const SongList = ({ list, heading, singleSongHandler, currentSong }) => {
                   </a>
                 </div>
                 <div className="ml-auto">
-                  <FontAwesomeIcon size="1x" icon={faEllipsisH} />
+                  <ShareBox />
                 </div>
               </div>
             </div>
