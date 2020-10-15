@@ -73,8 +73,8 @@ const Footer = props => {
   };
 
   const footerText = (
-    <div className="d-flex">
-      <div className="d-flex mx-5">
+    <div className="d-flex song-detail">
+      <div className="d-flex mx-2">
         <img
           src={songDetail.artwork}
           alt=""

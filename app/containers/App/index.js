@@ -57,15 +57,13 @@ const App = () => {
           </div>
         </nav>
         <LeftSideBar />
-        <div className="content-wrapper">
-          <section className="content">
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/album/:slug" component={Album} />
-              <Route path="" component={NotFoundPage} />
-            </Switch>
-          </section>
-        </div>
+        <main className="content-wrapper">
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route path="/album/:slug" component={Album} />
+            <Route path="" component={NotFoundPage} />
+          </Switch>
+        </main>
         <Footer />
       </div>
     </>

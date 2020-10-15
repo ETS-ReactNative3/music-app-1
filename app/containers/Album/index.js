@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import moment from 'moment';
 
 import CarouselCustom from '../../components/CarouselCustom';
 import {
@@ -70,8 +71,8 @@ const Album = props => {
           <div className="col-md-9">
             <div className="row">
               <div className="col-md-9">
-                <h5>{albumInfo.title}</h5>
-                <h1>{albumInfo.caption}</h1>
+                <h5>{albumInfo.caption}</h5>
+                <h1>{albumInfo.title}</h1>
               </div>
               <div className="col-md-3 dot-box text-right">
                 <ShareBox />
@@ -79,7 +80,8 @@ const Album = props => {
             </div>
             <div className="row">
               <div className="col-md-12">
-                Album | {albumInfo.releaseDate} | {albumSongs.length}
+                Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
+                {albumSongs.length}
               </div>
               <div className="col-md-12 mt-3">
                 <a

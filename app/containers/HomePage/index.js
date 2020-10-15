@@ -26,6 +26,7 @@ import reducer from './reducer';
 import saga from './saga';
 import Header from '../../components/Header';
 import CarouselCustom from '../../components/CarouselCustom';
+import CarouselFront from '../../components/CarouselFront';
 import SongList from '../../components/SongList';
 import LatestPosts from '../../components/LatestPosts';
 import messages from './messages';
@@ -70,13 +71,19 @@ export function HomePage(props) {
   return (
     <>
       <Header />
-      <main role="main" className="px-5">
-        <CarouselCustom
-          list={albums}
+      <div className="px-5">
+        <CarouselFront
+          list={newReleases}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
           onClickHandler={handleAlbumClick}
           itemsToShow={6}
         />
+        {/* <CarouselCustom
+          list={albums}
+          heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
+          onClickHandler={handleAlbumClick}
+          itemsToShow={6}
+        /> */}
 
         <section className="post-area">
           <LatestPosts
@@ -106,7 +113,7 @@ export function HomePage(props) {
           itemsToShow={3}
           clasess="recommended-box"
         />
-      </main>
+      </div>
     </>
   );
 }
