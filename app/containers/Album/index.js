@@ -40,8 +40,8 @@ const Album = props => {
     props.history.replace(`/album/${slug}`);
   };
   useEffect(() => {
-    onLoadAlbum('album-1');
-  }, []);
+    onLoadAlbum(props.match.params.slug);
+  }, [props.match.params.slug]);
 
   const playAllSongsHandler = () => {
     const { playing } = currentSong;
@@ -59,27 +59,25 @@ const Album = props => {
   return (
     <>
       <main role="main" className="px-5 jumbotron-bg-inner">
-        <div className="d-flex flex-row album-detail py-5">
-          <div>
+        <div className="row album-detail">
+          <div className="col-md-3 album-thumb">
             <img src={albumInfo.artwork} className="rounded-lg" alt="" />
           </div>
-          <div className="d-flex pl-5 flex-grow-1 flex-column justify-content-between">
-            <div className="d-flex">
-              <div className="d-inline-flex flex-column">
+          <div className="col-md-9">
+            <div className="row">
+              <div className="col-md-9">
                 <h5>{albumInfo.title}</h5>
                 <h1>{albumInfo.caption}</h1>
               </div>
-              <div className="dot-box ml-auto">
+              <div className="col-md-3 dot-box text-right">
                 <ShareBox />
               </div>
             </div>
-
-            <div className="d-flex flex-column">
-              <div>
+            <div className="row">
+              <div className="col-md-12">
                 Album | {albumInfo.releaseDate} | {albumSongs.length}
               </div>
-
-              <div className="d-flex align-items-center pt-2">
+              <div className="col-md-12 mt-3">
                 <a
                   href="javascript:void(0);"
                   onClick={playAllSongsHandler}
@@ -92,7 +90,7 @@ const Album = props => {
           </div>
         </div>
 
-        <section>
+        <section className="pt-5">
           {playlist.map((ele, index) => {
             return (
               <div
@@ -134,6 +132,7 @@ const Album = props => {
           list={recommended}
           heading="Recommended For You"
           onClickHandler={handleAlbumClick}
+          clasess="recommended-box"
         />
       </main>
     </>

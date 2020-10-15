@@ -3,6 +3,12 @@
     flex: 1;
   }
   .input-box {
+    position: relative;
+
+    .search-icon {
+      position: absolute;
+      top: 35%;
+    }
     input {
       background: transparent;
       outline: none;

@@ -29,7 +29,7 @@ body {
 .jumbotron-bg-inner {
   background: url(../images/page-background-inner.jpg) no-repeat;
   position: relative;
-  padding-top: 70px;
+  padding-top: 100px;
 }
 
 .blick-border {
@@ -42,4 +42,24 @@ img {
 
 .pt-10 {
   padding-top: 10rem;
+}
+
+.autocomplete-box {
+  input {
+    color: #fff;
+    &:focus {
+      color: #fff;
+    }
+  }
+  .rbt-menu {
+    background: $body-bg-color;
+
+    a {
+      color: #fff;
+
+      &:hover {
+        background: #24e6a9;
+      }
+    }
+  }
 }

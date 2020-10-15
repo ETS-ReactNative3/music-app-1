@@ -4,10 +4,27 @@
     color: #00ff94;
     line-height: 100%;
     margin-bottom: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   h5 {
     font-size: 30px;
     margin: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dropdown-menu {
+    transform: translate(-25px, 72px) !important;
+    min-width: 0;
+  }
+
+  .album-thumb {
+    img {
+      max-width: 87%;
+    }
   }
 }
 
@@ -52,9 +69,4 @@
   &::after {
     display: none;
   }
-}
-
-.dropdown-menu {
-  transform: translate(-25px, 72px) !important;
-  min-width: 0;
 }

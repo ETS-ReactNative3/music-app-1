@@ -29,8 +29,8 @@ export function* getFeaturedAlbum() {
 /**
  * Default Data request/response handler
  */
-export function* getAlbumInfo() {
-  const requestURL = `https://bliiink.ga/albums/songs/slug/album-1`;
+export function* getAlbumInfo(action) {
+  const requestURL = `https://bliiink.ga/albums/songs/slug/${action.slug}`;
   try {
     const response = yield call(request, requestURL);
     console.log(response);
