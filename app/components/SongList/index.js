@@ -18,7 +18,7 @@ const SongList = ({ list, heading, singleSongHandler, currentSong }) => {
       <div className="row">
         {list.map((ele, index) => {
           return (
-            <div className="col-4" key={index}>
+            <div className="col-lg-4 col-md-12 col-sm-12" key={index}>
               <div
                 className="d-flex border-bottom blick-border align-items-center songs-ul py-2"
                 key={index}
