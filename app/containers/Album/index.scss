@@ -16,16 +16,10 @@
     text-overflow: ellipsis;
   }
 
-  .dropdown-menu {
-    transform: translate(-25px, 72px) !important;
-    min-width: 0;
-  }
-
-  .album-thumb {
-    img {
-      max-width: 87%;
-    }
-  }
+  // .dropdown-menu {
+  //   transform: translate(-25px, 72px) !important;
+  //   min-width: 0;
+  // }
 }
 
 .songs-ul {
@@ -55,18 +49,18 @@
   }
 }
 
-.dropdown-toggle {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  padding: 0;
-  &:focus {
-    box-shadow: none !important;
-  }
-}
+// .dropdown-toggle {
+//   background-color: transparent !important;
+//   box-shadow: none !important;
+//   padding: 0;
+//   &:focus {
+//     box-shadow: none !important;
+//   }
+// }
 
-.dropdown-toggle {
-  background: none;
-  &::after {
-    display: none;
-  }
-}
+// .dropdown-toggle {
+//   background: none;
+//   &::after {
+//     display: none;
+//   }
+// }

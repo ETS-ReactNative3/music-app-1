@@ -61,7 +61,11 @@ const Album = props => {
       <main role="main" className="px-5 jumbotron-bg-inner">
         <div className="row album-detail">
           <div className="col-md-3 album-thumb">
-            <img src={albumInfo.artwork} className="rounded-lg" alt="" />
+            <img
+              src={albumInfo.artwork}
+              className="rounded-lg img-fluid"
+              alt=""
+            />
           </div>
           <div className="col-md-9">
             <div className="row">

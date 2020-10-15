@@ -1,0 +1,37 @@
+.social-album-share {
+  .btn {
+    background: none;
+    border: none;
+
+    &:focus {
+      background: none;
+      box-shadow: none;
+      border: none;
+    }
+  }
+  .btn-primary.dropdown-toggle {
+    background: transparent;
+    box-shadow: none;
+    &:focus {
+      background: none;
+      box-shadow: none;
+      border: none;
+    }
+  }
+  .dropdown-toggle {
+    font-size: 2rem;
+    &:focus {
+      background-color: none;
+    }
+    &::after {
+      display: none;
+    }
+  }
+  .dropdown-menu {
+    min-width: 2rem;
+
+    .dropdown-item {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+}
