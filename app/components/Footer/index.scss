@@ -36,8 +36,12 @@ input[type='range'][orient='vertical'] {
   color: #ffffff;
 }
 
+.rhap_time {
+  font-size: 0.8rem;
+}
+
 .song-detail {
-  margin-left: 10rem;
+  flex: 0.5;
 
   h5 {
     font-size: 1em;

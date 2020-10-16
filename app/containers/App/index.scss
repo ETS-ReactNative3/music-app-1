@@ -37,12 +37,7 @@
   position: relative;
   min-height: 100%;
 
-  .main-header {
-    padding-top: 0.65rem;
-  }
-
   .main-footer,
-  .main-header,
   .content-wrapper {
     transition: margin-left 0.3s ease-in-out;
     margin-left: 250px;

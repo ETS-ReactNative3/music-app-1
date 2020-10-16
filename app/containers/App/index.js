@@ -31,34 +31,26 @@ const App = () => {
   };
   const listenScrollEvent = e => {
     if (window.scrollY > 50) {
-      headerRef.current.classList.add('nav-bar');
+      headerRef.current.classList.add('bg-nav-bar');
     } else {
-      headerRef.current.classList.remove('nav-bar');
+      headerRef.current.classList.remove('bg-nav-bar');
     }
   };
   useEffect(() => {
     window.addEventListener('scroll', listenScrollEvent);
   }, []);
   return (
-    <>
       <div className={`wrapper ${wrapperClass}`}>
         <nav
-          className="main-header fixed-top px-5 pb-3 min-height-top-box"
+          className="main-header fixed-top navbar navbar-expand navbar-dark"
           ref={headerRef}
         >
-          <div className="d-flex flex-row align-items-center">
-            <a
-              class="nav-link"
-              data-widget="pushmenu"
-              href="javascript:void(0);"
-              role="button"
-              className="text-white"
-              onClick={handleSideBar}
-            >
-              <FontAwesomeIcon icon={faBars} />
-            </a>
-            <TopNavBar />
-          </div>
+          <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="javascript:void(0)" onClick={handleSideBar} role="button"><FontAwesomeIcon icon={faBars} /></a>
+      </li>
+    </ul>
+    <TopNavBar />
         </nav>
         <LeftSideBar />
         <main className="content-wrapper">
@@ -70,7 +62,6 @@ const App = () => {
         </main>
         <Footer />
       </div>
-    </>
   );
 };
 

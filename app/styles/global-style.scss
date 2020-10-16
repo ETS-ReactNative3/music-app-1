@@ -16,13 +16,14 @@ body {
 
 body {
   color: #fff;
-  font-size: 16px;
+  font-size: 1rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   background: $body-bg-color;
+  line-height: 1.5;
 }
 
-.nav-bar {
+.bg-nav-bar {
   background: $body-bg-color;
 }
 
@@ -64,31 +65,10 @@ img {
   }
 }
 
-@media (min-width: 576px) {
-}
-
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
-}
-
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {
-  .img-preview {
-    min-height: 186px;
-
-    img {
-      min-height: inherit;
-    }
-  }
-}
-
-// Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {
-  .img-preview {
-    min-height: 161px;
-
-    img {
-      min-height: inherit;
-    }
+  .main-header {
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: 250px;
   }
 }

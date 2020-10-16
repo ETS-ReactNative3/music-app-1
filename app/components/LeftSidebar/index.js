@@ -14,7 +14,7 @@ import './index.scss';
 function LeftSideBar() {
   return (
     <aside className="main-sidebar fixed-top h-100">
-      <div className="d-flex justify-content-center align-items-center min-height-top-box border-bottom blick-border">
+      <div className="d-flex justify-content-center align-items-center border-bottom blick-border py-2">
         <Link to={routes.HOME}>
           <img
             src={require(`./../../images/logo.png`)}

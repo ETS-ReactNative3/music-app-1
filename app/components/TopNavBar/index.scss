@@ -1,22 +1,23 @@
-.top-header-box {
-  div {
-    flex: 1;
-  }
-  .input-box {
-    position: relative;
+.search-icon-prepend {
+  background: transparent;
+  border: none;
+}
+.autocomplete-box {
+  flex: 0.5;
+  input {
+    background: transparent;
+    outline: none;
+    border: none;
 
-    .search-icon {
-      position: absolute;
-      top: 35%;
-    }
-    input {
+    &:focus {
       background: transparent;
       outline: none;
       border: none;
+      box-shadow: none;
     }
+  }
 
-    ::placeholder {
-      color: #ffffff;
-    }
+  ::placeholder {
+    color: #ffffff;
   }
 }

@@ -38,12 +38,14 @@ const TopNavBar = () => {
   };
 
   return (
-    <div className="d-flex top-header-box w-100 px-5">
-      <div className="border-bottom blick-border border-light">
-        <div className="input-box">
-          <AsyncTypeahead
+          
+    <div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text search-icon-prepend" id="basic-addon1"><FontAwesomeIcon icon={faSearch} color="#ffffff" /></span>
+  </div>
+  <AsyncTypeahead
             id="async-example"
-            className="autocomplete-box"
+            className="autocomplete-box border-bottom blick-border"
             useCache={true}
             isLoading={isLoading}
             labelKey="login"
@@ -66,10 +68,8 @@ const TopNavBar = () => {
               </div>
             )}
           />
-        </div>
-      </div>
-      <div className="user-name flex-grow-1 text-right" />
-    </div>
+</div>
+         
   );
 };
 
