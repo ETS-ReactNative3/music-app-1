@@ -77,33 +77,29 @@ export function HomePage(props) {
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
           onClickHandler={handleAlbumClick}
           itemsToShow={6}
+          clasess="py-5"
         />
-        {/* <CarouselCustom
-          list={albums}
-          heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
-          onClickHandler={handleAlbumClick}
-          itemsToShow={6}
-        /> */}
 
-        <section className="post-area">
-          <LatestPosts
-            list={posts}
-            heading={<FormattedMessage {...messages.latestPostsHeading} />}
-          />
-        </section>
+        <LatestPosts
+          list={posts}
+          heading={<FormattedMessage {...messages.latestPostsHeading} />}
+          clasess="latest-posts py-5"
+        />
 
         <SongList
           list={weeklyTop}
           heading={<FormattedMessage {...messages.songListHeading} />}
           singleSongHandler={handleWeeklySong}
           currentSong={currentSong}
+          clasess="py-5"
         />
-
-        <CarouselCustom
+        
+      <CarouselFront
           list={newReleases}
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
           onClickHandler={handleAlbumClick}
           itemsToShow={6}
+          clasess="py-5"
         />
 
         <CarouselCustom

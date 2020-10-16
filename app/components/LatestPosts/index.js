@@ -1,45 +1,26 @@
 import React from 'react';
-// import Carousel from 'react-elastic-carousel';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Carousel from 'react-elastic-carousel';
 
 import SectionHeading from '../SectionHeading';
 import './index.scss';
 
 const LatestPosts = props => {
-  const { list, heading, onClickHandler } = props;
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 4,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 3,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 2,
-    },
-  };
+  const { list, heading, clasess } = props;
+
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 550, itemsToShow: 3, itemsToScroll: 1 },
+    { width: 768, itemsToShow: 3, itemsToScroll: 1 },
+    { width: 1024, itemsToShow: 3, itemsToScroll: 1 },
+    { width: 1200, itemsToShow: 3, itemsToScroll: 1 },
+  ];
   return (
-    <section className="py-5 latest-posts">
+    <section className={clasess}>
       <SectionHeading>{heading}</SectionHeading>
       <Carousel
-        responsive={responsive}
-        arrows={true}
-        infinite={true}
-        itemClass="px-3"
-        containerClass="mx-n3"
-        partialVisible={false}
-        showDots={false}
+        breakPoints={breakPoints}
+        itemPadding={[0, 15]}
+        pagination={false}
       >
         {list.map((ele, index) => {
           return (

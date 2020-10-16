@@ -11,10 +11,10 @@ import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../ShareBox';
 
-const SongList = ({ list, heading, singleSongHandler, currentSong }) => {
+const SongList = ({ list, heading, singleSongHandler, currentSong, classes }) => {
   const { playing, songIndex } = currentSong;
   return (
-    <section className="weekly-song-list">
+    <section className={`weekly-song-list ${classes}`}>
       <SectionHeading>{heading}</SectionHeading>
       <div className="row">
         {list.map((ele, index) => {

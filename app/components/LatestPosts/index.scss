@@ -1,35 +1,32 @@
-.img-preview {
-  .caption {
-    bottom: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    opacity: 0;
-    transition: 0.5s all linear;
-    h4 {
-      font-size: 21px;
-      font-weight: 600;
-    }
-
-    h6 {
-      font-size: 16px;
-    }
-  }
-  &:hover {
-    .caption {
-      opacity: 1;
-      transition: 0.5s all linear;
-    }
-  }
-}
-
 .latest-posts {
-  .react-multiple-carousel__arrow--left {
-    left: 0;
-    outline: none !important;
+  .rec {
+    .rec-arrow {
+      outline: none;
+      top: auto;
+    }
   }
 
-  .react-multiple-carousel__arrow--right {
-    right: 0;
-    outline: none !important;
+  .img-preview {
+    .caption {
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      transition: 0.5s all linear;
+      h4 {
+        font-size: 1.5em;
+        font-weight: 600;
+      }
+
+      h6 {
+        font-size: 1em;
+      }
+    }
+    &:hover {
+      .caption {
+        opacity: 1;
+        transition: 0.5s all linear;
+      }
+    }
   }
 }

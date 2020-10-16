@@ -17,7 +17,7 @@ const CarouselFront = props => {
     { width: 1200, itemsToShow: 6, itemsToScroll: 1 },
   ];
   return (
-    <section className={`py-5 ${clasess}`}>
+    <section className={clasess}>
       <SectionHeading>{heading}</SectionHeading>
       <Carousel
         breakPoints={breakPoints}

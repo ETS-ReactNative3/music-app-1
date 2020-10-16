@@ -36,7 +36,7 @@ const CarouselCustom = props => {
     },
   };
   return (
-    <section className={`py-5 caraousel ${clasess}`}>
+    <section className={`caraousel ${clasess}`}>
       <SectionHeading>{heading}</SectionHeading>
       <Carousel
         responsive={responsive}
