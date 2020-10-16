@@ -17,6 +17,7 @@ import Footer from '../../components/Footer';
 import Album from 'containers/Album/Loadable';
 import TopNavBar from '../../components/TopNavBar';
 import LeftSideBar from '../../components/LeftSidebar';
+import routes from '../../utils/routes.json';
 
 import '../../styles/global-style.scss';
 import './index.scss';
@@ -41,7 +42,10 @@ const App = () => {
   return (
     <>
       <div className={`wrapper ${wrapperClass}`}>
-        <nav className="main-header fixed-top px-5 pb-3" ref={headerRef}>
+        <nav
+          className="main-header fixed-top px-5 pb-3 min-height-top-box"
+          ref={headerRef}
+        >
           <div className="d-flex flex-row align-items-center">
             <a
               class="nav-link"
@@ -59,8 +63,8 @@ const App = () => {
         <LeftSideBar />
         <main className="content-wrapper">
           <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route path="/album/:slug" component={Album} />
+            <Route exact path={routes.HOME} component={HomePage} />
+            <Route path={routes.ALBUM} component={Album} />
             <Route path="" component={NotFoundPage} />
           </Switch>
         </main>

@@ -1,0 +1,4 @@
+{
+  "HOME": "/",
+  "ALBUM": "/album/:slug"
+}

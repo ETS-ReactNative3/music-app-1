@@ -8,44 +8,49 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
+import routes from '../../utils/routes.json';
 import './index.scss';
 
 function LeftSideBar() {
   return (
     <aside className="main-sidebar fixed-top h-100">
-      <div className="d-flex justify-content-center py-3 border-bottom blick-border">
-        <Link to="/">
-          <img src={require(`./../../images/logo.png`)} alt="" />
+      <div className="d-flex justify-content-center align-items-center min-height-top-box border-bottom blick-border">
+        <Link to={routes.HOME}>
+          <img
+            src={require(`./../../images/logo.png`)}
+            alt=""
+            className="logo-size"
+          />
         </Link>
       </div>
       <nav className="mt-2">
         <ul className="nav nav-pills nav-sidebar flex-column" role="menu">
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+          <li className="nav-item">
+            <a href="javascript:void(0)" className="nav-link">
               <FontAwesomeIcon icon={faMusic} color="#ffffff" />
               <div className="d-inline-block mx-2 text-white li-label">
                 Music
               </div>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+          <li className="nav-item">
+            <a href="javascript:void(0)" className="nav-link">
               <FontAwesomeIcon icon={faHeadphonesAlt} color="#ffffff" />
               <div className="d-inline-block mx-2 text-white li-label">
                 Headphone
               </div>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+          <li className="nav-item">
+            <a href="javascript:void(0)" className="nav-link">
               <FontAwesomeIcon icon={faMicrophone} color="#ffffff" />
               <div className="d-inline-block mx-2 text-white li-label">
                 Microphone
               </div>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
+          <li className="nav-item">
+            <a href="javascript:void(0)" className="nav-link">
               <FontAwesomeIcon icon={faCog} color="#ffffff" />
               <div className="d-inline-block mx-2 text-white li-label">
                 Settings

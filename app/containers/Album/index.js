@@ -22,6 +22,7 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../../components/ShareBox';
+import { redirectOnAlbum } from '../../utils/redirect';
 
 const key = 'global';
 
@@ -38,7 +39,7 @@ const Album = props => {
     onHandleSingleSong,
   } = props;
   const handleAlbumClick = slug => {
-    props.history.replace(`/album/${slug}`);
+    // props.history.replace(`/album/${slug}`);
   };
   useEffect(() => {
     onLoadAlbum(props.match.params.slug);
@@ -137,7 +138,7 @@ const Album = props => {
         <CarouselCustom
           list={recommended}
           heading="Recommended For You"
-          onClickHandler={handleAlbumClick}
+          onClickHandler={redirectOnAlbum}
           clasess="recommended-box"
         />
       </main>
