@@ -38,9 +38,6 @@ const Album = props => {
     onHandleSongPlaying,
     onHandleSingleSong,
   } = props;
-  const handleAlbumClick = slug => {
-    // props.history.replace(`/album/${slug}`);
-  };
   useEffect(() => {
     onLoadAlbum(props.match.params.slug);
   }, [props.match.params.slug]);
@@ -62,12 +59,14 @@ const Album = props => {
     <>
       <main role="main" className="px-5 jumbotron-bg-inner">
         <div className="row album-detail">
-          <div className="col-md-3 album-thumb">
+          <div className="col-md-3">
+            <div className="album-thumb">
             <img
               src={albumInfo.artwork}
               className="rounded-lg img-fluid"
               alt=""
             />
+            </div>
           </div>
           <div className="col-md-9">
             <div className="row">
@@ -97,7 +96,7 @@ const Album = props => {
           </div>
         </div>
 
-        <section className="pt-5">
+        <section className="py-5">
           {playlist.map((ele, index) => {
             return (
               <div
@@ -139,7 +138,7 @@ const Album = props => {
           list={recommended}
           heading="Recommended For You"
           onClickHandler={redirectOnAlbum}
-          clasess="recommended-box"
+          clasess="recommended-box py-5"
         />
       </main>
     </>

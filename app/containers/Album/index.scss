@@ -1,4 +1,7 @@
 .album-detail {
+  min-height: 231px;
+  max-height: 231px;
+
   h1 {
     font-size: 50px;
     color: #00ff94;
@@ -16,10 +19,12 @@
     text-overflow: ellipsis;
   }
 
-  // .dropdown-menu {
-  //   transform: translate(-25px, 72px) !important;
-  //   min-width: 0;
-  // }
+  .album-thumb {
+    min-height: auto;
+    img {
+      min-height: auto;
+    }
+  }
 }
 
 .songs-ul {
@@ -48,19 +53,3 @@
     display: none;
   }
 }
-
-// .dropdown-toggle {
-//   background-color: transparent !important;
-//   box-shadow: none !important;
-//   padding: 0;
-//   &:focus {
-//     box-shadow: none !important;
-//   }
-// }
-
-// .dropdown-toggle {
-//   background: none;
-//   &::after {
-//     display: none;
-//   }
-// }

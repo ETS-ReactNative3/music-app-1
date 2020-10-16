@@ -79,21 +79,18 @@ export function HomePage(props) {
           itemsToShow={6}
           clasess="py-5"
         />
-
         <LatestPosts
           list={posts}
           heading={<FormattedMessage {...messages.latestPostsHeading} />}
           clasess="latest-posts py-5"
         />
-
         <SongList
           list={weeklyTop}
           heading={<FormattedMessage {...messages.songListHeading} />}
           singleSongHandler={handleWeeklySong}
           currentSong={currentSong}
           clasess="py-5"
-        />
-        
+        />        
       <CarouselFront
           list={newReleases}
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
@@ -101,13 +98,12 @@ export function HomePage(props) {
           itemsToShow={6}
           clasess="py-5"
         />
-
         <CarouselCustom
           list={recommended}
           heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}
           onClickHandler={handleAlbumClick}
           itemsToShow={3}
-          clasess="recommended-box"
+          clasess="recommended-box py-5"
         />
       </div>
     </>
