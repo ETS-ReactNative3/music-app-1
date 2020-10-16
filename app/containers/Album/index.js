@@ -60,12 +60,12 @@ const Album = props => {
       <main role="main" className="px-5 jumbotron-bg-inner">
         <div className="row album-detail">
           <div className="col-md-3">
-            <div className="album-thumb">
-            <img
-              src={albumInfo.artwork}
-              className="rounded-lg img-fluid"
-              alt=""
-            />
+            <div className="album-thumbnail">
+              <img
+                src={albumInfo.artwork}
+                className="rounded-lg img-fluid"
+                alt=""
+              />
             </div>
           </div>
           <div className="col-md-9">
@@ -95,7 +95,6 @@ const Album = props => {
             </div>
           </div>
         </div>
-
         <section className="py-5">
           {playlist.map((ele, index) => {
             return (

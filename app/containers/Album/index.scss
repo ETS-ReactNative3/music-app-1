@@ -1,7 +1,4 @@
 .album-detail {
-  min-height: 231px;
-  max-height: 231px;
-
   h1 {
     font-size: 50px;
     color: #00ff94;
@@ -17,13 +14,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .album-thumb {
-    min-height: auto;
-    img {
-      min-height: auto;
-    }
   }
 }
 
@@ -51,5 +41,25 @@
 
   ::after {
     display: none;
+  }
+}
+
+.album-thumbnail {
+  height: 231px;
+  overflow: hidden;
+
+  img {
+    height: 100%;
+  }
+}
+
+@media (max-width: 786px) {
+  .album-thumbnail {
+    height: 100px;
+    overflow: hidden;
+
+    img {
+      height: 100%;
+    }
   }
 }
