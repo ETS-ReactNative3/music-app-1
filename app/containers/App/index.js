@@ -7,8 +7,8 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { Switch, Route, Link } from 'react-router-dom';
+import { faBars, faSearch, faMusic } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import HomePage from 'containers/HomePage/Loadable';
@@ -23,45 +23,19 @@ import '../../styles/global-style.scss';
 import './index.scss';
 
 const App = () => {
-  const [wrapperClass, setWrapperClass] = useState('');
-  const headerRef = useRef('');
-  const handleSideBar = () => {
-    const classSideBar = wrapperClass === '' ? 'sidebar-collapse' : '';
-    setWrapperClass(classSideBar);
-  };
-  const listenScrollEvent = e => {
-    if (window.scrollY > 50) {
-      headerRef.current.classList.add('bg-nav-bar');
-    } else {
-      headerRef.current.classList.remove('bg-nav-bar');
-    }
-  };
-  useEffect(() => {
-    window.addEventListener('scroll', listenScrollEvent);
-  }, []);
   return (
-      <div className={`wrapper ${wrapperClass}`}>
-        <nav
-          className="main-header fixed-top navbar navbar-expand navbar-dark"
-          ref={headerRef}
-        >
-          <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="javascript:void(0)" onClick={handleSideBar} role="button"><FontAwesomeIcon icon={faBars} /></a>
-      </li>
-    </ul>
-    <TopNavBar />
-        </nav>
-        <LeftSideBar />
-        <main className="content-wrapper">
-          <Switch>
-            <Route exact path={routes.HOME} component={HomePage} />
-            <Route path={routes.ALBUM} component={Album} />
-            <Route path="" component={NotFoundPage} />
-          </Switch>
-        </main>
-        <Footer />
-      </div>
+    <div className="wrapper">
+      <TopNavBar />
+      <LeftSideBar />
+       <main className="content-wrapper" role="main">
+           <Switch>
+             <Route exact path={routes.HOME} component={HomePage} />
+             <Route path={routes.ALBUM} component={Album} />
+             <Route path="" component={NotFoundPage} />
+           </Switch>
+    </main>
+    <Footer />
+    </div>
   );
 };
 

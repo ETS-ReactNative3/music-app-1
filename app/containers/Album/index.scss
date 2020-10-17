@@ -44,22 +44,12 @@
   }
 }
 
-.album-thumbnail {
-  height: 231px;
+.profile-img-area {
+  width: 235px;
+  height: 235px;
   overflow: hidden;
-
-  img {
-    height: 100%;
-  }
 }
 
-@media (max-width: 786px) {
-  .album-thumbnail {
-    height: 100px;
-    overflow: hidden;
-
-    img {
-      height: 100%;
-    }
-  }
+.profile-detail {
+  flex: 1;
 }

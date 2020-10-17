@@ -93,10 +93,10 @@ const Footer = props => {
   return (
     <footer
       className={
-        playlist.length === 0 ? `d-none main-footer` : `main-footer pt-10`
+        playlist.length === 0 ? `d-none main-footer` : `main-footer`
       }
     >
-      <div className="d-flex footer-fix-bottom">
+      <div className="d-flex">
         <div className="d-inline-flex flex-grow-1">
           <H5AudioPlayer
             layout="stacked-reverse"

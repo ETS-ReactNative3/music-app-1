@@ -31,6 +31,7 @@ import SongList from '../../components/SongList';
 import LatestPosts from '../../components/LatestPosts';
 import messages from './messages';
 import { setPlaylist, handleSingleSong } from '../App/actions';
+import { redirectOnAlbum } from '../../utils/redirect'
 
 const key = 'home';
 
@@ -48,12 +49,9 @@ export function HomePage(props) {
   } = props;
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
-  const redirect = () => {
-    props.history.push('/album');
-  };
 
   const handleAlbumClick = slug => {
-    props.history.push(`album/${slug}`);
+    redirectOnAlbum(slug);
   };
 
   const handleWeeklySong = index => {
@@ -73,11 +71,11 @@ export function HomePage(props) {
       <Header />
       <div className="px-5">
         <CarouselFront
-          list={newReleases}
+          list={albums}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
-          onClickHandler={handleAlbumClick}
+          onClickHandler={redirectOnAlbum}
           itemsToShow={6}
-          clasess="py-5"
+          clasess="carousel-front py-5"
         />
         <LatestPosts
           list={posts}
@@ -96,7 +94,7 @@ export function HomePage(props) {
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
           onClickHandler={handleAlbumClick}
           itemsToShow={6}
-          clasess="py-5"
+          clasess="carousel-front py-5"
         />
         <CarouselCustom
           list={recommended}

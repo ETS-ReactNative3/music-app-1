@@ -57,34 +57,25 @@ const Album = props => {
   const { albumSongs = [] } = albumInfo;
   return (
     <>
-      <main role="main" className="px-5 jumbotron-bg-inner">
-        <div className="row album-detail">
-          <div className="col-md-3">
-            <div className="album-thumbnail">
-              <img
+      <div className="px-5 jumbotron-bg-inner">
+        <div className="d-flex album-detail">
+          <div className="profile-img-area mr-5">
+            <img
                 src={albumInfo.artwork}
                 className="rounded-lg img-fluid"
                 alt=""
               />
-            </div>
           </div>
-          <div className="col-md-9">
-            <div className="row">
-              <div className="col-md-9">
-                <h5>{albumInfo.caption}</h5>
-                <h1>{albumInfo.title}</h1>
+          <div className="profile-detail d-flex flex-column flex-wrap">
+              <div className="flex-grow-1">
+              <h5>{albumInfo.caption}</h5>
+              <h1>{albumInfo.title}</h1>
               </div>
-              <div className="col-md-3 dot-box text-right">
-                <ShareBox />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-12">
-                Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
-                {albumSongs.length}
-              </div>
-              <div className="col-md-12 mt-3">
-                <a
+              
+              <div class="flex-grow-1">Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
+                {albumSongs.length}</div>
+              <div class="social-box flex-grow-1">
+              <a
                   href="javascript:void(0);"
                   onClick={playAllSongsHandler}
                   className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center"
@@ -92,7 +83,9 @@ const Album = props => {
                   {playing ? 'Pause' : 'Play All'}
                 </a>
               </div>
-            </div>
+          </div>
+          <div>
+          <ShareBox />
           </div>
         </div>
         <section className="py-5">
@@ -139,7 +132,7 @@ const Album = props => {
           onClickHandler={redirectOnAlbum}
           clasess="recommended-box py-5"
         />
-      </main>
+      </div>
     </>
   );
 };

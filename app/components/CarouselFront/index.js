@@ -10,9 +10,9 @@ import './index.scss';
 const CarouselFront = props => {
   const { list, heading, onClickHandler, clasess = '' } = props;
   const breakPoints = [
-    { width: 1, itemsToShow: 1 },
+    { width: 1, itemsToShow: 3 },
     { width: 550, itemsToShow: 3, itemsToScroll: 2 },
-    { width: 768, itemsToShow: 3, itemsToScroll: 1 },
+    { width: 768, itemsToShow: 3, itemsToScroll: 2 },
     { width: 1024, itemsToShow: 6, itemsToScroll: 1 },
     { width: 1200, itemsToShow: 6, itemsToScroll: 1 },
   ];

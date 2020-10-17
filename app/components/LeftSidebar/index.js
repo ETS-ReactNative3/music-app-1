@@ -13,53 +13,58 @@ import './index.scss';
 
 function LeftSideBar() {
   return (
-    <aside className="main-sidebar fixed-top h-100">
-      <div className="d-flex justify-content-center align-items-center border-bottom blick-border py-2">
-        <Link to={routes.HOME}>
-          <img
-            src={require(`./../../images/logo.png`)}
-            alt=""
-            className="logo-size"
-          />
-        </Link>
-      </div>
-      <nav className="mt-2">
-        <ul className="nav nav-pills nav-sidebar flex-column" role="menu">
+    <aside className="main-sidebar bg-sidebar elevation-4">
+    
+    <div className="d-flex pl-3 py-3">
+    <Link to="/" >
+      <img src={require(`./../../images/logo.png`)} alt="AdminLTE Logo" className="logo-size" />
+      </Link>
+    </div>    
+    <div className="sidebar px-2">
+      
+      <nav className="mt-3 navbar-dark">
+        <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          
           <li className="nav-item">
-            <a href="javascript:void(0)" className="nav-link">
-              <FontAwesomeIcon icon={faMusic} color="#ffffff" />
-              <div className="d-inline-block mx-2 text-white li-label">
-                Music
-              </div>
-            </a>
+            <Link to="/" className="nav-link mb-1">
+              <FontAwesomeIcon icon={faMusic} className="mr-2" />
+              <p className="d-inline-block m-0">
+              Music
+              </p>
+            </Link>
           </li>
-          <li className="nav-item">
-            <a href="javascript:void(0)" className="nav-link">
-              <FontAwesomeIcon icon={faHeadphonesAlt} color="#ffffff" />
-              <div className="d-inline-block mx-2 text-white li-label">
-                Headphone
-              </div>
-            </a>
+          <li className="nav-item rounded-lg">
+            <Link to="/" className="nav-link mb-1">
+            <FontAwesomeIcon icon={faHeadphonesAlt} className="mr-2" />
+              <p className="d-inline-block m-0">
+              Headphone
+              </p>
+            </Link>
           </li>
-          <li className="nav-item">
-            <a href="javascript:void(0)" className="nav-link">
-              <FontAwesomeIcon icon={faMicrophone} color="#ffffff" />
-              <div className="d-inline-block mx-2 text-white li-label">
-                Microphone
-              </div>
-            </a>
+          <li className="nav-item rounded-lg">
+            <Link to="/" className="nav-link mb-1">
+            <FontAwesomeIcon icon={faMicrophone} className="mr-2" />
+              <p className="d-inline-block m-0">
+              Microphone
+              </p>
+            </Link>
           </li>
-          <li className="nav-item">
-            <a href="javascript:void(0)" className="nav-link">
-              <FontAwesomeIcon icon={faCog} color="#ffffff" />
-              <div className="d-inline-block mx-2 text-white li-label">
-                Settings
-              </div>
-            </a>
+          <li className="nav-item rounded-lg">
+            <Link to="/" className="nav-link mb-1">
+            <FontAwesomeIcon icon={faCog} className="mr-2" />
+              <p className="d-inline-block m-0">
+              Settings
+              </p>
+            </Link>
           </li>
-        </ul>
+          </ul>
       </nav>
-    </aside>
+      
+    </div>
+    
+  </aside>
+  
+    
   );
 }
 
