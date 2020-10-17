@@ -69,7 +69,7 @@ export function HomePage(props) {
   return (
     <>
       <Header />
-      <div className="px-5">
+      <div className="container-fluid">
         <CarouselFront
           list={albums}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}

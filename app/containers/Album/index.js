@@ -57,7 +57,7 @@ const Album = props => {
   const { albumSongs = [] } = albumInfo;
   return (
     <>
-      <div className="px-5 jumbotron-bg-inner">
+      <div className="container-fluid jumbotron-bg-inner">
         <div className="d-flex album-detail">
           <div className="profile-img-area">
             <div className="profile-img-box">

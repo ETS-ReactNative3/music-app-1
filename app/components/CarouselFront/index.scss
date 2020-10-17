@@ -35,14 +35,3 @@ h6 {
 .rec-carousel {
   position: relative;
 }
-
-@media (max-width: 768px) {
-  .carousel-front {
-    .img-preview {
-      height: 102px;
-      img {
-        height: 100%;
-      }
-    }
-  }
-}
