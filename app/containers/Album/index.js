@@ -59,12 +59,14 @@ const Album = props => {
     <>
       <div className="px-5 jumbotron-bg-inner">
         <div className="d-flex album-detail">
-          <div className="profile-img-area mr-5">
+          <div className="profile-img-area">
+            <div className="profile-img-box">
             <img
                 src={albumInfo.artwork}
                 className="rounded-lg img-fluid"
                 alt=""
               />
+              </div>
           </div>
           <div className="profile-detail d-flex flex-column flex-wrap">
               <div className="flex-grow-1">

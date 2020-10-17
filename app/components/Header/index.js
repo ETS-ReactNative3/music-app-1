@@ -12,10 +12,10 @@ function Header() {
     <Carousel controls={false}>
       <Carousel.Item>
         <img className="d-block w-100" src={Banner} alt="First slide" />
-        <Carousel.Caption className="pl-10">
-          <h1 className="text-left mb-3">Kanye West</h1>
-          <h2 className="text-left">10 Albums, 235 Songs</h2>
-          <div className="py-5 d-flex align-items-center">
+        <Carousel.Caption className="text-left slider-caption">
+          <h1 className="">Kanye West</h1>
+          <h2 className="">10 Albums, 235 Songs</h2>
+          <div className="d-flex align-items-center">
             <FontAwesomeIcon
               icon={faPlayCircle}
               size="3x"
