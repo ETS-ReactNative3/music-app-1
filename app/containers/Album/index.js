@@ -22,7 +22,6 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../../components/ShareBox';
-import { redirectOnAlbum } from '../../utils/redirect';
 
 const key = 'global';
 
@@ -74,9 +73,9 @@ const Album = props => {
               <h1>{albumInfo.title}</h1>
               </div>
               
-              <div class="flex-grow-1">Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
+              <div className="flex-grow-1">Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
                 {albumSongs.length}</div>
-              <div class="social-box flex-grow-1">
+              <div className="social-box flex-grow-1">
               <a
                   href="javascript:void(0);"
                   onClick={playAllSongsHandler}
@@ -131,7 +130,6 @@ const Album = props => {
         <CarouselCustom
           list={recommended}
           heading="Recommended For You"
-          onClickHandler={redirectOnAlbum}
           clasess="recommended-box py-5"
         />
       </div>

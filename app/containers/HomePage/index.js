@@ -1,9 +1,3 @@
-/*
- * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
- */
-
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -36,6 +30,7 @@ import { redirectOnAlbum } from '../../utils/redirect'
 const key = 'home';
 
 export function HomePage(props) {
+
   const {
     posts,
     albums,
@@ -47,12 +42,9 @@ export function HomePage(props) {
     currentPlaylist,
     currentSong,
   } = props;
+
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
-
-  const handleAlbumClick = slug => {
-    redirectOnAlbum(slug);
-  };
 
   const handleWeeklySong = index => {
     const { playing, songIndex } = currentSong;
@@ -73,8 +65,6 @@ export function HomePage(props) {
         <CarouselFront
           list={albums}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
-          onClickHandler={redirectOnAlbum}
-          itemsToShow={6}
           clasess="carousel-front py-5"
         />
         <LatestPosts
@@ -92,15 +82,11 @@ export function HomePage(props) {
       <CarouselFront
           list={newReleases}
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
-          onClickHandler={handleAlbumClick}
-          itemsToShow={6}
           clasess="carousel-front py-5"
         />
         <CarouselCustom
           list={recommended}
           heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}
-          onClickHandler={handleAlbumClick}
-          itemsToShow={3}
           clasess="recommended-box py-5"
         />
       </div>

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import SectionHeading from '../SectionHeading';
 import { HOVER_PLAY_ICON_COLOR } from '../../utils/constants';
+import { redirectOnAlbum } from '../../utils/redirect'
 import './index.scss';
 
 const CarouselCustom = props => {
@@ -52,7 +53,7 @@ const CarouselCustom = props => {
                 className="img-preview rounded"
                 onClick={e => {
                   e.preventDefault();
-                  onClickHandler(ele.slug);
+                  redirectOnAlbum(ele.slug);
                 }}
               >
                 <img src={ele.artwork} alt="" className="rounded" />
