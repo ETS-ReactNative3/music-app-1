@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormattedMessage } from 'react-intl';
 import { Typeahead, withAsync } from 'react-bootstrap-typeahead';
 import history from '../../utils/history';
+import { redirectOnAlbum } from '../../utils/redirect'
 
-import messages from './messages';
 import request from '../../utils/request';
 import './index.scss';
 
@@ -44,17 +43,17 @@ const TopNavBar = () => {
     });
   };
 
-  const redirect = ele => {
-    setOptions([]);
-    history.replace(`/album/${ele.slug}`);
-  };
 
   const handleSideBar = () => {
     document.body.classList.toggle('sidebar-collapse');
   };
 
-  return (
+  const onInputChangeSelection = value => {
+    redirectOnAlbum(value[0].slug)
+    searchRef.current.clear()
+  }
 
+  return (
     <nav className="main-header fixed-top navbar navbar-expand navbar-dark" ref={headerRef} role="navigation">
         <ul className="navbar-nav">
           <li className="nav-item">
@@ -77,8 +76,10 @@ const TopNavBar = () => {
             onSearch={handleSearch}
             options={options}
             placeholder="Search for an album"
+            ref={searchRef}
+            onChange={onInputChangeSelection}
             renderMenuItemChildren={option => (
-              <div onClick={() => redirect(option)}>
+              <div>
                 <img
                   alt={option.login}
                   src={option.avatar_url}

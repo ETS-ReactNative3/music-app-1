@@ -16,15 +16,15 @@ const ShareBox = () => {
   return (
     <>
       <Dropdown className="social-album-share">
-        <Dropdown.Toggle id="dropdown-basic" as="SafeAnchor">...</Dropdown.Toggle>
+        <Dropdown.Toggle id="dropdown-basic" as="span">...</Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item as="button">
+          <Dropdown.Item>
             <FacebookShareButton title="I am listening to songs on Blink"
               url={window.location.href}>
               <FacebookIcon size={32} round={true} />
             </FacebookShareButton>            
           </Dropdown.Item>
-          <Dropdown.Item as="button">
+          <Dropdown.Item>
             <WhatsappShareButton
               title="I am listening to songs on Blink"
               url={window.location.href}
@@ -33,7 +33,7 @@ const ShareBox = () => {
               <WhatsappIcon size={32} round={true} />
             </WhatsappShareButton>
           </Dropdown.Item>
-          <Dropdown.Item as="button">
+          <Dropdown.Item>
             <TwitterShareButton title="I am listening to songs on Blink"
               url={window.location.href}>
               <TwitterIcon size={32} round={true} />

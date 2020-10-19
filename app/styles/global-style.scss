@@ -75,6 +75,16 @@ img {
 }
 
 .main-sidebar {
+  overflow-y: hidden;
+}
+
+.main-sidebar,
+.main-sidebar::before {
+  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+  width: 250px;
+}
+
+.main-sidebar {
   .nav-link {
     color: rgba(255, 255, 255, 0.75);
 
