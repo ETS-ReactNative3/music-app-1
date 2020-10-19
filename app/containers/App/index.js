@@ -11,6 +11,7 @@ import { Switch, Route, Link } from 'react-router-dom';
 import { faBars, faSearch, faMusic } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Footer from '../../components/Footer';

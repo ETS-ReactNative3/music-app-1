@@ -55,7 +55,7 @@ const TopNavBar = () => {
 
   return (
 
-    <nav className="main-header navbar navbar-expand  navbar-dark" ref={headerRef} role="navigation">
+    <nav className="main-header fixed-top navbar navbar-expand navbar-dark" ref={headerRef} role="navigation">
         <ul className="navbar-nav">
           <li className="nav-item">
             <a className="nav-link" data-widget="pushmenu" href="javascript:void(0)" onClick={handleSideBar} role="button"><FontAwesomeIcon icon={faBars} /></a>

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   faPlayCircle,
-  faEllipsisH,
   faPauseCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +52,7 @@ const SongList = ({ list, heading, singleSongHandler, currentSong, classes }) =>
                     />
                   </a>
                 </div>
-                <div className="ml-auto">
+                <div className="ml-auto d-flex align-self-baseline">
                   <ShareBox />
                 </div>
               </div>

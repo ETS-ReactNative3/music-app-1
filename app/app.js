@@ -13,6 +13,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
+import ScrollToTop from 'react-router-scroll-top'
+
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -44,7 +46,9 @@ const render = messages => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <ScrollToTop>
+            <App />
+          </ScrollToTop>          
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,

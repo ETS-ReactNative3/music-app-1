@@ -73,8 +73,8 @@ const Footer = props => {
   };
 
   const footerText = (
-    <div className="d-flex song-detail">
-      <div className="d-flex mx-2">
+    <div className="d-flex song-detail justify-content-center">
+      <div className="d-flex">
         <img
           src={songDetail.artwork}
           alt=""
@@ -83,7 +83,7 @@ const Footer = props => {
           className="rounded"
         />
       </div>
-      <div className="d-flex flex-column">
+      <div className="d-flex flex-column ml-3">
         <h5>{songDetail.title}</h5>
         <h6>{songDetail.artist}</h6>
       </div>
@@ -92,10 +92,7 @@ const Footer = props => {
 
   return (
     <footer
-      className={
-        playlist.length === 0 ? `d-none main-footer` : `main-footer`
-      }
-    >
+      className={`main-footer fixed-bottom ${playlist.length === 0 ? "d-none" : ""}`}>
       <div className="d-flex">
         <div className="d-inline-flex flex-grow-1">
           <H5AudioPlayer

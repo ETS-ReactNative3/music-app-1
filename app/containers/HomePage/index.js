@@ -84,10 +84,11 @@ export function HomePage(props) {
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
           clasess="carousel-front py-5"
         />
-        <CarouselCustom
+
+      <CarouselFront
           list={recommended}
           heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}
-          clasess="recommended-box py-5"
+          clasess="carousel-front py-5"
         />
       </div>
     </>

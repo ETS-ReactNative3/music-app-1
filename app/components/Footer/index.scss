@@ -1,24 +1,8 @@
-$rhap_theme-color: #222222; // Color of all buttons and volume/progress indicators
 $rhap_background-color: #222222; // Color of the player background
-$rhap_bar-color: #b45858; // Color of volume and progress bar
-$rhap_time-color: #333; // Font color of current time and duration
-$rhap_font-family: inherit; // Font family of current time and duration
 
 .rhap_container {
   background: $rhap_background-color;
   outline: none;
-}
-
-.footer-menu {
-  background: #1a1a1a;
-  flex-basis: 10%;
-}
-
-.footer-fix-bottom {
-  position: fixed;
-  bottom: 0;
-  width: calc(100% - 250px);
-  z-index: 1050;
 }
 
 input[type='range'][orient='vertical'] {
@@ -41,9 +25,13 @@ input[type='range'][orient='vertical'] {
 }
 
 .song-detail {
-  flex: 0.5;
+  flex: 1;
 
   h5 {
     font-size: 1em;
   }
+}
+
+.rhap_progress-container {
+  flex: 1 0 auto;
 }

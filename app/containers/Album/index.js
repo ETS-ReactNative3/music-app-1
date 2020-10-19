@@ -22,6 +22,7 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../../components/ShareBox';
+import CarouselFront from '../../components/CarouselFront';
 
 const key = 'global';
 
@@ -127,10 +128,11 @@ const Album = props => {
             );
           })}
         </section>
-        <CarouselCustom
+        
+        <CarouselFront
           list={recommended}
           heading="Recommended For You"
-          clasess="recommended-box py-5"
+          clasess="carousel-front py-5"
         />
       </div>
     </>

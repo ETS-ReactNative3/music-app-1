@@ -17,7 +17,7 @@ function LeftSideBar() {
     document.body.classList.toggle('sidebar-collapse');
   };
   return (
-    <aside className="main-sidebar bg-sidebar elevation-4">
+    <aside className="main-sidebar bg-sidebar elevation-4 fixed-top h-100 shadow-lg">
       <a href="javascript:void(0);" className="ipad-close fixed-top" onClick={handleSideBar}><FontAwesomeIcon icon={faWindowClose} size="3x" color="#ffffff" /></a>
     
     <div className="d-flex pl-3 py-3">

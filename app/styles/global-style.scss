@@ -74,47 +74,6 @@ img {
   visibility: hidden;
 }
 
-.layout-navbar-fixed .wrapper .main-header {
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1037;
-}
-
-.layout-fixed .main-sidebar {
-  bottom: 0;
-  float: none;
-  height: 100vh;
-  left: 0;
-  position: fixed;
-  top: 0;
-}
-
-.layout-footer-fixed .wrapper .main-footer {
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  z-index: 1032;
-}
-
-.elevation-4 {
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
-}
-
-.main-sidebar {
-  height: 100vh;
-  overflow-y: hidden;
-  z-index: 1038;
-}
-
-.main-sidebar,
-.main-sidebar::before {
-  transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
-  width: 250px;
-}
-
 .main-sidebar {
   .nav-link {
     color: rgba(255, 255, 255, 0.75);
