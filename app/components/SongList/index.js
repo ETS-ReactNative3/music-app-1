@@ -5,7 +5,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import SectionHeading from '../SectionHeading';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../ShareBox';
@@ -14,13 +13,13 @@ const SongList = ({ list, heading, singleSongHandler, currentSong, classes }) =>
   const { playing, songIndex } = currentSong;
   return (
     <section className={`weekly-song-list ${classes}`}>
-      <SectionHeading>{heading}</SectionHeading>
+      <h3 className="mb-5 pb-3 d-inline-block border-top-0 border-right-0 border-left-0">{heading}</h3>
       <div className="row">
         {list.map((ele, index) => {
           return (
             <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12" key={index}>
               <div
-                className="d-flex border-bottom blick-border align-items-center songs-ul py-2"
+                className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
                 key={index}
               >
                 <div className="song-number px-1 mw-65">

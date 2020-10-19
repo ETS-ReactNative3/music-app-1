@@ -4,7 +4,6 @@ import 'react-multi-carousel/lib/styles.css';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import SectionHeading from '../SectionHeading';
 import { HOVER_PLAY_ICON_COLOR } from '../../utils/constants';
 import { redirectOnAlbum } from '../../utils/redirect'
 import './index.scss';
@@ -38,7 +37,7 @@ const CarouselCustom = props => {
   };
   return (
     <section className={`caraousel ${clasess}`}>
-      <SectionHeading>{heading}</SectionHeading>
+      <h3 className="mb-5 pb-3 d-inline-block border-top-0 border-right-0 border-left-0">{heading}</h3>
       <Carousel
         responsive={responsive}
         arrows={true}

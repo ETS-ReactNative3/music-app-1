@@ -68,7 +68,7 @@ const TopNavBar = () => {
           </div>
           <AsyncTypeahead
             id="async-example"
-            className="autocomplete-box border-bottom blick-border flex-grow-1"
+            className="autocomplete-box border-bottom blick-border border-top-0 border-right-0 border-left-0 flex-grow-1"
             useCache={true}
             isLoading={isLoading}
             labelKey="login"

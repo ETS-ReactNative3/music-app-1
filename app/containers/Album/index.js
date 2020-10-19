@@ -94,7 +94,7 @@ const Album = props => {
           {playlist.map((ele, index) => {
             return (
               <div
-                className="d-flex border-bottom blick-border align-items-center songs-ul py-4"
+                className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-4"
                 key={index}
               >
                 <div className="song-number px-2">

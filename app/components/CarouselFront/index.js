@@ -3,7 +3,6 @@ import Carousel from 'react-elastic-carousel';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import SectionHeading from '../SectionHeading';
 import { HOVER_PLAY_ICON_COLOR } from '../../utils/constants';
 import { redirectOnAlbum } from '../../utils/redirect'
 import './index.scss';

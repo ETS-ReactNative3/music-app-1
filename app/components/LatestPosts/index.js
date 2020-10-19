@@ -1,7 +1,6 @@
 import React from 'react';
 import Carousel from 'react-elastic-carousel';
 
-import SectionHeading from '../SectionHeading';
 import './index.scss';
 
 const LatestPosts = props => {
