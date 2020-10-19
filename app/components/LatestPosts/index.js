@@ -16,7 +16,7 @@ const LatestPosts = props => {
   ];
   return (
     <section className={clasess}>
-      <SectionHeading>{heading}</SectionHeading>
+      <h3 className="mb-5 pb-3 d-inline-block border-top-0 border-right-0 border-left-0">{heading}</h3>
       <Carousel
         breakPoints={breakPoints}
         itemPadding={[0, 15]}

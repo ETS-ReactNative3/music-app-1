@@ -24,6 +24,13 @@ body {
   line-height: 1.5;
 }
 
+h3 {
+  font-size: 18px;
+  border-image: linear-gradient(to right, #1fdbae, rgba(0, 0, 0, 0)) 1;
+  border-bottom: 3px solid;
+  font-family: 'Work Sans', sans-serif;
+}
+
 .bg-nav-bar {
   background: $body-bg-color;
 }

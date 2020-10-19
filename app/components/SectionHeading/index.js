@@ -16,4 +16,4 @@ const SectionHeading = styled.h3`
   border-image: linear-gradient(to right, #1fdbae, rgba(0, 0, 0, 0)) 1;
 `;
 
-export default SectionHeading;
+export default SectionHeading; 
