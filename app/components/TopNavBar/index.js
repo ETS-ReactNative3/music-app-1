@@ -54,13 +54,13 @@ const TopNavBar = () => {
   }
 
   return (
-    <nav className="main-header fixed-top navbar navbar-expand navbar-dark" ref={headerRef} role="navigation">
+    <nav className="main-header fixed-top navbar navbar-expand navbar-dark p-sm-1" ref={headerRef} role="navigation">
         <ul className="navbar-nav">
           <li className="nav-item">
             <a className="nav-link" data-widget="pushmenu" href="javascript:void(0)" onClick={handleSideBar} role="button"><FontAwesomeIcon icon={faBars} /></a>
           </li>
         </ul>
-        <div className="input-group ml-5">
+        <div className="input-group ml-md-5">
           <div className="input-group-prepend">
               <button className="btn btn-navbar bg-transparent text-white" type="button">
                 <FontAwesomeIcon icon={faSearch} />
