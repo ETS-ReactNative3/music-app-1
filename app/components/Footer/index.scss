@@ -62,3 +62,12 @@ input[type='range'][orient='vertical'] {
   height: 12px;
   top: -5px;
 }
+
+@media (max-width: 500px) {
+  .song-detail h5 {
+    max-width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

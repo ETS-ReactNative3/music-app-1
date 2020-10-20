@@ -14,8 +14,8 @@ function Header() {
         <img className="d-block w-100" src={Banner} alt="First slide" />
         <Carousel.Caption className="text-left slider-caption">
           <h1 className="">Kanye West</h1>
-          <h2 className="">10 Albums, 235 Songs</h2>
-          <div className="d-flex align-items-center">
+          <h2 className="mb-xl-5">10 Albums, 235 Songs</h2>
+          <div className="d-flex align-items-center ml-xl-1">
             <FontAwesomeIcon
               icon={faPlayCircle}
               size="3x"

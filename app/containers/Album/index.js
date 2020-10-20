@@ -58,8 +58,8 @@ const Album = props => {
   return (
     <>
       <div className="container-fluid jumbotron-bg-inner">
-        <div className="d-flex album-detail">
-          <div className="profile-img-area">
+        <div className="row album-detail">
+          <div className="col-auto">
             <div className="profile-img-box">
             <img
                 src={albumInfo.artwork}
@@ -68,15 +68,22 @@ const Album = props => {
               />
               </div>
           </div>
-          <div className="profile-detail d-flex flex-column flex-wrap">
-              <div className="flex-grow-1">
+          <div className="col pt-3 pt-md-0">
+            <div className="row">
+              <div className="col">
               <h5>{albumInfo.caption}</h5>
               <h1>{albumInfo.title}</h1>
               </div>
-              
-              <div className="flex-grow-1">Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
-                {albumSongs.length}</div>
-              <div className="social-box flex-grow-1">
+              <div className="col text-right">
+              <ShareBox />
+              </div>
+            </div>
+            <div className="row flex-column">
+              <div className="col">
+              Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
+                {albumSongs.length}
+              </div>
+              <div className="col mt-3">
               <a
                   href="javascript:void(0);"
                   onClick={playAllSongsHandler}
@@ -85,19 +92,17 @@ const Album = props => {
                   {playing ? 'Pause' : 'Play All'}
                 </a>
               </div>
-          </div>
-          <div>
-          <ShareBox />
+            </div>
           </div>
         </div>
-        <section className="py-5">
+         <section className="py-5">          
           {playlist.map((ele, index) => {
             return (
               <div
-                className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-4"
+                className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-3"
                 key={index}
               >
-                <div className="song-number px-2">
+                <div className="song-number">
                   {('0' + (index + 1)).slice(-2)}
                 </div>
                 <div className="song-title px-2 min-w15">
@@ -121,7 +126,7 @@ const Album = props => {
                     />
                   </a>
                 </div>
-                <div className="dot-box px-2 ml-auto">
+                <div className="dot-box ml-auto">
                   <ShareBox />
                 </div>
               </div>

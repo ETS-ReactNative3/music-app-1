@@ -68,12 +68,8 @@ const Footer = props => {
     volumeRef.current.value = e.target.volume;
   };
 
-  const handleRangVolume = e => {
-    audioRef.current.audio.current.volume = e.target.value;
-  };
-
   const footerText = (
-    <div className="d-flex song-detail justify-content-center">
+    <div className="d-flex song-detail justify-content-end">
       <div className="d-flex">
         <img
           src={songDetail.artwork}
@@ -83,7 +79,7 @@ const Footer = props => {
           className="rounded"
         />
       </div>
-      <div className="d-flex flex-column ml-3">
+      <div className="d-flex flex-column pl-3">
         <h5>{songDetail.title}</h5>
         <h6>{songDetail.artist}</h6>
       </div>

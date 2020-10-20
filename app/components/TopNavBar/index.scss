@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .search-icon-prepend {
   background: transparent;
   border: none;
@@ -7,16 +9,31 @@
     background: transparent;
     outline: none;
     border: none;
+    color: #ffffff;
 
     &:focus {
       background: transparent;
       outline: none;
       border: none;
       box-shadow: none;
+      color: #ffffff;
     }
   }
 
   ::placeholder {
     color: #ffffff;
+  }
+
+  .rbt-menu {
+    background: $body-bg-color;
+    border: none;
+
+    a {
+      color: #ffffff;
+
+      &:hover {
+        background: #24e6a9;
+      }
+    }
   }
 }
