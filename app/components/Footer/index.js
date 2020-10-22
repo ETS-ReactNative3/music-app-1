@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -35,12 +35,12 @@ const Footer = props => {
   songDetail =
     playlist.length > 0
       ? {
-          ...songDetail,
-          src: playlist[songIndex].url,
-          title: playlist[songIndex].title,
-          artist: 'Mayur',
-          artwork: playlist[songIndex].artwork,
-        }
+        ...songDetail,
+        src: playlist[songIndex].url,
+        title: playlist[songIndex].title,
+        artist: 'Mayur',
+        artwork: playlist[songIndex].artwork,
+      }
       : songDetail;
 
   useEffect(() => {
@@ -69,8 +69,8 @@ const Footer = props => {
   };
 
   const footerText = (
-    <div className="d-flex song-detail justify-content-end">
-      <div className="d-flex">
+    <div className="row mr-3">
+      <div className="col-auto">
         <img
           src={songDetail.artwork}
           alt=""
@@ -79,8 +79,8 @@ const Footer = props => {
           className="rounded"
         />
       </div>
-      <div className="d-flex flex-column pl-3">
-        <h5>{songDetail.title}</h5>
+      <div className="col">
+        <h4>{songDetail.title}</h4>
         <h6>{songDetail.artist}</h6>
       </div>
     </div>
@@ -88,13 +88,16 @@ const Footer = props => {
 
   return (
     <footer
-      className={`main-footer fixed-bottom ${playlist.length === 0 ? "d-none" : ""}`}>
+      className={`main-footer fixed-bottom ${
+        playlist.length === 0 ? 'd-none' : ''
+      }`}
+    >
       <div className="d-flex">
         <div className="d-inline-flex flex-grow-1">
           <H5AudioPlayer
-            layout="stacked-reverse"
+            layout="horizontal"
             autoPlayAfterSrcChange={false}
-            showSkipControls={true}
+            showSkipControls
             showJumpControls={false}
             ref={audioRef}
             src={songDetail.src}
@@ -109,10 +112,10 @@ const Footer = props => {
             }}
             onVolumeChange={handleVolumeChange}
             customProgressBarSection={[
+              footerText,
               RHAP_UI.CURRENT_TIME,
               RHAP_UI.PROGRESS_BAR,
               RHAP_UI.DURATION,
-              footerText,
             ]}
           />
         </div>

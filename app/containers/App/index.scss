@@ -2,6 +2,7 @@
   font-size: 45px;
   cursor: pointer;
 }
+
 .songs-ul {
   .song-number {
     font-size: 43px;
@@ -21,6 +22,7 @@
       font-family: 'Work Sans', sans-serif;
       font-weight: 500;
     }
+
     h6 {
       font-size: 13px;
     }
@@ -33,61 +35,6 @@
     }
   }
 }
-
-// .wrapper {
-//   position: relative;
-//   min-height: 100%;
-
-//   .main-footer,
-//   .content-wrapper {
-//     transition: margin-left 0.3s ease-in-out;
-//     margin-left: 250px;
-//   }
-
-//   .main-sidebar {
-//     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
-//     background-color: #09113a;
-//     .nav-item:hover {
-//       background: #24e6a9;
-//     }
-//   }
-
-//   .main-sidebar,
-//   .main-sidebar::before {
-//     transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
-//     width: 250px;
-//   }
-// }
-
-// .sidebar-collapse {
-//   .main-sidebar {
-//     width: 4.6rem;
-
-//     .nav-item {
-//       text-align: center;
-//     }
-
-//     .li-label {
-//       display: none !important;
-//     }
-//   }
-
-//   .main-footer,
-//   .main-header,
-//   .content-wrapper {
-//     margin-left: 4.6rem;
-//   }
-
-//   .footer-fix-bottom {
-//     width: calc(100% - 4.6rem);
-//   }
-
-//   .weekly-song-list {
-//     .song-duration {
-//       display: inline-block;
-//     }
-//   }
-// }
 
 .weekly-song-list {
   .song-duration {

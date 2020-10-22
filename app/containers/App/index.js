@@ -6,16 +6,12 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import { faBars, faSearch, faMusic } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-
-import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import HomePage from '../HomePage/Loadable';
+import NotFoundPage from '../NotFoundPage/Loadable';
 import Footer from '../../components/Footer';
-import Album from 'containers/Album/Loadable';
+import Album from '../Album/Loadable';
 import TopNavBar from '../../components/TopNavBar';
 import LeftSideBar from '../../components/LeftSidebar';
 import routes from '../../utils/routes.json';
@@ -23,21 +19,19 @@ import routes from '../../utils/routes.json';
 import '../../styles/global-style.scss';
 import './index.scss';
 
-const App = () => {
-  return (
-    <div className="wrapper">
-      <TopNavBar />
-      <LeftSideBar />
-       <main className="content-wrapper" role="main">
-           <Switch>
-             <Route exact path={routes.HOME} component={HomePage} />
-             <Route path={routes.ALBUM} component={Album} />
-             <Route path="" component={NotFoundPage} />
-           </Switch>
+const App = () => (
+  <div className="wrapper">
+    <TopNavBar />
+    <LeftSideBar />
+    <main className="content-wrapper" role="main">
+      <Switch>
+        <Route exact path={routes.HOME} component={HomePage} />
+        <Route path={routes.ALBUM} component={Album} />
+        <Route path="" component={NotFoundPage} />
+      </Switch>
     </main>
     <Footer />
-    </div>
-  );
-};
+  </div>
+);
 
 export default App;

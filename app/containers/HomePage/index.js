@@ -15,7 +15,7 @@ import {
   makeSelectRecommended,
   makeSelectPlaylist,
   makeSelectCurrentSong,
-} from '../../containers/App/selectors';
+} from '../App/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import Header from '../../components/Header';
@@ -25,12 +25,11 @@ import SongList from '../../components/SongList';
 import LatestPosts from '../../components/LatestPosts';
 import messages from './messages';
 import { setPlaylist, handleSingleSong } from '../App/actions';
-import { redirectOnAlbum } from '../../utils/redirect'
+import { redirectOnAlbum } from '../../utils/redirect';
 
 const key = 'home';
 
 export function HomePage(props) {
-
   const {
     posts,
     albums,
@@ -78,14 +77,14 @@ export function HomePage(props) {
           singleSongHandler={handleWeeklySong}
           currentSong={currentSong}
           clasess="py-5"
-        />        
-      <CarouselFront
+        />
+        <CarouselFront
           list={newReleases}
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
           clasess="carousel-front py-5"
         />
 
-      <CarouselFront
+        <CarouselFront
           list={recommended}
           heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}
           clasess="carousel-front py-5"

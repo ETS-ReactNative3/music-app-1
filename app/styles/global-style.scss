@@ -96,6 +96,7 @@ img {
 
 .sidebar-collapse .nav-sidebar .nav-link {
   text-align: center;
+
   p {
     width: 0;
     visibility: hidden;
@@ -105,6 +106,7 @@ img {
 .sidebar-collapse .main-sidebar {
   overflow-x: hidden;
 }
+
 .sidebar-collapse .main-sidebar,
 .sidebar-collapse .main-sidebar::before {
   margin-left: 0;
@@ -162,6 +164,7 @@ img {
 
   .sidebar-collapse .nav-sidebar .nav-link {
     text-align: left;
+
     p {
       width: auto;
       visibility: visible;
@@ -176,9 +179,11 @@ img {
     .ipad-close {
       visibility: visible;
     }
+
     .content-wrapper {
       opacity: 0.5;
     }
+
     .main-footer {
       z-index: 999;
     }
@@ -186,9 +191,11 @@ img {
 
   .carousel-caption {
     top: 20%;
+
     h1 {
       font-size: 1rem;
     }
+
     h2 {
       font-size: 0.7rem;
     }
@@ -225,6 +232,7 @@ img {
 
   .sidebar-collapse .nav-sidebar .nav-link {
     text-align: left;
+
     p {
       width: auto;
       visibility: visible;
@@ -239,9 +247,11 @@ img {
     .ipad-close {
       visibility: visible;
     }
+
     .content-wrapper {
       opacity: 0.5;
     }
+
     .main-footer {
       z-index: 999;
     }
@@ -262,9 +272,11 @@ img {
     .ipad-close {
       visibility: visible;
     }
+
     .content-wrapper {
       opacity: 0.5;
     }
+
     .main-footer {
       z-index: 999;
     }
@@ -278,6 +290,7 @@ img {
 
   .sidebar-collapse .nav-sidebar .nav-link {
     text-align: left;
+
     p {
       width: auto;
       visibility: visible;
@@ -294,6 +307,7 @@ img {
 
   .sidebar-collapse .nav-sidebar .nav-link {
     text-align: center;
+
     p {
       width: 0;
       visibility: hidden;
@@ -314,6 +328,7 @@ img {
   .carousel-front {
     .img-preview {
       height: 160px;
+
       img {
         height: 100%;
       }
