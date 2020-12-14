@@ -1,9 +1,9 @@
-import React, { memo, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {memo, useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
+import {faPlayCircle, faPauseCircle} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 
 import CarouselCustom from '../../components/CarouselCustom';
@@ -14,21 +14,23 @@ import {
   makeSelectPlaylist,
   makeSelectCurrentSong,
 } from '../App/selectors';
-import { handleSongPlaying, loadAlbum, handleSingleSong } from '../App/actions';
+import {handleSongPlaying, loadAlbum, handleSingleSong} from '../App/actions';
 import reducer from '../App/reducer';
 import saga from '../App/saga';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../../components/ShareBox';
 import CarouselFront from '../../components/CarouselFront';
+import {useParams} from 'react-router-dom';
 
 const key = 'global';
 
 const Album = props => {
-  useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
+  useInjectReducer({key, reducer});
+  useInjectSaga({key, saga});
+  const { slug } = useParams();
   const {
     recommended,
     onLoadAlbum,
@@ -39,52 +41,52 @@ const Album = props => {
     onHandleSingleSong,
   } = props;
   useEffect(() => {
-    onLoadAlbum(props.match.params.slug);
-  }, [props.match.params.slug]);
+    onLoadAlbum(slug);
+  }, [slug]);
 
   const playAllSongsHandler = () => {
-    const { playing } = currentSong;
+    const {playing} = currentSong;
     onHandleSongPlaying(!playing);
   };
 
   const singleSongHandler = index => {
-    const { playing, songIndex } = currentSong;
+    const {playing, songIndex} = currentSong;
     const status = songIndex === index ? !playing : true;
     onHandleSingleSong(index, status);
   };
 
-  const { playing, songIndex } = currentSong;
-  const { albumSongs = [] } = albumInfo;
+  const {playing, songIndex} = currentSong;
+  const {albumSongs = []} = albumInfo;
   return (
     <>
       <div className="container-fluid jumbotron-bg-inner">
         <div className="row album-detail">
           <div className="col-auto">
             <div className="profile-img-box">
-            <img
+              <img
                 src={albumInfo.artwork}
                 className="rounded-lg img-fluid"
                 alt=""
               />
-              </div>
+            </div>
           </div>
           <div className="col pt-3 pt-md-0">
             <div className="row">
               <div className="col">
-              <h5>{albumInfo.caption}</h5>
-              <h1>{albumInfo.title}</h1>
+                <h5>{albumInfo.caption}</h5>
+                <h1>{albumInfo.title}</h1>
               </div>
               <div className="col text-right">
-              <ShareBox />
+                <ShareBox/>
               </div>
             </div>
             <div className="row flex-column">
               <div className="col">
-              Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
+                Album | {moment(albumInfo.releaseDate).format('YYYY-MM-DD')} |{' '}
                 {albumSongs.length}
               </div>
               <div className="col mt-3">
-              <a
+                <a
                   href="javascript:void(0);"
                   onClick={playAllSongsHandler}
                   className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center"
@@ -95,7 +97,7 @@ const Album = props => {
             </div>
           </div>
         </div>
-         <section className="py-5">          
+        <section className="py-5">
           {playlist.map((ele, index) => {
             return (
               <div
@@ -127,13 +129,13 @@ const Album = props => {
                   </a>
                 </div>
                 <div className="dot-box ml-auto">
-                  <ShareBox />
+                  <ShareBox/>
                 </div>
               </div>
             );
           })}
         </section>
-        
+
         <CarouselFront
           list={recommended}
           heading="Recommended For You"

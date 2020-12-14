@@ -2,12 +2,12 @@
  * Gets the default data to save in redux
  */
 
-import { call, put, select, takeLatest, all } from 'redux-saga/effects';
-
-import { LOAD_DEFAULT_DATA, LOAD_ALBUM } from './constants';
-import { defaultDataLoaded, loadAlbumSuccess } from './actions';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
+import jwt_decode from 'jwt-decode';
+import {LOAD_DEFAULT_DATA, LOAD_ALBUM, GET_GENRES, SET_LOCAL_STORAGE_ROLE} from './constants';
+import {defaultDataLoaded, getGenresFail, getGenresSuccess, loadAlbumSuccess, setRole} from './actions';
 import request from '../../utils/request';
-import albumInfo from '../../utils/json/playlist';
+import api from '../../utils/api';
 
 /**
  * Default Data request/response handler
@@ -42,6 +42,26 @@ export function* getAlbumInfo(action) {
   }
 }
 
+function fetchGenres() {
+  return api.get('/songs/genres');
+}
+
+export function* getGenresSaga() {
+  try {
+    console.log("ds")
+    const result = yield call(fetchGenres);
+    yield put(getGenresSuccess(result.data));
+  } catch (e) {
+    yield put(getGenresFail(e.message));
+  }
+}
+
+export function* setLocalStorageRole() {
+  const token = yield localStorage.getItem('token');
+  const decoded = jwt_decode(token);
+  yield put(setRole(decoded.role));
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -52,4 +72,6 @@ export default function* getFeaturedAlbumData() {
   // It will be cancelled automatically on component unmount
   yield takeLatest(LOAD_DEFAULT_DATA, getFeaturedAlbum);
   yield takeLatest(LOAD_ALBUM, getAlbumInfo);
+  yield takeLatest(SET_LOCAL_STORAGE_ROLE, setLocalStorageRole);
+  yield takeLatest(GET_GENRES, getGenresSaga);
 }

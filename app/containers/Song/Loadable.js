@@ -8,17 +8,12 @@ import React from 'react';
 import loadable from 'utils/loadable';
 import LoadingIndicator from 'components/LoadingIndicator';
 
-export const AlbumList = loadable(() =>
-  import ('./AlbumList'), {
+export const SongList = loadable(() =>
+  import ('./SongList'), {
   fallback: <LoadingIndicator/>,
 });
 
-export const AlbumForm = loadable(() =>
+export const SongForm = loadable(() =>
   import ('./Form'), {
-  fallback: <LoadingIndicator/>,
-});
-
-export const Album = loadable(() =>
-  import ('./index'), {
   fallback: <LoadingIndicator/>,
 });

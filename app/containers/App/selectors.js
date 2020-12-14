@@ -87,6 +87,11 @@ const makeSelectCurrentSong = () =>
     globalState => globalState.currentSong,
   );
 
+const makeSelectGenres = () => createSelector(
+  selectGlobal,
+  globalState => globalState.genres
+);
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -102,4 +107,5 @@ export {
   makeSelectAlbumInfo,
   makeSelectPlaylist,
   makeSelectCurrentSong,
+  makeSelectGenres
 };

@@ -14,6 +14,8 @@ import {
   LOAD_ALBUM_SUCCESS,
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
+  SET_ROLE,
+  GET_GENRES_SUCCESS
 } from './constants';
 
 // The initial state of the App
@@ -35,6 +37,8 @@ export const initialState = {
     songIndex: 0,
     playing: false,
   },
+  role: '',
+  genres: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -46,18 +50,15 @@ const appReducer = (state = initialState, action) =>
         draft.error = false;
         draft.currentPlaylist = action.songs;
         break;
-
       case HANDLE_SONG_PLAYING:
         draft.loading = false;
         draft.currentSong.playing = action.playing;
         break;
-
       case HANDLE_SINGLE_SONG:
         draft.loading = false;
         draft.currentSong.songIndex = action.index;
         draft.currentSong.playing = action.status;
         break;
-
       case LOAD_DEFAULT_DATA_SUCCESS:
         draft.loading = true;
         draft.error = false;
@@ -67,12 +68,17 @@ const appReducer = (state = initialState, action) =>
         draft.newReleases = action.latestReleases;
         draft.recommended = action.recommendendJson;
         break;
-
       case LOAD_ALBUM_SUCCESS:
         draft.loading = true;
         draft.error = false;
         draft.albumInfo = action.albumInfo;
         draft.currentPlaylist = action.playlist;
+        break;
+      case SET_ROLE:
+        draft.role = action.role;
+        break;
+      case GET_GENRES_SUCCESS:
+        draft.genres = action.genres;
         break;
     }
   });

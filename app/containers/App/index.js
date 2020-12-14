@@ -7,31 +7,23 @@
  */
 
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import HomePage from '../HomePage/Loadable';
+import {Switch, Route} from 'react-router-dom';
 import NotFoundPage from '../NotFoundPage/Loadable';
-import Footer from '../../components/Footer';
-import Album from '../Album/Loadable';
-import TopNavBar from '../../components/TopNavBar';
-import LeftSideBar from '../../components/LeftSidebar';
-import routes from '../../utils/routes.json';
 
 import '../../styles/global-style.scss';
 import './index.scss';
+import ThemeWrapper from "./ThemeWrapper";
+import Auth from "./Auth";
+import Application from "./Application";
 
 const App = () => (
-  <div className="wrapper">
-    <TopNavBar />
-    <LeftSideBar />
-    <main className="content-wrapper" role="main">
+  <ThemeWrapper>
       <Switch>
-        <Route exact path={routes.HOME} component={HomePage} />
-        <Route path={routes.ALBUM} component={Album} />
-        <Route path="" component={NotFoundPage} />
+        <Route path="/auth" component={Auth}/>
+        <Route path="/" component={Application}/>
+        <Route component={NotFoundPage}/>
       </Switch>
-    </main>
-    <Footer />
-  </div>
+  </ThemeWrapper>
 );
 
 export default App;

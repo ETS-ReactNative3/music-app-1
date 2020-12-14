@@ -1,0 +1,82 @@
+import React from 'react';
+import jwtDecode from 'jwt-decode';
+import {Switch, Route, Redirect} from 'react-router-dom';
+import Dashboard from "../Templates/Dashboard";
+import HomePage from "../HomePage/Loadable";
+import {PropTypes} from 'prop-types';
+import {Album, AlbumForm, AlbumList} from "../Album/Loadable";
+import {SongList, SongForm} from "../Song/Loadable";
+
+function useAuth() {
+  const accessToken = localStorage.getItem('token');
+  let isAuthorized = false;
+  if (accessToken) {
+    const decoded = jwtDecode(accessToken);
+    if (decoded.exp < new Date().getTime() / 1000) {
+      localStorage.removeItem('token');
+    } else {
+      isAuthorized = true;
+    }
+  }
+
+  return isAuthorized;
+}
+
+function PrivateRoute({children, ...rest}) {
+  const auth = useAuth();
+
+  return (
+    <Route
+      {...rest}
+      render={() => (auth ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/auth/login',
+          }}
+        />
+      ))
+      }
+    />
+  );
+}
+
+function Application({history}) {
+  return (
+    <Dashboard>
+      <Switch>
+        <PrivateRoute exact path="/">
+          <HomePage/>
+        </PrivateRoute>
+        <Route exact path="/album/:slug">
+          <Album/>
+        </Route>
+        <PrivateRoute exact path="/album/add">
+          <AlbumForm/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/albumList">
+          <AlbumList/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/album/edit/:id">
+          <AlbumForm/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/songList">
+          <SongList/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/song/edit/:id">
+          <SongForm/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/song/add">
+          <SongForm/>
+        </PrivateRoute>
+      </Switch>
+    </Dashboard>
+  );
+}
+
+Application.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+
+export default Application;

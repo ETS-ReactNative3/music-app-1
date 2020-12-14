@@ -29,6 +29,10 @@ import {
   LOAD_ALBUM_SUCCESS,
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
+  SET_ROLE,
+  GET_GENRES,
+  GET_GENRES_SUCCESS,
+  GET_GENRES_FAIL
 } from './constants';
 import latestPostsJson from '../../utils/json/posts';
 
@@ -196,5 +200,32 @@ export function handleSingleSong(index, status) {
     type: HANDLE_SINGLE_SONG,
     index,
     status,
+  };
+}
+
+export function setRole(role) {
+  return {
+    type: SET_ROLE,
+    role,
+  };
+}
+
+export function getGenres() {
+  return {
+    type: GET_GENRES
+  };
+}
+
+export function getGenresSuccess(genres) {
+  return {
+    type: GET_GENRES_SUCCESS,
+    genres
+  };
+}
+
+export function getGenresFail(error) {
+  return {
+    type: GET_GENRES_FAIL,
+    error,
   };
 }
