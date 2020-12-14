@@ -28,3 +28,6 @@ export const DELETE_ALBUM_FAIL = 'app/Album/DELETE_ALBUM_FAIL';
 export const UPDATE_ALBUM = 'app/Album/UPDATE_ALBUM';
 export const UPDATE_ALBUM_SUCCESS = 'app/Album/UPDATE_ALBUM_SUCCESS';
 export const UPDATE_ALBUM_FAIL = 'app/Album/UPDATE_ALBUM_FAIL';
+export const GET_GENRES = 'app/Album/GET_GENRES';
+export const GET_GENRES_SUCCESS = 'app/Album/GET_GENRES_SUCCESS';
+export const GET_GENRES_FAIL = 'app/Album/GET_GENRES_FAIL';

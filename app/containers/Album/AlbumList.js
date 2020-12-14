@@ -1,24 +1,27 @@
-import React, { memo, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { compose } from 'redux';
+import React, {memo, useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {compose} from 'redux';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-import { makeSelectMyAlbums } from './selectors';
-import { deleteAlbum, getMyAlbumsRequest } from './actions';
+import {createStructuredSelector} from 'reselect';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
+import {makeSelectMyAlbums} from './selectors';
+import {deleteAlbum, getMyAlbumsRequest} from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import Button from "react-bootstrap/Button";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import {AgGridColumn, AgGridReact} from "ag-grid-react";
+import PaperCard from "../../components/PaperCard";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons'
+import Modal from "react-bootstrap/Modal";
 
-function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
+function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
   const [albumId, setAlbumId] = useState(0);
-  useInjectReducer({ key: 'album', reducer });
-  useInjectSaga({ key: 'album', saga });
+  useInjectReducer({key: 'album', reducer});
+  useInjectSaga({key: 'album', saga});
 
   useEffect(() => {
     getMyAlbums();
@@ -28,17 +31,43 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
 
   const columns = [{
     dataField: 'title',
-    text: 'User ID'
+    text: 'Title'
   }, {
-    dataField: 'description',
-    text: 'User Name'
+    dataField: 'caption',
+    text: 'Caption'
   }, {
     dataField: 'genreId',
-    text: 'Phone'
+    text: 'Genre'
   }, {
     dataField: 'releaseDate',
-    text: 'City'
+    text: 'Release Date'
+  }, {
+    dataField: 'actions',
+    text: 'Actions',
+    isDummyField: true,
+    csvExport: false,
+    formatter: actionsFormatter,
   }];
+
+  function actionsFormatter(cell, row, rowIndex, formatExtraData) {
+    return (
+      <div
+        style={{
+          textAlign: "center",
+          cursor: "pointer",
+          lineHeight: "normal"
+        }}>
+        <Link to={`/album/edit/${row.id}`}>
+          <button className="btn btn-info mr-3">
+            <FontAwesomeIcon icon={faEdit}/>
+          </button>
+        </Link>
+        <button className="btn btn-danger" onClick={() => handleClickOpen(row.id)}>
+          <FontAwesomeIcon icon={faTrash}/>
+        </button>
+      </div>
+    );
+  }
 
   function handleClickOpen(id) {
     setAlbumId(id);
@@ -56,8 +85,8 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
   }
 
   return (
-    <div className="container-fluid">
-      <div className="row">
+    <PaperCard title="Album List">
+      <div className="row pb-5">
         <div className="col">
           <Link to="/album/add">
             <Button variant="success">Add Album</Button>
@@ -68,7 +97,6 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
         <div className="col">
           <BootstrapTable
             striped
-            hover
             bordered={false}
             bootstrap4
             pagination={paginationFactory()}
@@ -77,7 +105,26 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
             columns={columns}/>
         </div>
       </div>
-    </div>
+      <Modal
+        show={open}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete the album?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={deleteAlbumAction}>Yes</Button>
+        </Modal.Footer>
+      </Modal>
+    </PaperCard>
   );
 }
 

@@ -1,44 +1,44 @@
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { useParams } from 'react-router-dom';
-import { compose } from 'redux';
-import React, { memo, useEffect, useState } from 'react';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {useParams} from 'react-router-dom';
+import {compose} from 'redux';
+import React, {memo, useEffect, useState} from 'react';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
 import PropTypes from 'prop-types';
 import reducer from './reducer';
 import saga from './saga';
 import {
-  getAlbum,
+  getAlbum, getGenres,
   postAlbumRequest,
   songRequest,
   updateAlbum,
 } from './actions';
 import {
   makeSelectAlbumLoader,
-  makeSelectEditAlbum,
+  makeSelectEditAlbum, makeSelectGenres,
   makeSelectMySongs,
 } from './selectors';
-import {getGenres} from "../App/actions";
-import {makeSelectGenres} from "../App/selectors";
+
+
 import AlbumForm from "../../components/AlbumForm";
 
 
 function Form({
-  getGenreList,
-  genres,
-  songs,
-  submitAlbum,
-  getSongs,
-  getEditAlbum,
-  album,
-  classes,
-  loader,
-  editAlbum,
-}) {
-  useInjectReducer({ key: 'album', reducer });
-  useInjectSaga({ key: 'album', saga });
-  const { id } = useParams();
+                getGenreList,
+                genres,
+                songs,
+                submitAlbum,
+                getSongs,
+                getEditAlbum,
+                album,
+                classes,
+                loader,
+                editAlbum,
+              }) {
+  useInjectReducer({key: 'album', reducer});
+  useInjectSaga({key: 'album', saga});
+  const {id} = useParams();
 
   const [addAlbum, setAddAlbum] = useState(true);
 
@@ -53,15 +53,16 @@ function Form({
   }, [id]);
 
   const onSubmit = values => {
-    if (addAlbum) {
-      submitAlbum(values);
-    } else {
-      editAlbum(values);
-    }
+    console.log(values)
+    // if (addAlbum) {
+    //   submitAlbum(values);
+    // } else {
+    //   editAlbum(values);
+    // }
   };
 
   return (
-    <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} />
+    <AlbumForm formSubmit={values => onSubmit(values)} genres={genres}/>
   );
 }
 

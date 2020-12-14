@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import {createStructuredSelector} from 'reselect';
 import {useInjectSaga} from 'utils/injectSaga';
 import {useInjectReducer} from 'utils/injectReducer';
-import {AgGridColumn, AgGridReact} from 'ag-grid-react';
 import {makeSelectSong} from './selectors';
 import {deleteSong, songRequest} from './actions';
 import reducer from './reducer';
@@ -14,10 +13,11 @@ import saga from './saga';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import Button from "react-bootstrap/Button";
+import PaperCard from "../../components/PaperCard";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-bootstrap/Modal";
 
 function SongList({getSongs, songs, deleteSongAction}) {
   useInjectReducer({key: 'song', reducer});
@@ -32,17 +32,43 @@ function SongList({getSongs, songs, deleteSongAction}) {
   const [open, setOpen] = React.useState(false);
   const columns = [{
     dataField: 'title',
-    text: 'User ID'
+    text: 'Title'
   }, {
     dataField: 'description',
-    text: 'User Name'
+    text: 'Description'
   }, {
     dataField: 'genreId',
-    text: 'Phone'
+    text: 'Genre'
   }, {
     dataField: 'releaseDate',
-    text: 'City'
+    text: 'Release Date'
+  }, {
+    dataField: 'actions',
+    text: 'Actions',
+    isDummyField: true,
+    csvExport: false,
+    formatter: actionsFormatter,
   }];
+
+  function actionsFormatter(cell, row, rowIndex, formatExtraData) {
+    return (
+      <div
+        style={{
+          textAlign: "center",
+          cursor: "pointer",
+          lineHeight: "normal"
+        }}>
+        <Link to={`/song/edit/${row.id}`}>
+          <button className="btn btn-info mr-3">
+            <FontAwesomeIcon icon={faEdit}/>
+          </button>
+        </Link>
+        <button className="btn btn-danger" onClick={() => handleClickOpen(row.id)}>
+          <FontAwesomeIcon icon={faTrash}/>
+        </button>
+      </div>
+    );
+  }
 
   function handleClickOpen(id) {
     setSongId(id);
@@ -60,8 +86,8 @@ function SongList({getSongs, songs, deleteSongAction}) {
   }
 
   return (
-    <div className="container-fluid">
-      <div className="row">
+    <PaperCard title="Song List">
+      <div className="row pb-5">
         <div className="col">
           <Link to="/song/add">
             <Button variant="success">Add Song</Button>
@@ -72,26 +98,34 @@ function SongList({getSongs, songs, deleteSongAction}) {
         <div className="col">
           <BootstrapTable
             striped
-            hover
             bordered={false}
             bootstrap4
             pagination={paginationFactory()}
             keyField='id'
             data={songs}
             columns={columns}/>
-          <div className="ag-theme-alpine" style={{height: 500, width: 1000}}>
-            <AgGridReact rowData={songs} pagination={true} paginationPageSize={10}>
-              <AgGridColumn field="title"/>
-              <AgGridColumn field="description"/>
-              <AgGridColumn field="genreId"/>
-              <AgGridColumn field="releaseDate"/>
-              <AgGridColumn headerName="Edit"/>
-
-            </AgGridReact>
-          </div>
         </div>
       </div>
-    </div>
+      <Modal
+        show={open}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete the song?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={deleteSongCall}>Yes</Button>
+        </Modal.Footer>
+      </Modal>
+    </PaperCard>
   );
 }
 

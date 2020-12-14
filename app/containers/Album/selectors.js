@@ -8,10 +8,6 @@ import { initialState } from './reducer';
 const selectAlbumDomain = state => state.album || initialState;
 
 /**
- * Other specific selectors
- */
-
-/**
  * Default selector used by Album
  */
 
@@ -51,6 +47,12 @@ const makeSelectEditAlbum = () =>
     substate => substate.editAlbum,
   );
 
+const makeSelectGenres = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.genres,
+  );
+
 export {
   makeSelectAlbum,
   makeSelectAlbumLoader,
@@ -58,4 +60,5 @@ export {
   makeSelectAlbumSongs,
   makeSelectMySongs,
   makeSelectEditAlbum,
+  makeSelectGenres
 };

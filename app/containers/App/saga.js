@@ -7,18 +7,14 @@ import jwt_decode from 'jwt-decode';
 import {
   LOAD_DEFAULT_DATA,
   LOAD_ALBUM,
-  GET_GENRES,
   SET_LOCAL_STORAGE_ROLE,
 } from './constants';
 import {
   defaultDataLoaded,
-  getGenresFail,
-  getGenresSuccess,
   loadAlbumSuccess,
   setRole,
 } from './actions';
 import request from '../../utils/request';
-import api from '../../utils/api';
 
 /**
  * Default Data request/response handler
@@ -53,20 +49,6 @@ export function* getAlbumInfo(action) {
   }
 }
 
-function fetchGenres() {
-  return api.get('/songs/genres');
-}
-
-export function* getGenresSaga() {
-  try {
-    console.log('ds');
-    const result = yield call(fetchGenres);
-    yield put(getGenresSuccess(result.data));
-  } catch (e) {
-    yield put(getGenresFail(e.message));
-  }
-}
-
 export function* setLocalStorageRole() {
   const token = yield localStorage.getItem('token');
   const decoded = jwt_decode(token);
@@ -84,5 +66,4 @@ export default function* getFeaturedAlbumData() {
   yield takeLatest(LOAD_DEFAULT_DATA, getFeaturedAlbum);
   yield takeLatest(LOAD_ALBUM, getAlbumInfo);
   yield takeLatest(SET_LOCAL_STORAGE_ROLE, setLocalStorageRole);
-  yield takeLatest(GET_GENRES, getGenresSaga);
 }

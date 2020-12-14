@@ -207,23 +207,3 @@ export function setRole(role) {
     role,
   };
 }
-
-export function getGenres() {
-  return {
-    type: GET_GENRES,
-  };
-}
-
-export function getGenresSuccess(genres) {
-  return {
-    type: GET_GENRES_SUCCESS,
-    genres,
-  };
-}
-
-export function getGenresFail(error) {
-  return {
-    type: GET_GENRES_FAIL,
-    error,
-  };
-}

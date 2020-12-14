@@ -17,6 +17,7 @@ import {
   GET_ALBUM,
   GET_ALBUM_SUCCESS,
   GET_ALBUM_FAIL,
+  GET_GENRES_SUCCESS
 } from './constants';
 
 export const initialState = {
@@ -67,6 +68,9 @@ const albumReducer = (state = initialState, action) =>
       case GET_ALBUM_SUCCESS:
         draft.loader = false;
         draft.editAlbum = action.album;
+        break;
+      case GET_GENRES_SUCCESS:
+        draft.genres = action.genres;
         break;
     }
   });
