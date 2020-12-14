@@ -10,6 +10,10 @@ import { makeSelectMyAlbums } from './selectors';
 import { deleteAlbum, getMyAlbumsRequest } from './actions';
 import reducer from './reducer';
 import saga from './saga';
+import Button from "react-bootstrap/Button";
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import {AgGridColumn, AgGridReact} from "ag-grid-react";
 
 function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
   const [albumId, setAlbumId] = useState(0);
@@ -21,6 +25,20 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
   }, []);
 
   const [open, setOpen] = React.useState(false);
+
+  const columns = [{
+    dataField: 'title',
+    text: 'User ID'
+  }, {
+    dataField: 'description',
+    text: 'User Name'
+  }, {
+    dataField: 'genreId',
+    text: 'Phone'
+  }, {
+    dataField: 'releaseDate',
+    text: 'City'
+  }];
 
   function handleClickOpen(id) {
     setAlbumId(id);
@@ -37,7 +55,30 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
     setAlbumId(0);
   }
 
-  return <div>aasd</div>;
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col">
+          <Link to="/album/add">
+            <Button variant="success">Add Album</Button>
+          </Link>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <BootstrapTable
+            striped
+            hover
+            bordered={false}
+            bootstrap4
+            pagination={paginationFactory()}
+            keyField='id'
+            data={myAlbums}
+            columns={columns}/>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 AlbumList.propTypes = {

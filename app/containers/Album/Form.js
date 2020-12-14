@@ -19,12 +19,10 @@ import {
   makeSelectEditAlbum,
   makeSelectMySongs,
 } from './selectors';
+import {getGenres} from "../App/actions";
+import {makeSelectGenres} from "../App/selectors";
+import AlbumForm from "../../components/AlbumForm";
 
-const styles = () => ({
-  center: {
-    textAlign: 'center',
-  },
-});
 
 function Form({
   getGenreList,
@@ -54,7 +52,7 @@ function Form({
     }
   }, [id]);
 
-  const submitForm = values => {
+  const onSubmit = values => {
     if (addAlbum) {
       submitAlbum(values);
     } else {
@@ -62,7 +60,9 @@ function Form({
     }
   };
 
-  return <div>asd</div>;
+  return (
+    <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} />
+  );
 }
 
 Form.propTypes = {
@@ -78,7 +78,7 @@ Form.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  // genres: makeSelectGenres(),
+  genres: makeSelectGenres(),
   songs: makeSelectMySongs(),
   album: makeSelectEditAlbum(),
   loader: makeSelectAlbumLoader(),

@@ -50,12 +50,12 @@ function Application({ history }) {
         <PrivateRoute exact path="/">
           <HomePage />
         </PrivateRoute>
-        <Route exact path="/album/:slug">
-          <Album />
-        </Route>
         <PrivateRoute exact path="/album/add">
           <AlbumForm />
         </PrivateRoute>
+        <Route exact path="/album/:slug">
+          <Album />
+        </Route>
         <PrivateRoute exact path="/albumList">
           <AlbumList />
         </PrivateRoute>

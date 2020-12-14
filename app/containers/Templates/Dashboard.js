@@ -3,13 +3,15 @@ import TopNavBar from '../../components/TopNavBar';
 import LeftSideBar from '../../components/LeftSidebar';
 import Footer from '../../components/Footer';
 
-function Dashboard({ children }) {
+function Dashboard({children}) {
   return (
     <main className="content-wrapper" role="main">
-      <TopNavBar />
-      <LeftSideBar />
-      {children}
-      <Footer />
+      <TopNavBar/>
+      <LeftSideBar/>
+      <div className="pt-5">
+        {children}
+      </div>
+      <Footer/>
     </main>
   );
 }
