@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -19,13 +19,11 @@ import {
 import reducer from './reducer';
 import saga from './saga';
 import Header from '../../components/Header';
-import CarouselCustom from '../../components/CarouselCustom';
 import CarouselFront from '../../components/CarouselFront';
 import SongList from '../../components/SongList';
 import LatestPosts from '../../components/LatestPosts';
 import messages from './messages';
-import { setPlaylist, handleSingleSong } from '../App/actions';
-import { redirectOnAlbum } from '../../utils/redirect';
+import {setPlaylist, handleSingleSong, fetchDefaultData} from '../App/actions';
 
 const key = 'home';
 
@@ -40,10 +38,15 @@ export function HomePage(props) {
     onHandleSingleSong,
     currentPlaylist,
     currentSong,
+    fetchDashboardData
   } = props;
 
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
 
   const handleWeeklySong = index => {
     const { playing, songIndex } = currentSong;
@@ -113,6 +116,7 @@ export function mapDispatchToProps(dispatch) {
     onHandleSetPlaylist: songs => dispatch(setPlaylist(songs)),
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
+    fetchDashboardData: () => dispatch(fetchDefaultData())
   };
 }
 

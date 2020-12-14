@@ -11,17 +11,39 @@ import saga from './saga';
 import {Link} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
 function Register({registerRequest}) {
   useInjectSaga({key: 'auth', saga});
-
-  const {register, handleSubmit, errors} = useForm();
   const onSubmit = values => registerRequest(values);
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required('Name is required'),
+    email: Yup.string()
+      .required('Email is required')
+      .email('Email is invalid'),
+    phone: Yup.string()
+      .required('Name is required'),
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
+    acceptTerms: Yup.bool()
+      .oneOf([true], 'Accept Ts & Cs is required')
+  });
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const {register, handleSubmit, errors} = useForm({
+    resolver: yupResolver(validationSchema)
+  });
 
   return (
     <>
@@ -73,10 +95,8 @@ function Register({registerRequest}) {
           <input
             name="name"
             placeholder="Enter name"
+            ref={register}
             className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-            ref={register({
-              required: 'Name is required',
-            })}
           />
           <div className="invalid-feedback">
             {errors.name && errors.name.message}
@@ -87,14 +107,8 @@ function Register({registerRequest}) {
           <input
             name="email"
             placeholder="Enter email"
+            ref={register}
             className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-            ref={register({
-              required: 'Email is required',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                message: 'Invalid email address format',
-              },
-            })}
           />
           <div className="invalid-feedback">
             {errors.email && errors.email.message}
@@ -106,7 +120,7 @@ function Register({registerRequest}) {
             name="phone"
             placeholder="Enter phone"
             className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-            ref={register({required: 'Phone is required'})}
+            ref={register}
           />
           <div className="invalid-feedback">
             {errors.phone && errors.phone.message}
@@ -119,9 +133,7 @@ function Register({registerRequest}) {
             type="password"
             placeholder="Enter password"
             className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-            ref={register({
-              required: 'Password is required',
-            })}
+            ref={register}
           />
           <div className="invalid-feedback">
             {errors.password && errors.password.message}
@@ -130,34 +142,33 @@ function Register({registerRequest}) {
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            name="passwordConfirm"
+            name="confirmPassword"
             type="password"
             placeholder="Re-type Password"
             className={`form-control ${
-              errors.passwordConfirm ? 'is-invalid' : ''
+              errors.confirmPassword ? 'is-invalid' : ''
             }`}
-            ref={register({
-              required: 'Password is required',
-            })}
+            ref={register}
           />
           <div className="invalid-feedback">
-            {errors.passwordConfirm && errors.passwordConfirm.message}
+            {errors.confirmPassword && errors.confirmPassword.message}
           </div>
         </div>
         <div className="js-form-message form-group">
           <div className="custom-control custom-checkbox">
             <input
+              name="acceptTerms"
               type="checkbox"
-              className="custom-control-input"
+              ref={register}
+              className={`custom-control-input ${
+              errors.acceptTerms ? 'is-invalid' : ''
+            }`}
               id="termsCheckbox"
-              name="termsCheckbox"
-              ref={register({
-                required: 'Please accept our Terms and Conditions.',
-              })}
               />
             <label className="custom-control-label" htmlFor="termsCheckbox">
               I accept the <a href="#" onClick={handleShow}>Terms and Conditions</a>
             </label>
+            <div className="invalid-feedback">{errors.acceptTerms && errors.acceptTerms.message}</div>
           </div>
         </div>
         <button className="btn btn-primary btn-block" type="submit">

@@ -31,12 +31,10 @@ import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-import { fetchDefaultData } from './containers/App/actions';
 
 // Create redux store with history
 const initialState = {};
 const store = configureStore(initialState, history);
-store.dispatch(fetchDefaultData());
 const MOUNT_NODE = document.getElementById('app');
 
 const render = messages => {
