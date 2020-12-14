@@ -1,24 +1,38 @@
-import React, { memo } from 'react';
+import React, {memo, useState} from 'react';
 
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useForm } from 'react-hook-form';
-import { registerReq } from './actions';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useForm} from 'react-hook-form';
+import {registerReq} from './actions';
 import saga from './saga';
+import {Link} from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
-function Register({ registerRequest }) {
-  useInjectSaga({ key: 'auth', saga });
+function Register({registerRequest}) {
+  useInjectSaga({key: 'auth', saga});
 
-  const { register, handleSubmit, errors } = useForm();
+  const {register, handleSubmit, errors} = useForm();
   const onSubmit = values => registerRequest(values);
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group">
+        <div className="text-center">
+          <div className="mb-5">
+            <h1 className="display-4">Create your account</h1>
+            <p>Already have an account? <Link to="/auth/login">Sign in here</Link></p>
+          </div>
+        </div>
+        <div className="form-group text-center">
           <div className="form-check-inline">
             <input
               className={`form-check-input ${
@@ -27,6 +41,7 @@ function Register({ registerRequest }) {
               ref={register}
               type="radio"
               name="roleId"
+              defaultChecked="checked"
               value={1}
               id="regular"
             />
@@ -91,7 +106,7 @@ function Register({ registerRequest }) {
             name="phone"
             placeholder="Enter phone"
             className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-            ref={register({ required: 'Phone is required' })}
+            ref={register({required: 'Phone is required'})}
           />
           <div className="invalid-feedback">
             {errors.phone && errors.phone.message}
@@ -129,11 +144,48 @@ function Register({ registerRequest }) {
             {errors.passwordConfirm && errors.passwordConfirm.message}
           </div>
         </div>
+        <div className="js-form-message form-group">
+          <div className="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              className="custom-control-input"
+              id="termsCheckbox"
+              name="termsCheckbox"
+              ref={register({
+                required: 'Please accept our Terms and Conditions.',
+              })}
+              />
+            <label className="custom-control-label" htmlFor="termsCheckbox">
+              I accept the <a href="#" onClick={handleShow}>Terms and Conditions</a>
+            </label>
+          </div>
+        </div>
         <button className="btn btn-primary btn-block" type="submit">
           Submit
         </button>
       </form>
-    </div>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+        size="lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Modal title</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          I will not close if you click outside me. Don't even try to press
+          escape key.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary">Understood</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 

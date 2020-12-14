@@ -8,6 +8,7 @@ import request from '../../utils/request';
 import './index.scss';
 
 const AsyncTypeahead = withAsync(Typeahead);
+import { useHistory } from 'react-router-dom';
 
 const TopNavBar = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,6 +16,7 @@ const TopNavBar = () => {
   const searchRef = useRef(null);
   const headerRef = useRef('');
   const SEARCH_URI = 'https://bliiink.ga/albums/search/album/';
+  let history = useHistory();
 
   const listenScrollEvent = e => {
     if (window.scrollY > 50) {
@@ -49,6 +51,11 @@ const TopNavBar = () => {
   const onInputChangeSelection = value => {
     redirectOnAlbum(value[0].slug);
     searchRef.current.clear();
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    history.push('/auth/login');
   };
 
   return (
@@ -109,8 +116,7 @@ const TopNavBar = () => {
           />
         </div>
         <div>
-          <button className="btn">Sign up</button>
-          <button className="btn">Login in</button>
+          <button className="btn" onClick={logout}>Log out</button>
         </div>
       </div>
     </header>

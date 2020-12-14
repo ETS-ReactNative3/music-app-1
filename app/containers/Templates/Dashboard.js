@@ -5,12 +5,12 @@ import Footer from '../../components/Footer';
 
 function Dashboard({ children }) {
   return (
-    <div>
+    <main className="content-wrapper" role="main">
       <TopNavBar />
       <LeftSideBar />
       {children}
       <Footer />
-    </div>
+    </main>
   );
 }
 
