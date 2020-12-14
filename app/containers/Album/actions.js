@@ -22,43 +22,45 @@ import {
   GET_ALBUM_FAIL,
   DELETE_ALBUM,
   DELETE_ALBUM_SUCCESS,
-  DELETE_ALBUM_FAIL, UPDATE_ALBUM, UPDATE_ALBUM_SUCCESS, UPDATE_ALBUM_FAIL
+  DELETE_ALBUM_FAIL,
+  UPDATE_ALBUM,
+  UPDATE_ALBUM_SUCCESS,
+  UPDATE_ALBUM_FAIL,
 } from './constants';
 
 export function loadAlbum(slug) {
   return {
     type: LOAD_ALBUM,
-    slug
+    slug,
   };
 }
 
 export function loadAlbumSuccess(album) {
   return {
     type: LOAD_ALBUM_SUCCESS,
-    album
+    album,
   };
 }
 
 export function loadAlbumFail(error) {
   return {
     type: LOAD_ALBUM_FAIL,
-    error
+    error,
   };
 }
 
 export function getMyAlbumsRequest() {
   return {
-    type: GET_MY_ALBUMS_REQUEST
+    type: GET_MY_ALBUMS_REQUEST,
   };
 }
 
 export function getMyAlbumsRequestSuccess(albums) {
   return {
     type: GET_MY_ALBUMS_REQUEST_SUCCESS,
-    albums
+    albums,
   };
 }
-
 
 export function getMyAlbumsRequestFail(error) {
   return {
@@ -70,13 +72,13 @@ export function getMyAlbumsRequestFail(error) {
 export function postAlbumRequest(data) {
   return {
     type: POST_ALBUMS_REQUEST,
-    data
+    data,
   };
 }
 
 export function postAlbumRequestSuccess() {
   return {
-    type: POST_ALBUMS_REQUEST_SUCCESS
+    type: POST_ALBUMS_REQUEST_SUCCESS,
   };
 }
 
@@ -89,14 +91,14 @@ export function postAlbumRequestFail(error) {
 
 export function songRequest() {
   return {
-    type: GET_SONGS_REQUEST
+    type: GET_SONGS_REQUEST,
   };
 }
 
 export function songRequestSuccess(songs) {
   return {
     type: GET_SONGS_REQUEST_SUCCESS,
-    songs
+    songs,
   };
 }
 
@@ -110,14 +112,14 @@ export function songRequestFail(error) {
 export function getAlbum(id) {
   return {
     type: GET_ALBUM,
-    id
+    id,
   };
 }
 
 export function getAlbumSuccess(album) {
   return {
     type: GET_ALBUM_SUCCESS,
-    album
+    album,
   };
 }
 
@@ -131,7 +133,7 @@ export function getAlbumFail(error) {
 export function deleteAlbum(id) {
   return {
     type: DELETE_ALBUM,
-    id
+    id,
   };
 }
 
@@ -149,10 +151,10 @@ export function deleteAlbumFail(error) {
 }
 
 export function updateAlbum(data) {
-  console.log(data)
+  console.log(data);
   return {
     type: UPDATE_ALBUM,
-    data
+    data,
   };
 }
 

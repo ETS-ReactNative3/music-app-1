@@ -4,8 +4,19 @@
 
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import jwt_decode from 'jwt-decode';
-import {LOAD_DEFAULT_DATA, LOAD_ALBUM, GET_GENRES, SET_LOCAL_STORAGE_ROLE} from './constants';
-import {defaultDataLoaded, getGenresFail, getGenresSuccess, loadAlbumSuccess, setRole} from './actions';
+import {
+  LOAD_DEFAULT_DATA,
+  LOAD_ALBUM,
+  GET_GENRES,
+  SET_LOCAL_STORAGE_ROLE,
+} from './constants';
+import {
+  defaultDataLoaded,
+  getGenresFail,
+  getGenresSuccess,
+  loadAlbumSuccess,
+  setRole,
+} from './actions';
 import request from '../../utils/request';
 import api from '../../utils/api';
 
@@ -48,7 +59,7 @@ function fetchGenres() {
 
 export function* getGenresSaga() {
   try {
-    console.log("ds")
+    console.log('ds');
     const result = yield call(fetchGenres);
     yield put(getGenresSuccess(result.data));
   } catch (e) {

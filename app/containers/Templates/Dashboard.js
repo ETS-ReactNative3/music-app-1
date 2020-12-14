@@ -1,15 +1,15 @@
-import TopNavBar from "../../components/TopNavBar";
-import LeftSideBar from "../../components/LeftSidebar";
-import React from "react";
-import Footer from "../../components/Footer";
+import React from 'react';
+import TopNavBar from '../../components/TopNavBar';
+import LeftSideBar from '../../components/LeftSidebar';
+import Footer from '../../components/Footer';
 
-function Dashboard({children}) {
+function Dashboard({ children }) {
   return (
     <div>
-      <TopNavBar/>
-      <LeftSideBar/>
+      <TopNavBar />
+      <LeftSideBar />
       {children}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -13,20 +13,22 @@ import {
   GET_SONG_REQUEST_FAIL,
   POST_SONG_REQUEST,
   POST_SONG_REQUEST_SUCCESS,
-  POST_SONG_REQUEST_FAIL, UPDATE_SONG_REQUEST, UPDATE_SONG_REQUEST_SUCCESS, UPDATE_SONG_REQUEST_FAIL
+  POST_SONG_REQUEST_FAIL,
+  UPDATE_SONG_REQUEST,
+  UPDATE_SONG_REQUEST_SUCCESS,
+  UPDATE_SONG_REQUEST_FAIL,
 } from './constants';
-
 
 export function songRequest() {
   return {
-    type: GET_SONGS_REQUEST
+    type: GET_SONGS_REQUEST,
   };
 }
 
 export function songRequestSuccess(songs) {
   return {
     type: GET_SONGS_REQUEST_SUCCESS,
-    songs
+    songs,
   };
 }
 
@@ -60,13 +62,13 @@ export function uploadSongFailure() {
 export function deleteSong(id) {
   return {
     type: DELETE_SONG,
-    id
+    id,
   };
 }
 
 export function deleteSongSuccess() {
   return {
-    type: DELETE_SONG_SUCCESS
+    type: DELETE_SONG_SUCCESS,
   };
 }
 
@@ -80,14 +82,14 @@ export function deleteSongFail(error) {
 export function getSongRequest(id) {
   return {
     type: GET_SONG_REQUEST,
-    id
+    id,
   };
 }
 
 export function getSongRequestSuccess(song) {
   return {
     type: GET_SONG_REQUEST_SUCCESS,
-    song
+    song,
   };
 }
 
@@ -101,7 +103,7 @@ export function getSongRequestFail(error) {
 export function postSongRequest(data) {
   return {
     type: POST_SONG_REQUEST,
-    data
+    data,
   };
 }
 
@@ -121,7 +123,7 @@ export function postSongRequestFail(error) {
 export function updateSongRequest(data) {
   return {
     type: UPDATE_SONG_REQUEST,
-    data
+    data,
   };
 }
 

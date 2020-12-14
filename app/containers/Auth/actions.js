@@ -12,7 +12,8 @@ import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   VERIFICATION_REQUEST,
-  VERIFICATION_REQUEST_SUCCESS, VERIFICATION_REQUEST_FAIL
+  VERIFICATION_REQUEST_SUCCESS,
+  VERIFICATION_REQUEST_FAIL,
 } from './constants';
 
 export function loginReq(data) {
@@ -24,7 +25,7 @@ export function loginReq(data) {
 
 export function loginSuccess() {
   return {
-    type: LOGIN_SUCCESS
+    type: LOGIN_SUCCESS,
   };
 }
 
@@ -44,7 +45,7 @@ export function registerReq(data) {
 
 export function registerSuccess() {
   return {
-    type: REGISTER_SUCCESS
+    type: REGISTER_SUCCESS,
   };
 }
 
@@ -64,7 +65,7 @@ export function verificationRequest(code) {
 
 export function verificationRequestSuccess() {
   return {
-    type: VERIFICATION_REQUEST_SUCCESS
+    type: VERIFICATION_REQUEST_SUCCESS,
   };
 }
 

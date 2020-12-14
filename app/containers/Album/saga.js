@@ -8,14 +8,16 @@ import {
   GET_MY_ALBUMS_REQUEST,
   GET_SONGS_REQUEST,
   LOAD_ALBUM,
-  POST_ALBUMS_REQUEST, UPDATE_ALBUM
+  POST_ALBUMS_REQUEST,
+  UPDATE_ALBUM,
 } from './constants';
 import api from '../../utils/api';
 import {
   deleteAlbumFail,
   deleteAlbumSuccess,
   getAlbumFail,
-  getAlbumSuccess, getMyAlbumsRequest,
+  getAlbumSuccess,
+  getMyAlbumsRequest,
   getMyAlbumsRequestFail,
   getMyAlbumsRequestSuccess,
   loadAlbumFail,
@@ -23,11 +25,13 @@ import {
   postAlbumRequestFail,
   postAlbumRequestSuccess,
   songRequestFail,
-  songRequestSuccess, updateAlbumFail, updateAlbumSuccess
+  songRequestSuccess,
+  updateAlbumFail,
+  updateAlbumSuccess,
 } from './actions';
 
 import history from '../../utils/history';
-import {setPlaylist} from "../App/actions";
+import { setPlaylist } from '../App/actions';
 
 function getAlbumInfo(albumSlug) {
   return api.get(`/albums/songs/slug/${albumSlug}`);
@@ -41,7 +45,7 @@ function postAlbum(data) {
   return api.request({
     method: 'post',
     url: '/albums',
-    data
+    data,
   });
 }
 
@@ -52,10 +56,7 @@ function editAlbum(data) {
 function postAlbumImage(data) {
   const imageData = new FormData();
   imageData.append('photo', data.albumImage[0]);
-  return api.post(
-    '/albums/upload',
-    imageData,
-  );
+  return api.post('/albums/upload', imageData);
 }
 
 function getSongsApi() {
@@ -103,7 +104,11 @@ export function* myAlbumsSaga() {
 export function* saveAlbumSaga({ data }) {
   try {
     const result = yield call(postAlbumImage, data);
-    const albumData = { ...data, artwork: result.data.location, imageKey: result.data.imageKey };
+    const albumData = {
+      ...data,
+      artwork: result.data.location,
+      imageKey: result.data.imageKey,
+    };
     const response = yield call(postAlbum, albumData);
     yield put(postAlbumRequestSuccess());
     history.push('/albumList');
@@ -132,7 +137,7 @@ export function* deleteAlbum({ id }) {
 }
 
 export function* updateAlbum({ data }) {
-  console.log(data)
+  console.log(data);
   try {
     const result = yield call(editAlbum, data);
     yield put(updateAlbumSuccess(result.data));

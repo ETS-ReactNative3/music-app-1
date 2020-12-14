@@ -9,17 +9,22 @@ import PropTypes from 'prop-types';
 import reducer from './reducer';
 import saga from './saga';
 import {
-  getAlbum, postAlbumRequest, songRequest, updateAlbum
+  getAlbum,
+  postAlbumRequest,
+  songRequest,
+  updateAlbum,
 } from './actions';
-import { makeSelectAlbumLoader, makeSelectEditAlbum, makeSelectMySongs } from './selectors';
-
+import {
+  makeSelectAlbumLoader,
+  makeSelectEditAlbum,
+  makeSelectMySongs,
+} from './selectors';
 
 const styles = () => ({
   center: {
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });
-
 
 function Form({
   getGenreList,
@@ -31,7 +36,7 @@ function Form({
   album,
   classes,
   loader,
-  editAlbum
+  editAlbum,
 }) {
   useInjectReducer({ key: 'album', reducer });
   useInjectSaga({ key: 'album', saga });
@@ -57,9 +62,7 @@ function Form({
     }
   };
 
-  return (
-    <div>asd</div>
-  );
+  return <div>asd</div>;
 }
 
 Form.propTypes = {
@@ -75,25 +78,25 @@ Form.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  //genres: makeSelectGenres(),
+  // genres: makeSelectGenres(),
   songs: makeSelectMySongs(),
   album: makeSelectEditAlbum(),
-  loader: makeSelectAlbumLoader()
+  loader: makeSelectAlbumLoader(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
     getSongs: () => dispatch(songRequest()),
-    getEditAlbum: (id) => dispatch(getAlbum(id)),
-    submitAlbum: (data) => dispatch(postAlbumRequest(data)),
-    editAlbum: (data) => dispatch(updateAlbum(data))
+    getEditAlbum: id => dispatch(getAlbum(id)),
+    submitAlbum: data => dispatch(postAlbumRequest(data)),
+    editAlbum: data => dispatch(updateAlbum(data)),
   };
 }
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 export default compose(

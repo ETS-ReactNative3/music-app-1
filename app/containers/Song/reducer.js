@@ -29,52 +29,53 @@ export const initialState = {
   songs: [],
   songData: null,
   songUploadLoading: false,
-  song: null
+  song: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const songReducer = (state = initialState, action) => produce(state, draft => {
-  switch (action.type) {
-    case GET_SONGS_REQUEST:
-    case UPDATE_SONG_REQUEST:
-      draft.isLoading = true;
-      break;
-    case GET_SONGS_REQUEST_SUCCESS:
-      draft.isLoading = false;
-      draft.songs = action.songs;
-      break;
-    case GET_SONGS_REQUEST_FAIL:
-    case GET_SONG_REQUEST_FAIL:
-    case POST_SONG_REQUEST_FAIL:
-    case UPDATE_SONG_REQUEST_FAIL:
-      draft.isLoading = false;
-      draft.error = action.error;
-      break;
-    case UPLOAD_SONG_REQUEST:
-      draft.songData = action.songData;
-      draft.isLoading = true;
-      break;
-    case UPLOAD_SONG_SUCCESS:
-    case UPDATE_SONG_REQUEST_SUCCESS:
-      draft.isLoading = false;
-      break;
-    case UPLOAD_SONG_FAILURE:
-      draft.isLoading = false;
-      break;
-    case GET_SONG_REQUEST:
-      draft.isLoading = true;
-      break;
-    case GET_SONG_REQUEST_SUCCESS:
-      draft.isLoading = false;
-      draft.song = action.song;
-      break;
-    case POST_SONG_REQUEST:
-      draft.isLoading = true;
-      break;
-    case POST_SONG_REQUEST_SUCCESS:
-      draft.isLoading = false;
-      break;
-  }
-});
+const songReducer = (state = initialState, action) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case GET_SONGS_REQUEST:
+      case UPDATE_SONG_REQUEST:
+        draft.isLoading = true;
+        break;
+      case GET_SONGS_REQUEST_SUCCESS:
+        draft.isLoading = false;
+        draft.songs = action.songs;
+        break;
+      case GET_SONGS_REQUEST_FAIL:
+      case GET_SONG_REQUEST_FAIL:
+      case POST_SONG_REQUEST_FAIL:
+      case UPDATE_SONG_REQUEST_FAIL:
+        draft.isLoading = false;
+        draft.error = action.error;
+        break;
+      case UPLOAD_SONG_REQUEST:
+        draft.songData = action.songData;
+        draft.isLoading = true;
+        break;
+      case UPLOAD_SONG_SUCCESS:
+      case UPDATE_SONG_REQUEST_SUCCESS:
+        draft.isLoading = false;
+        break;
+      case UPLOAD_SONG_FAILURE:
+        draft.isLoading = false;
+        break;
+      case GET_SONG_REQUEST:
+        draft.isLoading = true;
+        break;
+      case GET_SONG_REQUEST_SUCCESS:
+        draft.isLoading = false;
+        draft.song = action.song;
+        break;
+      case POST_SONG_REQUEST:
+        draft.isLoading = true;
+        break;
+      case POST_SONG_REQUEST_SUCCESS:
+        draft.isLoading = false;
+        break;
+    }
+  });
 
 export default songReducer;

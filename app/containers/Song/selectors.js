@@ -15,21 +15,27 @@ const selectSongDomain = state => state.song || initialState;
  * Default selector used by Song
  */
 
-const makeSelectSong = () => createSelector(
-  selectSongDomain,
-  substate => substate.songs
-);
+const makeSelectSong = () =>
+  createSelector(
+    selectSongDomain,
+    substate => substate.songs,
+  );
 
-const makeSelectedSong = () => createSelector(
-  selectSongDomain,
-  substate => substate.song
-);
+const makeSelectedSong = () =>
+  createSelector(
+    selectSongDomain,
+    substate => substate.song,
+  );
 
-const makeSelectSongLoader = () => createSelector(
-  selectSongDomain,
-  substate => substate.isLoading
-);
+const makeSelectSongLoader = () =>
+  createSelector(
+    selectSongDomain,
+    substate => substate.isLoading,
+  );
 
 export {
-  selectSongDomain, makeSelectedSong, makeSelectSong, makeSelectSongLoader
+  selectSongDomain,
+  makeSelectedSong,
+  makeSelectSong,
+  makeSelectSongLoader,
 };

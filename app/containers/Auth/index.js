@@ -21,10 +21,7 @@ export function Auth() {
   useInjectReducer({ key: 'auth', reducer });
   useInjectSaga({ key: 'auth', saga });
 
-  return (
-    <div>
-    </div>
-  );
+  return <div />;
 }
 
 Auth.propTypes = {

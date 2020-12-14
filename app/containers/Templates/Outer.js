@@ -1,11 +1,9 @@
 import React from 'react';
 
-function Outer({children}) {
+function Outer({ children }) {
   return (
     <div>
-      <main className="outer-container">
-        {children}
-      </main>
+      <main className="outer-container">{children}</main>
     </div>
   );
 }

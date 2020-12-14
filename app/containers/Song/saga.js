@@ -13,10 +13,14 @@ import {
   updateSongRequestFail,
   updateSongRequestSuccess,
   uploadSongFailure,
-  uploadSongSuccess
+  uploadSongSuccess,
 } from './actions';
 import {
-  DELETE_SONG, GET_SONG_REQUEST, GET_SONGS_REQUEST, POST_SONG_REQUEST, UPLOAD_SONG_REQUEST
+  DELETE_SONG,
+  GET_SONG_REQUEST,
+  GET_SONGS_REQUEST,
+  POST_SONG_REQUEST,
+  UPLOAD_SONG_REQUEST,
 } from './constants';
 import history from '../../utils/history';
 
@@ -36,7 +40,7 @@ function postSong(data) {
   return api.request({
     method: 'post',
     url: '/songs',
-    data
+    data,
   });
 }
 
@@ -65,19 +69,13 @@ export function* getSong({ id }) {
 function postSongApi(id, action) {
   const formData = new FormData();
   formData.append('file', action.audio[0]);
-  return api.post(
-    `/songs/upload/audio/${id}`,
-    formData
-  );
+  return api.post(`/songs/upload/audio/${id}`, formData);
 }
 
 function postSongImage(data) {
   const imageData = new FormData();
   imageData.append('photo', data.songImage[0]);
-  return api.post(
-    '/songs/upload',
-    imageData,
-  );
+  return api.post('/songs/upload', imageData);
 }
 
 export function* uploadSong(action) {
@@ -103,7 +101,11 @@ export function* deleteSong({ id }) {
 export function* saveSongSaga({ data }) {
   try {
     const result = yield call(postSongImage, data);
-    const songData = { ...data, artwork: result.data.location, imageKey: result.data.imageKey };
+    const songData = {
+      ...data,
+      artwork: result.data.location,
+      imageKey: result.data.imageKey,
+    };
     const response = yield call(postSong, songData);
     yield call(postSongApi, response.data.id, songData);
     yield put(postSongRequestSuccess());

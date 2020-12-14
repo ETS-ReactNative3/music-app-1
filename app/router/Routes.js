@@ -1,7 +1,7 @@
-import {withRouter, Switch, Route, Redirect} from "react-router-dom";
+import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
-export const Routes = withRouter(({history}) => {
+export const Routes = withRouter(({ history }) => {
   const accessToken = localStorage.getItem('token');
   let isAuthorized = false;
   if (accessToken) {
@@ -17,18 +17,18 @@ export const Routes = withRouter(({history}) => {
     <Switch>
       {!isAuthorized ? (
         /* Render auth page when user at `/auth` and not authorized. */
-        <AuthPage/>
+        <AuthPage />
       ) : (
         /* Otherwise redirect to root page (`/`) */
-        <Redirect from="/auth"/>
+        <Redirect from="/auth" />
       )}
 
-      <Route path="/error" component={ErrorsPage}/>
-      <Route path="/logout" component={LogoutPage}/>
+      <Route path="/error" component={ErrorsPage} />
+      <Route path="/logout" component={LogoutPage} />
 
       {!isAuthorized ? (
         /* Redirect to `/auth` when user is not authorized */
-        <Redirect to="/auth/login"/>
+        <Redirect to="/auth/login" />
       ) : (
         <Layout>
           <HomePage />
@@ -36,5 +36,4 @@ export const Routes = withRouter(({history}) => {
       )}
     </Switch>
   );
-
 });

@@ -5,7 +5,12 @@ import { put, takeLatest, call } from '@redux-saga/core/effects';
 import jwt_decode from 'jwt-decode';
 import { LOGIN_REQ, REGISTER_REQ, VERIFICATION_REQUEST } from './constants';
 import {
-  loginFail, loginSuccess, registerFail, registerSuccess, verificationRequestFail, verificationRequestSuccess
+  loginFail,
+  loginSuccess,
+  registerFail,
+  registerSuccess,
+  verificationRequestFail,
+  verificationRequestSuccess,
 } from './actions';
 import api from '../../utils/api';
 import history from '../../utils/history';
@@ -15,7 +20,7 @@ function loginApi(authParams) {
   return api.request({
     method: 'post',
     url: '/auth/login',
-    data: authParams
+    data: authParams,
   });
 }
 
@@ -23,7 +28,7 @@ function registerApi(authParams) {
   return api.request({
     method: 'post',
     url: '/auth/register',
-    data: authParams
+    data: authParams,
   });
 }
 

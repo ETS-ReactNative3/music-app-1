@@ -32,7 +32,7 @@ import {
   SET_ROLE,
   GET_GENRES,
   GET_GENRES_SUCCESS,
-  GET_GENRES_FAIL
+  GET_GENRES_FAIL,
 } from './constants';
 import latestPostsJson from '../../utils/json/posts';
 
@@ -130,32 +130,30 @@ export function defaultDataLoaded(
   };
 }
 
-/*asynchronous thunk action creator
+/* asynchronous thunk action creator
   calls the api, then dispatches the synchronous action creator
 */
-export const fetchDefaultData = () => {
-  return async dispatch => {
-    try {
-      Promise.all([
-        request('https://bliiink.ga/songs/top'),
-        request('https://bliiink.ga/albums/featured'),
-        request('https://bliiink.ga/albums/latest'),
-      ]).then(response => {
-        const [weeklyTop, featuredAlbums, latestReleases] = response;
-        dispatch(
-          defaultDataLoaded(
-            latestPostsJson,
-            featuredAlbums,
-            weeklyTop,
-            featuredAlbums,
-            latestReleases,
-          ),
-        );
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+export const fetchDefaultData = () => async dispatch => {
+  try {
+    Promise.all([
+      request('https://bliiink.ga/songs/top'),
+      request('https://bliiink.ga/albums/featured'),
+      request('https://bliiink.ga/albums/latest'),
+    ]).then(response => {
+      const [weeklyTop, featuredAlbums, latestReleases] = response;
+      dispatch(
+        defaultDataLoaded(
+          latestPostsJson,
+          featuredAlbums,
+          weeklyTop,
+          featuredAlbums,
+          latestReleases,
+        ),
+      );
+    });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export function setPlaylist(songs) {
@@ -212,14 +210,14 @@ export function setRole(role) {
 
 export function getGenres() {
   return {
-    type: GET_GENRES
+    type: GET_GENRES,
   };
 }
 
 export function getGenresSuccess(genres) {
   return {
     type: GET_GENRES_SUCCESS,
-    genres
+    genres,
   };
 }
 

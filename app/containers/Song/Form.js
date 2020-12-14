@@ -10,12 +10,17 @@ import { getSongRequest, postSongRequest } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectedSong, makeSelectSongLoader } from './selectors';
-import {getGenres} from "../App/actions";
-import {makeSelectGenres} from "../App/selectors";
-import SongForm from "../../components/SongForm";
+import { getGenres } from '../App/actions';
+import { makeSelectGenres } from '../App/selectors';
+import SongForm from '../../components/SongForm';
 
 function Form({
-  genres, getGenreList, getSongAction, postSongAction, song, loader
+  genres,
+  getGenreList,
+  getSongAction,
+  postSongAction,
+  song,
+  loader,
 }) {
   useInjectReducer({ key: 'song', reducer });
   useInjectSaga({ key: 'song', saga });
@@ -35,9 +40,7 @@ function Form({
     postSongAction(data);
   };
 
-  return (
-    <SongForm formSubmit={(values) => onSubmit(values)} genres={genres} />
-  );
+  return <SongForm formSubmit={values => onSubmit(values)} genres={genres} />;
 }
 
 Form.propTypes = {
@@ -51,20 +54,20 @@ Form.propTypes = {
 const mapStateToProps = createStructuredSelector({
   genres: makeSelectGenres(),
   song: makeSelectedSong(),
-  loader: makeSelectSongLoader()
+  loader: makeSelectSongLoader(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
-    getSongAction: (id) => dispatch(getSongRequest(id)),
-    postSongAction: (data) => dispatch(postSongRequest(data)),
+    getSongAction: id => dispatch(getSongRequest(id)),
+    postSongAction: data => dispatch(postSongRequest(data)),
   };
 }
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 export default compose(

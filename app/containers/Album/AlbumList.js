@@ -11,9 +11,7 @@ import { deleteAlbum, getMyAlbumsRequest } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
-function AlbumList({
-  getMyAlbums, myAlbums, deleteAlbumCall
-}) {
+function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
   const [albumId, setAlbumId] = useState(0);
   useInjectReducer({ key: 'album', reducer });
   useInjectSaga({ key: 'album', saga });
@@ -39,9 +37,7 @@ function AlbumList({
     setAlbumId(0);
   }
 
-  return (
-    <div>aasd</div>
-  );
+  return <div>aasd</div>;
 }
 
 AlbumList.propTypes = {
@@ -51,7 +47,7 @@ AlbumList.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  myAlbums: makeSelectMyAlbums()
+  myAlbums: makeSelectMyAlbums(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -59,13 +55,13 @@ function mapDispatchToProps(dispatch) {
     getMyAlbums: () => {
       dispatch(getMyAlbumsRequest());
     },
-    deleteAlbumCall: (id) => dispatch(deleteAlbum(id))
+    deleteAlbumCall: id => dispatch(deleteAlbum(id)),
   };
 }
 
 const withConnect = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 );
 
 export default compose(

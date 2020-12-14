@@ -15,35 +15,41 @@ const selectAlbumDomain = state => state.album || initialState;
  * Default selector used by Album
  */
 
-const makeSelectAlbum = () => createSelector(
-  selectAlbumDomain,
-  substate => substate.album
-);
+const makeSelectAlbum = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.album,
+  );
 
-const makeSelectAlbumSongs = () => createSelector(
-  selectAlbumDomain,
-  substate => substate.album && substate.album.albumSongs
-);
+const makeSelectAlbumSongs = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.album && substate.album.albumSongs,
+  );
 
-const makeSelectAlbumLoader = () => createSelector(
-  selectAlbumDomain,
-  substate => substate.loader
-);
+const makeSelectAlbumLoader = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.loader,
+  );
 
-const makeSelectMyAlbums = () => createSelector(
-  selectAlbumDomain,
-  substate => substate.myAlbums
-);
+const makeSelectMyAlbums = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.myAlbums,
+  );
 
-const makeSelectMySongs = () => createSelector(
-  selectAlbumDomain,
-  substate => substate.songs
-);
+const makeSelectMySongs = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.songs,
+  );
 
-const makeSelectEditAlbum = () => createSelector(
-  selectAlbumDomain,
-  substate => substate.editAlbum
-);
+const makeSelectEditAlbum = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.editAlbum,
+  );
 
 export {
   makeSelectAlbum,
@@ -51,5 +57,5 @@ export {
   makeSelectMyAlbums,
   makeSelectAlbumSongs,
   makeSelectMySongs,
-  makeSelectEditAlbum
+  makeSelectEditAlbum,
 };
