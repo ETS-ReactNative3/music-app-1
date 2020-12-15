@@ -32,6 +32,7 @@ import {
 
 import history from '../../utils/history';
 import {setPlaylist} from '../App/actions';
+import {toast} from "react-toastify";
 
 function getAlbumInfo(albumSlug) {
   return api.get(`/albums/songs/slug/${albumSlug}`);
@@ -80,6 +81,7 @@ export function* fetchSongs() {
     const result = yield call(getSongsApi);
     yield put(songRequestSuccess(result.data));
   } catch (e) {
+    toast.error(e.message);
     yield put(songRequestFail(e.message));
   }
 }
@@ -92,6 +94,7 @@ export function* albumSaga(action) {
       yield put(setPlaylist(result.data.albumSongs));
     }
   } catch (e) {
+    toast.error(e.message);
     yield put(loadAlbumFail(e.message));
   }
 }
@@ -101,6 +104,7 @@ export function* myAlbumsSaga() {
     const result = yield call(fetchMyAlbums);
     yield put(getMyAlbumsRequestSuccess(result.data));
   } catch (e) {
+    toast.error(e.message);
     yield put(getMyAlbumsRequestFail(e.message));
   }
 }
@@ -116,7 +120,9 @@ export function* saveAlbumSaga({data}) {
     const response = yield call(postAlbum, albumData);
     yield put(postAlbumRequestSuccess());
     history.push('/albumList');
+    toast.success('Album uploaded successfully.');
   } catch (e) {
+    toast.error(e.message);
     yield put(postAlbumRequestFail(e.message));
   }
 }
@@ -126,6 +132,7 @@ export function* getEditAlbum({id}) {
     const result = yield call(getAlbum, id);
     yield put(getAlbumSuccess(result.data));
   } catch (e) {
+    toast.error(e.message);
     yield put(getAlbumFail(e.message));
   }
 }
@@ -135,7 +142,9 @@ export function* deleteAlbum({id}) {
     const result = yield call(deleteAlbumApi, id);
     yield put(getMyAlbumsRequest());
     yield put(deleteAlbumSuccess(result.data));
+    toast.success('Album deleted successfully.');
   } catch (e) {
+    toast.error(e.message);
     yield put(deleteAlbumFail(e.message));
   }
 }
@@ -145,7 +154,9 @@ export function* updateAlbum({data}) {
     const result = yield call(editAlbum, data);
     yield put(updateAlbumSuccess(result.data));
     history.push('/albumList');
+    toast.success('Album updated successfully.');
   } catch (e) {
+    toast.error(e.message);
     yield put(updateAlbumFail(e.message));
   }
 }
@@ -155,6 +166,7 @@ export function* getGenresSaga() {
     const result = yield call(fetchGenres);
     yield put(getGenresSuccess(result.data));
   } catch (e) {
+    toast.error(e.message);
     yield put(getGenresFail(e.message));
   }
 }
