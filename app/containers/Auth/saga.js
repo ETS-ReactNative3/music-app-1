@@ -15,6 +15,7 @@ import {
 import api from '../../utils/api';
 import history from '../../utils/history';
 import { setRole } from '../App/actions';
+import {toast} from "react-toastify";
 
 function loginApi(authParams) {
   return api.request({
@@ -45,6 +46,7 @@ export function* loginRequest({ data }) {
     yield put(setRole(decoded.role));
     history.push('/');
   } catch (err) {
+    toast.error(err.message);
     yield put(loginFail(err.message));
   }
 }
@@ -55,6 +57,7 @@ export function* registerRequest({ data }) {
     yield put(registerSuccess());
     history.push('/auth/verification');
   } catch (err) {
+    toast.error(err.message);
     yield put(registerFail(err.message));
   }
 }
@@ -64,7 +67,9 @@ export function* verificationRequest({ code }) {
     yield call(verificationApi, code);
     yield put(verificationRequestSuccess());
     history.push('/auth/login');
+    toast.success('Account verified successfully.');
   } catch (err) {
+    toast.error(err.message);
     yield put(verificationRequestFail(err.message));
   }
 }
