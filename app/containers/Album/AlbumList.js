@@ -17,6 +17,7 @@ import PaperCard from "../../components/PaperCard";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons'
 import Modal from "react-bootstrap/Modal";
+import format from "date-fns/format";
 
 function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
   const [albumId, setAlbumId] = useState(0);
@@ -40,7 +41,8 @@ function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
     text: 'Genre'
   }, {
     dataField: 'releaseDate',
-    text: 'Release Date'
+    text: 'Release Date',
+    formatter: dateFormatter,
   }, {
     dataField: 'actions',
     text: 'Actions',
@@ -48,6 +50,10 @@ function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
     csvExport: false,
     formatter: actionsFormatter,
   }];
+
+  function dateFormatter(cell, row, rowIndex, formatExtraData) {
+    return format(new Date(row.releaseDate), 'MM/dd/yyyy')
+  }
 
   function actionsFormatter(cell, row, rowIndex, formatExtraData) {
     return (

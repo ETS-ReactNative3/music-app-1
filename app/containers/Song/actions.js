@@ -17,6 +17,9 @@ import {
   UPDATE_SONG_REQUEST,
   UPDATE_SONG_REQUEST_SUCCESS,
   UPDATE_SONG_REQUEST_FAIL,
+  GET_GENRES,
+  GET_GENRES_SUCCESS,
+  GET_GENRES_FAIL,
 } from './constants';
 
 export function songRequest() {
@@ -136,6 +139,26 @@ export function updateSongRequestSuccess() {
 export function updateSongRequestFail(error) {
   return {
     type: UPDATE_SONG_REQUEST_FAIL,
+    error,
+  };
+}
+
+export function getGenres() {
+  return {
+    type: GET_GENRES,
+  };
+}
+
+export function getGenresSuccess(genres) {
+  return {
+    type: GET_GENRES_SUCCESS,
+    genres,
+  };
+}
+
+export function getGenresFail(error) {
+  return {
+    type: GET_GENRES_FAIL,
     error,
   };
 }

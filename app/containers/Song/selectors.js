@@ -33,9 +33,23 @@ const makeSelectSongLoader = () =>
     substate => substate.isLoading,
   );
 
+const makeSelectGenres = () =>
+  createSelector(
+    selectSongDomain,
+    substate => substate.genres,
+  );
+
+const makeSelectSongFormLoader = () =>
+  createSelector(
+    selectSongDomain,
+    substate => substate.songFormLoading,
+  );
+
 export {
   selectSongDomain,
   makeSelectedSong,
   makeSelectSong,
   makeSelectSongLoader,
+  makeSelectGenres,
+  makeSelectSongFormLoader
 };

@@ -21,6 +21,7 @@ import {
   UPDATE_SONG_REQUEST_FAIL,
   UPDATE_SONG_REQUEST,
   UPDATE_SONG_REQUEST_SUCCESS,
+  GET_GENRES_SUCCESS,
 } from './constants';
 
 export const initialState = {
@@ -28,8 +29,9 @@ export const initialState = {
   error: null,
   songs: [],
   songData: null,
-  songUploadLoading: false,
+  songFormLoading: false,
   song: null,
+  genres: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -37,7 +39,6 @@ const songReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case GET_SONGS_REQUEST:
-      case UPDATE_SONG_REQUEST:
         draft.isLoading = true;
         break;
       case GET_SONGS_REQUEST_SUCCESS:
@@ -53,14 +54,14 @@ const songReducer = (state = initialState, action) =>
         break;
       case UPLOAD_SONG_REQUEST:
         draft.songData = action.songData;
-        draft.isLoading = true;
+        draft.songFormLoading = true;
         break;
       case UPLOAD_SONG_SUCCESS:
       case UPDATE_SONG_REQUEST_SUCCESS:
-        draft.isLoading = false;
+        draft.songFormLoading = false;
         break;
       case UPLOAD_SONG_FAILURE:
-        draft.isLoading = false;
+        draft.songFormLoading = false;
         break;
       case GET_SONG_REQUEST:
         draft.isLoading = true;
@@ -70,10 +71,14 @@ const songReducer = (state = initialState, action) =>
         draft.song = action.song;
         break;
       case POST_SONG_REQUEST:
-        draft.isLoading = true;
+      case UPDATE_SONG_REQUEST:
+        draft.songFormLoading = true;
         break;
       case POST_SONG_REQUEST_SUCCESS:
-        draft.isLoading = false;
+        draft.songFormLoading = false;
+        break;
+      case GET_GENRES_SUCCESS:
+        draft.genres = action.genres;
         break;
     }
   });

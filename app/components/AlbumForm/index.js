@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import Select from "react-select";
 import {yupResolver} from "@hookform/resolvers/yup";
 
-function AlbumForm({genres, formSubmit, song}) {
+function AlbumForm({genres, formSubmit, songList, album}) {
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required('Title is required'),
@@ -14,19 +14,33 @@ function AlbumForm({genres, formSubmit, song}) {
       .required('Caption is required'),
     description: Yup.string()
       .required('Description is required'),
-    albumImage: Yup.mixed()
-      .required('Album image is required'),
   });
 
   const {register, handleSubmit, errors, reset, control} = useForm({
     resolver: yupResolver(validationSchema)
   });
 
+  const customStyles = {
+    option: provided => ({
+      ...provided,
+      color: 'black'
+    }),
+    control: provided => ({
+      ...provided,
+      color: 'black'
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: 'black'
+    }),
+    menu: provided => ({ ...provided, zIndex: 9999 })
+  }
+
   useEffect(() => {
-    if (song) {
-      reset(song);
+    if (album) {
+      reset(album);
     }
-  }, [song]);
+  }, [album]);
 
   const onSubmit = data => {
     formSubmit(data);
@@ -110,13 +124,12 @@ function AlbumForm({genres, formSubmit, song}) {
           <label htmlFor="email">Songs</label>
           <Controller
             name="songs"
+            styles={customStyles}
             control={control}
             isMulti
-            options={[
-              {value: "chocolate", label: "Chocolate"},
-              {value: "strawberry", label: "Strawberry"},
-              {value: "vanilla", label: "Vanilla"}
-            ]}
+            getOptionLabel={(option) => option.title}
+            getOptionValue={(option) => option.id}
+            options={songList}
             as={Select}
           />
           <div className="invalid-feedback">
@@ -144,6 +157,7 @@ function AlbumForm({genres, formSubmit, song}) {
       </Form.Row>
       <Form.Row>
         <Form.Group as={Col} controlId="fileGridGenre">
+          <label htmlFor="inputGroupFileAddon01">Image</label>
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroupFileAddon01">Upload Album Image</span>
@@ -152,6 +166,7 @@ function AlbumForm({genres, formSubmit, song}) {
               <input
                 type="file"
                 accept="image/*"
+                multiple
                 className="custom-file-input"
                 name="albumImage"
                 ref={register}
@@ -163,6 +178,7 @@ function AlbumForm({genres, formSubmit, song}) {
               {errors.albumImage && errors.albumImage.message}
             </div>
           </div>
+          {album && album.artwork && <img src={album.artwork} alt={album.title}/>}
         </Form.Group>
       </Form.Row>
       <button className="btn btn-primary btn-block" type="submit">

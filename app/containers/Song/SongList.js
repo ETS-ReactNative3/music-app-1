@@ -18,6 +18,7 @@ import PaperCard from "../../components/PaperCard";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-bootstrap/Modal";
+import format from 'date-fns/format';
 
 function SongList({getSongs, songs, deleteSongAction}) {
   useInjectReducer({key: 'song', reducer});
@@ -41,7 +42,8 @@ function SongList({getSongs, songs, deleteSongAction}) {
     text: 'Genre'
   }, {
     dataField: 'releaseDate',
-    text: 'Release Date'
+    text: 'Release Date',
+    formatter: dateFormatter,
   }, {
     dataField: 'actions',
     text: 'Actions',
@@ -49,6 +51,10 @@ function SongList({getSongs, songs, deleteSongAction}) {
     csvExport: false,
     formatter: actionsFormatter,
   }];
+
+  function dateFormatter(cell, row, rowIndex, formatExtraData) {
+    return format(new Date(row.releaseDate), 'MM/dd/yyyy')
+  }
 
   function actionsFormatter(cell, row, rowIndex, formatExtraData) {
     return (

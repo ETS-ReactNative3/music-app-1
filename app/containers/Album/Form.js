@@ -20,9 +20,8 @@ import {
   makeSelectMySongs,
 } from './selectors';
 
-
 import AlbumForm from "../../components/AlbumForm";
-
+import PaperCard from "../../components/PaperCard";
 
 function Form({
                 getGenreList,
@@ -53,16 +52,21 @@ function Form({
   }, [id]);
 
   const onSubmit = values => {
-    console.log(values)
-    // if (addAlbum) {
-    //   submitAlbum(values);
-    // } else {
-    //   editAlbum(values);
-    // }
+    if (addAlbum) {
+      submitAlbum(values);
+    } else {
+      editAlbum(values);
+    }
   };
 
   return (
-    <AlbumForm formSubmit={values => onSubmit(values)} genres={genres}/>
+    <PaperCard title={addAlbum ? 'Add Album' : 'Edit Album'}>
+      {
+        addAlbum ? <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} songList={songs}/> :
+          <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} album={album} songList={songs}/>
+      }
+
+    </PaperCard>
   );
 }
 

@@ -23,3 +23,6 @@ export const UPDATE_SONG_REQUEST = 'app/Song/UPDATE_SONG_REQUEST';
 export const UPDATE_SONG_REQUEST_SUCCESS =
   'app/Song/UPDATE_SONG_REQUEST_SUCCESS';
 export const UPDATE_SONG_REQUEST_FAIL = 'app/Song/UPDATE_SONG_REQUEST_FAIL';
+export const GET_GENRES = 'app/Song/GET_GENRES';
+export const GET_GENRES_SUCCESS = 'app/Song/GET_GENRES_SUCCESS';
+export const GET_GENRES_FAIL = 'app/Song/GET_GENRES_FAIL';
