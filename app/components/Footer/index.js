@@ -38,7 +38,7 @@ const Footer = props => {
         ...songDetail,
         src: playlist[songIndex].url,
         title: playlist[songIndex].title,
-        artist: 'Mayur',
+        artist: playlist[songIndex].user.name,
         artwork: playlist[songIndex].artwork,
       }
       : songDetail;
