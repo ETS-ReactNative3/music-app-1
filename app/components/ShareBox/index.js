@@ -12,21 +12,21 @@ import {
 import './index.scss';
 
 const ShareBox = () => {
- 
+
   return (
     <>
       <Dropdown className="social-album-share">
         <Dropdown.Toggle id="dropdown-basic" as="span">...</Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item>
-            <FacebookShareButton title="I am listening to songs on Blink"
+            <FacebookShareButton title="I am listening to songs on Bliiink"
               url={window.location.href}>
               <FacebookIcon size={32} round={true} />
-            </FacebookShareButton>            
+            </FacebookShareButton>
           </Dropdown.Item>
           <Dropdown.Item>
             <WhatsappShareButton
-              title="I am listening to songs on Blink"
+              title="I am listening to songs on Bliiink"
               url={window.location.href}
               separator=" "
             >
@@ -34,10 +34,10 @@ const ShareBox = () => {
             </WhatsappShareButton>
           </Dropdown.Item>
           <Dropdown.Item>
-            <TwitterShareButton title="I am listening to songs on Blink"
+            <TwitterShareButton title="I am listening to songs on Bliiink"
               url={window.location.href}>
               <TwitterIcon size={32} round={true} />
-            </TwitterShareButton>            
+            </TwitterShareButton>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
