@@ -115,5 +115,5 @@ export {
   makeSelectPlaylist,
   makeSelectCurrentSong,
   makeSelectGenres,
-  makeSelectRole
+  makeSelectRole,
 };

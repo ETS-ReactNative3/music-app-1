@@ -4,16 +4,8 @@
 
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import jwt_decode from 'jwt-decode';
-import {
-  LOAD_DEFAULT_DATA,
-  LOAD_ALBUM,
-  PREPARE_APP,
-} from './constants';
-import {
-  defaultDataLoaded,
-  loadAlbumSuccess,
-  setRole,
-} from './actions';
+import { LOAD_DEFAULT_DATA, LOAD_ALBUM, PREPARE_APP } from './constants';
+import { defaultDataLoaded, loadAlbumSuccess, setRole } from './actions';
 import request from '../../utils/request';
 
 /**

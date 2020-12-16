@@ -3,6 +3,7 @@
 // Individual exports for testing
 import { put, takeLatest, call } from '@redux-saga/core/effects';
 import jwt_decode from 'jwt-decode';
+import { toast } from 'react-toastify';
 import { LOGIN_REQ, REGISTER_REQ, VERIFICATION_REQUEST } from './constants';
 import {
   loginFail,
@@ -14,36 +15,35 @@ import {
 } from './actions';
 import history from '../../utils/history';
 import { setRole } from '../App/actions';
-import {toast} from "react-toastify";
 import request from '../../utils/request';
 
 const url = 'https://bliiink.ga';
 
 function loginApi(authParams) {
-  return request(url + '/auth/login',{
+  return request(`${url}/auth/login`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify(authParams),
   });
 }
 
 function registerApi(authParams) {
-  return request(url + '/auth/register', {
+  return request(`${url}/auth/register`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify(authParams),
   });
 }
 
 function verificationApi(code) {
-  return request(url + '/auth/verifyCode', {
+  return request(`${url}/auth/verifyCode`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify(code),
   });

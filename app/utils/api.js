@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const accessToken = localStorage.getItem('token');
 let headers = {
-  "Content-Type": "application/json"
+  'Content-Type': 'application/json',
 };
 
 if (accessToken) {

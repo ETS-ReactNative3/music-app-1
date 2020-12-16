@@ -115,8 +115,8 @@ const TopNavBar = () => {
             )}
           />
         </div>
-        <div>
-          <button className="btn" onClick={logout}>Log out</button>
+        <div className="pl-5">
+          <button className="btn btn-outline-success" onClick={logout}>Log out</button>
         </div>
       </div>
     </header>

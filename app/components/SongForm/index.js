@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Form} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
@@ -7,12 +7,31 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
 
 function SongForm({genres, formSubmit, song, formLoader}) {
+  const [image, setImage] = useState({preview: ""})
+  const [audio, setAudio] = useState({audioFile: ""})
+
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required('Title is required'),
     description: Yup.string()
       .required('Description is required'),
   });
+
+  const handleChange = e => {
+    if (e.target.files.length) {
+      setImage({
+        preview: URL.createObjectURL(e.target.files[0])
+      });
+    }
+  };
+
+  const handleAudioChange = e => {
+    if (e.target.files.length) {
+      setAudio({
+        audioFile: URL.createObjectURL(e.target.files[0])
+      });
+    }
+  };
 
   const {register, handleSubmit, errors, reset} = useForm({
     resolver: yupResolver(validationSchema)
@@ -99,6 +118,7 @@ function SongForm({genres, formSubmit, song, formLoader}) {
                 multiple
                 name="songImage"
                 ref={register}
+                onChange={handleChange}
                 id="inputGroupFile01"
                 aria-describedby="inputGroupFileAddon01"/>
               <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
@@ -107,7 +127,8 @@ function SongForm({genres, formSubmit, song, formLoader}) {
               {errors.songImage && errors.songImage.message}
             </div>
           </div>
-          {song && song.artwork && <img src={song.artwork} alt={song.title}/>}
+          {song && song.artwork && <img className="img-thumbnail" src={song.artwork} alt={song.title}/>}
+          {image.preview && <img className="img-thumbnail mt-3" src={image.preview} alt="uploadedImage"/>}
         </Form.Group>
         <Form.Group as={Col} controlId="fileGridGenre">
           <label htmlFor="inputGroupFile02">Audio</label>
@@ -123,6 +144,7 @@ function SongForm({genres, formSubmit, song, formLoader}) {
                 multiple
                 name="audio"
                 ref={register}
+                onChange={handleAudioChange}
                 id="inputGroupFile02"
                 aria-describedby="inputGroupFileAddon02"/>
               <label className="custom-file-label" htmlFor="inputGroupFile02">Choose file</label>
@@ -131,6 +153,13 @@ function SongForm({genres, formSubmit, song, formLoader}) {
               {errors.audio && errors.audio.message}
             </div>
           </div>
+          {audio.audioFile && (
+            <div className="mt-3">
+              <audio controls>
+                <source src={audio.audioFile}/>
+              </audio>
+            </div>
+          )}
         </Form.Group>
       </Form.Row>
       {formLoader ? <ButtonLoader/> :
