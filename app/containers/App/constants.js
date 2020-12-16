@@ -25,4 +25,4 @@ export const SET_ROLE = 'app/Global/SET_ROLE';
 export const GET_GENRES = 'app/Global/GET_GENRES';
 export const GET_GENRES_SUCCESS = 'app/Global/GET_GENRES_SUCCESS';
 export const GET_GENRES_FAIL = 'app/Global/GET_GENRES_FAIL';
-export const SET_LOCAL_STORAGE_ROLE = 'app/Global/SET_LOCAL_STORAGE_ROLE';
+export const PREPARE_APP = 'app/Global/PREPARE_APP';

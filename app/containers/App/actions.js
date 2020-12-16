@@ -30,9 +30,7 @@ import {
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
   SET_ROLE,
-  GET_GENRES,
-  GET_GENRES_SUCCESS,
-  GET_GENRES_FAIL,
+  PREPARE_APP,
 } from './constants';
 import latestPostsJson from '../../utils/json/posts';
 
@@ -205,5 +203,11 @@ export function setRole(role) {
   return {
     type: SET_ROLE,
     role,
+  };
+}
+
+export function prepareApp() {
+  return {
+    type: PREPARE_APP,
   };
 }

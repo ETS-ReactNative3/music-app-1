@@ -12,36 +12,48 @@ import {
   verificationRequestFail,
   verificationRequestSuccess,
 } from './actions';
-import api from '../../utils/api';
 import history from '../../utils/history';
 import { setRole } from '../App/actions';
 import {toast} from "react-toastify";
+import request from '../../utils/request';
+
+const url = 'https://bliiink.ga';
 
 function loginApi(authParams) {
-  return api.request({
-    method: 'post',
-    url: '/auth/login',
-    data: authParams,
+  return request(url + '/auth/login',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(authParams),
   });
 }
 
 function registerApi(authParams) {
-  return api.request({
-    method: 'post',
-    url: '/auth/register',
-    data: authParams,
+  return request(url + '/auth/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(authParams),
   });
 }
 
 function verificationApi(code) {
-  return api.post('/auth/verifyCode', code);
+  return request(url + '/auth/verifyCode', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(code),
+  });
 }
 
 export function* loginRequest({ data }) {
   try {
     const result = yield call(loginApi, data);
-    yield localStorage.setItem('token', result.data.access_token);
-    const decoded = jwt_decode(result.data.access_token);
+    yield localStorage.setItem('token', result.access_token);
+    const decoded = jwt_decode(result.access_token);
     yield put(loginSuccess());
     yield put(setRole(decoded.role));
     history.push('/');

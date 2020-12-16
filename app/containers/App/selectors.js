@@ -93,6 +93,12 @@ const makeSelectGenres = () =>
     globalState => globalState.genres,
   );
 
+const makeSelectRole = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.role,
+  );
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -109,4 +115,5 @@ export {
   makeSelectPlaylist,
   makeSelectCurrentSong,
   makeSelectGenres,
+  makeSelectRole
 };

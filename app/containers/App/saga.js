@@ -7,7 +7,7 @@ import jwt_decode from 'jwt-decode';
 import {
   LOAD_DEFAULT_DATA,
   LOAD_ALBUM,
-  SET_LOCAL_STORAGE_ROLE,
+  PREPARE_APP,
 } from './constants';
 import {
   defaultDataLoaded,
@@ -49,7 +49,7 @@ export function* getAlbumInfo(action) {
   }
 }
 
-export function* setLocalStorageRole() {
+export function* prepareApp() {
   const token = yield localStorage.getItem('token');
   const decoded = jwt_decode(token);
   yield put(setRole(decoded.role));
@@ -65,5 +65,5 @@ export default function* getFeaturedAlbumData() {
   // It will be cancelled automatically on component unmount
   yield takeLatest(LOAD_DEFAULT_DATA, getFeaturedAlbum);
   yield takeLatest(LOAD_ALBUM, getAlbumInfo);
-  yield takeLatest(SET_LOCAL_STORAGE_ROLE, setLocalStorageRole);
+  yield takeLatest(PREPARE_APP, prepareApp);
 }

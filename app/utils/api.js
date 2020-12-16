@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const accessToken = localStorage.getItem('token');
-let headers = {};
+let headers = {
+  "Content-Type": "application/json"
+};
+
 if (accessToken) {
   headers = {
     Authorization: `bearer ${accessToken}`,
