@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Form} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
@@ -7,6 +7,7 @@ import Select from "react-select";
 import {yupResolver} from "@hookform/resolvers/yup";
 
 function AlbumForm({genres, formSubmit, songList, album}) {
+  const [image, setImage] = useState({preview: ""})
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required('Title is required'),
@@ -15,6 +16,14 @@ function AlbumForm({genres, formSubmit, songList, album}) {
     description: Yup.string()
       .required('Description is required'),
   });
+
+  const handleChange = e => {
+    if (e.target.files.length) {
+      setImage({
+        preview: URL.createObjectURL(e.target.files[0])
+      });
+    }
+  };
 
   const {register, handleSubmit, errors, reset, control} = useForm({
     resolver: yupResolver(validationSchema)
@@ -170,6 +179,7 @@ function AlbumForm({genres, formSubmit, songList, album}) {
                 className="custom-file-input"
                 name="albumImage"
                 ref={register}
+                onChange={handleChange}
                 id="inputGroupFile01"
                 aria-describedby="inputGroupFileAddon01"/>
               <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
@@ -179,6 +189,7 @@ function AlbumForm({genres, formSubmit, songList, album}) {
             </div>
           </div>
           {album && album.artwork && <img src={album.artwork} alt={album.title}/>}
+          {image.preview && <img className="img-thumbnail mt-3" src={image.preview} alt="uploadedImage"/>}
         </Form.Group>
       </Form.Row>
       <button className="btn btn-primary btn-block" type="submit">
