@@ -16,7 +16,7 @@ import {
 } from './actions';
 import {
   makeSelectAlbumLoader,
-  makeSelectEditAlbum, makeSelectGenres,
+  makeSelectEditAlbum, makeSelectFormLoader, makeSelectGenres,
   makeSelectMySongs,
 } from './selectors';
 
@@ -35,6 +35,7 @@ function Form(
     classes,
     loader,
     editAlbum,
+    formLoader
   }) {
   useInjectReducer({key: 'album', reducer});
   useInjectSaga({key: 'album', saga});
@@ -63,8 +64,8 @@ function Form(
   return (
     <PaperCard title={addAlbum ? 'Add Album' : 'Edit Album'}>
       {
-        addAlbum ? <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} songList={songs}/> :
-          <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} album={album} songList={songs}/>
+        addAlbum ? <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} songList={songs} formLoader={formLoader}/> :
+          <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} album={album} songList={songs} formLoader={formLoader}/>
       }
 
     </PaperCard>
@@ -88,6 +89,7 @@ const mapStateToProps = createStructuredSelector({
   songs: makeSelectMySongs(),
   album: makeSelectEditAlbum(),
   loader: makeSelectAlbumLoader(),
+  formLoader: makeSelectFormLoader()
 });
 
 function mapDispatchToProps(dispatch) {

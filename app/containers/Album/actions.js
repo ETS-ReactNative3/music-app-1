@@ -151,7 +151,6 @@ export function deleteAlbumFail(error) {
 }
 
 export function updateAlbum(data) {
-  console.log(data);
   return {
     type: UPDATE_ALBUM,
     data,

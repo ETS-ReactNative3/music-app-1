@@ -151,8 +151,20 @@ export function* deleteAlbum({id}) {
 
 export function* updateAlbum({data}) {
   try {
-    const result = yield call(editAlbum, data);
-    yield put(updateAlbumSuccess(result.data));
+    if (data.albumImage.length === 0) {
+      const result = yield call(editAlbum, data);
+      yield put(updateAlbumSuccess(result.data));
+    } else {
+      const response = yield call(postAlbumImage, data);
+      const albumData = {
+        ...data,
+        artwork: response.data.location,
+        imageKey: response.data.imageKey,
+      };
+      const result = yield call(editAlbum, albumData);
+      yield put(updateAlbumSuccess(result.data));
+    }
+
     history.push('/albumList');
     toast.success('Album updated successfully.');
   } catch (e) {

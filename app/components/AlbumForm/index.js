@@ -5,8 +5,9 @@ import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
 import Select from "react-select";
 import {yupResolver} from "@hookform/resolvers/yup";
+import ButtonLoader from "../ButtonLoader";
 
-function AlbumForm({genres, formSubmit, songList, album}) {
+function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
   const [image, setImage] = useState({preview: ""})
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -205,9 +206,11 @@ function AlbumForm({genres, formSubmit, songList, album}) {
             {image.preview && <img className="img-thumbnail mt-3" src={image.preview} alt="uploadedImage"/>}
           </Form.Group>
         </Form.Row>
-        <button className="btn btn-primary btn-block" type="submit">
-          Submit
-        </button>
+        {formLoader ? <ButtonLoader/> :
+          <button className="btn btn-primary btn-block" type="submit">
+            Submit
+          </button>
+        }
       </form>
     </>
   );

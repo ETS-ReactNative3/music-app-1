@@ -17,7 +17,13 @@ import {
   GET_ALBUM,
   GET_ALBUM_SUCCESS,
   GET_ALBUM_FAIL,
-  GET_GENRES_SUCCESS
+  GET_GENRES_SUCCESS,
+  POST_ALBUMS_REQUEST,
+  POST_ALBUMS_REQUEST_FAIL,
+  POST_ALBUMS_REQUEST_SUCCESS,
+  UPDATE_ALBUM,
+  UPDATE_ALBUM_SUCCESS,
+  UPDATE_ALBUM_FAIL
 } from './constants';
 
 export const initialState = {
@@ -25,6 +31,7 @@ export const initialState = {
   myAlbums: [],
   songs: [],
   loader: false,
+  formLoader: false,
   error: null,
   genres: [],
   editAlbum: null,
@@ -71,6 +78,16 @@ const albumReducer = (state = initialState, action) =>
         break;
       case GET_GENRES_SUCCESS:
         draft.genres = action.genres;
+        break;
+      case POST_ALBUMS_REQUEST:
+      case UPDATE_ALBUM:
+        draft.formLoader = true;
+        break;
+      case POST_ALBUMS_REQUEST_SUCCESS:
+      case POST_ALBUMS_REQUEST_FAIL:
+      case UPDATE_ALBUM_SUCCESS:
+      case UPDATE_ALBUM_FAIL:
+        draft.formLoader = false;
         break;
     }
   });
