@@ -38,7 +38,7 @@ function SongList({getSongs, songs, deleteSongAction}) {
     dataField: 'description',
     text: 'Description'
   }, {
-    dataField: 'genreId',
+    dataField: 'genre.title',
     text: 'Genre'
   }, {
     dataField: 'releaseDate',

@@ -37,7 +37,7 @@ function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
     dataField: 'caption',
     text: 'Caption'
   }, {
-    dataField: 'genreId',
+    dataField: 'genre.title',
     text: 'Genre'
   }, {
     dataField: 'releaseDate',

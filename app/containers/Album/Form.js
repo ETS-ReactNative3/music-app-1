@@ -23,18 +23,19 @@ import {
 import AlbumForm from "../../components/AlbumForm";
 import PaperCard from "../../components/PaperCard";
 
-function Form({
-                getGenreList,
-                genres,
-                songs,
-                submitAlbum,
-                getSongs,
-                getEditAlbum,
-                album,
-                classes,
-                loader,
-                editAlbum,
-              }) {
+function Form(
+  {
+    getGenreList,
+    genres,
+    songs,
+    submitAlbum,
+    getSongs,
+    getEditAlbum,
+    album,
+    classes,
+    loader,
+    editAlbum,
+  }) {
   useInjectReducer({key: 'album', reducer});
   useInjectSaga({key: 'album', saga});
   const {id} = useParams();
@@ -55,7 +56,7 @@ function Form({
     if (addAlbum) {
       submitAlbum(values);
     } else {
-      editAlbum(values);
+      editAlbum({...values, id});
     }
   };
 
