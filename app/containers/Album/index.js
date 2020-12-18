@@ -86,13 +86,12 @@ const Album = props => {
                 {albumSongs.length}
               </div>
               <div className="col mt-3">
-                <a
-                  href="javascript:void(0);"
+                <span
                   onClick={playAllSongsHandler}
-                  className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center"
+                  className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center cursor-pointer"
                 >
                   {playing ? 'Pause' : 'Play All'}
-                </a>
+                </span>
               </div>
             </div>
           </div>
@@ -110,9 +109,9 @@ const Album = props => {
               </div>
               <div className="song-duration px-2">4:25</div>
               <div className="song-action px-2">
-                <a
-                  href="javascript:void(0);"
+                <span
                   onClick={() => singleSongHandler(index)}
+                  className="cursor-pointer"
                 >
                   <FontAwesomeIcon
                     size="3x"
@@ -123,7 +122,7 @@ const Album = props => {
                         : faPlayCircle
                     }
                   />
-                </a>
+                </span>
               </div>
               <div className="dot-box ml-auto">
                 <ShareBox />

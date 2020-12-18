@@ -15,13 +15,12 @@ function LeftSideBar({ role }) {
 
   return (
     <aside className="main-sidebar bg-sidebar elevation-4 fixed-top h-100 shadow-lg">
-      <a
-        href="javascript:void(0);"
-        className="ipad-close fixed-top"
+      <span
+        className="ipad-close fixed-top cursor-pointer"
         onClick={handleSideBar}
       >
         <FontAwesomeIcon icon={faWindowClose} size="3x" color="#ffffff" />
-      </a>
+      </span>
 
       <div className="d-flex pl-3 py-3">
         <Link to="/">

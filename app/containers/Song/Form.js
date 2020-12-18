@@ -42,7 +42,7 @@ function Form(
     if (addSong) {
       postSongAction(data);
     } else {
-      editSong(data);
+      editSong({id, ...data});
     }
   };
 

@@ -36,8 +36,8 @@ const SongList = ({ list, heading, singleSongHandler, currentSong, classes }) =>
                 </div>
                 <div className="song-duration px-1 ml-auto">4:25</div>
                 <div className="song-action px-1 ml-auto">
-                  <a
-                    href="javascript:void(0);"
+                  <span
+                    className="cursor-pointer"
                     onClick={() => singleSongHandler(index)}
                   >
                     <FontAwesomeIcon
@@ -49,7 +49,7 @@ const SongList = ({ list, heading, singleSongHandler, currentSong, classes }) =>
                           : faPlayCircle
                       }
                     />
-                  </a>
+                  </span>
                 </div>
                 <div className="ml-auto d-flex align-self-baseline">
                   <ShareBox />

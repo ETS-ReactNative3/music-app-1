@@ -47,8 +47,6 @@ const songReducer = (state = initialState, action) =>
         break;
       case GET_SONGS_REQUEST_FAIL:
       case GET_SONG_REQUEST_FAIL:
-      case POST_SONG_REQUEST_FAIL:
-      case UPDATE_SONG_REQUEST_FAIL:
         draft.isLoading = false;
         draft.error = action.error;
         break;
@@ -58,6 +56,9 @@ const songReducer = (state = initialState, action) =>
         break;
       case UPLOAD_SONG_SUCCESS:
       case UPDATE_SONG_REQUEST_SUCCESS:
+      case POST_SONG_REQUEST_SUCCESS:
+      case POST_SONG_REQUEST_FAIL:
+      case UPDATE_SONG_REQUEST_FAIL:
         draft.songFormLoading = false;
         break;
       case UPLOAD_SONG_FAILURE:
@@ -73,9 +74,6 @@ const songReducer = (state = initialState, action) =>
       case POST_SONG_REQUEST:
       case UPDATE_SONG_REQUEST:
         draft.songFormLoading = true;
-        break;
-      case POST_SONG_REQUEST_SUCCESS:
-        draft.songFormLoading = false;
         break;
       case GET_GENRES_SUCCESS:
         draft.genres = action.genres;

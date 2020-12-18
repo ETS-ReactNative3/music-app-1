@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 import api from '../../utils/api';
 import {
   deleteSongFail,
@@ -63,7 +63,7 @@ export function* fetchSongs() {
   }
 }
 
-export function* getSong({ id }) {
+export function* getSong({id}) {
   try {
     const result = yield call(getSongApi, id);
     yield put(getSongRequestSuccess(result.data));
@@ -73,16 +73,10 @@ export function* getSong({ id }) {
   }
 }
 
-function postSongApi(id, action) {
+function postSongApi(action) {
   const formData = new FormData();
   formData.append('file', action.audio[0]);
-  return api.post(`/songs/upload/audio/${id}`, formData);
-}
-
-function postSongImage(data) {
-  const imageData = new FormData();
-  imageData.append('photo', data.songImage[0]);
-  return api.post('/songs/upload', imageData);
+  return api.post(`/songs/upload/audio/`, formData);
 }
 
 export function* uploadSong(action) {
@@ -97,7 +91,7 @@ export function* uploadSong(action) {
   }
 }
 
-export function* deleteSong({ id }) {
+export function* deleteSong({id}) {
   try {
     const result = yield call(deleteSongApi, id);
     yield put(songRequest());
@@ -109,16 +103,15 @@ export function* deleteSong({ id }) {
   }
 }
 
-export function* saveSongSaga({ data }) {
+export function* saveSongSaga({data}) {
   try {
-    const result = yield call(postSongImage, data);
+    const result = yield call(postSongApi, data);
     const songData = {
       ...data,
-      artwork: result.data.location,
-      imageKey: result.data.imageKey,
-    };
-    const response = yield call(postSong, songData);
-    yield call(postSongApi, response.data.id, songData);
+      songKey: result.data.songKey,
+      url: result.data.location
+    }
+    yield call(postSong, songData);
     yield put(postSongRequestSuccess());
     history.push('/songList');
     toast.success('Song saved successfully.');
@@ -128,10 +121,24 @@ export function* saveSongSaga({ data }) {
   }
 }
 
-export function* updateSongSaga({ data }) {
+export function* updateSongSaga({data}) {
   try {
-    const result = yield call(editSong, data);
+    let songData = {
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      genreId: data.genreId,
+      releaseDate: data.releaseDate
+    }
+    if (data.audio.length !== 0) {
+      const result = yield call(postSongApi, data);
+      songData.songKey = result.data.songKey;
+      songData.url = result.data.location;
+    }
+
+    yield call(editSong, songData);
     yield put(updateSongRequestSuccess());
+    history.push('/songList');
     toast.success('Song updated successfully.');
   } catch (e) {
     toast.error(e.message);

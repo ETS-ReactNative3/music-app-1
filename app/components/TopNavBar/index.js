@@ -67,15 +67,14 @@ const TopNavBar = () => {
       >
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a
-              className="nav-link"
+            <span
+              className="nav-link cursor-pointer"
               data-widget="pushmenu"
-              href="javascript:void(0)"
               onClick={handleSideBar}
               role="button"
             >
               <FontAwesomeIcon icon={faBars} />
-            </a>
+            </span>
           </li>
         </ul>
         <div className="input-group ml-md-5">
