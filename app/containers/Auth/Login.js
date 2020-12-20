@@ -55,6 +55,9 @@ function Login({loginRequest}) {
           {errors.password && errors.password.message}
         </div>
       </div>
+      <div className="mb-5">
+        <p><Link to="/auth/forgot-password">Forgot your password?</Link></p>
+      </div>
       <button className="btn btn-lg btn-block btn-primary" type="submit">
         Submit
       </button>
