@@ -119,6 +119,7 @@ export function* forgotPasswordSaga({email}) {
   try {
     yield call(forgotPasswordApi, email);
     yield put(forgotPasswordRequestSuccess());
+    history.push('/auth/login');
     toast.success('Password reset token has been sent to your email address.');
   } catch (err) {
     toast.error('Email does not exist.');
