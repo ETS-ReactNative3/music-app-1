@@ -1,0 +1,23 @@
+/*
+ *
+ * Playlist constants
+ *
+ */
+
+export const CREATE_PLAYLIST_REQUEST = 'app/Playlist/CREATE_PLAYLIST_REQUEST';
+export const CREATE_PLAYLIST_SUCCESS = 'app/Playlist/CREATE_PLAYLIST_SUCCESS';
+export const CREATE_PLAYLIST_FAIL = 'app/Playlist/CREATE_PLAYLIST_FAIL';
+
+export const GET_PLAYLIST_REQUEST = 'app/Playlist/GET_PLAYLIST_REQUEST';
+export const GET_PLAYLIST_SUCCESS = 'app/Playlist/GET_PLAYLIST_SUCCESS';
+export const GET_PLAYLIST_FAIL = 'app/Playlist/GET_PLAYLIST_FAIL';
+
+export const GET_MY_PLAYLISTS_REQUEST = 'app/Playlist/GET_MY_PLAYLISTS_REQUEST';
+export const GET_MY_PLAYLISTS_SUCCESS = 'app/Playlist/GET_MY_PLAYLISTS_SUCCESS';
+export const GET_MY_PLAYLISTS_FAIL = 'app/Playlist/GET_MY_PLAYLISTS_FAIL';
+
+export const DELETE_PLAYLIST_REQUEST = 'app/Playlist/DELETE_PLAYLIST_REQUEST';
+export const DELETE_PLAYLIST_SUCCESS = 'app/Playlist/DELETE_PLAYLIST_SUCCESS';
+export const DELETE_PLAYLIST_FAIL = 'app/Playlist/DELETE_PLAYLIST_FAIL';
+
+export const TOGGLE_PLAYLIST_POPUP = 'app/Playlist/TOGGLE_PLAYLIST_POPUP';
