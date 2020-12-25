@@ -17,92 +17,138 @@ import {
   TOGGLE_PLAYLIST_POPUP,
   GET_MY_PLAYLISTS_FAIL,
   GET_MY_PLAYLISTS_REQUEST,
-  GET_MY_PLAYLISTS_SUCCESS
+  GET_MY_PLAYLISTS_SUCCESS,
+  ADD_SONG_INTO_PAYLIST,
+  ADD_SONG_INTO_PAYLIST_SUCCESS,
+  ADD_SONG_INTO_PAYLIST_FAIL,
+  CREATE_PLAYLIST_AND_ADD_SONG,
+  CREATE_PLAYLIST_AND_ADD_SONG_SUCCESS,
+  CREATE_PLAYLIST_AND_ADD_SONG_FAIL,
 } from './constants';
 
 export function createPlaylist(data) {
   return {
     type: CREATE_PLAYLIST_REQUEST,
-    data
+    data,
   };
 }
 
 export function createPlaylistSuccess() {
   return {
-    type: CREATE_PLAYLIST_SUCCESS
+    type: CREATE_PLAYLIST_SUCCESS,
   };
 }
 
 export function createPlaylistFail(error) {
   return {
     type: CREATE_PLAYLIST_FAIL,
-    error
+    error,
   };
 }
 
 export function getPlaylist(data) {
   return {
     type: GET_PLAYLIST_REQUEST,
-    data
+    data,
   };
 }
 
 export function getPlaylistSuccess() {
   return {
-    type: GET_PLAYLIST_SUCCESS
+    type: GET_PLAYLIST_SUCCESS,
   };
 }
 
 export function getPlaylistFail(error) {
   return {
     type: GET_PLAYLIST_FAIL,
-    error
+    error,
   };
 }
 
 export function deletePlaylist(id) {
   return {
     type: DELETE_PLAYLIST_REQUEST,
-    id
+    id,
   };
 }
 
 export function deletePlaylistSuccess() {
   return {
-    type: DELETE_PLAYLIST_SUCCESS
+    type: DELETE_PLAYLIST_SUCCESS,
   };
 }
 
 export function deletePlaylistFail(error) {
   return {
     type: DELETE_PLAYLIST_FAIL,
-    error
+    error,
   };
 }
 
 export function togglePlaylistPopup(status) {
   return {
     type: TOGGLE_PLAYLIST_POPUP,
-    status
-  }
+    status,
+  };
 }
 
 export function getMyPlaylist() {
   return {
-    type: GET_MY_PLAYLISTS_REQUEST
+    type: GET_MY_PLAYLISTS_REQUEST,
   };
 }
 
 export function getMyPlaylistSuccess(playlists) {
   return {
     type: GET_MY_PLAYLISTS_SUCCESS,
-    playlists
+    playlists,
   };
 }
 
 export function getMyPlaylistFail(error) {
   return {
     type: GET_MY_PLAYLISTS_FAIL,
-    error
+    error,
+  };
+}
+
+export function addSongIntoPlaylist(data) {
+  return {
+    type: ADD_SONG_INTO_PAYLIST,
+    data,
+  };
+}
+
+export function addSongIntoPlaylistSuccess() {
+  return {
+    type: ADD_SONG_INTO_PAYLIST_SUCCESS,
+  };
+}
+
+export function addSongIntoPlaylistFail(error) {
+  return {
+    type: ADD_SONG_INTO_PAYLIST_FAIL,
+    error,
+  };
+}
+
+export function createPlaylistandAddSong(data) {
+  return {
+    type: CREATE_PLAYLIST_AND_ADD_SONG,
+    data,
+  };
+}
+
+export function createPlaylistandAddSongSuccess() {
+  return {
+    type: CREATE_PLAYLIST_AND_ADD_SONG_SUCCESS,
+  };
+}
+
+export function createPlaylistandAddSongFail(error) {
+  return {
+    type: CREATE_PLAYLIST_AND_ADD_SONG_FAIL,
+    error,
   };
 }

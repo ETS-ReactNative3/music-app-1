@@ -1,0 +1,41 @@
+.newplaylist{
+    padding: 15px 50px 40px;
+    text-align: center;
+    input{
+        text-align: center;
+    }
+    h4{
+        margin-bottom: 25px;
+        font-size: 18px;
+    }
+    .btn{
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+}
+.existingplaylist{
+    text-align: center;
+    border: 1px solid #FFF;
+    h4{
+        font-size: 14px;
+        margin-top: -10px;
+        background-color: #FFF;
+        color: #020f1f;
+        padding: 5px 0;
+        margin: -12px 80px 15px;
+    }
+    .list-group{
+        border-radius: 0;
+        .list-group-item{
+            color: #ccc;
+            font-weight: 300;
+            background: none;
+            letter-spacing: 1px;
+            &:hover{
+                background: #FFF;
+                font-weight: 400;
+                color: #020f1f;
+            }
+        }
+    }
+}
