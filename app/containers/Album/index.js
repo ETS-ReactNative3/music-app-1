@@ -15,13 +15,22 @@ import {
   makeSelectCurrentSong,
 } from '../App/selectors';
 import { handleSongPlaying, loadAlbum, handleSingleSong } from '../App/actions';
+import {
+  createPlaylistandAddSong,
+  getMyPlaylist,
+  addSongIntoPlaylist,
+} from '../Playlist/actions';
+import { makeSelectPlaylists } from '../Playlist/selectors';
 import reducer from '../App/reducer';
 import saga from '../App/saga';
+import reducerPlaylist from '../Playlist/reducer';
+import sagaPlaylist from '../Playlist/saga';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../../components/ShareBox';
+import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
 import { useParams } from 'react-router-dom';
 
@@ -30,6 +39,8 @@ const key = 'global';
 const Album = props => {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
+  useInjectReducer({ key: 'playlist', reducer: reducerPlaylist });
+  useInjectSaga({ key: 'playlist', saga: sagaPlaylist });
   const { slug } = useParams();
   const {
     recommended,
@@ -39,6 +50,10 @@ const Album = props => {
     currentSong,
     onHandleSongPlaying,
     onHandleSingleSong,
+    createPlaylistandAddSongAction,
+    getMyPlaylistAction,
+    addSongIntoPlaylistAction,
+    playlists,
   } = props;
   useEffect(() => {
     onLoadAlbum(slug);
@@ -125,7 +140,15 @@ const Album = props => {
                 </span>
               </div>
               <div className="dot-box ml-auto">
-                <ShareBox />
+                <SongsOptionsBox
+                  songId={ele.id}
+                  playlists={playlists}
+                  getMyPlaylistAction={getMyPlaylistAction}
+                  createPlaylistandAddSongAction={
+                    createPlaylistandAddSongAction
+                  }
+                  addSongIntoPlaylistAction={addSongIntoPlaylistAction}
+                />
               </div>
             </div>
           ))}
@@ -147,12 +170,17 @@ const mapStateToProps = createStructuredSelector({
   albumInfo: makeSelectAlbumInfo(),
   playlist: makeSelectPlaylist(),
   currentSong: makeSelectCurrentSong(),
+  playlists: makeSelectPlaylists(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
     onLoadAlbum: slug => dispatch(loadAlbum(slug)),
     onHandleSongPlaying: status => dispatch(handleSongPlaying(status)),
+    createPlaylistandAddSongAction: data =>
+      dispatch(createPlaylistandAddSong(data)),
+    getMyPlaylistAction: () => dispatch(getMyPlaylist()),
+    addSongIntoPlaylistAction: data => dispatch(addSongIntoPlaylist(data)),
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
   };
