@@ -4,13 +4,19 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import {
+  GET_PLAYLIST_REQUEST,
+  ADD_SONG_INTO_PAYLIST,
+  CREATE_PLAYLIST_AND_ADD_SONG,
   CREATE_PLAYLIST_REQUEST,
   DELETE_PLAYLIST_REQUEST,
   GET_MY_PLAYLISTS_REQUEST,
-  GET_PLAYLIST_REQUEST,
 } from './constants';
 import api from '../../utils/api';
 import {
+  addSongIntoPlaylistFail,
+  addSongIntoPlaylistSuccess,
+  createPlaylistandAddSongFail,
+  createPlaylistandAddSongSuccess,
   createPlaylistFail,
   createPlaylistSuccess,
   deletePlaylistFail,
@@ -41,6 +47,10 @@ function getPlaylistApi(id) {
 
 function deleteSongApi(id, songId) {
   return api.delete(`/playlists/${id}/song/${songId}`);
+}
+
+function addSongIntoPaylistApi(data) {
+  return api.post('/playlists/songs', data);
 }
 
 export function* createPlaylistSaga({ data }) {
@@ -99,9 +109,37 @@ export function* deleteSongFromPlaylist({ id, songId }) {
   }
 }
 
+export function* addSongIntoPaylist({ data }) {
+  try {
+    const result = yield call(addSongIntoPaylistApi, data);
+    yield put(addSongIntoPlaylistSuccess(result.data));
+    toast.success('Song Successfully added into Playlist.');
+  } catch (e) {
+    toast.error(e.message);
+    yield put(addSongIntoPlaylistFail(e.message));
+  }
+}
+
+export function* createPlaylistAddSong({ data }) {
+  try {
+    const result = yield call(postPlaylist, { title: data.title });
+    yield call(addSongIntoPaylistApi, {
+      id: result.data.id,
+      songId: data.songId,
+    });
+    yield put(createPlaylistandAddSongSuccess());
+    toast.success('Song Successfully added into Playlist.');
+  } catch (e) {
+    toast.error(e.message);
+    yield put(createPlaylistandAddSongFail(e.message));
+  }
+}
+
 export default function* playlistSaga() {
   yield takeLatest(CREATE_PLAYLIST_REQUEST, createPlaylistSaga);
   yield takeLatest(GET_MY_PLAYLISTS_REQUEST, getMyPlaylists);
   yield takeLatest(GET_PLAYLIST_REQUEST, getPlaylist);
   yield takeLatest(DELETE_PLAYLIST_REQUEST, deletePlaylist);
+  yield takeLatest(ADD_SONG_INTO_PAYLIST, addSongIntoPaylist);
+  yield takeLatest(CREATE_PLAYLIST_AND_ADD_SONG, createPlaylistAddSong);
 }

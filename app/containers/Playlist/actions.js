@@ -21,6 +21,12 @@ import {
   DELETE_SONG_PLAYLIST_REQUEST,
   DELETE_SONG_PLAYLIST_SUCCESS,
   DELETE_SONG_PLAYLIST_FAIL,
+  ADD_SONG_INTO_PAYLIST,
+  ADD_SONG_INTO_PAYLIST_SUCCESS,
+  ADD_SONG_INTO_PAYLIST_FAIL,
+  CREATE_PLAYLIST_AND_ADD_SONG,
+  CREATE_PLAYLIST_AND_ADD_SONG_SUCCESS,
+  CREATE_PLAYLIST_AND_ADD_SONG_FAIL,
 } from './constants';
 
 export function createPlaylist(data) {
@@ -111,6 +117,7 @@ export function getMyPlaylistFail(error) {
   };
 }
 
+
 export function deleteSong(id, songId) {
   return {
     type: DELETE_SONG_PLAYLIST_REQUEST,
@@ -128,6 +135,46 @@ export function deleteSongSuccess() {
 export function deleteSongFail(error) {
   return {
     type: DELETE_SONG_PLAYLIST_FAIL,
+    error
+  }
+}
+
+export function addSongIntoPlaylist(data) {
+  return {
+    type: ADD_SONG_INTO_PAYLIST,
+    data,
+  };
+}
+
+export function addSongIntoPlaylistSuccess() {
+  return {
+    type: ADD_SONG_INTO_PAYLIST_SUCCESS,
+  };
+}
+
+export function addSongIntoPlaylistFail(error) {
+  return {
+    type: ADD_SONG_INTO_PAYLIST_FAIL,
+    error,
+  };
+}
+
+export function createPlaylistandAddSong(data) {
+  return {
+    type: CREATE_PLAYLIST_AND_ADD_SONG,
+    data,
+  };
+}
+
+export function createPlaylistandAddSongSuccess() {
+  return {
+    type: CREATE_PLAYLIST_AND_ADD_SONG_SUCCESS,
+  };
+}
+
+export function createPlaylistandAddSongFail(error) {
+  return {
+    type: CREATE_PLAYLIST_AND_ADD_SONG_FAIL,
     error,
   };
 }

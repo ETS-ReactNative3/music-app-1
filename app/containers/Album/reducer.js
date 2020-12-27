@@ -23,7 +23,7 @@ import {
   POST_ALBUMS_REQUEST_SUCCESS,
   UPDATE_ALBUM,
   UPDATE_ALBUM_SUCCESS,
-  UPDATE_ALBUM_FAIL
+  UPDATE_ALBUM_FAIL,
 } from './constants';
 
 export const initialState = {

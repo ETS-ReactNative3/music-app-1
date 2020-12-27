@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import { LOAD_DEFAULT_DATA, LOAD_ALBUM, PREPARE_APP } from './constants';
 import { defaultDataLoaded, loadAlbumSuccess, setRole } from './actions';
 import request from '../../utils/request';
+import { getMyPlaylist } from '../Playlist/actions';
 
 /**
  * Default Data request/response handler
