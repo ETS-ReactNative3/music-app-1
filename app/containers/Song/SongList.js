@@ -45,6 +45,11 @@ function SongList({getSongs, songs, deleteSongAction}) {
     text: 'Release Date',
     formatter: dateFormatter,
   }, {
+    dataField: 'promote',
+    text: 'Promote Date',
+    isDummyField: true,
+    formatter: promoteFormatter,
+  }, {
     dataField: 'actions',
     text: 'Actions',
     isDummyField: true,
@@ -54,6 +59,16 @@ function SongList({getSongs, songs, deleteSongAction}) {
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
     return format(new Date(row.releaseDate), 'MM/dd/yyyy')
+  }
+
+  function promoteFormatter(cell, row, rowIndex, formatExtraData) {
+    return (
+      <Link to={`/tastemakers/${row.id}`}>
+        <button className="btn btn-info mr-3">
+          Promote
+        </button>
+      </Link>
+    )
   }
 
   function actionsFormatter(cell, row, rowIndex, formatExtraData) {

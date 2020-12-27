@@ -5,5 +5,13 @@
  */
 
 import loadable from 'utils/loadable';
+import React from "react";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
-export default loadable(() => import('./index'));
+export const Playlist = loadable(() => import('./index'), {
+  fallback: <LoadingIndicator />,
+});
+
+export const PlaylistDetail = loadable(() => import('./detail'), {
+  fallback: <LoadingIndicator />,
+});

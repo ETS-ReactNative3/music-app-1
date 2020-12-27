@@ -6,8 +6,8 @@ import Dashboard from '../Templates/Dashboard';
 import HomePage from '../HomePage/Loadable';
 import {Album, AlbumForm, AlbumList} from '../Album/Loadable';
 import {SongList, SongForm} from '../Song/Loadable';
-import Playlist from "../Playlist/Loadable";
-
+import {Playlist, PlaylistDetail} from "../Playlist/Loadable";
+import Tastemaker from "../Tastemaker/Loadable";
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -75,6 +75,12 @@ function Application({history}) {
         </PrivateRoute>
         <PrivateRoute exact path="/playlists">
           <Playlist/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/tastemakers/:songId">
+          <Tastemaker/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/playlist/:id">
+          <PlaylistDetail/>
         </PrivateRoute>
       </Switch>
     </Dashboard>

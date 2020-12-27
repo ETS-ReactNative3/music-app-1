@@ -32,7 +32,6 @@ export function* getAlbumInfo(action) {
   const requestURL = `https://bliiink.ga/albums/songs/slug/${action.slug}`;
   try {
     const response = yield call(request, requestURL);
-    console.log(response);
     const { albumSongs = [] } = response;
     const songs = albumSongs.map(ele => ele.song);
     yield put(loadAlbumSuccess(response, songs));

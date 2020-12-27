@@ -26,3 +26,4 @@ export const GET_GENRES = 'app/Global/GET_GENRES';
 export const GET_GENRES_SUCCESS = 'app/Global/GET_GENRES_SUCCESS';
 export const GET_GENRES_FAIL = 'app/Global/GET_GENRES_FAIL';
 export const PREPARE_APP = 'app/Global/PREPARE_APP';
+export const SET_SONGS = 'app/Global/SET_SONGS';

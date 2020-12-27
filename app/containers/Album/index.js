@@ -40,6 +40,7 @@ const Album = props => {
     onHandleSongPlaying,
     onHandleSingleSong,
   } = props;
+
   useEffect(() => {
     onLoadAlbum(slug);
   }, [slug]);

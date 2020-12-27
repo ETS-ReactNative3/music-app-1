@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import { initialState } from './reducer';
+import {createSelector} from 'reselect';
+import {initialState} from './reducer';
 
 /**
  * Direct selector to the playlist state domain
@@ -27,4 +27,22 @@ const makeSelectPlaylists = () =>
     substate => substate.playlists,
   );
 
-export { selectPlaylistDomain, makeSelectPlaylistPopUpState, makeSelectPlaylists };
+const makeSelectPlaylist = () =>
+  createSelector(
+    selectPlaylistDomain,
+    substate => substate.playlist,
+  );
+
+const makeSelectLoader = () =>
+  createSelector(
+    selectPlaylistDomain,
+    substate => substate.loader,
+  );
+
+export {
+  selectPlaylistDomain,
+  makeSelectPlaylistPopUpState,
+  makeSelectPlaylists,
+  makeSelectPlaylist,
+  makeSelectLoader
+};

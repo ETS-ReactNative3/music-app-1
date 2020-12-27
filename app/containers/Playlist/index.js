@@ -28,6 +28,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {Link} from "react-router-dom";
 
 export function Playlist(
   {
@@ -66,14 +67,31 @@ export function Playlist(
 
   const columns = [{
     dataField: 'title',
-    text: 'Title'
+    text: 'Title',
+    formatter: linkFormatter,
   }, {
+    dataField: 'songs',
+    text: 'Songs',
+    formatter: songsFormatter,
+  },{
     dataField: 'actions',
     text: 'Actions',
     isDummyField: true,
     csvExport: false,
     formatter: actionsFormatter,
   }];
+
+  function linkFormatter(cell, row, rowIndex, formatExtraData) {
+    return (
+      <Link to={`/playlist/${row.id}`}>
+        {row.title}
+      </Link>
+    );
+  }
+
+  function songsFormatter(cell, row, rowIndex, formatExtraData) {
+    return row.playlistSongs.length;
+  }
 
   function actionsFormatter(cell, row, rowIndex, formatExtraData) {
     return (
