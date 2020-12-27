@@ -31,7 +31,7 @@ import {
   HANDLE_SINGLE_SONG,
   SET_ROLE,
   PREPARE_APP,
-  SET_SONGS
+  SET_SONGS,
 } from './constants';
 import latestPostsJson from '../../utils/json/posts';
 
@@ -216,6 +216,6 @@ export function prepareApp() {
 export function setSongs(songs) {
   return {
     type: SET_SONGS,
-    songs
+    songs,
   };
 }

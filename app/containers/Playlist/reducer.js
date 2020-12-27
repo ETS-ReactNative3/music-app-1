@@ -9,19 +9,19 @@ import {
   GET_MY_PLAYLISTS_SUCCESS,
   GET_PLAYLIST_SUCCESS,
   GET_PLAYLIST_REQUEST,
-  GET_PLAYLIST_FAIL
+  GET_PLAYLIST_FAIL,
 } from './constants';
 
 export const initialState = {
   modalState: false,
   playlists: [],
   playlist: null,
-  loader: false
+  loader: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const playlistReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case TOGGLE_PLAYLIST_POPUP:
         draft.modalState = action.status;

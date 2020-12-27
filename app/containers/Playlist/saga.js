@@ -1,22 +1,27 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import {call, put, takeLatest} from "@redux-saga/core/effects";
+import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { toast } from 'react-toastify';
 import {
   CREATE_PLAYLIST_REQUEST,
   DELETE_PLAYLIST_REQUEST,
   GET_MY_PLAYLISTS_REQUEST,
-  GET_PLAYLIST_REQUEST
-} from "./constants";
-import api from "../../utils/api";
+  GET_PLAYLIST_REQUEST,
+} from './constants';
+import api from '../../utils/api';
 import {
   createPlaylistFail,
-  createPlaylistSuccess, deletePlaylistFail, deletePlaylistSuccess, getMyPlaylist,
+  createPlaylistSuccess,
+  deletePlaylistFail,
+  deletePlaylistSuccess,
+  getMyPlaylist,
   getMyPlaylistFail,
-  getMyPlaylistSuccess, getPlaylistFail, getPlaylistSuccess,
-  togglePlaylistPopup
-} from "./actions";
-import {toast} from "react-toastify";
+  getMyPlaylistSuccess,
+  getPlaylistFail,
+  getPlaylistSuccess,
+  togglePlaylistPopup,
+} from './actions';
 
 function postPlaylist(data) {
   return api.post('/playlists', data);
@@ -38,7 +43,7 @@ function deleteSongApi(id, songId) {
   return api.delete(`/playlists/${id}/song/${songId}`);
 }
 
-export function* createPlaylistSaga({data}) {
+export function* createPlaylistSaga({ data }) {
   try {
     yield call(postPlaylist, data);
     yield put(createPlaylistSuccess());
@@ -60,7 +65,7 @@ export function* getMyPlaylists() {
   }
 }
 
-export function* getPlaylist({id}) {
+export function* getPlaylist({ id }) {
   try {
     const result = yield call(getPlaylistApi, id);
     yield put(getPlaylistSuccess(result.data));
@@ -70,7 +75,7 @@ export function* getPlaylist({id}) {
   }
 }
 
-export function* deletePlaylist({id}) {
+export function* deletePlaylist({ id }) {
   try {
     const result = yield call(deletePlaylistApi, id);
     yield put(getMyPlaylist());
@@ -82,7 +87,7 @@ export function* deletePlaylist({id}) {
   }
 }
 
-export function* deleteSongFromPlaylist({id, songId}) {
+export function* deleteSongFromPlaylist({ id, songId }) {
   try {
     const result = yield call(deletePlaylistApi, id);
     yield put(getMyPlaylist());

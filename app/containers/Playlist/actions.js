@@ -20,94 +20,94 @@ import {
   GET_MY_PLAYLISTS_SUCCESS,
   DELETE_SONG_PLAYLIST_REQUEST,
   DELETE_SONG_PLAYLIST_SUCCESS,
-  DELETE_SONG_PLAYLIST_FAIL
+  DELETE_SONG_PLAYLIST_FAIL,
 } from './constants';
 
 export function createPlaylist(data) {
   return {
     type: CREATE_PLAYLIST_REQUEST,
-    data
+    data,
   };
 }
 
 export function createPlaylistSuccess() {
   return {
-    type: CREATE_PLAYLIST_SUCCESS
+    type: CREATE_PLAYLIST_SUCCESS,
   };
 }
 
 export function createPlaylistFail(error) {
   return {
     type: CREATE_PLAYLIST_FAIL,
-    error
+    error,
   };
 }
 
 export function getPlaylist(id) {
   return {
     type: GET_PLAYLIST_REQUEST,
-    id
+    id,
   };
 }
 
 export function getPlaylistSuccess(playlist) {
   return {
     type: GET_PLAYLIST_SUCCESS,
-    playlist
+    playlist,
   };
 }
 
 export function getPlaylistFail(error) {
   return {
     type: GET_PLAYLIST_FAIL,
-    error
+    error,
   };
 }
 
 export function deletePlaylist(id) {
   return {
     type: DELETE_PLAYLIST_REQUEST,
-    id
+    id,
   };
 }
 
 export function deletePlaylistSuccess() {
   return {
-    type: DELETE_PLAYLIST_SUCCESS
+    type: DELETE_PLAYLIST_SUCCESS,
   };
 }
 
 export function deletePlaylistFail(error) {
   return {
     type: DELETE_PLAYLIST_FAIL,
-    error
+    error,
   };
 }
 
 export function togglePlaylistPopup(status) {
   return {
     type: TOGGLE_PLAYLIST_POPUP,
-    status
-  }
+    status,
+  };
 }
 
 export function getMyPlaylist() {
   return {
-    type: GET_MY_PLAYLISTS_REQUEST
+    type: GET_MY_PLAYLISTS_REQUEST,
   };
 }
 
 export function getMyPlaylistSuccess(playlists) {
   return {
     type: GET_MY_PLAYLISTS_SUCCESS,
-    playlists
+    playlists,
   };
 }
 
 export function getMyPlaylistFail(error) {
   return {
     type: GET_MY_PLAYLISTS_FAIL,
-    error
+    error,
   };
 }
 
@@ -115,19 +115,19 @@ export function deleteSong(id, songId) {
   return {
     type: DELETE_SONG_PLAYLIST_REQUEST,
     id,
-    songId
+    songId,
   };
 }
 
 export function deleteSongSuccess() {
   return {
-    type: DELETE_SONG_PLAYLIST_SUCCESS
+    type: DELETE_SONG_PLAYLIST_SUCCESS,
   };
 }
 
 export function deleteSongFail(error) {
   return {
     type: DELETE_SONG_PLAYLIST_FAIL,
-    error
+    error,
   };
 }

@@ -21,5 +21,4 @@ const makeSelectTastemaker = () =>
     substate => substate.influencers,
   );
 
-
 export { makeSelectTastemaker };

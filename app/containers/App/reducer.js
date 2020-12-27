@@ -15,7 +15,8 @@ import {
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
   SET_ROLE,
-  GET_GENRES_SUCCESS, SET_SONGS,
+  GET_GENRES_SUCCESS,
+  SET_SONGS,
 } from './constants';
 
 // The initial state of the App

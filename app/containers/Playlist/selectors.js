@@ -1,5 +1,5 @@
-import {createSelector} from 'reselect';
-import {initialState} from './reducer';
+import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 /**
  * Direct selector to the playlist state domain
@@ -44,5 +44,5 @@ export {
   makeSelectPlaylistPopUpState,
   makeSelectPlaylists,
   makeSelectPlaylist,
-  makeSelectLoader
+  makeSelectLoader,
 };

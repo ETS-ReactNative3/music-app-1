@@ -7,7 +7,7 @@
 import {
   GET_TASTEMAKERS_REQUEST,
   GET_TASTEMAKERS_REQUEST_SUCCESS,
-  GET_TASTEMAKERS_REQUEST_FAIL
+  GET_TASTEMAKERS_REQUEST_FAIL,
 } from './constants';
 
 export function getTasteMakersRequest() {
@@ -19,13 +19,13 @@ export function getTasteMakersRequest() {
 export function getTasteMakersRequestSuccess(data) {
   return {
     type: GET_TASTEMAKERS_REQUEST_SUCCESS,
-    data
+    data,
   };
 }
 
 export function getTasteMakersRequestFail(error) {
   return {
     type: GET_TASTEMAKERS_REQUEST_FAIL,
-    error
+    error,
   };
 }

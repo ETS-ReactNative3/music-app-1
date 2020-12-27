@@ -4,50 +4,53 @@
  *
  */
 
-import React, {memo, useEffect, useState} from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {createStructuredSelector} from 'reselect';
-import {compose} from 'redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
 
-import {useInjectSaga} from 'utils/injectSaga';
-import {useInjectReducer} from 'utils/injectReducer';
-import {makeSelectPlaylistPopUpState, makeSelectPlaylists} from './selectors';
-import reducer from './reducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Form } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import {
+  createPlaylist,
+  deletePlaylist,
+  getMyPlaylist,
+  togglePlaylistPopup,
+} from './actions';
+import PaperCard from '../../components/PaperCard';
 import saga from './saga';
-import PaperCard from "../../components/PaperCard";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import * as Yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Form} from "react-bootstrap";
-import Col from "react-bootstrap/Col";
-import {createPlaylist, deletePlaylist, getMyPlaylist, togglePlaylistPopup} from "./actions";
-import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from "react-bootstrap-table2-paginator";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
-import {Link} from "react-router-dom";
+import reducer from './reducer';
+import { makeSelectPlaylistPopUpState, makeSelectPlaylists } from './selectors';
 
-export function Playlist(
-  {
-    createPlaylistAction,
-    togglePlaylistPopupAction,
-    popupState,
-    getMyPlaylistAction,
-    playlists,
-    deletePlaylistAction
-  }) {
-  useInjectReducer({key: 'playlist', reducer});
-  useInjectSaga({key: 'playlist', saga});
+export function Playlist({
+  createPlaylistAction,
+  togglePlaylistPopupAction,
+  popupState,
+  getMyPlaylistAction,
+  playlists,
+  deletePlaylistAction,
+}) {
+  useInjectReducer({ key: 'playlist', reducer });
+  useInjectSaga({ key: 'playlist', saga });
 
   const [open, setOpen] = useState(false);
   const [playlistId, setPlaylistId] = useState(0);
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string()
-      .required('Title is required')
+    title: Yup.string().required('Title is required'),
   });
 
   useEffect(() => {
@@ -57,36 +60,36 @@ export function Playlist(
   const handleClose = () => togglePlaylistPopupAction(false);
   const handleShow = () => togglePlaylistPopupAction(true);
 
-  const {register, handleSubmit, errors} = useForm({
-    resolver: yupResolver(validationSchema)
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = data => {
     createPlaylistAction(data);
   };
 
-  const columns = [{
-    dataField: 'title',
-    text: 'Title',
-    formatter: linkFormatter,
-  }, {
-    dataField: 'songs',
-    text: 'Songs',
-    formatter: songsFormatter,
-  },{
-    dataField: 'actions',
-    text: 'Actions',
-    isDummyField: true,
-    csvExport: false,
-    formatter: actionsFormatter,
-  }];
+  const columns = [
+    {
+      dataField: 'title',
+      text: 'Title',
+      formatter: linkFormatter,
+    },
+    {
+      dataField: 'songs',
+      text: 'Songs',
+      formatter: songsFormatter,
+    },
+    {
+      dataField: 'actions',
+      text: 'Actions',
+      isDummyField: true,
+      csvExport: false,
+      formatter: actionsFormatter,
+    },
+  ];
 
   function linkFormatter(cell, row, rowIndex, formatExtraData) {
-    return (
-      <Link to={`/playlist/${row.id}`}>
-        {row.title}
-      </Link>
-    );
+    return <Link to={`/playlist/${row.id}`}>{row.title}</Link>;
   }
 
   function songsFormatter(cell, row, rowIndex, formatExtraData) {
@@ -97,12 +100,16 @@ export function Playlist(
     return (
       <div
         style={{
-          textAlign: "center",
-          cursor: "pointer",
-          lineHeight: "normal"
-        }}>
-        <button className="btn btn-danger" onClick={() => handleDeletePopupOpen(row.id)}>
-          <FontAwesomeIcon icon={faTrash}/>
+          textAlign: 'center',
+          cursor: 'pointer',
+          lineHeight: 'normal',
+        }}
+      >
+        <button
+          className="btn btn-danger"
+          onClick={() => handleDeletePopupOpen(row.id)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
     );
@@ -127,7 +134,9 @@ export function Playlist(
     <PaperCard title="My Playlists">
       <div className="row pb-5">
         <div className="col">
-          <Button variant="success" onClick={handleShow}>Create Playlist</Button>
+          <Button variant="success" onClick={handleShow}>
+            Create Playlist
+          </Button>
         </div>
       </div>
       <div className="row">
@@ -137,9 +146,10 @@ export function Playlist(
             bordered={false}
             bootstrap4
             pagination={paginationFactory()}
-            keyField='id'
+            keyField="id"
             data={playlists}
-            columns={columns}/>
+            columns={columns}
+          />
         </div>
       </div>
       <Modal show={popupState} onHide={handleClose}>
@@ -182,14 +192,14 @@ export function Playlist(
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete the playlist?
-        </Modal.Body>
+        <Modal.Body>Are you sure you want to delete the playlist?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleDeletePopupClose}>
             No
           </Button>
-          <Button variant="primary" onClick={deletePlaylistCall}>Yes</Button>
+          <Button variant="primary" onClick={deletePlaylistCall}>
+            Yes
+          </Button>
         </Modal.Footer>
       </Modal>
     </PaperCard>
@@ -207,7 +217,7 @@ Playlist.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   popupState: makeSelectPlaylistPopUpState(),
-  playlists: makeSelectPlaylists()
+  playlists: makeSelectPlaylists(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -215,7 +225,7 @@ function mapDispatchToProps(dispatch) {
     createPlaylistAction: data => dispatch(createPlaylist(data)),
     togglePlaylistPopupAction: data => dispatch(togglePlaylistPopup(data)),
     getMyPlaylistAction: () => dispatch(getMyPlaylist()),
-    deletePlaylistAction: id => dispatch(deletePlaylist(id))
+    deletePlaylistAction: id => dispatch(deletePlaylist(id)),
   };
 }
 

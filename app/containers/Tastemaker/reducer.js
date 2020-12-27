@@ -4,15 +4,15 @@
  *
  */
 import produce from 'immer';
-import {GET_TASTEMAKERS_REQUEST_SUCCESS} from './constants';
+import { GET_TASTEMAKERS_REQUEST_SUCCESS } from './constants';
 
 export const initialState = {
-  influencers: []
+  influencers: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const tastemakerReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case GET_TASTEMAKERS_REQUEST_SUCCESS:
         draft.influencers = action.data.data;
