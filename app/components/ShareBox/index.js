@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown } from 'react-bootstrap';
+import {Dropdown} from 'react-bootstrap';
 
 import {
   FacebookIcon,
@@ -19,9 +19,10 @@ const ShareBox = () => {
         <Dropdown.Toggle id="dropdown-basic" as="span">...</Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item>
-            <FacebookShareButton title="I am listening to songs on Bliiink"
+            <FacebookShareButton
+              title="I am listening to songs on Bliiink"
               url={window.location.href}>
-              <FacebookIcon size={32} round={true} />
+              <FacebookIcon size={32} round={true}/>
             </FacebookShareButton>
           </Dropdown.Item>
           <Dropdown.Item>
@@ -30,13 +31,14 @@ const ShareBox = () => {
               url={window.location.href}
               separator=" "
             >
-              <WhatsappIcon size={32} round={true} />
+              <WhatsappIcon size={32} round={true}/>
             </WhatsappShareButton>
           </Dropdown.Item>
           <Dropdown.Item>
-            <TwitterShareButton title="I am listening to songs on Bliiink"
+            <TwitterShareButton
+              title="I am listening to songs on Bliiink"
               url={window.location.href}>
-              <TwitterIcon size={32} round={true} />
+              <TwitterIcon size={32} round={true}/>
             </TwitterShareButton>
           </Dropdown.Item>
         </Dropdown.Menu>
