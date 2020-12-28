@@ -4,7 +4,7 @@ import {
   faHeadphonesAlt,
   faMusic,
   faWindowClose,
-  faPlusSquare
+  faPlusSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import './index.scss';

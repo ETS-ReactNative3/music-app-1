@@ -17,8 +17,7 @@ import { makeSelectInfluencer, makeSelectFormLoader } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-
-import PaperCard from "../../components/PaperCard";
+import PaperCard from '../../components/PaperCard';
 import InfluencerForm from '../../components/InfluencerForm';
 import reducerSong from '../Song/reducer';
 import sagaSong from '../Song/saga';
@@ -29,7 +28,7 @@ export function Influencer({
   getGenreList,
   genres,
   formLoader,
-  becomeAnInfluencerAction
+  becomeAnInfluencerAction,
 }) {
   useInjectReducer({ key: 'influencer', reducer });
   useInjectSaga({ key: 'influencer', saga });
@@ -41,12 +40,16 @@ export function Influencer({
   }, []);
 
   const onSubmit = data => {
-    becomeAnInfluencerAction(data)
+    becomeAnInfluencerAction(data);
   };
 
   return (
     <PaperCard title="Become An Influencer">
-      <InfluencerForm formSubmit={values => onSubmit(values)} genres={genres} formLoader={formLoader} />
+      <InfluencerForm
+        formSubmit={values => onSubmit(values)}
+        genres={genres}
+        formLoader={formLoader}
+      />
     </PaperCard>
   );
 }
@@ -65,7 +68,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
-    becomeAnInfluencerAction: (data) => dispatch(becomeAnInfluencer(data)),
+    becomeAnInfluencerAction: data => dispatch(becomeAnInfluencer(data)),
   };
 }
 

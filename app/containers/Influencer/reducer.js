@@ -4,7 +4,12 @@
  *
  */
 import produce from 'immer';
-import { BECOME_AN_INFLUENCER, BECOME_AN_INFLUENCER_FAIL, BECOME_AN_INFLUENCER_SUCCESS, DEFAULT_ACTION } from './constants';
+import {
+  BECOME_AN_INFLUENCER,
+  BECOME_AN_INFLUENCER_FAIL,
+  BECOME_AN_INFLUENCER_SUCCESS,
+  DEFAULT_ACTION,
+} from './constants';
 
 export const initialState = {
   formLoader: false,
@@ -13,7 +18,7 @@ export const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const influencerReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case BECOME_AN_INFLUENCER:
         draft.formLoader = true;

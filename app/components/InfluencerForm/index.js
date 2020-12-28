@@ -1,38 +1,38 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Form } from "react-bootstrap";
-import Col from "react-bootstrap/Col";
-import Select from 'react-select'
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import ButtonLoader from "../ButtonLoader";
+import { Form } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import ButtonLoader from '../ButtonLoader';
 import './index.scss';
 
 function renderOptions(genres) {
-  return genres.map(genre => ({ value: genre.id, label: genre.title }))
+  return genres.map(genre => ({ value: genre.id, label: genre.title }));
 }
 
 function InfluencerForm({ genres, formSubmit, formLoader }) {
-
   const validationSchema = Yup.object().shape({
-    description: Yup.string()
-      .required('Service information is required'),
-    genres: Yup.array().required('Genre is required').nullable(),
+    description: Yup.string().required('Service information is required'),
+    genres: Yup.array()
+      .required('Genre is required')
+      .nullable(),
   });
 
   const { register, handleSubmit, errors, setValue, clearErrors } = useForm({
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
   });
 
-  const handleSelectChange = (data) => {
+  const handleSelectChange = data => {
     setValue('genres', data);
-  }
+  };
 
   const onSubmit = data => {
     const formData = {
       ...data,
-      genres: data.genres.map(val => val.value)
-    }
+      genres: data.genres.map(val => val.value),
+    };
     // console.log(formData)
     formSubmit(formData);
   };
@@ -46,7 +46,9 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
             <input
               name="description"
               placeholder="Service Information"
-              className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+              className={`form-control ${
+                errors.description ? 'is-invalid' : ''
+              }`}
               ref={register}
             />
             <div className="invalid-feedback">
@@ -64,7 +66,7 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
               classNamePrefix="genre-select"
               onChange={handleSelectChange}
               options={renderOptions(genres)}
-              ref={e => register({ name: "genres" })}
+              ref={e => register({ name: 'genres' })}
             />
             <div className="invalid-feedback">
               {errors.genres && errors.genres.message}
@@ -73,9 +75,7 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} xs="12" controlId="formFacebookGrid">
-            <label className="my-1 mr-2 label-divider">
-              Facebook
-            </label>
+            <label className="my-1 mr-2 label-divider">Facebook</label>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="formGridFacebookUrl">
             <input
@@ -107,9 +107,7 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
 
         <Form.Row>
           <Form.Group as={Col} xs="12" controlId="formGridinsta">
-            <label className="my-1 mr-2 label-divider">
-              Instagram
-            </label>
+            <label className="my-1 mr-2 label-divider">Instagram</label>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="formGriInstadUrl">
             <input
@@ -141,9 +139,7 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
 
         <Form.Row>
           <Form.Group as={Col} xs="12" controlId="formGridTwitter">
-            <label className="my-1 mr-2 label-divider">
-              Twitter
-            </label>
+            <label className="my-1 mr-2 label-divider">Twitter</label>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="formGridTwieerUrl">
             <input
@@ -175,9 +171,7 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
 
         <Form.Row>
           <Form.Group as={Col} xs="12" controlId="formGridYoutube">
-            <label className="my-1 mr-2 label-divider">
-              Youtube
-            </label>
+            <label className="my-1 mr-2 label-divider">Youtube</label>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="formGridYoutubeUrl">
             <input
@@ -209,9 +203,7 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
 
         <Form.Row>
           <Form.Group as={Col} xs="12" controlId="formGridBlog">
-            <label className="my-1 mr-2 label-divider">
-              Blog
-            </label>
+            <label className="my-1 mr-2 label-divider">Blog</label>
           </Form.Group>
           <Form.Group as={Col} md="6" controlId="formGridBlogUrl">
             <input
@@ -241,11 +233,13 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
           </Form.Group>
         </Form.Row>
 
-        {formLoader ? <ButtonLoader /> :
+        {formLoader ? (
+          <ButtonLoader />
+        ) : (
           <button className="btn btn-primary btn-block" type="submit">
             Submit
           </button>
-        }
+        )}
       </form>
     </>
   );

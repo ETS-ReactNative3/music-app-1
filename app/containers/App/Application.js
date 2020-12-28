@@ -1,14 +1,13 @@
 import React from 'react';
 import jwtDecode from 'jwt-decode';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {PropTypes} from 'prop-types';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import Dashboard from '../Templates/Dashboard';
 import HomePage from '../HomePage/Loadable';
-import {Album, AlbumForm, AlbumList} from '../Album/Loadable';
-import {SongList, SongForm} from '../Song/Loadable';
-import Playlist from "../Playlist/Loadable";
-import BecomeAnInfluencer from "../Influencer/Loadable";
-
+import { Album, AlbumForm, AlbumList } from '../Album/Loadable';
+import { SongList, SongForm } from '../Song/Loadable';
+import Playlist from '../Playlist/Loadable';
+import BecomeAnInfluencer from '../Influencer/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -25,7 +24,7 @@ function useAuth() {
   return isAuthorized;
 }
 
-function PrivateRoute({children, ...rest}) {
+function PrivateRoute({ children, ...rest }) {
   const auth = useAuth();
 
   return (
@@ -46,39 +45,39 @@ function PrivateRoute({children, ...rest}) {
   );
 }
 
-function Application({history}) {
+function Application({ history }) {
   return (
     <Dashboard>
       <Switch>
         <PrivateRoute exact path="/">
-          <HomePage/>
+          <HomePage />
         </PrivateRoute>
         <PrivateRoute exact path="/album/add">
-          <AlbumForm/>
+          <AlbumForm />
         </PrivateRoute>
         <Route exact path="/album/:slug">
-          <Album/>
+          <Album />
         </Route>
         <PrivateRoute exact path="/albumList">
-          <AlbumList/>
+          <AlbumList />
         </PrivateRoute>
         <PrivateRoute exact path="/album/edit/:id">
-          <AlbumForm/>
+          <AlbumForm />
         </PrivateRoute>
         <PrivateRoute exact path="/songList">
-          <SongList/>
+          <SongList />
         </PrivateRoute>
         <PrivateRoute exact path="/song/edit/:id">
-          <SongForm/>
+          <SongForm />
         </PrivateRoute>
         <PrivateRoute exact path="/song/add">
-          <SongForm/>
+          <SongForm />
         </PrivateRoute>
         <PrivateRoute exact path="/playlists">
-          <Playlist/>
+          <Playlist />
         </PrivateRoute>
         <PrivateRoute exact path="/become-an-influencer">
-          <BecomeAnInfluencer/>
+          <BecomeAnInfluencer />
         </PrivateRoute>
       </Switch>
     </Dashboard>

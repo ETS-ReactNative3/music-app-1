@@ -3,14 +3,9 @@
 // Individual exports for testing
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
-import {
-  BECOME_AN_INFLUENCER,
-} from './constants';
+import { BECOME_AN_INFLUENCER } from './constants';
 import api from '../../utils/api';
-import {
-  becomeAnInfluencerSucces,
-  becomeAnInfluencerFail
-} from './actions';
+import { becomeAnInfluencerSucces, becomeAnInfluencerFail } from './actions';
 
 function becomeInfuencer(data) {
   return api.post('/influencers', data);
