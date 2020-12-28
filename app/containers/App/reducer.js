@@ -16,6 +16,7 @@ import {
   HANDLE_SINGLE_SONG,
   SET_ROLE,
   GET_GENRES_SUCCESS,
+  SET_SONGS,
 } from './constants';
 
 // The initial state of the App
@@ -79,6 +80,9 @@ const appReducer = (state = initialState, action) =>
         break;
       case GET_GENRES_SUCCESS:
         draft.genres = action.genres;
+        break;
+      case SET_SONGS:
+        draft.currentPlaylist = action.songs;
         break;
     }
   });

@@ -1,14 +1,15 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import { call, put, takeLatest } from '@redux-saga/core/effects';
-import { toast } from 'react-toastify';
+import {call, put, takeLatest} from '@redux-saga/core/effects';
+import {toast} from 'react-toastify';
 import {
+  GET_PLAYLIST_REQUEST,
   ADD_SONG_INTO_PAYLIST,
   CREATE_PLAYLIST_AND_ADD_SONG,
   CREATE_PLAYLIST_REQUEST,
   DELETE_PLAYLIST_REQUEST,
-  GET_MY_PLAYLISTS_REQUEST,
+  GET_MY_PLAYLISTS_REQUEST, DELETE_SONG_PLAYLIST_REQUEST,
 } from './constants';
 import api from '../../utils/api';
 import {
@@ -19,11 +20,14 @@ import {
   createPlaylistFail,
   createPlaylistSuccess,
   deletePlaylistFail,
-  deletePlaylistSuccess,
+  deletePlaylistSuccess, deleteSongFail, deleteSongSuccess,
   getMyPlaylist,
   getMyPlaylistFail,
   getMyPlaylistSuccess,
+  getPlaylistFail,
+  getPlaylistSuccess,
   togglePlaylistPopup,
+  getPlaylist
 } from './actions';
 
 function postPlaylist(data) {
@@ -38,11 +42,19 @@ function deletePlaylistApi(id) {
   return api.delete(`/playlists/${id}`);
 }
 
+function getPlaylistApi(id) {
+  return api.get(`/playlists/${id}`);
+}
+
+function deleteSongApi(id, songId) {
+  return api.delete(`/playlists/${id}/song/${songId}`);
+}
+
 function addSongIntoPaylistApi(data) {
   return api.post('/playlists/songs', data);
 }
 
-export function* createPlaylistSaga({ data }) {
+export function* createPlaylistSaga({data}) {
   try {
     yield call(postPlaylist, data);
     yield put(createPlaylistSuccess());
@@ -64,7 +76,17 @@ export function* getMyPlaylists() {
   }
 }
 
-export function* deletePlaylist({ id }) {
+export function* getPlaylistSaga({id}) {
+  try {
+    const result = yield call(getPlaylistApi, id);
+    yield put(getPlaylistSuccess(result.data));
+  } catch (e) {
+    toast.error(e.message);
+    yield put(getPlaylistFail(e.message));
+  }
+}
+
+export function* deletePlaylist({id}) {
   try {
     const result = yield call(deletePlaylistApi, id);
     yield put(getMyPlaylist());
@@ -76,7 +98,19 @@ export function* deletePlaylist({ id }) {
   }
 }
 
-export function* addSongIntoPaylist({ data }) {
+export function* deleteSongFromPlaylist({id, songId}) {
+  try {
+    yield call(deleteSongApi, id, songId);
+    yield put(getPlaylist(id));
+    yield put(deleteSongSuccess());
+    toast.success('Song deleted from playlist successfully.');
+  } catch (e) {
+    toast.error(e.message);
+    yield put(deleteSongFail(e.message));
+  }
+}
+
+export function* addSongIntoPaylist({data}) {
   try {
     const result = yield call(addSongIntoPaylistApi, data);
     yield put(addSongIntoPlaylistSuccess(result.data));
@@ -87,9 +121,9 @@ export function* addSongIntoPaylist({ data }) {
   }
 }
 
-export function* createPlaylistAddSong({ data }) {
+export function* createPlaylistAddSong({data}) {
   try {
-    const result = yield call(postPlaylist, { title: data.title });
+    const result = yield call(postPlaylist, {title: data.title});
     yield call(addSongIntoPaylistApi, {
       id: result.data.id,
       songId: data.songId,
@@ -105,7 +139,9 @@ export function* createPlaylistAddSong({ data }) {
 export default function* playlistSaga() {
   yield takeLatest(CREATE_PLAYLIST_REQUEST, createPlaylistSaga);
   yield takeLatest(GET_MY_PLAYLISTS_REQUEST, getMyPlaylists);
+  yield takeLatest(GET_PLAYLIST_REQUEST, getPlaylistSaga);
   yield takeLatest(DELETE_PLAYLIST_REQUEST, deletePlaylist);
   yield takeLatest(ADD_SONG_INTO_PAYLIST, addSongIntoPaylist);
   yield takeLatest(CREATE_PLAYLIST_AND_ADD_SONG, createPlaylistAddSong);
+  yield takeLatest(DELETE_SONG_PLAYLIST_REQUEST, deleteSongFromPlaylist);
 }

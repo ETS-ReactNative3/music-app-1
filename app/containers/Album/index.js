@@ -55,6 +55,7 @@ const Album = props => {
     addSongIntoPlaylistAction,
     playlists,
   } = props;
+
   useEffect(() => {
     onLoadAlbum(slug);
   }, [slug]);

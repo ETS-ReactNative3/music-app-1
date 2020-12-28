@@ -27,4 +27,22 @@ const makeSelectPlaylists = () =>
     substate => substate.playlists,
   );
 
-export { selectPlaylistDomain, makeSelectPlaylistPopUpState, makeSelectPlaylists };
+const makeSelectPlaylist = () =>
+  createSelector(
+    selectPlaylistDomain,
+    substate => substate.playlist,
+  );
+
+const makeSelectLoader = () =>
+  createSelector(
+    selectPlaylistDomain,
+    substate => substate.loader,
+  );
+
+export {
+  selectPlaylistDomain,
+  makeSelectPlaylistPopUpState,
+  makeSelectPlaylists,
+  makeSelectPlaylist,
+  makeSelectLoader,
+};

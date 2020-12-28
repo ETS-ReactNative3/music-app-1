@@ -18,6 +18,9 @@ import {
   GET_MY_PLAYLISTS_FAIL,
   GET_MY_PLAYLISTS_REQUEST,
   GET_MY_PLAYLISTS_SUCCESS,
+  DELETE_SONG_PLAYLIST_REQUEST,
+  DELETE_SONG_PLAYLIST_SUCCESS,
+  DELETE_SONG_PLAYLIST_FAIL,
   ADD_SONG_INTO_PAYLIST,
   ADD_SONG_INTO_PAYLIST_SUCCESS,
   ADD_SONG_INTO_PAYLIST_FAIL,
@@ -46,16 +49,17 @@ export function createPlaylistFail(error) {
   };
 }
 
-export function getPlaylist(data) {
+export function getPlaylist(id) {
   return {
     type: GET_PLAYLIST_REQUEST,
-    data,
+    id,
   };
 }
 
-export function getPlaylistSuccess() {
+export function getPlaylistSuccess(playlist) {
   return {
     type: GET_PLAYLIST_SUCCESS,
+    playlist,
   };
 }
 
@@ -111,6 +115,28 @@ export function getMyPlaylistFail(error) {
     type: GET_MY_PLAYLISTS_FAIL,
     error,
   };
+}
+
+
+export function deleteSong(id, songId) {
+  return {
+    type: DELETE_SONG_PLAYLIST_REQUEST,
+    id,
+    songId,
+  };
+}
+
+export function deleteSongSuccess() {
+  return {
+    type: DELETE_SONG_PLAYLIST_SUCCESS,
+  };
+}
+
+export function deleteSongFail(error) {
+  return {
+    type: DELETE_SONG_PLAYLIST_FAIL,
+    error
+  }
 }
 
 export function addSongIntoPlaylist(data) {

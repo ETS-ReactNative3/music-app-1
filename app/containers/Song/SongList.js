@@ -1,28 +1,28 @@
-import React, {memo, useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {compose} from 'redux';
+import React, { memo, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import {createStructuredSelector} from 'reselect';
-import {useInjectSaga} from 'utils/injectSaga';
-import {useInjectReducer} from 'utils/injectReducer';
-import {makeSelectSong} from './selectors';
-import {deleteSong, songRequest} from './actions';
-import reducer from './reducer';
-import saga from './saga';
+import { createStructuredSelector } from 'reselect';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import Button from "react-bootstrap/Button";
-import PaperCard from "../../components/PaperCard";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
-import Modal from "react-bootstrap/Modal";
+import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-bootstrap/Modal';
 import format from 'date-fns/format';
+import PaperCard from '../../components/PaperCard';
+import saga from './saga';
+import reducer from './reducer';
+import { deleteSong, songRequest } from './actions';
+import { makeSelectSong } from './selectors';
 
-function SongList({getSongs, songs, deleteSongAction}) {
-  useInjectReducer({key: 'song', reducer});
-  useInjectSaga({key: 'song', saga});
+function SongList({ getSongs, songs, deleteSongAction }) {
+  useInjectReducer({ key: 'song', reducer });
+  useInjectSaga({ key: 'song', saga });
 
   const [songId, setSongId] = useState(0);
 
@@ -31,46 +31,70 @@ function SongList({getSongs, songs, deleteSongAction}) {
   }, []);
 
   const [open, setOpen] = React.useState(false);
-  const columns = [{
-    dataField: 'title',
-    text: 'Title'
-  }, {
-    dataField: 'description',
-    text: 'Description'
-  }, {
-    dataField: 'genre.title',
-    text: 'Genre'
-  }, {
-    dataField: 'releaseDate',
-    text: 'Release Date',
-    formatter: dateFormatter,
-  }, {
-    dataField: 'actions',
-    text: 'Actions',
-    isDummyField: true,
-    csvExport: false,
-    formatter: actionsFormatter,
-  }];
+  const columns = [
+    {
+      dataField: 'title',
+      text: 'Title',
+    },
+    {
+      dataField: 'description',
+      text: 'Description',
+    },
+    {
+      dataField: 'genre.title',
+      text: 'Genre',
+    },
+    {
+      dataField: 'releaseDate',
+      text: 'Release Date',
+      formatter: dateFormatter,
+    },
+    {
+      dataField: 'promote',
+      text: 'Promote Date',
+      isDummyField: true,
+      formatter: promoteFormatter,
+    },
+    {
+      dataField: 'actions',
+      text: 'Actions',
+      isDummyField: true,
+      csvExport: false,
+      formatter: actionsFormatter,
+    },
+  ];
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
-    return format(new Date(row.releaseDate), 'MM/dd/yyyy')
+    return format(new Date(row.releaseDate), 'MM/dd/yyyy');
+  }
+
+  function promoteFormatter(cell, row, rowIndex, formatExtraData) {
+    return (
+      <Link to={`/tastemakers/${row.id}`}>
+        <button className="btn btn-info mr-3">Promote</button>
+      </Link>
+    );
   }
 
   function actionsFormatter(cell, row, rowIndex, formatExtraData) {
     return (
       <div
         style={{
-          textAlign: "center",
-          cursor: "pointer",
-          lineHeight: "normal"
-        }}>
+          textAlign: 'center',
+          cursor: 'pointer',
+          lineHeight: 'normal',
+        }}
+      >
         <Link to={`/song/edit/${row.id}`}>
           <button className="btn btn-info mr-3">
-            <FontAwesomeIcon icon={faEdit}/>
+            <FontAwesomeIcon icon={faEdit} />
           </button>
         </Link>
-        <button className="btn btn-danger" onClick={() => handleClickOpen(row.id)}>
-          <FontAwesomeIcon icon={faTrash}/>
+        <button
+          className="btn btn-danger"
+          onClick={() => handleClickOpen(row.id)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
     );
@@ -107,9 +131,10 @@ function SongList({getSongs, songs, deleteSongAction}) {
             bordered={false}
             bootstrap4
             pagination={paginationFactory()}
-            keyField='id'
+            keyField="id"
             data={songs}
-            columns={columns}/>
+            columns={columns}
+          />
         </div>
       </div>
       <Modal
@@ -121,14 +146,14 @@ function SongList({getSongs, songs, deleteSongAction}) {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete the song?
-        </Modal.Body>
+        <Modal.Body>Are you sure you want to delete the song?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             No
           </Button>
-          <Button variant="primary" onClick={deleteSongCall}>Yes</Button>
+          <Button variant="primary" onClick={deleteSongCall}>
+            Yes
+          </Button>
         </Modal.Footer>
       </Modal>
     </PaperCard>
