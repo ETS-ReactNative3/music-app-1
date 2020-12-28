@@ -6,9 +6,9 @@ import Dashboard from '../Templates/Dashboard';
 import HomePage from '../HomePage/Loadable';
 import { Album, AlbumForm, AlbumList } from '../Album/Loadable';
 import { SongList, SongForm } from '../Song/Loadable';
-import Playlist from '../Playlist/Loadable';
+import { Playlist, PlaylistDetail } from Playlist from '../Playlist/Loadable';
 import BecomeAnInfluencer from '../Influencer/Loadable';
-import { Playlist, PlaylistDetail } from '../Playlist/Loadable';
+
 import Tastemaker from '../Tastemaker/Loadable';
 
 function useAuth() {
@@ -36,12 +36,12 @@ function PrivateRoute({ children, ...rest }) {
         auth ? (
           children
         ) : (
-            <Redirect
-              to={{
-                pathname: '/auth/login',
-              }}
-            />
-          )
+          <Redirect
+            to={{
+              pathname: '/auth/login',
+            }}
+          />
+        )
       }
     />
   );

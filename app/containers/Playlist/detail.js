@@ -10,12 +10,12 @@ import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import {deleteSong, getPlaylist} from './actions';
+import { deleteSong, getPlaylist } from './actions';
 import { makeSelectLoader, makeSelectPlaylist } from './selectors';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import { handleSingleSong, handleSongPlaying, setSongs } from '../App/actions';
 import { makeSelectCurrentSong } from '../App/selectors';
-import PlaylistOptions from "../../components/PlaylistOptions";
+import PlaylistOptions from '../../components/PlaylistOptions';
 
 function Detail({
   getPlaylistAction,
@@ -25,7 +25,7 @@ function Detail({
   onHandleSingleSong,
   currentSong,
   setSongsAction,
-  deleteSongAction
+  deleteSongAction,
 }) {
   useInjectReducer({ key: 'playlist', reducer });
   useInjectSaga({ key: 'playlist', saga });
@@ -48,9 +48,9 @@ function Detail({
     onHandleSingleSong(index, status);
   };
 
-  const removeSong = (songId) => {
-    deleteSongAction(id, songId)
-  }
+  const removeSong = songId => {
+    deleteSongAction(id, songId);
+  };
 
   const { playing, songIndex } = currentSong;
 
@@ -122,7 +122,7 @@ function Detail({
                     </span>
                   </div>
                   <div className="dot-box ml-auto">
-                    <PlaylistOptions remove={() => removeSong(ele.song.id)}/>
+                    <PlaylistOptions remove={() => removeSong(ele.song.id)} />
                   </div>
                 </div>
               ))}
@@ -147,7 +147,7 @@ function mapDispatchToProps(dispatch) {
     setSongsAction: songs => dispatch(setSongs(songs)),
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
-    deleteSongAction: (id, songId) => dispatch(deleteSong(id, songId))
+    deleteSongAction: (id, songId) => dispatch(deleteSong(id, songId)),
   };
 }
 
