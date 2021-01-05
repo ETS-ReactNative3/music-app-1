@@ -17,6 +17,8 @@ import {
   SET_ROLE,
   GET_GENRES_SUCCESS,
   SET_SONGS,
+  SET_USER_DETAILS,
+  SET_INFLUENCER_DETAILS,
 } from './constants';
 
 // The initial state of the App
@@ -27,6 +29,8 @@ export const initialState = {
   userData: {
     repositories: false,
   },
+  userDetails: {},
+  influencerDetails: {},
   featuredAlbum: [],
   latestPosts: [],
   weeklyTop: [],
@@ -83,6 +87,12 @@ const appReducer = (state = initialState, action) =>
         break;
       case SET_SONGS:
         draft.currentPlaylist = action.songs;
+        break;
+      case SET_USER_DETAILS:
+        draft.userDetails = action.userDetails;
+        break;
+      case SET_INFLUENCER_DETAILS:
+        draft.influencerDetails = action.influencerDetails;
         break;
     }
   });

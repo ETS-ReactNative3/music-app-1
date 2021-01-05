@@ -16,7 +16,7 @@
  */
 
 import request from '../../utils/request';
-
+import api from '../../utils/api';
 import {
   LOAD_REPOS,
   LOAD_REPOS_SUCCESS,
@@ -32,6 +32,8 @@ import {
   SET_ROLE,
   PREPARE_APP,
   SET_SONGS,
+  SET_USER_DETAILS,
+  SET_INFLUENCER_DETAILS,
 } from './constants';
 import latestPostsJson from '../../utils/json/posts';
 
@@ -155,6 +157,24 @@ export const fetchDefaultData = () => async dispatch => {
   }
 };
 
+export const fetchUserDetailsData = () => async dispatch => {
+  try {
+    Promise.all([api.get('/auth/userDetails')]).then(response => {
+      const [userDetails] = response;
+      if (userDetails.data.influencerId) {
+        Promise.all([api.get('influencers')]).then(response1=> {
+          const [influencerResponse] = response1;
+
+          dispatch(setInfluencerDetails(influencerResponse.data));
+        });
+      }
+      dispatch(setUserDetails(userDetails.data));
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export function setPlaylist(songs) {
   return {
     type: SET_PLAYLIST,
@@ -217,5 +237,19 @@ export function setSongs(songs) {
   return {
     type: SET_SONGS,
     songs,
+  };
+}
+
+export function setUserDetails(userDetails) {
+  return {
+    type: SET_USER_DETAILS,
+    userDetails,
+  };
+}
+
+export function setInfluencerDetails(influencerDetails) {
+  return {
+    type: SET_INFLUENCER_DETAILS,
+    influencerDetails,
   };
 }

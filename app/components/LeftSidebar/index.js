@@ -4,10 +4,11 @@ import {
   faHeadphonesAlt,
   faMusic,
   faWindowClose,
-  faPlusSquare
+  faPlusSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import './index.scss';
+import PlanSvg from '../../images/svg/plan_icon.svg';
 
 function LeftSideBar({ role }) {
   const handleSideBar = () => {
@@ -59,6 +60,19 @@ function LeftSideBar({ role }) {
                   <p className="d-inline-block m-0">My Playlists</p>
                 </Link>
               </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/plan" className="nav-link mb-1">
+                  <img
+                    src={PlanSvg}
+                    alt="React Logo"
+                    width={20}
+                    height={20}
+                    style={{ marginRight: 5, marginLeft: -3 }}
+                  />
+
+                  <p className="d-inline-block m-0">My Plan</p>
+                </Link>
+              </li>
             </ul>
           ) : (
             <ul
@@ -71,6 +85,19 @@ function LeftSideBar({ role }) {
                 <Link to="/playlists" className="nav-link mb-1">
                   <FontAwesomeIcon icon={faPlusSquare} className="mr-2" />
                   <p className="d-inline-block m-0">My Playlists</p>
+                </Link>
+              </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/plan" className="nav-link mb-1">
+                  <img
+                    src={PlanSvg}
+                    alt="React Logo"
+                    width={20}
+                    height={20}
+                    style={{ marginRight: 5, marginLeft: -3 }}
+                  />
+
+                  <p className="d-inline-block m-0">My Plan</p>
                 </Link>
               </li>
             </ul>

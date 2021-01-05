@@ -7,6 +7,7 @@ import HomePage from '../HomePage/Loadable';
 import { Album, AlbumForm, AlbumList } from '../Album/Loadable';
 import { SongList, SongForm } from '../Song/Loadable';
 import { Playlist, PlaylistDetail } from '../Playlist/Loadable';
+import {  PlanDetails } from '../Plan/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
 
 function useAuth() {
@@ -81,6 +82,9 @@ function Application({ history }) {
         </PrivateRoute>
         <PrivateRoute exact path="/playlist/:id">
           <PlaylistDetail />
+        </PrivateRoute>
+        <PrivateRoute exact path="/plan">
+          <PlanDetails />
         </PrivateRoute>
       </Switch>
     </Dashboard>

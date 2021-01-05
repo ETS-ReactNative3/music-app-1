@@ -27,3 +27,5 @@ export const GET_GENRES_SUCCESS = 'app/Global/GET_GENRES_SUCCESS';
 export const GET_GENRES_FAIL = 'app/Global/GET_GENRES_FAIL';
 export const PREPARE_APP = 'app/Global/PREPARE_APP';
 export const SET_SONGS = 'app/Global/SET_SONGS';
+export const SET_USER_DETAILS = 'app/Global/SET_USER_DETAILS';
+export const SET_INFLUENCER_DETAILS = 'app/Global/SET_INFLUENCER_DETAILS';
