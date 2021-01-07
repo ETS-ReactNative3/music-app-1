@@ -104,18 +104,7 @@ module.exports = options => ({
             limit: 10000,
           },
         },
-      },
-      {
-        test: /\.(png|jp(e*)g|svg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'images/[hash]-[name].[ext]',
-            },
-          },
-        ],
-      },
+      }
     ],
   },
   plugins: options.plugins.concat([

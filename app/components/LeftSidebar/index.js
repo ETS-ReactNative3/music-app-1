@@ -4,11 +4,12 @@ import {
   faHeadphonesAlt,
   faMusic,
   faWindowClose,
-  faPlusSquare,
+  faPlusSquare, faMale
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import PlanSvg from '../../images/svg/plan_icon.svg';
+import LogoPng from './../../images/logo.png';
 
 function LeftSideBar({ role }) {
   const handleSideBar = () => {
@@ -27,7 +28,7 @@ function LeftSideBar({ role }) {
       <div className="d-flex pl-3 py-3">
         <Link to="/">
           <img
-            src={require(`./../../images/logo.png`)}
+            src={LogoPng}
             alt="AdminLTE Logo"
             className="logo-size"
           />
@@ -73,6 +74,19 @@ function LeftSideBar({ role }) {
                   <p className="d-inline-block m-0">My Plan</p>
                 </Link>
               </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/myaccount" className="nav-link mb-1">
+                  <img
+                    src={PlanSvg}
+                    alt="React Logo"
+                    width={20}
+                    height={20}
+                    style={{ marginRight: 5, marginLeft: -3 }}
+                  />
+
+                  <p className="d-inline-block m-0">My Account</p>
+                </Link>
+              </li>
             </ul>
           ) : (
             <ul
@@ -98,6 +112,14 @@ function LeftSideBar({ role }) {
                   />
 
                   <p className="d-inline-block m-0">My Plan</p>
+                </Link>
+              </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/myaccount" className="nav-link mb-1">
+                <FontAwesomeIcon icon={faMale} className="mr-2" />
+                  
+
+                  <p className="d-inline-block m-0">My Account</p>
                 </Link>
               </li>
             </ul>

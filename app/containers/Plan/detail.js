@@ -22,6 +22,7 @@ import {
   makeSelectRole,
   makeSelectUserDetails,
 } from '../App/selectors';
+import { Link } from 'react-router-dom';
 
 function Detail({ userDetails, userRole, influencerProfile }) {
   const [followers, setFollowers] = React.useState(0);
@@ -56,8 +57,8 @@ function Detail({ userDetails, userRole, influencerProfile }) {
             </a>
           </div>
         ) : (
-          <></>
-        )}
+            <></>
+          )}
         <div
           style={{
             display: 'flex',
@@ -159,11 +160,10 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                         <div>{userDetails.name}</div>
                         {
                           <div style={{ color: 'grey' }}>
-                            {`${
-                              followers > 1000
+                            {`${followers > 1000
                                 ? `${formatFollowers(followers / 1000)}k`
                                 : followers
-                            } followers`}
+                              } followers`}
                           </div>
                         }
                       </div>
@@ -178,7 +178,7 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                     >
                       {(influencerProfile && influencerProfile.facebook && (
                         <FontAwesomeIcon
-                          size="x"
+                          size="1x"
                           color={PLAY_ICON_BG_COLOR}
                           icon={faFacebook}
                           style={{ marginLeft: 5 }}
@@ -186,7 +186,7 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                       )) || <></>}
                       {(influencerProfile && influencerProfile.instagram && (
                         <FontAwesomeIcon
-                          size="x"
+                          size="1x"
                           color={PLAY_ICON_BG_COLOR}
                           icon={faInstagram}
                           style={{ marginLeft: 5 }}
@@ -194,7 +194,7 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                       )) || <></>}
                       {(influencerProfile && influencerProfile.twitter && (
                         <FontAwesomeIcon
-                          size="x"
+                          size="1x"
                           color={PLAY_ICON_BG_COLOR}
                           icon={faTwitter}
                           style={{ marginLeft: 5 }}
@@ -202,7 +202,7 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                       )) || <></>}
                       {(influencerProfile && influencerProfile.blog && (
                         <FontAwesomeIcon
-                          size="x"
+                          size="1x"
                           color={PLAY_ICON_BG_COLOR}
                           icon={faBlog}
                           style={{ marginLeft: 5 }}
@@ -210,7 +210,7 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                       )) || <></>}
                       {(influencerProfile && influencerProfile.youtube && (
                         <FontAwesomeIcon
-                          size="x"
+                          size="1x"
                           color={PLAY_ICON_BG_COLOR}
                           icon={faYoutube}
                           style={{ marginLeft: 5 }}
@@ -219,12 +219,15 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                     </div>
                   </>
                 ) : (
-                  <>
-                    <Button style={{ margin: 10 }} variant="outline-success">
-                      Become an influencer
+                    <>
+                      <Link to="/requestInfluencer">
+
+                        <Button style={{ margin: 10 }} variant="outline-success" >
+                          Become an influencer
                     </Button>
-                  </>
-                )}
+                      </Link>
+                    </>
+                  )}
               </div>
             </Card>
           )}

@@ -33,7 +33,7 @@ import {
   PREPARE_APP,
   SET_SONGS,
   SET_USER_DETAILS,
-  SET_INFLUENCER_DETAILS,
+  SET_INFLUENCER_DETAILS, SET_LOADER
 } from './constants';
 import latestPostsJson from '../../utils/json/posts';
 
@@ -251,5 +251,13 @@ export function setInfluencerDetails(influencerDetails) {
   return {
     type: SET_INFLUENCER_DETAILS,
     influencerDetails,
+  };
+}
+
+
+export function setLoader(status) {
+  return {
+    type: SET_LOADER,
+    status,
   };
 }
