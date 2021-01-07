@@ -1,12 +1,11 @@
-import { REQUEST_INFLUENCER, UPDATE_INFLUENCER } from "./constants";
+import { REQUEST_INFLUENCER, UPDATE_INFLUENCER } from './constants';
 
 export function requestInfluencer(data) {
-    return {
-      type: REQUEST_INFLUENCER,
-      data,
-    };
-  }
-
+  return {
+    type: REQUEST_INFLUENCER,
+    data,
+  };
+}
 
 export function updateInfluencer(data) {
   return {

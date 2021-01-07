@@ -4,12 +4,13 @@ import {
   faHeadphonesAlt,
   faMusic,
   faWindowClose,
-  faPlusSquare, faMale
+  faPlusSquare,
+  faMale,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import PlanSvg from '../../images/svg/plan_icon.svg';
-import LogoPng from './../../images/logo.png';
+import LogoPng from '../../images/logo.png';
 
 function LeftSideBar({ role }) {
   const handleSideBar = () => {
@@ -27,11 +28,7 @@ function LeftSideBar({ role }) {
 
       <div className="d-flex pl-3 py-3">
         <Link to="/">
-          <img
-            src={LogoPng}
-            alt="AdminLTE Logo"
-            className="logo-size"
-          />
+          <img src={LogoPng} alt="AdminLTE Logo" className="logo-size" />
         </Link>
       </div>
       <div className="sidebar px-2">
@@ -116,8 +113,7 @@ function LeftSideBar({ role }) {
               </li>
               <li className="nav-item rounded-lg">
                 <Link to="/myaccount" className="nav-link mb-1">
-                <FontAwesomeIcon icon={faMale} className="mr-2" />
-                  
+                  <FontAwesomeIcon icon={faMale} className="mr-2" />
 
                   <p className="d-inline-block m-0">My Account</p>
                 </Link>

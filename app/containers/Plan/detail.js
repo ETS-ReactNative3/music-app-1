@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import defaultImage from '../../images/like.png';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import { combineFollowers, formatFollowers } from '../../utils';
@@ -22,7 +23,6 @@ import {
   makeSelectRole,
   makeSelectUserDetails,
 } from '../App/selectors';
-import { Link } from 'react-router-dom';
 
 function Detail({ userDetails, userRole, influencerProfile }) {
   const [followers, setFollowers] = React.useState(0);
@@ -57,8 +57,8 @@ function Detail({ userDetails, userRole, influencerProfile }) {
             </a>
           </div>
         ) : (
-            <></>
-          )}
+          <></>
+        )}
         <div
           style={{
             display: 'flex',
@@ -160,10 +160,11 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                         <div>{userDetails.name}</div>
                         {
                           <div style={{ color: 'grey' }}>
-                            {`${followers > 1000
+                            {`${
+                              followers > 1000
                                 ? `${formatFollowers(followers / 1000)}k`
                                 : followers
-                              } followers`}
+                            } followers`}
                           </div>
                         }
                       </div>
@@ -219,15 +220,14 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                     </div>
                   </>
                 ) : (
-                    <>
-                      <Link to="/requestInfluencer">
-
-                        <Button style={{ margin: 10 }} variant="outline-success" >
-                          Become an influencer
-                    </Button>
-                      </Link>
-                    </>
-                  )}
+                  <>
+                    <Link to="/requestInfluencer">
+                      <Button style={{ margin: 10 }} variant="outline-success">
+                        Become an influencer
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </Card>
           )}

@@ -1,8 +1,8 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import {call, put, takeLatest} from '@redux-saga/core/effects';
-import {toast} from 'react-toastify';
+import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { toast } from 'react-toastify';
 import api from '../../utils/api';
 import { setLoader } from '../App/actions';
 import { REQUEST_INFLUENCER, UPDATE_INFLUENCER } from './constants';
@@ -40,7 +40,6 @@ export function* updateInfluencerSaga(data) {
 }
 
 export default function* planSaga() {
-  
   yield takeLatest(REQUEST_INFLUENCER, requestInfluencerSaga);
   yield takeLatest(UPDATE_INFLUENCER, updateInfluencerSaga);
 }

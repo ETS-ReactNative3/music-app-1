@@ -110,13 +110,11 @@ const makeSelectInfluencerDetails = () =>
     globalState => globalState.influencerDetails,
   );
 
-
 const makeSelectLoader = () =>
-createSelector(
-  selectGlobal,
-  substate => substate.loader,
-);
-
+  createSelector(
+    selectGlobal,
+    substate => substate.loader,
+  );
 
 export {
   selectGlobal,
@@ -137,5 +135,5 @@ export {
   makeSelectRole,
   makeSelectUserDetails,
   makeSelectInfluencerDetails,
-  makeSelectLoader
+  makeSelectLoader,
 };

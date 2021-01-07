@@ -33,7 +33,8 @@ import {
   PREPARE_APP,
   SET_SONGS,
   SET_USER_DETAILS,
-  SET_INFLUENCER_DETAILS, SET_LOADER
+  SET_INFLUENCER_DETAILS,
+  SET_LOADER,
 } from './constants';
 import latestPostsJson from '../../utils/json/posts';
 
@@ -162,7 +163,7 @@ export const fetchUserDetailsData = () => async dispatch => {
     Promise.all([api.get('/auth/userDetails')]).then(response => {
       const [userDetails] = response;
       if (userDetails.data.influencerId) {
-        Promise.all([api.get('influencers')]).then(response1=> {
+        Promise.all([api.get('influencers')]).then(response1 => {
           const [influencerResponse] = response1;
 
           dispatch(setInfluencerDetails(influencerResponse.data));
@@ -253,7 +254,6 @@ export function setInfluencerDetails(influencerDetails) {
     influencerDetails,
   };
 }
-
 
 export function setLoader(status) {
   return {

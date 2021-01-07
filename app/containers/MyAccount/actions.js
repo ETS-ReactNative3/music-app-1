@@ -1,12 +1,17 @@
-import { FETCH_ACTIVITY, PUT_ACTIVITIES, PUT_REVIEWS, PUT_RATINGS, REQUEST_INFLUENCER } from "./constants";
+import {
+  FETCH_ACTIVITY,
+  PUT_ACTIVITIES,
+  PUT_REVIEWS,
+  PUT_RATINGS,
+  REQUEST_INFLUENCER,
+} from './constants';
 
 export function requestInfluencer(data) {
-    return {
-      type: REQUEST_INFLUENCER,
-      data,
-    };
-  }
-
+  return {
+    type: REQUEST_INFLUENCER,
+    data,
+  };
+}
 
 export function fetchUserActivities(userId) {
   return {
@@ -29,6 +34,7 @@ export function putUserReviews(reviews) {
 export function putUserRatings(ratings, ratingCount) {
   return {
     type: PUT_RATINGS,
-    ratings, ratingCount,
+    ratings,
+    ratingCount,
   };
 }

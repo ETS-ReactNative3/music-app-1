@@ -14,10 +14,7 @@ import Reviews from '../../components/Reviews/Reviews';
 import { createDifferenenceTimeString } from '../../utils/index';
 import { makeSelectReviews } from '../MyAccount/selectors';
 
-
-function AllReviews({
-  reviewsToShow
-}) {
+function AllReviews({ reviewsToShow }) {
   return (
     <div className="container-fluid" style={{ marginTop: '100px' }}>
       <div className="row album-detail">
@@ -31,33 +28,26 @@ function AllReviews({
       </div>
 
       <div style={{ width: '50%' }}>
-
-        {reviewsToShow && reviewsToShow.map(review => {
-          return (
+        {reviewsToShow &&
+          reviewsToShow.map(review => (
             <Reviews name={review.campaignInfluencersId} time={createDifferenenceTimeString(review.createdDate, new Date().toString())} message={review.review} />
           )
-        }
-        )}
+          })}
       </div>
-
     </div>
   );
 }
 
 AllReviews.propTypes = {
-  reviewsToShow: PropTypes.any
+  reviewsToShow: PropTypes.any,
 };
 
-
 const mapStateToProps = createStructuredSelector({
-
   reviewsToShow: makeSelectReviews(),
 });
 
 function mapDispatchToProps(dispatch) {
-  return {
-
-  };
+  return {};
 }
 
 const withConnect = connect(
@@ -69,4 +59,3 @@ export default compose(
   withConnect,
   memo,
 )(AllReviews);
-

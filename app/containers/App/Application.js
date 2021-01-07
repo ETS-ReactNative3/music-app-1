@@ -7,7 +7,7 @@ import HomePage from '../HomePage/Loadable';
 import { Album, AlbumForm, AlbumList } from '../Album/Loadable';
 import { SongList, SongForm } from '../Song/Loadable';
 import { Playlist, PlaylistDetail } from '../Playlist/Loadable';
-import {  PlanDetails } from '../Plan/Loadable';
+import { PlanDetails } from '../Plan/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
 import RequestInfluencerForm from '../../components/RequestInfluencerForm';
 import { MyAccount } from '../MyAccount/Loadable';
@@ -98,10 +98,10 @@ function Application({ history }) {
           <MyAccount />
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount/activites">
-          <AllActivites/>
+          <AllActivites />
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount/reviews">
-          <AllReviews/>
+          <AllReviews />
         </PrivateRoute>
       </Switch>
     </Dashboard>

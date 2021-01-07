@@ -17,31 +17,30 @@ const makeSelectActivities = () =>
     substate => substate.activities,
   );
 
-  const makeSelectReviews = () =>
+const makeSelectReviews = () =>
   createSelector(
     selectAccountDomain,
     substate => {
       console.log(substate);
-      return substate.reviews
-    });
+      return substate.reviews;
+    },
+  );
 
-  const makeSelectRatings = () =>
+const makeSelectRatings = () =>
   createSelector(
     selectAccountDomain,
     substate => substate.ratings,
   );
 
-  const makeSelectRatingCount = () =>
+const makeSelectRatingCount = () =>
   createSelector(
     selectAccountDomain,
     substate => substate.ratingCount,
   );
 
-
 export {
   makeSelectActivities,
   makeSelectReviews,
   makeSelectRatings,
-  makeSelectRatingCount
+  makeSelectRatingCount,
 };
-

@@ -18,7 +18,8 @@ import {
   GET_GENRES_SUCCESS,
   SET_SONGS,
   SET_USER_DETAILS,
-  SET_INFLUENCER_DETAILS, SET_LOADER
+  SET_INFLUENCER_DETAILS,
+  SET_LOADER,
 } from './constants';
 
 // The initial state of the App
