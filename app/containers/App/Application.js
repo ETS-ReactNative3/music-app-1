@@ -13,6 +13,7 @@ import RequestInfluencerForm from '../../components/RequestInfluencerForm';
 import { MyAccount } from '../MyAccount/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
+import CampaignSummary from '../Campaign/index';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -102,6 +103,10 @@ function Application({ history }) {
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount/reviews">
           <AllReviews />
+        </PrivateRoute>
+
+        <PrivateRoute path="/tastemakers/:songId/campaign">
+          <CampaignSummary />
         </PrivateRoute>
       </Switch>
     </Dashboard>

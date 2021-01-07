@@ -87,9 +87,6 @@ function MyAccount({
     getGenreList();
   }, []);
 
-  React.useEffect(() => {
-    if (userDetails && userDetails.id) getUserActivities(userDetails.id);
-  }, [userDetails]);
   return (
     <div className="container-fluid" style={{ marginTop: '100px' }}>
       <div className="row album-detail">
@@ -177,7 +174,7 @@ function MyAccount({
               }}
             >
               <FontAwesomeIcon
-                size="x"
+                size="1x"
                 color={PLAY_ICON_BG_COLOR}
                 icon={faEdit}
                 style={{ marginLeft: 5 }}
@@ -186,7 +183,7 @@ function MyAccount({
           </div>
           {(influencerProfile && influencerProfile.facebook && (
             <FontAwesomeIcon
-              size="x"
+              size="1x"
               color={PLAY_ICON_BG_COLOR}
               icon={faFacebook}
               style={{ marginLeft: 5 }}
@@ -194,7 +191,7 @@ function MyAccount({
           )) || <></>}
           {(influencerProfile && influencerProfile.instagram && (
             <FontAwesomeIcon
-              size="x"
+              size="1x"
               color={PLAY_ICON_BG_COLOR}
               icon={faInstagram}
               style={{ marginLeft: 5 }}
@@ -202,7 +199,7 @@ function MyAccount({
           )) || <></>}
           {(influencerProfile && influencerProfile.twitter && (
             <FontAwesomeIcon
-              size="x"
+              size="1x"
               color={PLAY_ICON_BG_COLOR}
               icon={faTwitter}
               style={{ marginLeft: 5 }}
@@ -210,7 +207,7 @@ function MyAccount({
           )) || <></>}
           {(influencerProfile && influencerProfile.blog && (
             <FontAwesomeIcon
-              size="x"
+              size="1x"
               color={PLAY_ICON_BG_COLOR}
               icon={faBlog}
               style={{ marginLeft: 5 }}
@@ -218,7 +215,7 @@ function MyAccount({
           )) || <></>}
           {(influencerProfile && influencerProfile.youtube && (
             <FontAwesomeIcon
-              size="x"
+              size="1x"
               color={PLAY_ICON_BG_COLOR}
               icon={faYoutube}
               style={{ marginLeft: 5 }}
@@ -229,7 +226,7 @@ function MyAccount({
           <div style={{ marginLeft: 10 }}>
             Genres
             <FontAwesomeIcon
-              size="x"
+              size="1x"
               color={PLAY_ICON_BG_COLOR}
               icon={faEdit}
               style={{ marginLeft: 5 }}
@@ -239,7 +236,7 @@ function MyAccount({
         </div>
       </div>
 
-      <InfluencerAccount navigation={navigation} />
+      <InfluencerAccount navigation={navigation} userId={userDetails.id} />
     </div>
   );
 }
@@ -260,7 +257,6 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
-    getUserActivities: userId => dispatch(fetchUserActivities(userId)),
   };
 }
 

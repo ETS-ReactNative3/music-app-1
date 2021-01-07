@@ -12,6 +12,12 @@ import { RatingView } from '../Rating/RatingView';
 import Reviews from '../Reviews/Reviews';
 import { createDifferenenceTimeString } from '../../utils/index';
 import { Link } from 'react-router-dom';
+import { fetchUserActivities } from '../../containers/MyAccount/actions';
+import accountReducer from '../../containers/MyAccount/reducer';
+import accountSaga from '../../containers/MyAccount/saga';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { useInjectReducer } from '../../utils/injectReducer';
+import styles from './index.styles';
 
 const InfluencerAccount = ({
   navigation,
@@ -20,38 +26,45 @@ const InfluencerAccount = ({
   ratingCount,
   reviews,
   activities,
-}) => (
+  getUserActivities, userId
+}) => {
+
+
+  useInjectSaga({ key: 'account', saga: accountSaga });
+  useInjectReducer({ key: 'account', reducer: accountReducer });
+  React.useEffect(() => {
+    if (userId) {
+      getUserActivities(userId)
+    }
+  }, [userId]);
+
+
+  return (
     <>
       <div>
         <div style={{ marginLeft: 10 }}>Service Information</div>
-        <div style={{ marginLeft: 10, fontSize: 12, color: 'grey' }}>{influencerProfile.description}</div>
+        <div style={styles.descriptionTextStyle}>{influencerProfile.description}</div>
       </div>
 
-      <div
-        style={{
-          margin: 20,
-          marginLeft: 10,
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-        }}>
-        <div style={{ borderWidth: 0, borderRightWidth: 2, borderColor: 'green', borderStyle: 'solid', flex: 1 }}>
-          <div><>Activites</><a href="/myaccount/activites" style={{ marginLeft: '50%' }}>View more<FontAwesomeIcon icon={faShare} size="x" color="green" /></a></div>
-          {activities && activities.map(activity => (<MyActivity imagePath={activity.campaigns.song.artwork} name={activity.campaigns.song.title} rate={activity.campaigns.song.duration || '3.53'} role={activity.campaigns.user.name} />))}
+      <div style={styles.ratingReviewParent}>
+        <div style={styles.activitesParent}>
+          <div style={styles.activitesTextStyle}><>Activites</><a href="/myaccount/activites" style={{}}>View more<FontAwesomeIcon icon={faShare} size="1x" color="green" /></a></div>
+          {activities && activities.slice(0, 3).map((activity, index) => (<MyActivity key={index} imagePath={activity.campaigns.song.artwork} name={activity.campaigns.song.title} rate={activity.campaigns.song.duration || '3.53'} role={activity.campaigns.user.name} />))}
           {activities && activities.length === 0 && <div style={{ fontSize: 10, color: 'grey' }}>No Activities to show</div>}
         </div>
 
         <div style={{ flex: 1 }}>
-          <div style={{ marginLeft: 10 }}>Rating and Reviews<Link to="/myaccount/reviews" style={{ marginLeft: '50%' }}>View more<FontAwesomeIcon icon={faShare} size="x" color="green" /></Link></div>
+          <div style={styles.ratingTextStyle}>Rating and Reviews<Link to="/myaccount/reviews" style={{}}>View more<FontAwesomeIcon icon={faShare} size="1x" color="green" /></Link></div>
           <RatingView ratingScore={ratings} totalCount={ratingCount} totalRating={5} />
-          {reviews && reviews.map(review => (
-            <Reviews name={review.campaignInfluencersId} time={createDifferenenceTimeString(review.createdDate, new Date().toString())} message={review.review} />
+          {reviews && reviews.slice(0, 3).map((review, index) => (
+            <Reviews key={index} name={review.campaignInfluencersId} time={createDifferenenceTimeString(review.createdDate, new Date().toString())} message={review.review} />
           )
           )}
         </div>
       </div>
     </>
-  )
+  );
+}
 
 InfluencerAccount.propTypes = {
   navigation: PropTypes.any,
@@ -70,7 +83,9 @@ const mapStateToProps = createStructuredSelector({
 });
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    getUserActivities: userId => dispatch(fetchUserActivities(userId)),
+  };
 }
 
 const withConnect = connect(

@@ -1,0 +1,56 @@
+const styles = {
+    selectedSongParent: {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'row'
+    },
+    songInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        marginLeft: 10
+    },
+buyCreditText: {fontSize: 16, color: 'white', textAlign: 'center', marginBottom: 10},
+buyCreditText1: {fontSize: 14, color: 'white', textAlign: 'center', marginBottom: 10},
+cardStyle: {
+    marginTop: 10,
+    borderWidth: 0
+},
+    influencerItemParentStyle: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5, marginEnd: 10 },
+    selectedDataParent: { display: 'flex', flexDirection: 'column', width: '50%' },
+    creditSectionParent: { borderWidth: 1, borderColor: 'green', borderStyle: 'solid', padding: 30 },
+    creditParent: { display: 'flex', justifyContent: 'space-between', marginTop: 20 },
+    influencerParentStyle: { display: 'flex',flexDirection: 'column', marginHorizontal: 10, marginTop: 10 },
+    influencerLeftStyle: { display: 'flex',flexDirection: 'row', alignItems: 'center' },
+    influencerBodyStyle: { display: 'flex',flexDirection: 'column', justifyContent: 'space-around', marginLeft: 10 },
+    listItemDividerStyle: {alignSelf: 'center', borderStyle: 'dotted', borderColor: 'green', borderTopWidth: 1, width: '80%', marginBottom: 20},
+    profileStyle: {
+        borderWidth: 1,
+        borderColor: 'rgba(0,0,0,0.2)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+    },
+    listText: {
+        fontSize: 14,
+        color: 'white'
+    },
+
+    listText1: {
+        fontSize: 14,
+        color: 'grey'
+    },
+    creditParentStyle: { display: 'flex',alignSelf: 'flex-end', margin: 10, flexDirection: 'row' },
+    creditTextStyle: {
+        fontSize: 16,
+        fontFamily: 'Roboto-Medium',
+        color: 'white',
+        marginLeft: 5
+    },
+    socialMediaItems: { display: 'flex',flexDirection: 'row', flexWrap: 'wrap', marginTop: 20, marginLeft: 10 },
+
+}
+
+export default styles;

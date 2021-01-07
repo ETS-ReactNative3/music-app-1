@@ -73,13 +73,8 @@ function LeftSideBar({ role }) {
               </li>
               <li className="nav-item rounded-lg">
                 <Link to="/myaccount" className="nav-link mb-1">
-                  <img
-                    src={PlanSvg}
-                    alt="React Logo"
-                    width={20}
-                    height={20}
-                    style={{ marginRight: 5, marginLeft: -3 }}
-                  />
+                <FontAwesomeIcon icon={faMale} className="mr-2" />
+                  
 
                   <p className="d-inline-block m-0">My Account</p>
                 </Link>
