@@ -32,7 +32,7 @@ function AllReviews({ reviewsToShow }) {
           reviewsToShow.map(review => (
             <Reviews name={review.campaignInfluencersId} time={createDifferenenceTimeString(review.createdDate, new Date().toString())} message={review.review} />
           )
-          })}
+          )}
       </div>
     </div>
   );

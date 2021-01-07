@@ -37,16 +37,16 @@ const InfluencerAccount = ({
         }}>
         <div style={{ borderWidth: 0, borderRightWidth: 2, borderColor: 'green', borderStyle: 'solid', flex: 1 }}>
           <div><>Activites</><a href="/myaccount/activites" style={{ marginLeft: '50%' }}>View more<FontAwesomeIcon icon={faShare} size="x" color="green" /></a></div>
-          {activities && activities.map(activity => <MyActivity imagePath={activity.campaigns.song.artwork} name={activity.campaigns.song.title} rate={activity.campaigns.song.duration || '3.53'} role={activity.campaigns.user.name} />)}
+          {activities && activities.map(activity => (<MyActivity imagePath={activity.campaigns.song.artwork} name={activity.campaigns.song.title} rate={activity.campaigns.song.duration || '3.53'} role={activity.campaigns.user.name} />))}
           {activities && activities.length === 0 && <div style={{ fontSize: 10, color: 'grey' }}>No Activities to show</div>}
         </div>
 
         <div style={{ flex: 1 }}>
           <div style={{ marginLeft: 10 }}>Rating and Reviews<Link to="/myaccount/reviews" style={{ marginLeft: '50%' }}>View more<FontAwesomeIcon icon={faShare} size="x" color="green" /></Link></div>
           <RatingView ratingScore={ratings} totalCount={ratingCount} totalRating={5} />
-          {reviews && reviews.map(review =>
+          {reviews && reviews.map(review => (
             <Reviews name={review.campaignInfluencersId} time={createDifferenenceTimeString(review.createdDate, new Date().toString())} message={review.review} />
-
+          )
           )}
         </div>
       </div>

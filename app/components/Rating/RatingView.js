@@ -22,22 +22,23 @@ export const RatingView = ({
         if (rate === 1)
           return (
             <FontAwesomeIcon
-          size="x" icon={faStar}
-          color={PLAY_ICON_BG_COLOR}
+              size="x" icon={faStar}
+              color={PLAY_ICON_BG_COLOR}
             />
           );
         if (rate === 0.5)
           return (
             <FontAwesomeIcon
-          size="x" icon={faStarHalfAlt}
-          color={PLAY_ICON_BG_COLOR}
-        />
+              size="x" icon={faStarHalfAlt}
+              color={PLAY_ICON_BG_COLOR}
+            />
           );
         return (
           <FontAwesomeIcon
-          size="x" icon={faStarEmpty}
+            size="x" icon={faStarEmpty}
             color={PLAY_ICON_BG_COLOR}
-        />
+          />
+        )
       })}
       {showCount && (
         <div style={styles.ratingViewTotalCount}>{`(${totalCount})`}</div>
