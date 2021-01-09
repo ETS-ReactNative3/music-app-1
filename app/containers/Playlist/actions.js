@@ -27,6 +27,9 @@ import {
   CREATE_PLAYLIST_AND_ADD_SONG,
   CREATE_PLAYLIST_AND_ADD_SONG_SUCCESS,
   CREATE_PLAYLIST_AND_ADD_SONG_FAIL,
+  UPDATE_PLAYLIST_REQUEST,
+  UPDATE_PLAYLIST_FAIL,
+  UPDATE_PLAYLIST_SUCCESS
 } from './constants';
 
 export function createPlaylist(data) {
@@ -45,6 +48,26 @@ export function createPlaylistSuccess() {
 export function createPlaylistFail(error) {
   return {
     type: CREATE_PLAYLIST_FAIL,
+    error,
+  };
+}
+
+export function updatePlaylist(data) {
+  return {
+    type: UPDATE_PLAYLIST_REQUEST,
+    data,
+  };
+}
+
+export function updatePlaylistSuccess() {
+  return {
+    type: UPDATE_PLAYLIST_SUCCESS,
+  };
+}
+
+export function updatePlaylistFail(error) {
+  return {
+    type: UPDATE_PLAYLIST_FAIL,
     error,
   };
 }

@@ -4,50 +4,54 @@
  *
  */
 
-import React, { memo, useEffect, useState } from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
 
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Form } from 'react-bootstrap';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Form} from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {Link} from 'react-router-dom';
 import {
   createPlaylist,
   deletePlaylist,
   getMyPlaylist,
-  togglePlaylistPopup,
+  togglePlaylistPopup, updatePlaylist,
 } from './actions';
 import PaperCard from '../../components/PaperCard';
 import saga from './saga';
 import reducer from './reducer';
-import { makeSelectPlaylistPopUpState, makeSelectPlaylists } from './selectors';
+import {makeSelectPlaylistPopUpState, makeSelectPlaylists} from './selectors';
 
-export function Playlist({
-  createPlaylistAction,
-  togglePlaylistPopupAction,
-  popupState,
-  getMyPlaylistAction,
-  playlists,
-  deletePlaylistAction,
-}) {
-  useInjectReducer({ key: 'playlist', reducer });
-  useInjectSaga({ key: 'playlist', saga });
+export function Playlist(
+  {
+    createPlaylistAction,
+    togglePlaylistPopupAction,
+    popupState,
+    getMyPlaylistAction,
+    playlists,
+    deletePlaylistAction,
+    updatePlaylistAction
+  }
+) {
+  useInjectReducer({key: 'playlist', reducer});
+  useInjectSaga({key: 'playlist', saga});
 
   const [open, setOpen] = useState(false);
   const [playlistId, setPlaylistId] = useState(0);
+  const [playlistTitle, setPlaylistTitle] = useState('');
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
@@ -60,13 +64,17 @@ export function Playlist({
   const handleClose = () => togglePlaylistPopupAction(false);
   const handleShow = () => togglePlaylistPopupAction(true);
 
-  const { register, handleSubmit, errors } = useForm({
+  const {register, handleSubmit, errors} = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = data => {
     createPlaylistAction(data);
   };
+
+  const savePlaylist = data => {
+    updatePlaylistAction({id: playlistId, ...data});
+  }
 
   const columns = [
     {
@@ -106,10 +114,16 @@ export function Playlist({
         }}
       >
         <button
+          className="btn btn-info mr-3"
+          onClick={() => handleEditPopupOpen(row.id, row.title)}
+        >
+          <FontAwesomeIcon icon={faEdit}/>
+        </button>
+        <button
           className="btn btn-danger"
           onClick={() => handleDeletePopupOpen(row.id)}
         >
-          <FontAwesomeIcon icon={faTrash} />
+          <FontAwesomeIcon icon={faTrash}/>
         </button>
       </div>
     );
@@ -118,6 +132,16 @@ export function Playlist({
   function handleDeletePopupOpen(id) {
     setPlaylistId(id);
     setOpen(true);
+  }
+
+  function handleEditPopupOpen(id, title) {
+    handleShow();
+    setPlaylistId(id);
+    setPlaylistTitle(title);
+  }
+
+  function handleEditPopupClick() {
+    handleClose();
   }
 
   function handleDeletePopupClose() {
@@ -183,6 +207,38 @@ export function Playlist({
           </Modal.Footer>
         </form>
       </Modal>
+      <Modal show={popupState} onHide={handleEditPopupClick}>
+        <form onSubmit={handleSubmit(savePlaylist)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Playlist</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridTitle">
+                <label htmlFor="title">Title</label>
+                <input
+                  name="title"
+                  placeholder="Enter playlist title"
+                  defaultValue={playlistTitle}
+                  className={`form-control ${errors.title ? 'is-invalid' : ''}`}
+                  ref={register}
+                />
+                <div className="invalid-feedback">
+                  {errors.title && errors.title.message}
+                </div>
+              </Form.Group>
+            </Form.Row>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleEditPopupClick}>
+              Close
+            </Button>
+            <Button variant="primary" type="submit">
+              Save
+            </Button>
+          </Modal.Footer>
+        </form>
+      </Modal>
       <Modal
         show={open}
         onHide={handleDeletePopupClose}
@@ -211,6 +267,7 @@ Playlist.propTypes = {
   togglePlaylistPopupAction: PropTypes.func.isRequired,
   getMyPlaylistAction: PropTypes.func.isRequired,
   deletePlaylistAction: PropTypes.func.isRequired,
+  updatePlaylistAction: PropTypes.func.isRequired,
   popupState: PropTypes.bool.isRequired,
   playlists: PropTypes.array.isRequired,
 };
@@ -223,6 +280,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     createPlaylistAction: data => dispatch(createPlaylist(data)),
+    updatePlaylistAction: data => dispatch(updatePlaylist(data)),
     togglePlaylistPopupAction: data => dispatch(togglePlaylistPopup(data)),
     getMyPlaylistAction: () => dispatch(getMyPlaylist()),
     deletePlaylistAction: id => dispatch(deletePlaylist(id)),
