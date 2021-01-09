@@ -117,7 +117,6 @@ export function getMyPlaylistFail(error) {
   };
 }
 
-
 export function deleteSong(id, songId) {
   return {
     type: DELETE_SONG_PLAYLIST_REQUEST,
@@ -135,8 +134,8 @@ export function deleteSongSuccess() {
 export function deleteSongFail(error) {
   return {
     type: DELETE_SONG_PLAYLIST_FAIL,
-    error
-  }
+    error,
+  };
 }
 
 export function addSongIntoPlaylist(data) {

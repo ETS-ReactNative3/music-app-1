@@ -1,0 +1,8 @@
+.genre-select{
+    color:#333;
+    &.is-invalid{
+        .genre-select__control{
+            border-color: #dc3545;
+        }
+    }
+}
