@@ -167,7 +167,6 @@ function RequestInfluencerForm({
     }
   }, [location.param]);
 
-  console.log(getValues(), 'values');
   return (
     <>
       <div className="container-fluid" style={{ marginTop: '100px' }}>

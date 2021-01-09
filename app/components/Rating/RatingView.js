@@ -14,28 +14,32 @@ export const RatingView = ({
   size = 2,
   showCount = true,
 }) => {
-  console.log(ratingScore, totalRating, totalCount);
   const ratingArray = calculateRating(ratingScore, totalRating);
   return (
     <div style={styles.ratingViewParent}>
-      {ratingArray.map(rate => {
+      {ratingArray.map((rate, index) => {
         if (rate === 1)
           return (
             <FontAwesomeIcon
-              size="x" icon={faStar}
+              key={index}
+              size="1x" icon={faStar}
               color={PLAY_ICON_BG_COLOR}
             />
           );
         if (rate === 0.5)
           return (
             <FontAwesomeIcon
-              size="x" icon={faStarHalfAlt}
+            key={index}
+
+              size="1x" icon={faStarHalfAlt}
               color={PLAY_ICON_BG_COLOR}
             />
           );
         return (
           <FontAwesomeIcon
-            size="x" icon={faStarEmpty}
+          key={index}
+
+            size="1x" icon={faStarEmpty}
             color={PLAY_ICON_BG_COLOR}
           />
         )

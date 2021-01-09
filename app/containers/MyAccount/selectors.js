@@ -21,7 +21,6 @@ const makeSelectReviews = () =>
   createSelector(
     selectAccountDomain,
     substate => {
-      console.log(substate);
       return substate.reviews;
     },
   );

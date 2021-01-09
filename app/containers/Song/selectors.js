@@ -51,5 +51,6 @@ export {
   makeSelectSong,
   makeSelectSongLoader,
   makeSelectGenres,
-  makeSelectSongFormLoader
+  makeSelectSongFormLoader,
+
 };

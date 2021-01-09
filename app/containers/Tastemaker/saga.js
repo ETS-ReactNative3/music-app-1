@@ -9,18 +9,30 @@ import {
   getTasteMakersRequestFail,
   getTasteMakersRequestSuccess,
 } from './actions';
+import { setLoader } from '../App/actions';
 
-function getTasteMakersApi() {
-  return api.get('/influencers/list');
+function getTasteMakersApi(data) {
+  let url = 'influencers/list' ;
+  if (data.searchText) {url = url +`?text=${data.searchText}`} else {url = url + `?text=`;}
+  if (data.filters && data.filters.facebook) url = url + '&facebook=true';
+  if (data.filters && data.filters.instagram) url = url + '&instagram=true';
+  if (data.filters && data.filters.twitter) url = url + '&twitter=true';
+  if (data.filters && data.filters.blog) url = url + '&blog=true';
+  if (data.filters && data.filters.youtube) url = url + '&youtube=true';
+  if (data.filters && data.filters.genre) url = url + '&genre=' + data.filters.genre.join(',')
+  return api.get(url);
 }
 
-export function* getTasteMakers() {
+export function* getTasteMakers(action) {
   try {
-    const result = yield call(getTasteMakersApi);
+    yield put(setLoader(true));
+    const result = yield call(getTasteMakersApi, action.data);
     yield put(getTasteMakersRequestSuccess(result.data));
+    yield put(setLoader(false));
   } catch (e) {
     toast.error(e.message);
     yield put(getTasteMakersRequestFail(e.message));
+    yield put(setLoader(false));
   }
 }
 
