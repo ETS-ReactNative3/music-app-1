@@ -26,6 +26,9 @@
     }
     .list-group{
         border-radius: 0;
+        max-height: 200px;
+        height: auto;
+        overflow-y: auto;
         .list-group-item{
             color: #ccc;
             font-weight: 300;

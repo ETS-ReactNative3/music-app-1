@@ -4,7 +4,7 @@ import {
   faHeadphonesAlt,
   faMusic,
   faWindowClose,
-  faPlusSquare
+  faPlusSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import './index.scss';
@@ -71,6 +71,12 @@ function LeftSideBar({ role }) {
                 <Link to="/playlists" className="nav-link mb-1">
                   <FontAwesomeIcon icon={faPlusSquare} className="mr-2" />
                   <p className="d-inline-block m-0">My Playlists</p>
+                </Link>
+              </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/become-an-influencer" className="nav-link mb-1">
+                  <FontAwesomeIcon icon={faPlusSquare} className="mr-2" />
+                  <p className="d-inline-block m-0">Become An Influencer</p>
                 </Link>
               </li>
             </ul>

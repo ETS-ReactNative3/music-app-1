@@ -7,6 +7,8 @@ import HomePage from '../HomePage/Loadable';
 import { Album, AlbumForm, AlbumList } from '../Album/Loadable';
 import { SongList, SongForm } from '../Song/Loadable';
 import { Playlist, PlaylistDetail } from '../Playlist/Loadable';
+import BecomeAnInfluencer from '../Influencer/Loadable';
+
 import Tastemaker from '../Tastemaker/Loadable';
 
 function useAuth() {
@@ -75,6 +77,9 @@ function Application({ history }) {
         </PrivateRoute>
         <PrivateRoute exact path="/playlists">
           <Playlist />
+        </PrivateRoute>
+        <PrivateRoute exact path="/become-an-influencer">
+          <BecomeAnInfluencer />
         </PrivateRoute>
         <PrivateRoute exact path="/tastemakers/:songId">
           <Tastemaker />
