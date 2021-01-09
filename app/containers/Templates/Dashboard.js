@@ -7,12 +7,12 @@ import { useInjectReducer } from 'utils/injectReducer';
 import TopNavBar from '../../components/TopNavBar';
 import LeftSideBar from '../../components/LeftSidebar';
 import Footer from '../../components/Footer';
-import { makeSelectRole } from '../App/selectors';
+import {makeSelectRole, makeSelectUserDetails} from '../App/selectors';
 import { prepareApp } from '../App/actions';
 import reducer from '../App/reducer';
 import saga from '../App/saga';
 
-function Dashboard({ children, appInit, role }) {
+function Dashboard({ children, appInit, role, userDetails }) {
   useInjectReducer({ key: 'global', reducer });
   useInjectSaga({ key: 'global', saga });
 
@@ -22,7 +22,7 @@ function Dashboard({ children, appInit, role }) {
 
   return (
     <main className="content-wrapper" role="main">
-      <TopNavBar />
+      <TopNavBar userDetails={userDetails} />
       <LeftSideBar role={role} />
       <div className="pt-5">{children}</div>
       <Footer />
@@ -32,6 +32,7 @@ function Dashboard({ children, appInit, role }) {
 
 const mapStateToProps = createStructuredSelector({
   role: makeSelectRole(),
+  userDetails: makeSelectUserDetails()
 });
 
 function mapDispatchToProps(dispatch) {
