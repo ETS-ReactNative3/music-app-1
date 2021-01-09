@@ -7,9 +7,13 @@ import HomePage from '../HomePage/Loadable';
 import { Album, AlbumForm, AlbumList } from '../Album/Loadable';
 import { SongList, SongForm } from '../Song/Loadable';
 import { Playlist, PlaylistDetail } from '../Playlist/Loadable';
+import { PlanDetails } from '../Plan/Loadable';
 import BecomeAnInfluencer from '../Influencer/Loadable';
-
 import Tastemaker from '../Tastemaker/Loadable';
+import RequestInfluencerForm from '../../components/RequestInfluencerForm';
+import { MyAccount } from '../MyAccount/Loadable';
+import AllActivites from '../AllActivities';
+import AllReviews from '../AllReviews';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -86,6 +90,22 @@ function Application({ history }) {
         </PrivateRoute>
         <PrivateRoute exact path="/playlist/:id">
           <PlaylistDetail />
+        </PrivateRoute>
+        <PrivateRoute exact path="/plan">
+          <PlanDetails />
+        </PrivateRoute>
+        <PrivateRoute exact path="/requestInfluencer">
+          <RequestInfluencerForm />
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/myaccount">
+          <MyAccount />
+        </PrivateRoute>
+        <PrivateRoute exact path="/myaccount/activites">
+          <AllActivites />
+        </PrivateRoute>
+        <PrivateRoute exact path="/myaccount/reviews">
+          <AllReviews />
         </PrivateRoute>
       </Switch>
     </Dashboard>

@@ -99,6 +99,23 @@ const makeSelectRole = () =>
     globalState => globalState.role,
   );
 
+const makeSelectUserDetails = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.userDetails,
+  );
+const makeSelectInfluencerDetails = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.influencerDetails,
+  );
+
+const makeSelectLoader = () =>
+  createSelector(
+    selectGlobal,
+    substate => substate.loader,
+  );
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -116,4 +133,7 @@ export {
   makeSelectCurrentSong,
   makeSelectGenres,
   makeSelectRole,
+  makeSelectUserDetails,
+  makeSelectInfluencerDetails,
+  makeSelectLoader,
 };

@@ -1,0 +1,2 @@
+export const REQUEST_INFLUENCER = 'app/Plan/REQUEST_INFLUENCER';
+export const UPDATE_INFLUENCER = 'app/Plan/UPDATE_INFLUENCER';
