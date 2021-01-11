@@ -6,6 +6,7 @@ import {
   faWindowClose,
   faPlusSquare,
   faMale,
+  faWallet,
 } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import './index.scss';
@@ -77,6 +78,12 @@ function LeftSideBar({role}) {
                   <p className="d-inline-block m-0">My Account</p>
                 </Link>
               </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/wallet" className="nav-link mb-1">
+                  <FontAwesomeIcon icon={faWallet} className="mr-2"/>
+                  <p className="d-inline-block m-0">Wallet</p>
+                </Link>
+              </li>
             </ul>
           ) : (
             <ul
@@ -107,6 +114,12 @@ function LeftSideBar({role}) {
                 <Link to="/myaccount" className="nav-link mb-1">
                   <FontAwesomeIcon icon={faMale} className="mr-2"/>
                   <p className="d-inline-block m-0">My Account</p>
+                </Link>
+              </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/wallet" className="nav-link mb-1">
+                  <FontAwesomeIcon icon={faWallet} className="mr-2"/>
+                  <p className="d-inline-block m-0">Wallet</p>
                 </Link>
               </li>
             </ul>

@@ -12,6 +12,7 @@ import BecomeAnInfluencer from '../Influencer/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
 import RequestInfluencerForm from '../../components/RequestInfluencerForm';
 import { MyAccount } from '../MyAccount/Loadable';
+import { Wallet } from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
@@ -107,6 +108,10 @@ function Application({ history }) {
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount/reviews">
           <AllReviews />
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/wallet">
+          <Wallet />
         </PrivateRoute>
 
         <PrivateRoute path="/tastemakers/:songId/campaign">
