@@ -16,7 +16,7 @@ import { Wallet } from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
-
+import AddressWallet from '../Wallet/Address';
 function useAuth() {
   const accessToken = localStorage.getItem('token');
   let isAuthorized = false;
@@ -112,6 +112,10 @@ function Application({ history }) {
 
         <PrivateRoute exact path="/wallet">
           <Wallet />
+        </PrivateRoute>
+
+        <PrivateRoute exact path="/wallet/paymentAddress">
+          <AddressWallet />
         </PrivateRoute>
 
         <PrivateRoute path="/tastemakers/:songId/campaign">

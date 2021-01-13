@@ -104,6 +104,12 @@ const makeSelectUserDetails = () =>
     selectGlobal,
     globalState => globalState.userDetails,
   );
+
+  const makeSelectUserWallet = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.userDetails && globalState.userDetails.credit,
+  );
 const makeSelectInfluencerDetails = () =>
   createSelector(
     selectGlobal,
@@ -136,4 +142,5 @@ export {
   makeSelectUserDetails,
   makeSelectInfluencerDetails,
   makeSelectLoader,
+  makeSelectUserWallet
 };

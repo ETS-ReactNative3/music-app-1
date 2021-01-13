@@ -4,10 +4,11 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { CREATE_PAYMENT } from './constants';
 
-export function defaultAction() {
+export function createPaymentAction(data) {
   return {
-    type: DEFAULT_ACTION,
+    type: CREATE_PAYMENT,
+    data
   };
 }

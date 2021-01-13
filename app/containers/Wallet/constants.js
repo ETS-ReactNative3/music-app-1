@@ -4,4 +4,4 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/Wallet/DEFAULT_ACTION';
+export const CREATE_PAYMENT = 'app/Wallet/CREATE_PAYMENT';

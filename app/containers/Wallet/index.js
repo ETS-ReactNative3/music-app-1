@@ -27,13 +27,14 @@ import reducer from './reducer';
 import saga from './saga';
 
 import PaperCard from '../../components/PaperCard';
+import { Link } from 'react-router-dom';
+import { makeSelectUserWallet } from '../App/selectors';
 
-export function Wallet() {
+export function Wallet({userCredit}) {
   useInjectReducer({ key: 'wallet', reducer });
   useInjectSaga({ key: 'wallet', saga });
 
-  const [balance] = React.useState(11);
-
+  const [amount, setAmount] = React.useState(0);
   return (
     <PaperCard title="My Wallet">
       <div>
@@ -45,13 +46,13 @@ export function Wallet() {
           <FontAwesomeIcon
             icon={faCircle}
             className={
-              balance > 10 ? 'mr-2 mb-0 text-success' : 'mr-2 mb-0 text-danger'
+              userCredit > 10 ? 'mr-2 mb-0 text-success' : 'mr-2 mb-0 text-danger'
             }
           />
           CURRENT BALANCE
         </span>
         <span className="h1">
-          {balance}.00
+          {userCredit}.00
           <FontAwesomeIcon icon={faWallet} className="ml-2 h3 mb-0" />
         </span>
       </div>
@@ -78,14 +79,18 @@ export function Wallet() {
                         type="number"
                         min="0"
                         placeholder="Enter Amount"
+                        onChange={(value) => {
+                          setAmount(value.target.value)
+                        }}
+
                       />
                       <Form.Text className="text-muted">
                         A minimum of 10 is required
                       </Form.Text>
                     </Form.Group>
-                    <Button variant="success" type="submit">
+                    <Link to={`/wallet/paymentAddress?amount=${amount}`}><Button disabled={amount < 10} variant="success" type="submit">
                       Buy
-                    </Button>
+                    </Button></Link>
                   </Form>
                 </ListGroup.Item>
               </ListGroup>
@@ -96,145 +101,19 @@ export function Wallet() {
           </Col>
         </Row>
       </Container>
-      <Container fluid className="mt-5">
-        <Row>
-          <Col md={7} lg={8} xl={9}>
-            <Card className="bg-transparent blick-border">
-              <Card.Body className="p-4">
-                <div className="h2">1. Billing Information</div>
-                <Form>
-                  <Row className="my-4">
-                    <Col>
-                      <Form.Label>Professional?</Form.Label>
-                      <Form.Check
-                        size="lg"
-                        type="switch"
-                        id="custom-switch"
-                        label="You represent a registered professional entity (company, association, independent contractor)"
-                      />
-                    </Col>
-                  </Row>
-                  <Row className="my-4">
-                    <Col>
-                      <Form.Label>First name</Form.Label>
-                      <Form.Control
-                        className="bg-transparent"
-                        size="lg"
-                        type="text"
-                        placeholder="Enter first name"
-                      />
-                    </Col>
-
-                    <Col>
-                      <Form.Label>Last name</Form.Label>
-                      <Form.Control
-                        className="bg-transparent"
-                        size="lg"
-                        type="text"
-                        placeholder="Enter last name"
-                      />
-                    </Col>
-                  </Row>
-                  <Row className="my-4">
-                    <Col>
-                      <Form.Label>Date of birth</Form.Label>
-                      <Form.Control
-                        className="bg-transparent"
-                        size="lg"
-                        type="text"
-                        placeholder="Enter date of birth"
-                      />
-                    </Col>
-
-                    <Col>
-                      <Form.Label>Citizenship</Form.Label>
-                      <Form.Control
-                        className="bg-transparent"
-                        size="lg"
-                        as="select"
-                        placeholder="Citizenship"
-                      >
-                        <option>India</option>
-                        <option>Nepal</option>
-                      </Form.Control>
-                    </Col>
-                  </Row>
-                  <Row className="my-4">
-                    <Col>
-                      <Form.Label>Entity name</Form.Label>
-                      <Form.Control
-                        className="bg-transparent"
-                        size="lg"
-                        type="text"
-                        placeholder="Enter entity name"
-                      />
-                    </Col>
-
-                    <Col>
-                      <Form.Label>VAT number</Form.Label>
-                      <Form.Control
-                        className="bg-transparent"
-                        size="lg"
-                        type="text"
-                        placeholder="Enter VAT number"
-                      />
-                    </Col>
-                  </Row>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md={5} lg={4} xl={3}>
-            <Card className="bg-transparent blick-border">
-              <ListGroup>
-                <ListGroup.Item className="p-4 bg-transparent border-bottom-primary">
-                  <div className="h2">
-                    <FontAwesomeIcon icon={faWallet} className="mr-2 h3 mb-0" />
-                    Purchase
-                  </div>
-                </ListGroup.Item>
-                <ListGroup.Item className="py-2 px-4 bg-transparent">
-                  <Row>
-                    <Col md={9}>Available credits</Col>
-                    <Col md={3} className="text-right">
-                      0
-                      <FontAwesomeIcon icon={faWallet} className="ml-2 mb-0" />
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item className="py-2 px-4 h4 bg-transparent">
-                  <Row>
-                    <Col md={6}>Total</Col>
-                    <Col md={6} className="text-right">
-                      0
-                      <FontAwesomeIcon icon={faWallet} className="ml-2 mb-0" />
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item className="py-2 px-4 pb-4 bg-transparent">
-                  <Row>
-                    <Col md={9}>Post-checkout credits</Col>
-                    <Col md={3} className="text-right">
-                      0
-                      <FontAwesomeIcon icon={faWallet} className="ml-2 mb-0" />
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      
     </PaperCard>
   );
 }
 
 Wallet.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  userCredit: PropTypes.any
 };
 
 const mapStateToProps = createStructuredSelector({
   wallet: makeSelectWallet(),
+  userCredit: makeSelectUserWallet()
 });
 
 function mapDispatchToProps(dispatch) {
