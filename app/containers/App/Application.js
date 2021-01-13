@@ -1,23 +1,24 @@
 import React from 'react';
 import jwtDecode from 'jwt-decode';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
+import {Switch, Route, Redirect} from 'react-router-dom';
+import {PropTypes} from 'prop-types';
 import Dashboard from '../Templates/Dashboard';
 import HomePage from '../HomePage/Loadable';
-import { Album, AlbumForm, AlbumList } from '../Album/Loadable';
-import { SongList, SongForm } from '../Song/Loadable';
-import { Playlist, PlaylistDetail } from '../Playlist/Loadable';
-import { PlanDetails } from '../Plan/Loadable';
+import {Album, AlbumForm, AlbumList} from '../Album/Loadable';
+import {SongList, SongForm} from '../Song/Loadable';
+import {Playlist, PlaylistDetail} from '../Playlist/Loadable';
+import {PlanDetails} from '../Plan/Loadable';
 import BecomeAnInfluencer from '../Influencer/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
 import RequestInfluencerForm from '../../components/RequestInfluencerForm';
-import { MyAccount } from '../MyAccount/Loadable';
-import { Wallet } from '../Wallet/Loadable';
+import {MyAccount} from '../MyAccount/Loadable';
+import {Wallet} from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
-import AddressWallet from '../Wallet/Address';
 import WalletHistory from '../Wallet/History';
+import OrderSuccess from "../Wallet/success";
+
 function useAuth() {
   const accessToken = localStorage.getItem('token');
   let isAuthorized = false;
@@ -33,7 +34,7 @@ function useAuth() {
   return isAuthorized;
 }
 
-function PrivateRoute({ children, ...rest }) {
+function PrivateRoute({children, ...rest}) {
   const auth = useAuth();
 
   return (
@@ -54,76 +55,72 @@ function PrivateRoute({ children, ...rest }) {
   );
 }
 
-function Application({ history }) {
+function Application({history}) {
   return (
     <Dashboard>
       <Switch>
         <PrivateRoute exact path="/">
-          <HomePage />
+          <HomePage/>
         </PrivateRoute>
         <PrivateRoute exact path="/album/add">
-          <AlbumForm />
+          <AlbumForm/>
         </PrivateRoute>
         <Route exact path="/album/:slug">
-          <Album />
+          <Album/>
         </Route>
         <PrivateRoute exact path="/albumList">
-          <AlbumList />
+          <AlbumList/>
         </PrivateRoute>
         <PrivateRoute exact path="/album/edit/:id">
-          <AlbumForm />
+          <AlbumForm/>
         </PrivateRoute>
         <PrivateRoute exact path="/songList">
-          <SongList />
+          <SongList/>
         </PrivateRoute>
         <PrivateRoute exact path="/song/edit/:id">
-          <SongForm />
+          <SongForm/>
         </PrivateRoute>
         <PrivateRoute exact path="/song/add">
-          <SongForm />
+          <SongForm/>
         </PrivateRoute>
         <PrivateRoute exact path="/playlists">
-          <Playlist />
+          <Playlist/>
         </PrivateRoute>
         <PrivateRoute exact path="/become-an-influencer">
-          <BecomeAnInfluencer />
+          <BecomeAnInfluencer/>
         </PrivateRoute>
         <PrivateRoute exact path="/tastemakers/:songId">
-          <Tastemaker />
+          <Tastemaker/>
         </PrivateRoute>
         <PrivateRoute exact path="/playlist/:id">
-          <PlaylistDetail />
+          <PlaylistDetail/>
         </PrivateRoute>
         <PrivateRoute exact path="/plan">
-          <PlanDetails />
+          <PlanDetails/>
         </PrivateRoute>
         <PrivateRoute exact path="/requestInfluencer">
-          <RequestInfluencerForm />
+          <RequestInfluencerForm/>
         </PrivateRoute>
-
         <PrivateRoute exact path="/myaccount">
-          <MyAccount />
+          <MyAccount/>
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount/activites">
-          <AllActivites />
+          <AllActivites/>
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount/reviews">
-          <AllReviews />
+          <AllReviews/>
         </PrivateRoute>
-
         <PrivateRoute exact path="/wallet">
-          <Wallet />
+          <Wallet/>
         </PrivateRoute>
-
-        <PrivateRoute exact path="/wallet/paymentAddress">
-          <AddressWallet />
+        <PrivateRoute exact path="/order/success">
+          <OrderSuccess/>
         </PrivateRoute>
         <PrivateRoute exact path="/wallet/history">
-          <WalletHistory />
+          <WalletHistory/>
         </PrivateRoute>
-
         <PrivateRoute path="/tastemakers/:songId/campaign">
-          <CampaignSummary />
+          <CampaignSummary/>
         </PrivateRoute>
       </Switch>
     </Dashboard>
