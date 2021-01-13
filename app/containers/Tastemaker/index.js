@@ -27,7 +27,7 @@ import { getTasteMakersRequest, removeInfluencerAction } from './actions';
 import PaperCard from '../../components/PaperCard';
 import { makeSelectSelectedInfluencers, makeSelectTastemaker } from './selectors';
 import InfluencerAccountPopup from '../../components/InfluencerAccountPopup';
-import { faAngleRight, faCheck, faCross, faSearch, faSpellCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faBlog, faCheck, faCross, faSearch, faSpellCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Button, Form, Image, InputGroup, Spinner } from 'react-bootstrap';
 import { debounce } from 'lodash';
 import { makeSelectLoader } from '../App/selectors';
@@ -138,11 +138,11 @@ export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, se
             <input
               type="checkbox"
               className="form-check-input"
-              id="exampleCheck1"
+              id="exampleCheck2"
               onChange={() => {setFilters({...filters, twitter: !filters.twitter})}}
 
             />
-            <label className="form-check-label" htmlFor="exampleCheck1">
+            <label className="form-check-label" htmlFor="exampleCheck2">
               Twitter
             </label>
           </div>
@@ -150,11 +150,11 @@ export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, se
             <input
               type="checkbox"
               className="form-check-input"
-              id="exampleCheck1"
+              id="exampleCheck3"
               onChange={() => {setFilters({...filters, youtube: !filters.youtube})}}
 
             />
-            <label className="form-check-label" htmlFor="exampleCheck1">
+            <label className="form-check-label" htmlFor="exampleCheck3">
               Youtube
             </label>
           </div>
@@ -162,11 +162,11 @@ export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, se
             <input
               type="checkbox"
               className="form-check-input"
-              id="exampleCheck1"
+              id="exampleCheck4"
               onChange={() => {setFilters({...filters, instagram: !filters.instagram})}}
 
             />
-            <label className="form-check-label" htmlFor="exampleCheck1">
+            <label className="form-check-label" htmlFor="exampleCheck4">
               Instagram
             </label>
           </div>
@@ -174,11 +174,11 @@ export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, se
             <input
               type="checkbox"
               className="form-check-input"
-              id="exampleCheck1"
+              id="exampleCheck5"
               onChange={() => {setFilters({...filters, blog: !filters.blog})}}
 
             />
-            <label className="form-check-label" htmlFor="exampleCheck1">
+            <label className="form-check-label" htmlFor="exampleCheck5">
               Blog
             </label>
           </div>
@@ -221,6 +221,13 @@ export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, se
                         {item.influencer.instagram && (
                           <FontAwesomeIcon
                             icon={faInstagram}
+                            size="1x"
+                            className="mr-2"
+                          />
+                        )}
+                        {item.influencer.blog && (
+                          <FontAwesomeIcon
+                            icon={faBlog}
                             size="1x"
                             className="mr-2"
                           />
