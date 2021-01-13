@@ -4,15 +4,20 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION } from './constants';
+import { DEFAULT_ACTION, SAVE_PAYMENT_HISTORY } from './constants';
 
-export const initialState = {};
+export const initialState = {
+  paymentHistory: []
+};
 
 /* eslint-disable default-case, no-param-reassign */
 const walletReducer = (state = initialState, action) =>
-  produce(state, (/* draft */) => {
+  produce(state, ( draft ) => {
     switch (action.type) {
       case DEFAULT_ACTION:
+        break;
+      case SAVE_PAYMENT_HISTORY:
+        draft.paymentHistory = action.data;
         break;
     }
   });

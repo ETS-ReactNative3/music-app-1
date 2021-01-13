@@ -1,8 +1,18 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
-import { takeLatest } from "redux-saga/effects";
-import { CREATE_PAYMENT } from "./constants";
+import { call, put, takeLatest } from "redux-saga/effects";
+import { CREATE_PAYMENT, FETCH_PAYMENT_HISTORY } from "./constants";
+import api from '../../utils/api';
+import { savePaymentHistoryAction } from "./actions";
 
+function fetchPaymentHistoryApi() {
+  return api.get('order/list');
+}
+
+function* fetchPaymentHistorySaga() {
+  const response = yield call(fetchPaymentHistoryApi);
+  yield put(savePaymentHistoryAction(response.data));
+}
 
 function* createPayment(action) {
   const { payload, addressInfo } = action;
@@ -43,5 +53,6 @@ function* createPayment(action) {
 export default function* walletSaga() {
   // See example in containers/HomePage/saga.js
   yield takeLatest(CREATE_PAYMENT, createPayment);
+  yield takeLatest(FETCH_PAYMENT_HISTORY, fetchPaymentHistorySaga);
 
 }
