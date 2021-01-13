@@ -21,5 +21,11 @@ const makeSelectWallet = () =>
     substate => substate,
   );
 
+  const makeSelectPaymentHistory = () =>
+  createSelector(
+    selectWalletDomain,
+    substate => substate.paymentHistory,
+  );
+
 export default makeSelectWallet;
-export { selectWalletDomain };
+export { selectWalletDomain, makeSelectPaymentHistory };

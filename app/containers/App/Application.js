@@ -16,6 +16,7 @@ import {Wallet} from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
+import WalletHistory from '../Wallet/History';
 import OrderSuccess from "../Wallet/success";
 
 function useAuth() {
@@ -114,6 +115,9 @@ function Application({history}) {
         </PrivateRoute>
         <PrivateRoute exact path="/order/success">
           <OrderSuccess/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/wallet/history">
+          <WalletHistory/>
         </PrivateRoute>
         <PrivateRoute path="/tastemakers/:songId/campaign">
           <CampaignSummary/>

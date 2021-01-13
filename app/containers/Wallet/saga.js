@@ -1,21 +1,27 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
-import {takeLatest} from "redux-saga/effects";
-import {CREATE_PAYMENT_REQUEST} from "./constants";
-import api from "../../utils/api";
-import {call, put} from "@redux-saga/core/effects";
+import {call, put, takeLatest} from "redux-saga/effects";
+import {CREATE_PAYMENT_REQUEST, FETCH_PAYMENT_HISTORY} from "./constants";
+import api from '../../utils/api';
+import {savePaymentHistoryAction, createPaymentFailAction, createPaymentSuccessAction} from "./actions";
 import {toast} from "react-toastify";
-import {createPaymentFailAction, createPaymentSuccessAction} from "./actions";
+
+function fetchPaymentHistoryApi() {
+  return api.get('order/list');
+}
+
+function* fetchPaymentHistorySaga() {
+  const response = yield call(fetchPaymentHistoryApi);
+  yield put(savePaymentHistoryAction(response.data));
+}
 
 function createPayment(data) {
   return api.post('/order/createPayment', data);
 }
 
 function* createPaymentSession(action) {
-  console.log(action)
   try {
     const result = yield call(createPayment, {session_id: action.id});
-    console.log(result)
     yield put(createPaymentSuccessAction());
   } catch (e) {
     toast.error(e.message);
@@ -26,6 +32,6 @@ function* createPaymentSession(action) {
 // Individual exports for testing
 export default function* walletSaga() {
   // See example in containers/HomePage/saga.js
+  yield takeLatest(FETCH_PAYMENT_HISTORY, fetchPaymentHistorySaga);
   yield takeLatest(CREATE_PAYMENT_REQUEST, createPaymentSession);
-
 }

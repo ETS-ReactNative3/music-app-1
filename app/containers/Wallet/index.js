@@ -29,8 +29,10 @@ import PaperCard from '../../components/PaperCard';
 import {makeSelectUserWallet} from '../App/selectors';
 import {loadStripe} from '@stripe/stripe-js';
 import api from "../../utils/api";
+import {Link} from "react-router-dom";
 
 const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
+
 
 export function Wallet({userCredit}) {
   useInjectReducer({key: 'wallet', reducer});
@@ -59,6 +61,7 @@ export function Wallet({userCredit}) {
     }
   };
 
+
   return (
     <PaperCard title="My Wallet">
       <div>
@@ -74,6 +77,7 @@ export function Wallet({userCredit}) {
             }
           />
           CURRENT BALANCE
+        <Link to="/wallet/history">View history</Link>
         </span>
         <span className="h1">
           {userCredit}
