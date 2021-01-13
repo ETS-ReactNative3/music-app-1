@@ -10,6 +10,9 @@ import React, { memo, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import NotFoundPage from '../NotFoundPage/Loadable';
 
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
 import '../../styles/global-style.scss';
 import './index.scss';
 import ThemeWrapper from './ThemeWrapper';
@@ -19,17 +22,22 @@ import { fetchUserDetailsData } from './actions';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
+
 const App = ({ fetchDashboardData }) => {
   useEffect(() => {
     fetchDashboardData();
   }, []);
   return (
     <ThemeWrapper>
-      <Switch>
-        <Route path="/auth" component={Auth} />
-        <Route path="/" component={Application} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <Elements stripe={stripePromise}>
+
+        <Switch>
+          <Route path="/auth" component={Auth} />
+          <Route path="/" component={Application} />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </Elements>
     </ThemeWrapper>
   );
 };

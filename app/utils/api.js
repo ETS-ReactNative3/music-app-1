@@ -12,6 +12,6 @@ if (accessToken) {
 }
 
 export default axios.create({
-  baseURL: 'https://bliiink.ga/',
+  baseURL: 'http://localhost:3006/',
   headers,
 });
