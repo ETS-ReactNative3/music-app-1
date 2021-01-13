@@ -30,7 +30,7 @@ import PaperCard from '../../components/PaperCard';
 import { Link } from 'react-router-dom';
 import { makeSelectUserWallet } from '../App/selectors';
 
-export function Wallet({userCredit}) {
+export function Wallet({ userCredit }) {
   useInjectReducer({ key: 'wallet', reducer });
   useInjectSaga({ key: 'wallet', saga });
 
@@ -50,6 +50,7 @@ export function Wallet({userCredit}) {
             }
           />
           CURRENT BALANCE
+        <Link to="/wallet/history">View history</Link>
         </span>
         <span className="h1">
           {userCredit}.00
@@ -101,7 +102,7 @@ export function Wallet({userCredit}) {
           </Col>
         </Row>
       </Container>
-      
+
     </PaperCard>
   );
 }
