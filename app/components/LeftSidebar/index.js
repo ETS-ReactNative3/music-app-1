@@ -12,6 +12,7 @@ import {Link} from 'react-router-dom';
 import './index.scss';
 import PlanSvg from '../../images/svg/plan_icon.svg';
 import LogoPng from '../../images/logo.png';
+import { faGetPocket } from '@fortawesome/free-brands-svg-icons';
 
 function LeftSideBar({role}) {
   const handleSideBar = () => {
@@ -120,6 +121,12 @@ function LeftSideBar({role}) {
                 <Link to="/wallet" className="nav-link mb-1">
                   <FontAwesomeIcon icon={faWallet} className="mr-2"/>
                   <p className="d-inline-block m-0">Wallet</p>
+                </Link>
+              </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/requests" className="nav-link mb-1">
+                  <FontAwesomeIcon icon={faGetPocket} className="mr-2"/>
+                  <p className="d-inline-block m-0">Requests</p>
                 </Link>
               </li>
             </ul>

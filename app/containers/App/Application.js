@@ -18,6 +18,7 @@ import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
 import WalletHistory from '../Wallet/History';
 import OrderSuccess from "../Wallet/success";
+import RequestListing from '../Requests/index';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -121,6 +122,9 @@ function Application({history}) {
         </PrivateRoute>
         <PrivateRoute path="/tastemakers/:songId/campaign">
           <CampaignSummary/>
+        </PrivateRoute>
+        <PrivateRoute path="/requests">
+          <RequestListing/>
         </PrivateRoute>
       </Switch>
     </Dashboard>
