@@ -69,7 +69,7 @@ const value = [
 const makeSelectNewRequestList = () => {
   return createSelector(
     selectRequestDomain,
-    substate => value ? value.filter(request => request.campaignStatusId === CampaignStatus.PEDNING) : []
+    substate => substate ? substate.filter(request => request.campaignStatusId === CampaignStatus.PEDNING) : []
   );
 }
   
@@ -77,7 +77,7 @@ const makeSelectNewRequestList = () => {
 const makeSelectInProgressRequestList = () => {
   return createSelector(
     selectRequestDomain,
-    substate => value ? value.filter(request => (request.campaignStatusId === CampaignStatus.ACCEPTED || request.campaignStatusId === CampaignStatus["IN-PROGRESS"])) : []
+    substate => substate ? substate.filter(request => (request.campaignStatusId === CampaignStatus.ACCEPTED || request.campaignStatusId === CampaignStatus["IN-PROGRESS"])) : []
   );
 }
   
@@ -85,7 +85,7 @@ const makeSelectInProgressRequestList = () => {
 const makeSelectCompletedRequestList = () => {
   return createSelector(
     selectRequestDomain,
-    substate => value ? value.filter(request => (request.campaignStatusId === CampaignStatus.COMPLETED || request.campaignStatusId === CampaignStatus.APPROVED)) : []
+    substate => substate ? substate.filter(request => (request.campaignStatusId === CampaignStatus.COMPLETED || request.campaignStatusId === CampaignStatus.APPROVED)) : []
   );
 }
   

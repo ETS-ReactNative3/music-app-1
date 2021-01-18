@@ -4,16 +4,17 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import {axiosInstance} from '../../utils/api';
-import { putUserActivities, putUserRatings, putUserReviews } from './actions';
-import { FETCH_ACTIVITY, REQUEST_INFLUENCER } from './constants';
+import { putRequestAction, putUserActivities, putUserRatings, putUserReviews } from './actions';
+import { FETCH_ACTIVITY, FETCH_REQUESTS, REQUEST_INFLUENCER } from './constants';
 
-function requestInfluencerApi(data) {
-  return axiosInstance().post('influencers', data);
+function requestInfluencerApi() {
+  return api.get('influencers/requests');
 }
 
-export function* requestInfluencerSaga(data) {
+export function* fetchRequestSaga() {
   try {
-    const result = yield call(requestInfluencerApi, data);
+    const result = yield call(requestInfluencerApi);
+    yield put(putRequestAction(result));
   } catch (e) {
     toast.error(e.message);
   }
@@ -21,5 +22,5 @@ export function* requestInfluencerSaga(data) {
 
 
 export default function* accountSaga() {
-  // yield takeLatest(FETCH_ACTIVITY, getUserActivitiesSaga);
+  yield takeLatest(FETCH_REQUESTS, fetchRequestSaga);
 }
