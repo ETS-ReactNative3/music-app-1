@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const combineFollowers = influencerProfile => {
   let followers = 0;
   if (
@@ -126,4 +128,23 @@ export const zipRange= {
   "SE":/^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$/,
   "BE":/^[1-9]{1}[0-9]{3}$/,
   "IN":/^\d{6}$/
+}
+
+
+export const timeDifference = (date) => {
+  const startDate = moment(date);
+  const todaysDate = moment();
+  console.log(startDate, todaysDate)
+
+  return 10 - todaysDate.diff(startDate, 'days');
+}
+
+export const calculateExpiry = (date) => {
+  const date1 = timeDifference(date);
+
+  if (Math.abs(date1) > 10) {
+    return 'Expired';
+  } else {
+    return Math.abs(date1) + ' days left';
+  }
 }
