@@ -1,9 +1,9 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import { put, takeLatest, call } from '@redux-saga/core/effects';
+import {put, takeLatest, call} from '@redux-saga/core/effects';
 import jwt_decode from 'jwt-decode';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import {
   FORGOT_PASSWORD_REQUEST,
   LOGIN_REQ,
@@ -22,7 +22,7 @@ import {
   verificationRequestSuccess,
 } from './actions';
 import history from '../../utils/history';
-import { setRole } from '../App/actions';
+import {setRole} from '../App/actions';
 import request from '../../utils/request';
 
 const url = 'https://bliiink.ga';
@@ -77,7 +77,7 @@ function resetPasswordApi(data) {
   });
 }
 
-export function* loginRequest({ data }) {
+export function* loginRequest({data}) {
   try {
     const result = yield call(loginApi, data);
     yield localStorage.setItem('token', result.access_token);
@@ -91,7 +91,7 @@ export function* loginRequest({ data }) {
   }
 }
 
-export function* registerRequest({ data }) {
+export function* registerRequest({data}) {
   try {
     yield call(registerApi, data);
     yield put(registerSuccess());
@@ -103,7 +103,7 @@ export function* registerRequest({ data }) {
   }
 }
 
-export function* verificationRequest({ code }) {
+export function* verificationRequest({code}) {
   try {
     yield call(verificationApi, code);
     yield put(verificationRequestSuccess());

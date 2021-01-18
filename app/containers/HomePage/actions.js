@@ -15,18 +15,75 @@
  *    }
  */
 
-import { CHANGE_USERNAME } from './constants';
+import {
+  GET_FEATURED_ALBUMS,
+  GET_FEATURED_ALBUMS_SUCCESS,
+  GET_FEATURED_ALBUMS_FAIL,
+  GET_NEW_RELEASES_FAIL,
+  GET_NEW_RELEASES,
+  GET_NEW_RELEASES_SUCCESS,
+  GET_TOP_SONGS,
+  GET_TOP_SONGS_FAIL,
+  GET_TOP_SONGS_SUCCESS
+} from './constants';
 
-/**
- * Changes the input field of the form
- *
- * @param  {string} username The new text of the input field
- *
- * @return {object} An action object with a type of CHANGE_USERNAME
- */
-export function changeUsername(username) {
+
+export function getFeaturedAlbums() {
   return {
-    type: CHANGE_USERNAME,
-    username,
+    type: GET_FEATURED_ALBUMS
+  };
+}
+
+export function getFeaturedAlbumsSuccess(albums) {
+  return {
+    type: GET_FEATURED_ALBUMS_SUCCESS,
+    albums
+  };
+}
+
+export function getFeaturedAlbumsFail(error) {
+  return {
+    type: GET_FEATURED_ALBUMS_FAIL,
+    error
+  };
+}
+
+export function getTopSongs() {
+  return {
+    type: GET_TOP_SONGS
+  };
+}
+
+export function getTopSongsSuccess(songs) {
+  return {
+    type: GET_TOP_SONGS_SUCCESS,
+    songs
+  };
+}
+
+export function getTopSongsFail(error) {
+  return {
+    type: GET_TOP_SONGS_FAIL,
+    error
+  };
+}
+
+export function getNewReleases() {
+  return {
+    type: GET_NEW_RELEASES
+  };
+}
+
+export function getNewReleasesSuccess(releases) {
+  return {
+    type: GET_NEW_RELEASES_SUCCESS,
+    releases
+  };
+}
+
+export function getNewReleasesFail(error) {
+  return {
+    type: GET_NEW_RELEASES_FAIL,
+    error
   };
 }

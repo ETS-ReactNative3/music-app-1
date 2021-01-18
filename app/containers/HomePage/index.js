@@ -1,17 +1,16 @@
 import React, {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { FormattedMessage } from 'react-intl';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
+import {FormattedMessage} from 'react-intl';
 
-import { useInjectReducer } from 'utils/injectReducer';
-import { useInjectSaga } from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
+import {useInjectSaga} from 'utils/injectSaga';
 import {
   makeSelectLatestPosts,
   makeSelectFeaturedAlbums,
   makeSelectWeeklyTop,
-  makeSelectNewReleases,
   makeSelectRecommended,
   makeSelectPlaylist,
   makeSelectCurrentSong,
@@ -21,35 +20,50 @@ import saga from './saga';
 import Header from '../../components/Header';
 import CarouselFront from '../../components/CarouselFront';
 import SongList from '../../components/SongList';
-import LatestPosts from '../../components/LatestPosts';
 import messages from './messages';
-import {setPlaylist, handleSingleSong, fetchDefaultData} from '../App/actions';
+import {setPlaylist, handleSingleSong} from '../App/actions';
+import {getFeaturedAlbums, getNewReleases, getTopSongs} from "./actions";
+import {
+  makeSelectFeaturedAlbum,
+  makeSelectFeaturedAlbumLoading,
+  makeSelectNewReleaseLoading,
+  makeSelectNewReleases,
+  makeSelectTopSongs,
+  makeSelectTopSongsLoading
+} from "./selectors";
 
 const key = 'home';
 
 export function HomePage(props) {
   const {
-    posts,
     albums,
+    newReleasesLoading,
     newReleases,
-    recommended,
     weeklyTop,
     onHandleSetPlaylist,
     onHandleSingleSong,
     currentPlaylist,
     currentSong,
-    fetchDashboardData
+    getFeaturedAlbumsAction,
+    getTopSongsAction,
+    getNewReleasesAction,
+    topSongsLoading,
+    topSongs,
+    featuredAlbumLoading,
+    featuredAlbum
   } = props;
 
-  useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
+  useInjectReducer({key, reducer});
+  useInjectSaga({key, saga});
 
   useEffect(() => {
-    fetchDashboardData();
+    getFeaturedAlbumsAction();
+    getTopSongsAction();
+    getNewReleasesAction();
   }, []);
 
   const handleWeeklySong = index => {
-    const { playing, songIndex } = currentSong;
+    const {playing, songIndex} = currentSong;
     let status = !playing;
     if (currentPlaylist.length === 0) {
       onHandleSetPlaylist(weeklyTop);
@@ -62,36 +76,38 @@ export function HomePage(props) {
 
   return (
     <>
-      <Header />
+      <Header/>
       <div className="container-fluid">
         <CarouselFront
-          list={albums}
+          loading={featuredAlbumLoading}
+          list={featuredAlbum}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
           clasess="carousel-front py-5"
         />
-        <LatestPosts
-          list={posts}
-          heading={<FormattedMessage {...messages.latestPostsHeading} />}
-          clasess="latest-posts py-5"
-        />
+        {/*<LatestPosts*/}
+        {/*  list={posts}*/}
+        {/*  heading={<FormattedMessage {...messages.latestPostsHeading} />}*/}
+        {/*  clasess="latest-posts py-5"*/}
+        {/*/>*/}
         <SongList
-          list={weeklyTop}
+          list={topSongs}
           heading={<FormattedMessage {...messages.songListHeading} />}
           singleSongHandler={handleWeeklySong}
           currentSong={currentSong}
+          loading={topSongsLoading}
           clasess="py-5"
         />
         <CarouselFront
           list={newReleases}
+          loading={newReleasesLoading}
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
           clasess="carousel-front py-5"
         />
-
-        <CarouselFront
-          list={recommended}
-          heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}
-          clasess="carousel-front py-5"
-        />
+        {/*<CarouselFront*/}
+        {/*  list={recommended}*/}
+        {/*  heading={<FormattedMessage {...messages.recommendedAlbumHeading} />}*/}
+        {/*  clasess="carousel-front py-5"*/}
+        {/*/>*/}
       </div>
     </>
   );
@@ -99,24 +115,33 @@ export function HomePage(props) {
 
 HomePage.propTypes = {
   posts: PropTypes.array,
+  getFeaturedAlbumsAction: PropTypes.func,
+  getTopSongsAction: PropTypes.func,
+  getNewReleasesAction: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   posts: makeSelectLatestPosts(),
   albums: makeSelectFeaturedAlbums(),
   weeklyTop: makeSelectWeeklyTop(),
+  newReleasesLoading: makeSelectNewReleaseLoading(),
   newReleases: makeSelectNewReleases(),
+  topSongsLoading: makeSelectTopSongsLoading(),
+  topSongs: makeSelectTopSongs(),
   recommended: makeSelectRecommended(),
   currentPlaylist: makeSelectPlaylist(),
   currentSong: makeSelectCurrentSong(),
+  featuredAlbumLoading: makeSelectFeaturedAlbumLoading(),
+  featuredAlbum: makeSelectFeaturedAlbum()
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
     onHandleSetPlaylist: songs => dispatch(setPlaylist(songs)),
-    onHandleSingleSong: (index, status) =>
-      dispatch(handleSingleSong(index, status)),
-    fetchDashboardData: () => dispatch(fetchDefaultData())
+    onHandleSingleSong: (index, status) => dispatch(handleSingleSong(index, status)),
+    getFeaturedAlbumsAction: () => dispatch(getFeaturedAlbums()),
+    getTopSongsAction: () => dispatch(getTopSongs()),
+    getNewReleasesAction: () => dispatch(getNewReleases()),
   };
 }
 

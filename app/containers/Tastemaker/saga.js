@@ -4,7 +4,7 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import { GET_TASTEMAKERS_REQUEST } from './constants';
-import api from '../../utils/api';
+import {axiosInstance} from '../../utils/api';
 import {
   getTasteMakersRequestFail,
   getTasteMakersRequestSuccess,
@@ -20,7 +20,7 @@ function getTasteMakersApi(data) {
   if (data.filters && data.filters.blog) url = url + '&blog=true';
   if (data.filters && data.filters.youtube) url = url + '&youtube=true';
   if (data.filters && data.filters.genre) url = url + '&genre=' + data.filters.genre.join(',')
-  return api.get(url);
+  return axiosInstance().get(url);
 }
 
 export function* getTasteMakers(action) {

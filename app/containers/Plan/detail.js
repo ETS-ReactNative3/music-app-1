@@ -221,7 +221,7 @@ function Detail({ userDetails, userRole, influencerProfile }) {
                   </>
                 ) : (
                   <>
-                    <Link to="/requestInfluencer">
+                    <Link to="/tasteMaker/request/form">
                       <Button style={{ margin: 10 }} variant="outline-success">
                         Become an influencer
                       </Button>

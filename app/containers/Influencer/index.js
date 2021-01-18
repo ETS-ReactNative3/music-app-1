@@ -4,16 +4,16 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
 
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-import { becomeAnInfluencer } from './actions';
-import { makeSelectInfluencer, makeSelectFormLoader } from './selectors';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
+import {becomeAnInfluencer} from './actions';
+import {makeSelectInfluencer, makeSelectFormLoader} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -21,19 +21,20 @@ import PaperCard from '../../components/PaperCard';
 import InfluencerForm from '../../components/InfluencerForm';
 import reducerSong from '../Song/reducer';
 import sagaSong from '../Song/saga';
-import { getGenres } from '../Song/actions';
-import { makeSelectGenres } from '../Song/selectors';
+import {getGenres} from '../Song/actions';
+import {makeSelectGenres} from '../Song/selectors';
 
-export function Influencer({
-  getGenreList,
-  genres,
-  formLoader,
-  becomeAnInfluencerAction,
-}) {
-  useInjectReducer({ key: 'influencer', reducer });
-  useInjectSaga({ key: 'influencer', saga });
-  useInjectReducer({ key: 'song', reducer: reducerSong });
-  useInjectSaga({ key: 'song', saga: sagaSong });
+export function Influencer(
+  {
+    getGenreList,
+    genres,
+    formLoader,
+    becomeAnInfluencerAction,
+  }) {
+  useInjectReducer({key: 'influencer', reducer});
+  useInjectSaga({key: 'influencer', saga});
+  useInjectReducer({key: 'song', reducer: reducerSong});
+  useInjectSaga({key: 'song', saga: sagaSong});
 
   useEffect(() => {
     getGenreList();

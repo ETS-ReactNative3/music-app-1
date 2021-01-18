@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import api from '../../utils/api';
+import {axiosInstance} from '../../utils/api';
 import {
   deleteSongFail,
   deleteSongSuccess, getGenresFail, getGenresSuccess,
@@ -26,19 +26,19 @@ import history from '../../utils/history';
 import {toast} from "react-toastify";
 
 function getSongsApi() {
-  return api.get('/songs');
+  return axiosInstance().get('/songs');
 }
 
 function getSongApi(id) {
-  return api.get(`/songs/${id}`);
+  return axiosInstance().get(`/songs/${id}`);
 }
 
 function deleteSongApi(id) {
-  return api.delete(`/songs/${id}`);
+  return axiosInstance().delete(`/songs/${id}`);
 }
 
 function postSong(data) {
-  return api.request({
+  return axiosInstance().request({
     method: 'post',
     url: '/songs',
     data,
@@ -46,11 +46,11 @@ function postSong(data) {
 }
 
 function fetchGenres() {
-  return api.get('/songs/genres');
+  return axiosInstance().get('/songs/genres');
 }
 
 function editSong(data) {
-  return api.put('/songs', data);
+  return axiosInstance().put('/songs', data);
 }
 
 export function* fetchSongs() {
@@ -76,7 +76,7 @@ export function* getSong({id}) {
 function postSongApi(action) {
   const formData = new FormData();
   formData.append('file', action.audio[0]);
-  return api.post(`/songs/upload/audio/`, formData);
+  return axiosInstance().post(`/songs/upload/audio/`, formData);
 }
 
 export function* uploadSong(action) {

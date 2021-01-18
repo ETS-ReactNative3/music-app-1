@@ -8,9 +8,7 @@ import {Album, AlbumForm, AlbumList} from '../Album/Loadable';
 import {SongList, SongForm} from '../Song/Loadable';
 import {Playlist, PlaylistDetail} from '../Playlist/Loadable';
 import {PlanDetails} from '../Plan/Loadable';
-import BecomeAnInfluencer from '../Influencer/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
-import RequestInfluencerForm from '../../components/RequestInfluencerForm';
 import {MyAccount} from '../MyAccount/Loadable';
 import {Wallet} from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
@@ -18,6 +16,7 @@ import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
 import WalletHistory from '../Wallet/History';
 import OrderSuccess from "../Wallet/success";
+import {InfluencerRequestForm} from "../Influencer/Loadable";
 import RequestListing from '../Requests/index';
 
 function useAuth() {
@@ -87,8 +86,8 @@ function Application({history}) {
         <PrivateRoute exact path="/playlists">
           <Playlist/>
         </PrivateRoute>
-        <PrivateRoute exact path="/become-an-influencer">
-          <BecomeAnInfluencer/>
+        <PrivateRoute exact path="/tasteMaker/request/form">
+          <InfluencerRequestForm/>
         </PrivateRoute>
         <PrivateRoute exact path="/tastemakers/:songId">
           <Tastemaker/>
@@ -98,9 +97,6 @@ function Application({history}) {
         </PrivateRoute>
         <PrivateRoute exact path="/plan">
           <PlanDetails/>
-        </PrivateRoute>
-        <PrivateRoute exact path="/requestInfluencer">
-          <RequestInfluencerForm/>
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount">
           <MyAccount/>

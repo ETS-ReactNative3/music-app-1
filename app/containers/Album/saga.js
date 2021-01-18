@@ -4,7 +4,6 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import {
-  ADD_SONG_INTO_PAYLIST,
   DELETE_ALBUM,
   GET_ALBUM,
   GET_GENRES,
@@ -14,7 +13,7 @@ import {
   POST_ALBUMS_REQUEST,
   UPDATE_ALBUM,
 } from './constants';
-import api from '../../utils/api';
+import {axiosInstance} from '../../utils/api';
 import {
   deleteAlbumFail,
   deleteAlbumSuccess,
@@ -39,15 +38,15 @@ import history from '../../utils/history';
 import { setPlaylist } from '../App/actions';
 
 function getAlbumInfo(albumSlug) {
-  return api.get(`/albums/songs/slug/${albumSlug}`);
+  return axiosInstance().get(`/albums/songs/slug/${albumSlug}`);
 }
 
 function fetchMyAlbums() {
-  return api.get('/albums/myAlbums');
+  return axiosInstance().get('/albums/myAlbums');
 }
 
 function postAlbum(data) {
-  return api.request({
+  return axiosInstance().request({
     method: 'post',
     url: '/albums',
     data,
@@ -55,29 +54,29 @@ function postAlbum(data) {
 }
 
 function editAlbum(data) {
-  return api.put('/albums', data);
+  return axiosInstance().put('/albums', data);
 }
 
 function postAlbumImage(data) {
   const imageData = new FormData();
   imageData.append('photo', data.albumImage[0]);
-  return api.post('/albums/upload', imageData);
+  return axiosInstance().post('/albums/upload', imageData);
 }
 
 function getSongsApi() {
-  return api.get('/songs');
+  return axiosInstance().get('/songs');
 }
 
 function getAlbum(id) {
-  return api.get(`/albums/${id}`);
+  return axiosInstance().get(`/albums/${id}`);
 }
 
 function deleteAlbumApi(id) {
-  return api.delete(`/albums/${id}`);
+  return axiosInstance().delete(`/albums/${id}`);
 }
 
 function fetchGenres() {
-  return api.get('/songs/genres');
+  return axiosInstance().get('/songs/genres');
 }
 
 export function* fetchSongs() {

@@ -50,11 +50,17 @@ function RequestInfluencerForm({
   useInjectReducer({ key: 'album', reducer });
   useInjectSaga({ key: 'album', saga });
   useInjectSaga({ key: 'plan', saga: planSaga });
+
   const [selectedGeners, setSelectedGeners] = React.useState([]);
   const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required('Entity name is required'),
     description: Yup.string()
       .min(6, 'Must be 6 characters or more')
-      .required('Required'),
+      .required('Your description is required'),
+    helpArtistDescription: Yup.string()
+      .min(6, 'Must be 6 characters or more')
+      .required('How can you help artists is required'),
     facebook: Yup.object({
       link: Yup.string()
         .url('Invalid Url address')
@@ -184,6 +190,28 @@ function RequestInfluencerForm({
         <form onSubmit={handleSubmit(onSubmit)}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridTitle">
+              <label htmlFor="name">
+                <FontAwesomeIcon
+                  size="1x"
+                  color="white"
+                  icon={faBriefcase}
+                  style={{ marginRight: 5 }}
+                />
+                Entity Name
+              </label>
+              <input
+                name="name"
+                placeholder="Entity"
+                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                ref={register}
+              />
+              <div className="invalid-feedback" style={{ display: 'block' }}>
+                {errors.name && errors.name.message}
+              </div>
+            </Form.Group>
+          </Form.Row>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridTitle">
               <label htmlFor="description">
                 <FontAwesomeIcon
                   size="1x"
@@ -193,15 +221,34 @@ function RequestInfluencerForm({
                 />
                 Service Information
               </label>
-              <input
-                style={{ width: '50%' }}
+              <textarea
                 name="description"
                 placeholder="Tell us about yourself"
-                className={`form-control ${errors.title ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                 ref={register}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
                 {errors.description && errors.description.message}
+              </div>
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGridTitle">
+              <label htmlFor="helpArtistDescription">
+                <FontAwesomeIcon
+                  size="1x"
+                  color="white"
+                  icon={faBriefcase}
+                  style={{ marginRight: 5 }}
+                />
+                How I can help artists
+              </label>
+              <textarea
+                name="helpArtistDescription"
+                placeholder="How I can help artists"
+                className={`form-control ${errors.helpArtistDescription ? 'is-invalid' : ''}`}
+                ref={register}
+              />
+              <div className="invalid-feedback" style={{ display: 'block' }}>
+                {errors.helpArtistDescription && errors.helpArtistDescription.message}
               </div>
             </Form.Group>
           </Form.Row>

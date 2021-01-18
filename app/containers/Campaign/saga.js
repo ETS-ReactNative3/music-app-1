@@ -4,12 +4,12 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import { LAUNCH_CAMPAIGN } from './constants';
-import api from '../../utils/api';
+import {axiosInstance} from '../../utils/api';
 
 import { setLoader } from '../App/actions';
 
 function launchCampaign(data) {
-  return api.post('campaigns', data);
+  return axiosInstance().post('campaigns', data);
 }
 
 export function* launchCampaignSaga(action) {

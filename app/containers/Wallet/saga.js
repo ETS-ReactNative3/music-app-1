@@ -2,12 +2,12 @@
 
 import {call, put, takeLatest} from "redux-saga/effects";
 import {CREATE_PAYMENT_REQUEST, FETCH_PAYMENT_HISTORY} from "./constants";
-import api from '../../utils/api';
+import {axiosInstance} from '../../utils/api';
 import {savePaymentHistoryAction, createPaymentFailAction, createPaymentSuccessAction} from "./actions";
 import {toast} from "react-toastify";
 
 function fetchPaymentHistoryApi() {
-  return api.get('order/list');
+  return axiosInstance().get('order/list');
 }
 
 function* fetchPaymentHistorySaga() {
@@ -16,7 +16,7 @@ function* fetchPaymentHistorySaga() {
 }
 
 function createPayment(data) {
-  return api.post('/order/createPayment', data);
+  return axiosInstance().post('/order/createPayment', data);
 }
 
 function* createPaymentSession(action) {
