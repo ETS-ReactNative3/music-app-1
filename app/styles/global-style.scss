@@ -369,3 +369,42 @@ img {
 .StripeElement.PaymentRequestButton {
   height: 40px;
 }
+
+.tab-style {
+  display: flex;
+  flex: 1;
+  text-align: center;
+}
+
+.check .nav-tabs, .check .nav-link {
+  flex: 1;
+  text-align: center;
+  color: black;
+  margin: 5px;
+  border-radius: 0.25rem;
+
+}
+
+.check .nav-tabs, .check .nav-link.active, .check .nav-tabs .check .nav-item.show .check .nav-link {
+  flex: 1;
+  text-align: center;
+  color: green;
+  background-color: lightgray;
+  margin: 5px;
+}
+
+.check .nav-tabs:focus {
+  color: none;
+}
+
+.input-url {
+  width: 100%;
+  background-color: #fcfcfc;
+  border: 0;
+  border-bottom: 2px solid lightgrey;
+  padding-bottom: 4px;
+}
+
+.input-url:focus {
+  outline: none;
+}
