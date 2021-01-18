@@ -33,3 +33,11 @@ export const SOCIAL_MEDIA = {
     BLOG: 'blog',
     YOUTUBE: 'youtube'
 }
+
+export const SOCIAL_CHANNELS = {
+    FACEBOOK: 1,
+    TWITTER: 2,
+    INSTAGRAM: 3,
+    YOUTUBE: 4,
+    BLOG: 5
+}
