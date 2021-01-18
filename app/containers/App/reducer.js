@@ -9,7 +9,6 @@
 
 import produce from 'immer';
 import {
-  LOAD_DEFAULT_DATA_SUCCESS,
   SET_PLAYLIST,
   LOAD_ALBUM_SUCCESS,
   HANDLE_SONG_PLAYING,
@@ -17,9 +16,10 @@ import {
   SET_ROLE,
   GET_GENRES_SUCCESS,
   SET_SONGS,
-  SET_USER_DETAILS,
-  SET_INFLUENCER_DETAILS,
   SET_LOADER,
+  GET_USER_DETAILS_SUCCESS,
+  GET_USER_DETAILS,
+  GET_USER_DETAILS_ERROR
 } from './constants';
 
 // The initial state of the App
@@ -66,15 +66,6 @@ const appReducer = (state = initialState, action) =>
         draft.currentSong.songIndex = action.index;
         draft.currentSong.playing = action.status;
         break;
-      case LOAD_DEFAULT_DATA_SUCCESS:
-        draft.loading = true;
-        draft.error = false;
-        draft.latestPosts = action.posts;
-        draft.featuredAlbum = action.albums;
-        draft.weeklyTop = action.weeklyTop;
-        draft.newReleases = action.latestReleases;
-        draft.recommended = action.recommendendJson;
-        break;
       case LOAD_ALBUM_SUCCESS:
         draft.loading = true;
         draft.error = false;
@@ -90,11 +81,15 @@ const appReducer = (state = initialState, action) =>
       case SET_SONGS:
         draft.currentPlaylist = action.songs;
         break;
-      case SET_USER_DETAILS:
-        draft.userDetails = action.userDetails;
+      case GET_USER_DETAILS:
+        draft.loading = true;
         break;
-      case SET_INFLUENCER_DETAILS:
-        draft.influencerDetails = action.influencerDetails;
+      case GET_USER_DETAILS_SUCCESS:
+        draft.userDetails = action.userInformation;
+        draft.loading = false;
+        break;
+      case GET_USER_DETAILS_ERROR:
+        draft.loading = false;
         break;
       case SET_LOADER:
         draft.loader = action.status;

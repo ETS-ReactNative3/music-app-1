@@ -2,37 +2,66 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from '../../containers/App/actions';
+import {call, put, takeLatest} from 'redux-saga/effects';
+import {GET_FEATURED_ALBUMS, GET_NEW_RELEASES, GET_TOP_SONGS} from "./constants";
+import {axiosInstance} from "../../utils/api";
+import {
+  getFeaturedAlbumsFail,
+  getFeaturedAlbumsSuccess,
+  getNewReleasesFail,
+  getNewReleasesSuccess,
+  getTopSongsFail,
+  getTopSongsSuccess
+} from "./actions";
+import {toast} from "react-toastify";
 
-import request from 'utils/request';
-import { makeSelectUsername } from 'containers/HomePage/selectors';
+function fetchNewReleases() {
+  return axiosInstance().get('/albums/latest');
+}
 
-/**
- * Github repos request/response handler
- */
-export function* getRepos() {
-  // Select username from store
-  const username = yield select(makeSelectUsername());
-  const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
+function fetchTopSongs() {
+  return axiosInstance().get('/songs/top');
+}
 
+function fetchFeaturedAlbums() {
+  return axiosInstance().get('/albums/featured');
+}
+
+export function* getNewReleasesSaga() {
   try {
-    // Call our request helper (see 'utils/request')
-    const repos = yield call(request, requestURL);
-    yield put(reposLoaded(repos, username));
-  } catch (err) {
-    yield put(repoLoadingError(err));
+    const result = yield call(fetchNewReleases);
+    yield put(getNewReleasesSuccess(result.data));
+  } catch (error) {
+    toast.error(error.message);
+    yield put(getNewReleasesFail(error));
+  }
+}
+
+export function* getTopSongsSaga() {
+  try {
+    const result = yield call(fetchTopSongs);
+    yield put(getTopSongsSuccess(result.data));
+  } catch (error) {
+    toast.error(error.message);
+    yield put(getTopSongsFail(error));
+  }
+}
+
+export function* getFeaturedAlbumsSaga() {
+  try {
+    const result = yield call(fetchFeaturedAlbums);
+    yield put(getFeaturedAlbumsSuccess(result.data));
+  } catch (error) {
+    toast.error(error.message);
+    yield put(getFeaturedAlbumsFail(error));
   }
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
-  yield takeLatest(LOAD_REPOS, getRepos);
+export default function* homePageData() {
+  yield takeLatest(GET_NEW_RELEASES, getNewReleasesSaga);
+  yield takeLatest(GET_TOP_SONGS, getTopSongsSaga);
+  yield takeLatest(GET_FEATURED_ALBUMS, getFeaturedAlbumsSaga);
 }

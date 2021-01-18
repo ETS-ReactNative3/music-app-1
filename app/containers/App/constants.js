@@ -9,13 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
-export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
-export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
-export const LOAD_FEATURED_ALBUM = 'boilerplate/App/LOAD_FEATURED_ALBUM';
-export const LOAD_DEFAULT_DATA = 'boilerplate/App/LOAD_DEFAULT_DATA';
-export const LOAD_DEFAULT_DATA_SUCCESS =
-  'boilerplate/App/LOAD_DEFAULT_DATA_SUCCESS';
 export const SET_PLAYLIST = 'boilerplate/App/SET_PLAYLIST';
 export const LOAD_ALBUM = 'boilerplate/App/LOAD_ALBUM';
 export const LOAD_ALBUM_SUCCESS = 'boilerplate/App/LOAD_ALBUM_SUCCESS';
@@ -27,6 +20,8 @@ export const GET_GENRES_SUCCESS = 'app/Global/GET_GENRES_SUCCESS';
 export const GET_GENRES_FAIL = 'app/Global/GET_GENRES_FAIL';
 export const PREPARE_APP = 'app/Global/PREPARE_APP';
 export const SET_SONGS = 'app/Global/SET_SONGS';
-export const SET_USER_DETAILS = 'app/Global/SET_USER_DETAILS';
-export const SET_INFLUENCER_DETAILS = 'app/Global/SET_INFLUENCER_DETAILS';
 export const SET_LOADER = 'app/Global/SET_LOADER';
+
+export const GET_USER_DETAILS = 'app/Global/GET_USER_DETAILS';
+export const GET_USER_DETAILS_SUCCESS = 'app/Global/GET_USER_DETAILS_SUCCESS';
+export const GET_USER_DETAILS_ERROR = 'app/Global/GET_USER_DETAILS_ERROR';

@@ -3,16 +3,16 @@
 // Individual exports for testing
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
-import api from '../../utils/api';
+import {axiosInstance} from '../../utils/api';
 import { setLoader } from '../App/actions';
 import { REQUEST_INFLUENCER, UPDATE_INFLUENCER } from './constants';
 
 function requestInfluencerApi(data) {
-  return api.post('influencers', data);
+  return axiosInstance().post('influencers', data);
 }
 
 function updateInfluencerApi(data) {
-  return api.put('influencers', data);
+  return axiosInstance().put('influencers', data);
 }
 
 export function* requestInfluencerSaga(data) {

@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import { initialState } from './reducer';
+import {createSelector} from 'reselect';
+import {initialState} from './reducer';
 
 /**
  * Direct selector to the influencer state domain
@@ -27,4 +27,35 @@ const makeSelectFormLoader = () =>
     substate => substate.formLoader,
   );
 
-export { makeSelectInfluencer, makeSelectFormLoader };
+const makeSelectLoader = () =>
+  createSelector(
+    selectInfluencerDomain,
+    substate => substate.loading,
+  );
+
+const makeSelectGenres = () =>
+  createSelector(
+    selectInfluencerDomain,
+    substate => substate.genres,
+  );
+
+const makeSelectSocialChannels = () =>
+  createSelector(
+    selectInfluencerDomain,
+    substate => substate.socialChannels,
+  );
+
+const makeSelectProfile = () =>
+  createSelector(
+    selectInfluencerDomain,
+    substate => substate.profile,
+  );
+
+export {
+  makeSelectInfluencer,
+  makeSelectFormLoader,
+  makeSelectGenres,
+  makeSelectSocialChannels,
+  makeSelectProfile,
+  makeSelectLoader
+};

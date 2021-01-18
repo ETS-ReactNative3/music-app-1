@@ -13,7 +13,7 @@ import {
   DELETE_SONG_PLAYLIST_REQUEST,
   UPDATE_PLAYLIST_REQUEST,
 } from './constants';
-import api from '../../utils/api';
+import {axiosInstance} from '../../utils/api';
 import {
   addSongIntoPlaylistFail,
   addSongIntoPlaylistSuccess,
@@ -35,31 +35,31 @@ import {
 } from './actions';
 
 function postPlaylist(data) {
-  return api.post('/playlists', data);
+  return axiosInstance().post('/playlists', data);
 }
 
 function editPlaylist(data) {
-  return api.put('/playlists', data);
+  return axiosInstance().put('/playlists', data);
 }
 
 function getMyPlaylistsApi() {
-  return api.get('/playlists/myPlaylists');
+  return axiosInstance().get('/playlists/myPlaylists');
 }
 
 function deletePlaylistApi(id) {
-  return api.delete(`/playlists/${id}`);
+  return axiosInstance().delete(`/playlists/${id}`);
 }
 
 function getPlaylistApi(id) {
-  return api.get(`/playlists/${id}`);
+  return axiosInstance().get(`/playlists/${id}`);
 }
 
 function deleteSongApi(id, songId) {
-  return api.delete(`/playlists/${id}/song/${songId}`);
+  return axiosInstance().delete(`/playlists/${id}/song/${songId}`);
 }
 
 function addSongIntoPaylistApi(data) {
-  return api.post('/playlists/songs', data);
+  return axiosInstance().post('/playlists/songs', data);
 }
 
 export function* createPlaylistSaga({data}) {

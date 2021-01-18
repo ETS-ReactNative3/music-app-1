@@ -28,7 +28,7 @@ import saga from './saga';
 import PaperCard from '../../components/PaperCard';
 import {makeSelectUserWallet} from '../App/selectors';
 import {loadStripe} from '@stripe/stripe-js';
-import api from "../../utils/api";
+import {axiosInstance} from "../../utils/api";
 import {Link} from "react-router-dom";
 
 const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
@@ -45,7 +45,7 @@ export function Wallet({userCredit}) {
     const stripe = await stripePromise;
 
     // Call your backend to create the Checkout Session
-    const response = await api.post('/order/create-checkout-session', {
+    const response = await axiosInstance().post('/order/create-checkout-session', {
       price: amount
     });
 

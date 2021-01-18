@@ -20,17 +20,6 @@ const TopNavBar = ({userDetails}) => {
   const SEARCH_URI = 'https://bliiink.ga/albums/search/album/';
   let history = useHistory();
 
-  const listenScrollEvent = e => {
-    if (window.scrollY > 50) {
-      headerRef.current.classList.add('bg-nav-bar');
-    } else {
-      headerRef.current.classList.remove('bg-nav-bar');
-    }
-  };
-  useEffect(() => {
-    window.addEventListener('scroll', listenScrollEvent);
-  }, []);
-
   const handleSearch = query => {
     setIsLoading(true);
     request(`${SEARCH_URI}${query}`).then(response => {

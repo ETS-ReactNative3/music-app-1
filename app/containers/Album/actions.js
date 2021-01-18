@@ -29,6 +29,9 @@ import {
   GET_GENRES,
   GET_GENRES_SUCCESS,
   GET_GENRES_FAIL,
+  GET_RECOMMENDED_ALBUMS,
+  GET_RECOMMENDED_ALBUMS_FAIL,
+  GET_RECOMMENDED_ALBUMS_SUCCESS
 } from './constants';
 
 export function loadAlbum(slug) {
@@ -189,6 +192,26 @@ export function getGenresSuccess(genres) {
 export function getGenresFail(error) {
   return {
     type: GET_GENRES_FAIL,
+    error,
+  };
+}
+
+export function getRecommendedAlbum() {
+  return {
+    type: GET_RECOMMENDED_ALBUMS,
+  };
+}
+
+export function getRecommendedAlbumSuccess(recommendedAlbums) {
+  return {
+    type: GET_RECOMMENDED_ALBUMS_SUCCESS,
+    recommendedAlbums,
+  };
+}
+
+export function getRecommendedAlbumFail(error) {
+  return {
+    type: GET_RECOMMENDED_ALBUMS_FAIL,
     error,
   };
 }

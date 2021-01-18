@@ -59,6 +59,18 @@ const makeSelectFormLoader = () =>
     substate => substate.formLoader,
   );
 
+const makeSelectRecommendedAlbumsLoading = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.recommendedAlbumsLoading,
+  );
+
+const makeSelectRecommendedAlbums = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.recommendedAlbums,
+  );
+
 export {
   makeSelectAlbum,
   makeSelectAlbumLoader,
@@ -67,5 +79,7 @@ export {
   makeSelectMySongs,
   makeSelectEditAlbum,
   makeSelectGenres,
-  makeSelectFormLoader
+  makeSelectFormLoader,
+  makeSelectRecommendedAlbumsLoading,
+  makeSelectRecommendedAlbums
 };

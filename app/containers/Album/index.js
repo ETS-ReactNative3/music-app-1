@@ -1,12 +1,10 @@
-import React, { memo, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {memo, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
+import {faPlayCircle, faPauseCircle} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import moment from 'moment';
-
-import CarouselCustom from '../../components/CarouselCustom';
 import {
   makeSelectRecommended,
   makeSelectWeeklyTop,
@@ -14,34 +12,35 @@ import {
   makeSelectPlaylist,
   makeSelectCurrentSong,
 } from '../App/selectors';
-import { handleSongPlaying, loadAlbum, handleSingleSong } from '../App/actions';
+import {handleSongPlaying, loadAlbum, handleSingleSong} from '../App/actions';
 import {
   createPlaylistandAddSong,
   getMyPlaylist,
   addSongIntoPlaylist,
 } from '../Playlist/actions';
-import { makeSelectPlaylists } from '../Playlist/selectors';
+import {makeSelectPlaylists} from '../Playlist/selectors';
 import reducer from '../App/reducer';
 import saga from '../App/saga';
 import reducerPlaylist from '../Playlist/reducer';
 import sagaPlaylist from '../Playlist/saga';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../../components/ShareBox';
 import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 const key = 'global';
 
 const Album = props => {
-  useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
-  useInjectReducer({ key: 'playlist', reducer: reducerPlaylist });
-  useInjectSaga({ key: 'playlist', saga: sagaPlaylist });
-  const { slug } = useParams();
+  useInjectReducer({key, reducer});
+  useInjectSaga({key, saga});
+  useInjectReducer({key: 'playlist', reducer: reducerPlaylist});
+  useInjectSaga({key: 'playlist', saga: sagaPlaylist});
+
+  const {slug} = useParams();
   const {
     recommended,
     onLoadAlbum,
@@ -61,18 +60,18 @@ const Album = props => {
   }, [slug]);
 
   const playAllSongsHandler = () => {
-    const { playing } = currentSong;
+    const {playing} = currentSong;
     onHandleSongPlaying(!playing);
   };
 
   const singleSongHandler = index => {
-    const { playing, songIndex } = currentSong;
+    const {playing, songIndex} = currentSong;
     const status = songIndex === index ? !playing : true;
     onHandleSingleSong(index, status);
   };
 
-  const { playing, songIndex } = currentSong;
-  const { albumSongs = [] } = albumInfo;
+  const {playing, songIndex} = currentSong;
+  const {albumSongs = []} = albumInfo;
   return (
     <>
       <div className="container-fluid jumbotron-bg-inner">
@@ -93,7 +92,7 @@ const Album = props => {
                 <h1>{albumInfo.title}</h1>
               </div>
               <div className="col text-right">
-                <ShareBox />
+                <ShareBox/>
               </div>
             </div>
             <div className="row flex-column">

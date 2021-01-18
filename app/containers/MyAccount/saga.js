@@ -1,26 +1,26 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import { call, put, takeLatest } from '@redux-saga/core/effects';
-import { toast } from 'react-toastify';
-import api from '../../utils/api';
-import { putUserActivities, putUserRatings, putUserReviews } from './actions';
-import { FETCH_ACTIVITY, REQUEST_INFLUENCER } from './constants';
+import {call, put, takeLatest} from '@redux-saga/core/effects';
+import {toast} from 'react-toastify';
+import {axiosInstance} from '../../utils/api';
+import {putUserActivities, putUserRatings, putUserReviews} from './actions';
+import {FETCH_ACTIVITY, REQUEST_INFLUENCER} from './constants';
 
 function requestInfluencerApi(data) {
-  return api.post('influencers', data);
+  return axiosInstance().post('influencers', data);
 }
 
 function getUserActivitiesAPI(userId) {
-  return api.get(`campaigns/user/${userId}`);
+  return axiosInstance().get(`campaigns/user/${userId}`);
 }
 
 function getUserRatingsAPI(userId) {
-  return api.get(`campaigns/ratings/${userId}`);
+  return axiosInstance().get(`campaigns/ratings/${userId}`);
 }
 
 function getUserReviewsAPI(userId) {
-  return api.get(`campaigns/reviews/${userId}`);
+  return axiosInstance().get(`campaigns/reviews/${userId}`);
 }
 
 export function* requestInfluencerSaga(data) {
@@ -31,7 +31,7 @@ export function* requestInfluencerSaga(data) {
   }
 }
 
-export function* getUserActivitiesSaga({ userId }) {
+export function* getUserActivitiesSaga({userId}) {
   let response = yield call(getUserActivitiesAPI, userId);
   // success?
 
