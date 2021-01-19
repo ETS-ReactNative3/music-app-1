@@ -8,13 +8,13 @@ import { putRequestAction, putUserActivities, putUserRatings, putUserReviews } f
 import { FETCH_ACTIVITY, FETCH_REQUESTS, REQUEST_INFLUENCER } from './constants';
 
 function requestInfluencerApi() {
-  return api.get('influencers/requests');
+  return axiosInstance().get('influencers/requests');
 }
 
 export function* fetchRequestSaga() {
   try {
     const result = yield call(requestInfluencerApi);
-    yield put(putRequestAction(result));
+    yield put(putRequestAction(result.data));
   } catch (e) {
     toast.error(e.message);
   }

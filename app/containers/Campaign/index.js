@@ -83,11 +83,11 @@ const CampaignSummary = ({ launchCampaign, userDetails, formLoader, selectedInfl
                 </div>
                 <div style={styles.socialMediaItems}>
                     {selectedInfluencer && selectedInfluencer.influencer && selectedInfluencer.influencer.influencerServices.map(influencerService => {
-                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.FACEBOOK) return <FontAwesomeIcon icon={faFacebook} /> 
-                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.INSTAGRAM) return <FontAwesomeIcon icon={faInstagram} /> 
-                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.TWITTER) return <FontAwesomeIcon icon={faTwitter} /> 
-                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.BLOG) return <FontAwesomeIcon icon={faBlog} /> 
-                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.YOUTUBE) return <FontAwesomeIcon icon={faYoutube} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.FACEBOOK) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faFacebook} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.INSTAGRAM) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faInstagram} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.TWITTER) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faTwitter} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.BLOG) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faBlog} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.YOUTUBE) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faYoutube} /> 
                     })}
 
                 </div>

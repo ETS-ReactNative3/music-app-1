@@ -21,15 +21,20 @@ import { style1, style2 } from './index.styles';
 import { makeSelectCompletedRequestList, makeSelectInProgressRequestList, makeSelectNewRequestList, makeSelectRequestList } from './selectors';
 import { newRequestColumns } from './utils';
 import RequestPopup from './RequestPopup';
+import { fetchRequestsAction } from './actions';
 
 function RequestListing({
-  newRequestList, inProgressRequestList, completedRequestList
+  newRequestList, inProgressRequestList, completedRequestList, fetchRequests
 }) {
 
   const [openModal, setOpenModal] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState({});
   useInjectSaga({ key: 'request', saga });
   useInjectReducer({ key: 'request', reducer });
+
+  React.useEffect(() => {
+    fetchRequests()
+  }, []);
 
   const renderTable = (data, columns) => {
     return (
@@ -114,6 +119,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchRequests: () => dispatch(fetchRequestsAction())
   };
 }
 
