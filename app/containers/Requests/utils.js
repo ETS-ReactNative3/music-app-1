@@ -1,8 +1,10 @@
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { format } from 'date-fns';
 import React from 'react';
 import { Image } from 'react-bootstrap';
 import { calculateExpiry, timeDifference } from '../../utils';
+import { CampaignStatus } from './constants';
 
 export const newRequestColumns = [{
     dataField: 'picture',
@@ -14,17 +16,7 @@ export const newRequestColumns = [{
     headerStyle: {
         textAlign: 'left'
     }
-}, {
-    dataField: 'campaigns.user.name',
-    text: 'Artist',
-    style: {
-        width: '30%',
-        textAlign: 'left'
-    },
-    headerStyle: {
-        textAlign: 'left'
-    }
-}, {
+},  {
     dataField: 'campaigns.song.title',
     text: 'Track',
     style: {
@@ -50,12 +42,22 @@ export const newRequestColumns = [{
     formatter: expiryDateFormatter
 }];
 
-function pictureFormatter(cell, row) {
+export function pictureFormatter(cell, row) {
     if (row.campaigns && row.campaigns.song && row.campaigns.song.artwork) {
         return (
             <span>
                 <Image
                     src={row.campaigns.song.artwork}
+                    style={{ width: 40, height: 40, borderRadius: 20 }}
+                />
+            </span>
+        );
+    }
+    if (row && row.song && row.song.artwork) {
+        return (
+            <span>
+                <Image
+                    src={row.song.artwork}
                     style={{ width: 40, height: 40, borderRadius: 20 }}
                 />
             </span>
@@ -81,6 +83,9 @@ function expiryDateFormatter(cell, row) {
         <span>$ { cell}</span>
     );
 }
+export function dateFormatter(cell, row, rowIndex, formatExtraData) {
+    return format(new Date(row.createdDate), 'MM/dd/yyyy');
+  }
 
 function statusFormatter(cell, row) {
     if (row.campaignStatusId === 1) {
@@ -91,7 +96,23 @@ function statusFormatter(cell, row) {
         );
     }
 
+    if (row.campaignStatusId === CampaignStatus["IN-PROGRESS"] || row.campaignStatusId === CampaignStatus.ACCEPTED) {
+        return (
+            <span>
+                <div style={{color: 'lightyellow'}}><FontAwesomeIcon icon={faCircle}/> In Progress</div>
+            </span>
+        );
+    }
+
+    if (row.campaignStatusId === CampaignStatus.COMPLETED || row.campaignStatusId === CampaignStatus.APPROVED) {
+        return (
+            <span>
+                <div style={{color: 'lightyellow'}}><FontAwesomeIcon icon={faCircle}/> In Progress</div>
+            </span>
+        );
+    }
+
     return (
-        <span>$ { cell}</span>
+        <span>{ cell}</span>
     );
 }

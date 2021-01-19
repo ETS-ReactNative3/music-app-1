@@ -12,67 +12,56 @@ import { faFacebook, faInstagram, faTwitter, faYoutube } from '@fortawesome/free
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { CampaignStatus } from './constants';
 
-const RequestPopup = ({ data }) => {
+const RequestPopup = ({ data, updateCampaignStatus, submitFeedbackRequest, submitSocialLinksRequest }) => {
     const [feedbackProvided, setFeedbackProvided] = React.useState(false);
+    const [feedback, setFeedback] = React.useState('');
     const [songPlayed, setSongPlayed] = React.useState(false);
 
 
     const validationSchema = Yup.object().shape({
-        // description: Yup.string()
-        //   .min(6, 'Must be 6 characters or more')
-        //   .required('Required'),
-        // facebook: Yup.object({
-        //   link: Yup.string()
-        //     .url('Invalid Url address')
-        //     .nullable(),
-        //   price: Yup.number('Invalid Amount')
-        //     .nullable()
-        //     .transform(value => (isNaN(value) ? undefined : value)),
-        //   followers: Yup.number('Invalid Count')
-        //     .nullable()
-        //     .transform(value => (isNaN(value) ? undefined : value)),
-        // }).nullable(),
-        // twitter: Yup.object({
-        //   link: Yup.string().url('Invalid Url address'),
-        //   price: Yup.number('Invalid Amount').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        //   followers: Yup.number('Invalid Count').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        // }).nullable(),
-        // instagram: Yup.object({
-        //   link: Yup.string().url('Invalid Url address'),
-        //   price: Yup.number('Invalid Amount').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        //   followers: Yup.number('Invalid Count').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        // }).nullable(),
-        // blog: Yup.object({
-        //   link: Yup.string().url('Invalid Url address'),
-        //   price: Yup.number('Invalid Amount').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        //   followers: Yup.number('Invalid Count').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        // }).nullable(),
-        // youtube: Yup.object({
-        //   link: Yup.string().url('Invalid Url address'),
-        //   price: Yup.number('Invalid Amount').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        //   followers: Yup.number('Invalid Count').transform(value =>
-        //     isNaN(value) ? undefined : value,
-        //   ),
-        // }).nullable(),
 
-        // genres: Yup.array()
-        //   .min(1)
-        //   .required('Required'),
+        facebook: (() => {
+            let validation = Yup.string()
+            if (true) {
+                validation = validation.required('this field is required')
+                validation = validation.url('Enter correct url')
+            }
+            return validation
+        })(),
+        twitter: (() => {
+            let validation = Yup.string()
+            if (true) {
+                validation = validation.required('this field is required')
+                validation = validation.url('Enter correct url')
+            }
+            return validation
+        })(),
+        instagram: (() => {
+            let validation = Yup.string()
+            if (true) {
+                validation = validation.required('this field is required')
+                validation = validation.url('Enter correct url')
+            }
+            return validation
+        })(),
+        blog: (() => {
+            let validation = Yup.string()
+            if (true) {
+                validation = validation.required('this field is required')
+                validation = validation.url('Enter correct url')
+            }
+            return validation
+        })(),
+        youtube: (() => {
+            let validation = Yup.string()
+            if (true) {
+                validation = validation.required('this field is required')
+                validation = validation.url('Enter correct url')
+            }
+            return validation
+        })(),
     });
 
     const {
@@ -88,46 +77,58 @@ const RequestPopup = ({ data }) => {
     });
 
     const onSubmit = data => {
-
+        console.log(data);
     };
 
     return (
         <div style={styles.container}>
-            <div style={styles.section}>
+            <div style={!(feedbackProvided || data.feedback !== null) ? styles.section : { ...styles.section, ...styles.blurStyle }}>
                 <h4>Song/track:</h4>
-                {data.campaigns.song && <div style={{ marginLeft: 10 }}>
-                    <div style={styles.selectedSongParent}>
-                        <Image
-                            width={100}
-                            height={100}
-                            src={data.campaigns.song.artwork || ''}
-                            onError={e => {
-                                e.target.onerror = null;
-                                e.target.src = defaultImage;
-                            }}
-                        />
-                        <div style={styles.songInfo}>
-                            <div>{data.campaigns.song.title}</div>
-                            <div>{data.campaigns.song.description}</div>
-                            <div>{moment(data.campaigns.song.releaseDate).format('DD MMMM YYYY')}</div>
+                <fieldset disabled={(feedbackProvided || data.feedback !== null)}>
+                    {data.campaigns.song && <div style={{ marginLeft: 10 }}>
+                        <div style={styles.selectedSongParent}>
+                            <Image
+                                width={100}
+                                height={100}
+                                src={data.campaigns.song.artwork || ''}
+                                onError={e => {
+                                    e.target.onerror = null;
+                                    e.target.src = defaultImage;
+                                }}
+                            />
+                            <div style={styles.songInfo}>
+                                <div>{data.campaigns.song.title}</div>
+                                <div>{data.campaigns.song.description}</div>
+                                <div>{moment(data.campaigns.song.releaseDate).format('DD MMMM YYYY')}</div>
+                            </div>
+                            {!(songPlayed || data.feedback !== null) && <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                <Button style={{ height: 'fit-content' }} variant="success" onClick={() => {
+                                    setSongPlayed(true);
+                                    updateCampaignStatus(data.campaignsId, CampaignStatus["IN-PROGRESS"])
+                                }}>Click to play</Button>
+                                <div>Play Song to provide feedback</div>
+                            </div> || <div style={{ color: 'green' }}><FontAwesomeIcon
+                                size="1x"
+                                icon={faCheck}
+                            />Played</div>}
                         </div>
-                        {!songPlayed && <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <Button style={{ height: 'fit-content' }} variant="success" onClick={() => setSongPlayed(true)}>Click to play</Button>
-                            <div>Play Song to provide feedback</div>
-                        </div> || <div style={{ color: 'green' }}><FontAwesomeIcon
-                            size="1x"
-                            icon={faCheck}
-                        />Played</div>}
-                    </div>
-                </div>}
+                    </div>}
+                </fieldset>
             </div>
 
             <div style={!songPlayed ? { ...styles.section, ...styles.blurStyle } : styles.section}>
                 <h4>Feedback:</h4>
                 <fieldset disabled={!songPlayed}>
                     {!(feedbackProvided || data.feedback !== null) && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                        <FormControl as="textarea" aria-label="With textarea" />
-                        <Button variant="success" style={{ marginTop: 10 }} onClick={() => setFeedbackProvided(true)}>Submit</Button>
+                        <FormControl as="textarea" aria-label="With textarea" onChange={(value) => setFeedback(value.target.value)} />
+                        <Button variant="success" style={{ marginTop: 10 }} onClick={() => {
+                            if (feedback !== '') {
+                                setFeedbackProvided(true);
+                                submitFeedbackRequest(data.campaigns.id, data.influencerId, feedback);
+                            } else {
+                                alert('Enter Feedback.')
+                            }
+                        }}>Submit</Button>
                         <div>Provide feedback to share and complete</div>
                     </div> || <div style={{ color: 'green' }}><FontAwesomeIcon
                         size="1x"
@@ -184,14 +185,30 @@ const RequestPopup = ({ data }) => {
                                     <Form.Group as={Col} controlId="formGridTitle">
                                         <div style={styles.socialMediaItem}>
                                             <FormLabel>Facebook</FormLabel>
-                                            <input class="input-url" id="endereco" type="text" placeholder="Enter Facebook url" required />
+                                            <input
+                                                ref={register}
+                                            required
+
+                                                name="facebook" class="input-url" id="endereco" type="text" placeholder="Enter Facebook url" required />
+                                            <div
+                                                className="invalid-feedback" style={{ display: 'block' }}>
+                                                {errors.facebook && errors.facebook && errors.facebook.message}
+                                            </div>
                                         </div>
                                     </Form.Group>
                                     <Form.Group as={Col} controlId="formGridTitle">
 
                                         <div style={styles.socialMediaItem}>
                                             <FormLabel>Instagram</FormLabel>
-                                            <input class="input-url" id="endereco" type="text" placeholder="Enter Instagram url" required />
+                                            <input 
+                                                ref={register}
+                                            required
+
+                                                name="instagram" class="input-url" id="endereco" type="text" placeholder="Enter Instagram url" required />
+                                            <div
+                                                className="invalid-feedback" style={{ display: 'block' }}>
+                                                {errors.instagram && errors.instagram && errors.instagram.message}
+                                            </div>
                                         </div>
                                     </Form.Group>
 
@@ -201,7 +218,14 @@ const RequestPopup = ({ data }) => {
                                     <Form.Group as={Col} controlId="formGridTitle">
                                         <div style={styles.socialMediaItem}>
                                             <FormLabel>Twitter</FormLabel>
-                                            <input class="input-url" id="endereco" type="text" placeholder="Enter Twitter url" required />
+                                            <input
+                                                ref={register}
+                                            required
+
+                                                name="twitter" class="input-url" id="endereco" type="text" placeholder="Enter Twitter url" required />
+                                            <div className="invalid-feedback" style={{ display: 'block' }}>
+                                                {errors.twitter && errors.twitter && errors.twitter.message}
+                                            </div>
                                         </div>
                                     </Form.Group>
 
@@ -209,16 +233,31 @@ const RequestPopup = ({ data }) => {
 
                                         <div style={styles.socialMediaItem}>
                                             <FormLabel>Blog</FormLabel>
-                                            <input class="input-url" id="endereco" type="text" placeholder="Enter Blog url" required />
+                                            <input 
+                                                ref={register}
+                                            required
+
+                                                name="blog" class="input-url" id="endereco" type="text" placeholder="Enter Blog url" required />
+                                            <div
+                                                className="invalid-feedback" style={{ display: 'block' }}>
+                                                {errors.blog && errors.blog && errors.blog.message}
+                                            </div>
                                         </div>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row><Form.Group as={Col} controlId="formGridTitle">
 
 
-                                    <div style={{...styles.socialMediaItem, ...{width: '50%'}}}>
+                                    <div style={{ ...styles.socialMediaItem, ...{ width: '50%' } }}>
                                         <FormLabel>Youtube</FormLabel>
-                                        <input class="input-url" id="endereco" type="text" placeholder="Enter Youtube url" required />
+                                        <input 
+                                            ref={register}
+                                            required
+                                            name="youtube" class="input-url" id="endereco" type="text" placeholder="Enter Youtube url" required />
+                                        <div
+                                            className="invalid-feedback" style={{ display: 'block' }}>
+                                            {errors.youtube && errors.youtube && errors.youtube.message}
+                                        </div>
                                     </div>
                                 </Form.Group>
                                 </Form.Row>
@@ -226,7 +265,7 @@ const RequestPopup = ({ data }) => {
                         </div>
 
                     </div>
-                    <Button variant="success" style={{ marginTop: 10 }}>Submit</Button>
+                    <Button variant="success" style={{ marginTop: 10 }} onClick={handleSubmit(onSubmit)}>Submit</Button>
                     <div>Please share and provide url</div>
                 </fieldset>
             </div>

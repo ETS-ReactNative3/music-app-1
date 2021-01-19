@@ -21,10 +21,10 @@ import { style1, style2 } from './index.styles';
 import { makeSelectCompletedRequestList, makeSelectInProgressRequestList, makeSelectNewRequestList, makeSelectRequestList } from './selectors';
 import { newRequestColumns } from './utils';
 import RequestPopup from './RequestPopup';
-import { fetchRequestsAction } from './actions';
+import { fetchRequestsAction, submitFeedbackRequestAction, submitSocialLinksAction, updateCampaignStatusAction } from './actions';
 
 function RequestListing({
-  newRequestList, inProgressRequestList, completedRequestList, fetchRequests
+  newRequestList, inProgressRequestList, completedRequestList, fetchRequests, updateCampaignStatus, submitFeedbackRequest, submitSocialLinksRequest
 }) {
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -96,10 +96,10 @@ function RequestListing({
       >
         <Modal.Header closeButton>
           <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
-            <div>Influencer Account</div>
+            <div>Request</div>
           </div>
         </Modal.Header>
-        <RequestPopup data={selectedRow}/>
+        <RequestPopup data={selectedRow} updateCampaignStatus={updateCampaignStatus} submitFeedbackRequest={submitFeedbackRequest} submitSocialLinksRequest={submitSocialLinksRequest}/>
       </Modal>
     </div>
   );
@@ -108,7 +108,8 @@ function RequestListing({
 RequestListing.propTypes = {
   newRequestList: PropTypes.array,
   inProgressRequestList: PropTypes.array,
-  completedRequestList: PropTypes.array
+  completedRequestList: PropTypes.array,
+  updateCampaignStatus: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -119,7 +120,10 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchRequests: () => dispatch(fetchRequestsAction())
+    fetchRequests: () => dispatch(fetchRequestsAction()),
+    updateCampaignStatus: (campaignId, statusId) => dispatch(updateCampaignStatusAction(campaignId, statusId)),
+    submitFeedbackRequest: (campaignId, influencerId, feedback) => dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
+    submitSocialLinksRequest: (data) => dispatch(submitSocialLinksAction(data))
   };
 }
 
