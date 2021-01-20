@@ -11,6 +11,8 @@ import produce from 'immer';
 import {
   SET_PLAYLIST,
   LOAD_ALBUM_SUCCESS,
+  LOAD_ALBUM,
+  LOAD_ALBUM_FAIL,
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
   SET_ROLE,
@@ -67,7 +69,7 @@ const appReducer = (state = initialState, action) =>
         draft.currentSong.playing = action.status;
         break;
       case LOAD_ALBUM_SUCCESS:
-        draft.loading = true;
+        draft.loading = false;
         draft.error = false;
         draft.albumInfo = action.albumInfo;
         draft.currentPlaylist = action.playlist;
@@ -82,6 +84,7 @@ const appReducer = (state = initialState, action) =>
         draft.currentPlaylist = action.songs;
         break;
       case GET_USER_DETAILS:
+      case LOAD_ALBUM:
         draft.loading = true;
         break;
       case GET_USER_DETAILS_SUCCESS:
@@ -89,6 +92,7 @@ const appReducer = (state = initialState, action) =>
         draft.loading = false;
         break;
       case GET_USER_DETAILS_ERROR:
+      case LOAD_ALBUM_FAIL:
         draft.loading = false;
         break;
       case SET_LOADER:

@@ -18,6 +18,7 @@ import {
   SET_PLAYLIST,
   LOAD_ALBUM,
   LOAD_ALBUM_SUCCESS,
+  LOAD_ALBUM_FAIL,
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
   SET_ROLE,
@@ -48,6 +49,13 @@ export function loadAlbum(slug) {
   return {
     type: LOAD_ALBUM,
     slug,
+  };
+}
+
+export function loadAlbumFail(error) {
+  return {
+    type: LOAD_ALBUM_FAIL,
+    error,
   };
 }
 
