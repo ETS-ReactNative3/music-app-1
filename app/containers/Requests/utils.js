@@ -107,7 +107,7 @@ function statusFormatter(cell, row) {
     if (row.campaignStatusId === CampaignStatus.COMPLETED || row.campaignStatusId === CampaignStatus.APPROVED) {
         return (
             <span>
-                <div style={{color: 'lightyellow'}}><FontAwesomeIcon icon={faCircle}/> In Progress</div>
+                <div style={{color: 'lightyellow'}}><FontAwesomeIcon icon={faCircle}/>Completed</div>
             </span>
         );
     }

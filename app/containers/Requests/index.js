@@ -16,15 +16,21 @@ import { combineFollowers } from '../../utils';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
+import influencerReducer from '../Influencer/reducer';
+import influencerSaga from '../Influencer/saga';
 import saga from './saga';
 import { style1, style2 } from './index.styles';
 import { makeSelectCompletedRequestList, makeSelectInProgressRequestList, makeSelectNewRequestList, makeSelectRequestList } from './selectors';
 import { newRequestColumns } from './utils';
 import RequestPopup from './RequestPopup';
 import { fetchRequestsAction, submitFeedbackRequestAction, submitSocialLinksAction, updateCampaignStatusAction } from './actions';
+import { getSocialChannelsRequest } from '../Influencer/actions';
+import { makeSelectSocialChannels } from '../Influencer/selectors';
 
 function RequestListing({
-  newRequestList, inProgressRequestList, completedRequestList, fetchRequests, updateCampaignStatus, submitFeedbackRequest, submitSocialLinksRequest
+  newRequestList, inProgressRequestList,
+   completedRequestList, fetchRequests, updateCampaignStatus, 
+   submitFeedbackRequest, submitSocialLinksRequest, getSocialChannelList, socialChannels
 }) {
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -32,8 +38,12 @@ function RequestListing({
   useInjectSaga({ key: 'request', saga });
   useInjectReducer({ key: 'request', reducer });
 
+
+  useInjectReducer({key: 'influencer', reducer: influencerReducer});
+  useInjectSaga({key: 'influencer', saga: influencerSaga});
   React.useEffect(() => {
     fetchRequests()
+    getSocialChannelList();
   }, []);
 
   const renderTable = (data, columns) => {
@@ -58,7 +68,10 @@ function RequestListing({
   }
 
   function handleClose() {
+    fetchRequests()
+
     setOpenModal(false);
+
   }
 
   return (
@@ -99,7 +112,7 @@ function RequestListing({
             <div>Request</div>
           </div>
         </Modal.Header>
-        <RequestPopup data={selectedRow} updateCampaignStatus={updateCampaignStatus} submitFeedbackRequest={submitFeedbackRequest} submitSocialLinksRequest={submitSocialLinksRequest}/>
+        <RequestPopup handleClose={handleClose} socialChannels={socialChannels} data={selectedRow} updateCampaignStatus={updateCampaignStatus} submitFeedbackRequest={submitFeedbackRequest} submitSocialLinksRequest={submitSocialLinksRequest}/>
       </Modal>
     </div>
   );
@@ -115,7 +128,9 @@ RequestListing.propTypes = {
 const mapStateToProps = createStructuredSelector({
   newRequestList: makeSelectNewRequestList(),
   inProgressRequestList: makeSelectInProgressRequestList(),
-  completedRequestList: makeSelectCompletedRequestList()
+  completedRequestList: makeSelectCompletedRequestList(),
+  socialChannels: makeSelectSocialChannels(),
+
 });
 
 function mapDispatchToProps(dispatch) {
@@ -123,7 +138,8 @@ function mapDispatchToProps(dispatch) {
     fetchRequests: () => dispatch(fetchRequestsAction()),
     updateCampaignStatus: (campaignId, statusId) => dispatch(updateCampaignStatusAction(campaignId, statusId)),
     submitFeedbackRequest: (campaignId, influencerId, feedback) => dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
-    submitSocialLinksRequest: (data) => dispatch(submitSocialLinksAction(data))
+    submitSocialLinksRequest: (data) => dispatch(submitSocialLinksAction(data)),
+    getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
   };
 }
 

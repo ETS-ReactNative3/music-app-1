@@ -45,7 +45,7 @@ export const RatingView = ({
         )
       })}
       {showCount && (
-        <div style={styles.ratingViewTotalCount}>{`(${totalCount})`}</div>
+        <div style={styles.ratingViewTotalCount}>{`(${totalCount || 0})`}</div>
       )}
     </div>
   );

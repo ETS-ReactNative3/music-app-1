@@ -49,6 +49,7 @@ export function* submitFeedbackRequestSaga(action) {
 export function* submitSocialLinksRequestSaga(action) {
   const {data} = action;
   yield call(submitSocialLinksRequestApi, data);
+  toast.success('Request completed');
 }
 
 export default function* accountSaga() {
