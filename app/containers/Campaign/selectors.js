@@ -1,3 +1,4 @@
+import { sub } from 'date-fns';
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
@@ -27,4 +28,9 @@ const makeSelectTastemaker = () =>
     substate => substate.selectedInfluencers,
   );
 
-export { makeSelectTastemaker, makeSelectSelectedInfluencers };
+  const makeSelectCampaigns = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate=> substate.campaigns
+  )
+export { makeSelectTastemaker, makeSelectSelectedInfluencers, makeSelectCampaigns };

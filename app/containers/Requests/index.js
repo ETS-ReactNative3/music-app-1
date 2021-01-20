@@ -16,20 +16,35 @@ import { combineFollowers } from '../../utils';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
+import influencerReducer from '../Influencer/reducer';
+import influencerSaga from '../Influencer/saga';
 import saga from './saga';
 import { style1, style2 } from './index.styles';
 import { makeSelectCompletedRequestList, makeSelectInProgressRequestList, makeSelectNewRequestList, makeSelectRequestList } from './selectors';
 import { newRequestColumns } from './utils';
 import RequestPopup from './RequestPopup';
+import { fetchRequestsAction, submitFeedbackRequestAction, submitSocialLinksAction, updateCampaignStatusAction } from './actions';
+import { getSocialChannelsRequest } from '../Influencer/actions';
+import { makeSelectSocialChannels } from '../Influencer/selectors';
 
 function RequestListing({
-  newRequestList, inProgressRequestList, completedRequestList
+  newRequestList, inProgressRequestList,
+   completedRequestList, fetchRequests, updateCampaignStatus, 
+   submitFeedbackRequest, submitSocialLinksRequest, getSocialChannelList, socialChannels
 }) {
 
   const [openModal, setOpenModal] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState({});
   useInjectSaga({ key: 'request', saga });
   useInjectReducer({ key: 'request', reducer });
+
+
+  useInjectReducer({key: 'influencer', reducer: influencerReducer});
+  useInjectSaga({key: 'influencer', saga: influencerSaga});
+  React.useEffect(() => {
+    fetchRequests()
+    getSocialChannelList();
+  }, []);
 
   const renderTable = (data, columns) => {
     return (
@@ -53,7 +68,10 @@ function RequestListing({
   }
 
   function handleClose() {
+    fetchRequests()
+
     setOpenModal(false);
+
   }
 
   return (
@@ -91,10 +109,10 @@ function RequestListing({
       >
         <Modal.Header closeButton>
           <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
-            <div>Influencer Account</div>
+            <div>Request</div>
           </div>
         </Modal.Header>
-        <RequestPopup data={selectedRow}/>
+        <RequestPopup handleClose={handleClose} socialChannels={socialChannels} data={selectedRow} updateCampaignStatus={updateCampaignStatus} submitFeedbackRequest={submitFeedbackRequest} submitSocialLinksRequest={submitSocialLinksRequest}/>
       </Modal>
     </div>
   );
@@ -103,17 +121,25 @@ function RequestListing({
 RequestListing.propTypes = {
   newRequestList: PropTypes.array,
   inProgressRequestList: PropTypes.array,
-  completedRequestList: PropTypes.array
+  completedRequestList: PropTypes.array,
+  updateCampaignStatus: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   newRequestList: makeSelectNewRequestList(),
   inProgressRequestList: makeSelectInProgressRequestList(),
-  completedRequestList: makeSelectCompletedRequestList()
+  completedRequestList: makeSelectCompletedRequestList(),
+  socialChannels: makeSelectSocialChannels(),
+
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchRequests: () => dispatch(fetchRequestsAction()),
+    updateCampaignStatus: (campaignId, statusId) => dispatch(updateCampaignStatusAction(campaignId, statusId)),
+    submitFeedbackRequest: (campaignId, influencerId, feedback) => dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
+    submitSocialLinksRequest: (data) => dispatch(submitSocialLinksAction(data)),
+    getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
   };
 }
 

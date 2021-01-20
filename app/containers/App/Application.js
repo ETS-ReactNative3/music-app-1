@@ -18,6 +18,7 @@ import WalletHistory from '../Wallet/History';
 import OrderSuccess from "../Wallet/success";
 import {InfluencerRequestForm} from "../Influencer/Loadable";
 import RequestListing from '../Requests/index';
+import CampaignList from '../Campaign/list';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -118,6 +119,9 @@ function Application({history}) {
         </PrivateRoute>
         <PrivateRoute path="/tastemakers/:songId/campaign">
           <CampaignSummary/>
+        </PrivateRoute>
+        <PrivateRoute path="/campaigns">
+          <CampaignList/>
         </PrivateRoute>
         <PrivateRoute path="/requests">
           <RequestListing/>

@@ -37,6 +37,7 @@ import { Link, useParams, withRouter } from 'react-router-dom';
 import { getSongRequest } from '../Song/actions';
 import songReducer from '../Song/reducer';
 import songSaga from '../Song/saga';
+import { SOCIAL_MEDIA } from '../App/constants';
 
 export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, selectedInfluencers, removeInfluencer, formLoader, match, selectedSong }) {
   useInjectReducer({ key: 'tastemaker', reducer });
@@ -111,7 +112,7 @@ export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, se
                 </div>
 
                 <Link to={{pathname: `/tastemakers/${match.params.songId}/campaign`}}><Button disabled={selectedInfluencers && selectedInfluencers.length === 0} variant="success" style={{ paddingLeft: 15, paddingRight: 15 }} onClick={() => {
-                  selectInfluencer({ ...innerInfluencer, influencer: { ...innerInfluencer.influencer, price: price } })
+                  // selectInfluencer({ ...innerInfluencer, influencer: { ...innerInfluencer.influencer, price: price } })
 
                   handleClose();
                 }}>View Order <FontAwesomeIcon size="1x" icon={faAngleRight} /></Button></Link>
@@ -209,29 +210,32 @@ export function Tastemaker({ getTasteMakersAction,getSongAction, tasteMakers, se
                         {item.influencer.description}
                       </h6>
                       <div>
-                        {item.influencer.facebook && (
-                          <FontAwesomeIcon size="1x" icon={faFacebook} className="mr-2" />
-                        )}
-                        {item.influencer.twitter && (
-                          <FontAwesomeIcon size="1x" icon={faTwitter} className="mr-2" />
-                        )}
-                        {item.influencer.youtube && (
-                          <FontAwesomeIcon size="1x" icon={faYoutube} className="mr-2" />
-                        )}
-                        {item.influencer.instagram && (
-                          <FontAwesomeIcon
-                            icon={faInstagram}
-                            size="1x"
-                            className="mr-2"
-                          />
-                        )}
-                        {item.influencer.blog && (
-                          <FontAwesomeIcon
-                            icon={faBlog}
-                            size="1x"
-                            className="mr-2"
-                          />
-                        )}
+                        {item.influencer.influencerServices && item.influencer.influencerServices.map(influencerService => {
+                           if (influencerService.socialChannels.title === SOCIAL_MEDIA.FACEBOOK)
+                            return  <FontAwesomeIcon size="1x" icon={faFacebook} className="mr-2" />
+                          
+                          if (influencerService.socialChannels.title === SOCIAL_MEDIA.TWITTER)
+                            return <FontAwesomeIcon size="1x" icon={faTwitter} className="mr-2" />
+                          
+                          if (influencerService.socialChannels.title === SOCIAL_MEDIA.YOUTUBE)
+                            return <FontAwesomeIcon size="1x" icon={faYoutube} className="mr-2" />
+                          
+                          if (influencerService.socialChannels.title === SOCIAL_MEDIA.INSTAGRAM )
+                           return  <FontAwesomeIcon
+                              icon={faInstagram}
+                              size="1x"
+                              className="mr-2"
+                            />
+                          
+                          if (influencerService.socialChannels.title === SOCIAL_MEDIA.BLOG )
+                            return <FontAwesomeIcon
+                              icon={faBlog}
+                              size="1x"
+                              className="mr-2"
+                            />
+                          
+                        })}
+                       
                       </div>
                       {item.influencer.influencerGenres.map(genre => (
                         <span

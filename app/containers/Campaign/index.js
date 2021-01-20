@@ -27,11 +27,12 @@ import { _calculatePriceForSelectedInfluencers } from '../Tastemaker';
 import { makeSelectFormLoader } from '../Album/selectors';
 import appReducer from '../App/reducer';
 import ButtonLoader from '../../components/ButtonLoader';
-const CampaignSummary = ({ launchCampaign, userDetails, formLoader,selectedInfluencers, selectedSong, match, getSongAction }) => {
+import { SOCIAL_MEDIA } from '../App/constants';
+const CampaignSummary = ({ launchCampaign, userDetails, formLoader, selectedInfluencers, selectedSong, match, getSongAction }) => {
 
     useInjectReducer({ key: 'campaign', reducer });
     useInjectSaga({ key: 'campaign', saga });
-    useInjectReducer({key: 'app', reducer: appReducer})
+    useInjectReducer({ key: 'app', reducer: appReducer })
     useInjectReducer({ key: 'song', reducer: songReducer });
     useInjectSaga({ key: 'song', saga: songSaga });
 
@@ -42,6 +43,7 @@ const CampaignSummary = ({ launchCampaign, userDetails, formLoader,selectedInflu
         }
     }, [match.params.songId]);
 
+    console.log(selectedInfluencers)
 
     const _renderInfluencer = (selectedInfluencer, index) => {
         return (
@@ -80,11 +82,14 @@ const CampaignSummary = ({ launchCampaign, userDetails, formLoader,selectedInflu
                     </div>
                 </div>
                 <div style={styles.socialMediaItems}>
-                    {selectedInfluencer && selectedInfluencer.influencer && selectedInfluencer.influencer.facebook && <FontAwesomeIcon icon={faFacebook} />}
-                    {selectedInfluencer && selectedInfluencer.influencer && selectedInfluencer.influencer.instagram && <FontAwesomeIcon icon={faInstagram} />}
-                    {selectedInfluencer && selectedInfluencer.influencer && selectedInfluencer.influencer.twitter && <FontAwesomeIcon icon={faTwitter} />}
-                    {selectedInfluencer && selectedInfluencer.influencer && selectedInfluencer.influencer.blog && <FontAwesomeIcon icon={faBlog} />}
-                    {selectedInfluencer && selectedInfluencer.influencer && selectedInfluencer.influencer.youtube && <FontAwesomeIcon icon={faYoutube} />}
+                    {selectedInfluencer && selectedInfluencer.influencer && selectedInfluencer.influencer.influencerServices.map(influencerService => {
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.FACEBOOK) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faFacebook} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.INSTAGRAM) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faInstagram} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.TWITTER) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faTwitter} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.BLOG) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faBlog} /> 
+                        if (influencerService.socialChannels.title === SOCIAL_MEDIA.YOUTUBE) return <FontAwesomeIcon style={{marginLeft: 10}} icon={faYoutube} /> 
+                    })}
+
                 </div>
             </div>
 
@@ -189,9 +194,10 @@ const CampaignSummary = ({ launchCampaign, userDetails, formLoader,selectedInflu
                                 launchCampaign({
                                     "songId": selectedSong.id,
                                     "price": _calculatePriceForSelectedInfluencers(selectedInfluencers),
-                                    "campaignStatusId": 1,
-                                    "influencers": selectedInfluencers.map(influencer => influencer.id)
+                                    // "campaignStatusId": 1,
+                                    "influencers": selectedInfluencers.map(influencer => { return {...influencer.influencer, services: influencer.influencer.influencerServices} })
                                 })
+
 
                             }} style={{ width: '70%' }} variant="success">Launch Campaign</Button>}
                         </div>

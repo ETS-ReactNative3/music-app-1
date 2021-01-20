@@ -19,7 +19,8 @@ const tastemakerReducer = (state = initialState, action) =>
         draft.influencers = action.data.data;
         break;
       case SELECT_INFLUENCER:
-        
+        if (draft.selectedInfluencers === undefined) 
+          draft.selectedInfluencers = [];
         draft.selectedInfluencers= draft.selectedInfluencers.concat(action.data);
         break;
       case REMOVE_INFLUENCER:

@@ -4,7 +4,7 @@
  *
  */
 
-import { LAUNCH_CAMPAIGN } from './constants';
+import { FETCH_CAMPAIGN, LAUNCH_CAMPAIGN, PUT_CAMPAIGN } from './constants';
 
 
 export function launchCampaignAction(data) {
@@ -12,4 +12,17 @@ export function launchCampaignAction(data) {
     type: LAUNCH_CAMPAIGN,
     data,
   };
+}
+
+export function fetchCampaignAction() {
+  return {
+    type: FETCH_CAMPAIGN
+  }
+}
+
+export function putCampaignAction(data) {
+  return {
+    type: PUT_CAMPAIGN,
+    data
+  }
 }

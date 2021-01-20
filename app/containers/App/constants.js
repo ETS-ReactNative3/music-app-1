@@ -25,3 +25,19 @@ export const SET_LOADER = 'app/Global/SET_LOADER';
 export const GET_USER_DETAILS = 'app/Global/GET_USER_DETAILS';
 export const GET_USER_DETAILS_SUCCESS = 'app/Global/GET_USER_DETAILS_SUCCESS';
 export const GET_USER_DETAILS_ERROR = 'app/Global/GET_USER_DETAILS_ERROR';
+
+export const SOCIAL_MEDIA = {
+    FACEBOOK: 'facebook',
+    TWITTER: 'twitter',
+    INSTAGRAM: 'instagram',
+    BLOG: 'blog',
+    YOUTUBE: 'youtube'
+}
+
+export const SOCIAL_CHANNELS = {
+    FACEBOOK: 1,
+    TWITTER: 2,
+    INSTAGRAM: 3,
+    YOUTUBE: 4,
+    BLOG: 5
+}
