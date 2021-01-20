@@ -8,7 +8,7 @@ import { CampaignStatus } from './constants';
 
 export const newRequestColumns = [{
     dataField: 'picture',
-    text: '',
+    text: '#',
     formatter: pictureFormatter,
     style: {
         width: '10%',
