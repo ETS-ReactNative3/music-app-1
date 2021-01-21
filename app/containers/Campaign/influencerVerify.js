@@ -6,6 +6,7 @@ import StarRatings from 'react-star-ratings';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 import defaultImage from '../../images/album-3.jpg';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
@@ -23,7 +24,6 @@ import styles from './index.styles';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectCampaign } from './selectors';
-import { toast } from 'react-toastify';
 
 const Details = ({
   match,
@@ -143,7 +143,8 @@ const Details = ({
                           <Link to={service.response}>{service.response}</Link>
                         </div>
                       );
-                    default: return <></>
+                    default:
+                      return <></>;
                   }
                 })}
             </div>
@@ -172,10 +173,10 @@ const Details = ({
               </Button>
             </div>
           ) : (
-              <div style={styles.alreadyDeclinedStyle}>
-                You Already declined this request!!
-              </div>
-            )}
+            <div style={styles.alreadyDeclinedStyle}>
+              You Already declined this request!!
+            </div>
+          )}
           <div style={styles.provideFeedbackParentStyle}>
             You can provide rating and feedback for influencer here:
             <div style={styles.starRatingStyle}>
