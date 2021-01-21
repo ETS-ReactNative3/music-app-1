@@ -1,14 +1,12 @@
-import React, { memo, useEffect, useRef } from 'react';
-import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-
+import React, {memo, useEffect, useRef} from 'react';
+import H5AudioPlayer, {RHAP_UI} from 'react-h5-audio-player';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import {
   handleSongPlaying,
   handleSingleSong,
 } from '../../containers/App/actions';
-
 import 'react-h5-audio-player/lib/styles.css';
 import {
   makeSelectPlaylist,
@@ -25,7 +23,7 @@ const Footer = props => {
   } = props;
   const audioRef = useRef(null);
   const volumeRef = useRef(null);
-  const { songIndex } = currentSong;
+  const {songIndex} = currentSong;
   let songDetail = {
     src: '',
     title: 'Song Title',
@@ -36,15 +34,15 @@ const Footer = props => {
     playlist.length > 0
       ? {
         ...songDetail,
-        src: playlist[songIndex].url,
-        title: playlist[songIndex].title,
-        artist: playlist[songIndex].user.name,
-        artwork: playlist[songIndex].artwork,
+        src: playlist[songIndex].song.url,
+        title: playlist[songIndex].song.title,
+        artist: playlist[songIndex].song.user.name,
+        artwork: playlist[songIndex].song.artwork,
       }
       : songDetail;
 
   useEffect(() => {
-    const { playing: status } = currentSong;
+    const {playing: status} = currentSong;
     status
       ? audioRef.current.audio.current.play()
       : audioRef.current.audio.current.pause();

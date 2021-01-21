@@ -4,32 +4,12 @@
 
 import {call, put, takeLatest} from 'redux-saga/effects';
 import jwt_decode from 'jwt-decode';
-import {LOAD_ALBUM, PREPARE_APP, GET_USER_DETAILS} from './constants';
-import {getUserDetailsFail, getUserDetailsSuccess, loadAlbumFail, loadAlbumSuccess, setRole} from './actions';
+import {PREPARE_APP, GET_USER_DETAILS} from './constants';
+import {getUserDetailsFail, getUserDetailsSuccess, setRole} from './actions';
 import {axiosInstance} from '../../utils/api';
 
 function fetchUserInformation() {
   return axiosInstance().get('/auth/userDetails');
-}
-
-function fetchAlbum(slug) {
-  console.log(slug)
-  //return axiosInstance().get(`/albums/songs/slug/${slug}`);
-}
-
-/**
- * Default Data request/response handler
- */
-export function* getAlbumInfo({slug}) {
-  try {
-    console.log(slug)
-    const response = yield call(fetchAlbum, slug);
-    console.log(response)
-    // const songs = response.data.albumSongs.map(ele => ele.song);
-    // yield put(loadAlbumSuccess(response.data, songs));
-  } catch (err) {
-    yield put(loadAlbumFail(err));
-  }
 }
 
 export function* prepareApp() {
@@ -51,7 +31,6 @@ export function* getUserInformation() {
  * Root saga manages watcher lifecycle
  */
 export default function* getFeaturedAlbumData() {
-  yield takeLatest(LOAD_ALBUM, getAlbumInfo);
   yield takeLatest(PREPARE_APP, prepareApp);
   yield takeLatest(GET_USER_DETAILS, getUserInformation);
 }
