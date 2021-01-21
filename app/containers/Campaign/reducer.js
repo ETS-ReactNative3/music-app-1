@@ -4,11 +4,11 @@
  *
  */
 import produce from 'immer';
-import { act } from 'react-testing-library';
-import { PUT_CAMPAIGN } from './constants';
+import { PUT_CAMPAIGN, SELECT_CAMPAIGN } from './constants';
 
 export const initialState = {
-  campaigns: []
+  campaigns: [],
+  selectedCampaign: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -18,7 +18,11 @@ const campaignReducer = (state = initialState, action) =>
       case PUT_CAMPAIGN:
         draft.campaigns = action.data;
         break;
-
+      case SELECT_CAMPAIGN:
+        draft.selectedCampaign = draft.campaigns.find(
+          campaign => campaign.id === Number(action.id),
+        );
+        break;
     }
   });
 

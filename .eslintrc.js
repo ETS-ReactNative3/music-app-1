@@ -70,7 +70,6 @@ module.exports = {
     'react/jsx-first-prop-new-line': [2, 'multiline'],
     'react/jsx-filename-extension': 0,
     'react/jsx-no-target-blank': 0,
-    'react/jsx-uses-vars': 2,
     'react/require-default-props': 0,
     'react/require-extension': 0,
     'react/self-closing-comp': 0,
@@ -78,6 +77,8 @@ module.exports = {
     'redux-saga/no-yield-in-race': 2,
     'redux-saga/yield-effects': 2,
     'require-yield': 0,
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   },
   settings: {
     'import/resolver': {
