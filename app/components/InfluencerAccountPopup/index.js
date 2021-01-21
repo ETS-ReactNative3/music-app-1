@@ -5,7 +5,7 @@ import { Button, Image, Modal } from 'react-bootstrap';
 import InfluencerAccount from '../InfluencerAccount';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import { faBlog } from '@fortawesome/free-solid-svg-icons';
-import { combineFollowers, formatFollowers } from '../../Utils';
+import { combineFollowers, formatFollowers } from '../../utils';
 import defaultImage from '../../images/album-3.jpg';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
