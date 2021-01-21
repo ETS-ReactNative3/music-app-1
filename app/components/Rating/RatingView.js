@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarEmpty } from '@fortawesome/free-regular-svg-icons';
-import { calculateRating } from '../../Utils/index';
+import { calculateRating } from '../../utils';
 import { styles } from './RatingView.styles';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 
