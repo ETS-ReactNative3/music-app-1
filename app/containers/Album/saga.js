@@ -1,8 +1,8 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import { call, put, takeLatest } from '@redux-saga/core/effects';
-import { toast } from 'react-toastify';
+import {call, put, takeLatest} from '@redux-saga/core/effects';
+import {toast} from 'react-toastify';
 import {
   DELETE_ALBUM,
   GET_ALBUM,
@@ -35,7 +35,7 @@ import {
 } from './actions';
 
 import history from '../../utils/history';
-import { setPlaylist } from '../App/actions';
+import {setPlaylist} from '../App/actions';
 
 function getAlbumInfo(albumSlug) {
   return axiosInstance().get(`/albums/songs/slug/${albumSlug}`);
@@ -112,7 +112,7 @@ export function* myAlbumsSaga() {
   }
 }
 
-export function* saveAlbumSaga({ data }) {
+export function* saveAlbumSaga({data}) {
   try {
     const result = yield call(postAlbumImage, data);
     const albumData = {
@@ -130,7 +130,7 @@ export function* saveAlbumSaga({ data }) {
   }
 }
 
-export function* getEditAlbum({ id }) {
+export function* getEditAlbum({id}) {
   try {
     const result = yield call(getAlbum, id);
     yield put(getAlbumSuccess(result.data));
@@ -140,7 +140,7 @@ export function* getEditAlbum({ id }) {
   }
 }
 
-export function* deleteAlbum({ id }) {
+export function* deleteAlbum({id}) {
   try {
     const result = yield call(deleteAlbumApi, id);
     yield put(getMyAlbumsRequest());
@@ -152,7 +152,7 @@ export function* deleteAlbum({ id }) {
   }
 }
 
-export function* updateAlbum({ data }) {
+export function* updateAlbum({data}) {
   try {
     if (data.albumImage.length === 0) {
       const result = yield call(editAlbum, data);

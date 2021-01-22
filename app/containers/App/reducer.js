@@ -10,7 +10,6 @@
 import produce from 'immer';
 import {
   SET_PLAYLIST,
-  LOAD_ALBUM_SUCCESS,
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
   SET_ROLE,
@@ -53,8 +52,6 @@ const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case SET_PLAYLIST:
-        draft.loading = true;
-        draft.error = false;
         draft.currentPlaylist = action.songs;
         break;
       case HANDLE_SONG_PLAYING:
@@ -65,12 +62,6 @@ const appReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.currentSong.songIndex = action.index;
         draft.currentSong.playing = action.status;
-        break;
-      case LOAD_ALBUM_SUCCESS:
-        draft.loading = true;
-        draft.error = false;
-        draft.albumInfo = action.albumInfo;
-        draft.currentPlaylist = action.playlist;
         break;
       case SET_ROLE:
         draft.role = action.role;

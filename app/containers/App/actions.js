@@ -16,8 +16,6 @@
  */
 import {
   SET_PLAYLIST,
-  LOAD_ALBUM,
-  LOAD_ALBUM_SUCCESS,
   HANDLE_SONG_PLAYING,
   HANDLE_SINGLE_SONG,
   SET_ROLE,
@@ -33,21 +31,6 @@ export function setPlaylist(songs) {
   return {
     type: SET_PLAYLIST,
     songs,
-  };
-}
-
-export function loadAlbumSuccess(albumInfo, playlist) {
-  return {
-    type: LOAD_ALBUM_SUCCESS,
-    albumInfo,
-    playlist,
-  };
-}
-
-export function loadAlbum(slug) {
-  return {
-    type: LOAD_ALBUM,
-    slug,
   };
 }
 
