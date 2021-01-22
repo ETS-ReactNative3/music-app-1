@@ -78,20 +78,20 @@ export function setLoader(status) {
 
 export function getUserDetails() {
   return {
-    type: GET_USER_DETAILS
-  }
+    type: GET_USER_DETAILS,
+  };
 }
 
 export function getUserDetailsSuccess(userInformation) {
   return {
     type: GET_USER_DETAILS_SUCCESS,
-    userInformation
-  }
+    userInformation,
+  };
 }
 
 export function getUserDetailsFail(error) {
   return {
     type: GET_USER_DETAILS_ERROR,
-    error
-  }
+    error,
+  };
 }

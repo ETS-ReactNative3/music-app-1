@@ -1,8 +1,8 @@
-import React, {memo, useEffect, useRef} from 'react';
-import H5AudioPlayer, {RHAP_UI} from 'react-h5-audio-player';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import React, { memo, useEffect, useRef } from 'react';
+import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import {
   handleSongPlaying,
   handleSingleSong,
@@ -23,7 +23,7 @@ const Footer = props => {
   } = props;
   const audioRef = useRef(null);
   const volumeRef = useRef(null);
-  const {songIndex} = currentSong;
+  const { songIndex } = currentSong;
   let songDetail = {
     src: '',
     title: 'Song Title',
@@ -42,7 +42,7 @@ const Footer = props => {
       : songDetail;
 
   useEffect(() => {
-    const {playing: status} = currentSong;
+    const { playing: status } = currentSong;
     status
       ? audioRef.current.audio.current.play()
       : audioRef.current.audio.current.pause();
