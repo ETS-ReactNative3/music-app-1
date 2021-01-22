@@ -30,9 +30,9 @@ import ShareBox from '../../components/ShareBox';
 import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
 import {useParams} from 'react-router-dom';
-import {loadAlbum} from "./actions";
-import {makeSelectAlbum, makeSelectAlbumLoader} from "./selectors";
-import LoadingIndicator from "../../components/LoadingIndicator";
+import {loadAlbum} from './actions';
+import {makeSelectAlbum, makeSelectAlbumLoader} from './selectors';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 const key = 'album';
 
@@ -54,7 +54,7 @@ const Album = props => {
     getMyPlaylistAction,
     addSongIntoPlaylistAction,
     playlists,
-    loader
+    loader,
   } = props;
 
   useEffect(() => {
@@ -66,13 +66,16 @@ const Album = props => {
   };
 
   const singleSongHandler = index => {
-    const status = currentSong.songIndex === index ? !currentSong.playing : true;
+    const status =
+      currentSong.songIndex === index ? !currentSong.playing : true;
     onHandleSingleSong(index, status);
   };
 
   return (
     <>
-      {loader || !albumInfo ? <LoadingIndicator/> :
+      {loader || !albumInfo ? (
+        <LoadingIndicator/>
+      ) : (
         <div className="container-fluid jumbotron-bg-inner">
           <div className="row album-detail">
             <div className="col-auto">
@@ -100,12 +103,12 @@ const Album = props => {
                   {albumInfo.albumSongs.length}
                 </div>
                 <div className="col mt-3">
-                <span
-                  onClick={playAllSongsHandler}
-                  className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center cursor-pointer"
-                >
-                  {currentSong.playing ? 'Pause' : 'Play All'}
-                </span>
+                  <span
+                    onClick={playAllSongsHandler}
+                    className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center cursor-pointer"
+                  >
+                    {currentSong.playing ? 'Pause' : 'Play All'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -123,20 +126,20 @@ const Album = props => {
                 </div>
                 <div className="song-duration px-2">4:25</div>
                 <div className="song-action px-2">
-                <span
-                  onClick={() => singleSongHandler(index)}
-                  className="cursor-pointer"
-                >
-                  <FontAwesomeIcon
-                    size="3x"
-                    color={PLAY_ICON_BG_COLOR}
-                    icon={
-                      currentSong.songIndex === index && currentSong.playing
-                        ? faPauseCircle
-                        : faPlayCircle
-                    }
-                  />
-                </span>
+                  <span
+                    onClick={() => singleSongHandler(index)}
+                    className="cursor-pointer"
+                  >
+                    <FontAwesomeIcon
+                      size="3x"
+                      color={PLAY_ICON_BG_COLOR}
+                      icon={
+                        currentSong.songIndex === index && currentSong.playing
+                          ? faPauseCircle
+                          : faPlayCircle
+                      }
+                    />
+                  </span>
                 </div>
                 <div className="dot-box ml-auto">
                   <SongsOptionsBox
@@ -159,7 +162,7 @@ const Album = props => {
             clasess="carousel-front py-5"
           />
         </div>
-      }
+      )}
     </>
   );
 };

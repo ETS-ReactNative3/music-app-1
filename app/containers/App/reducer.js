@@ -18,7 +18,7 @@ import {
   SET_LOADER,
   GET_USER_DETAILS_SUCCESS,
   GET_USER_DETAILS,
-  GET_USER_DETAILS_ERROR
+  GET_USER_DETAILS_ERROR,
 } from './constants';
 
 // The initial state of the App
