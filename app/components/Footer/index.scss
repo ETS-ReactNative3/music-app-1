@@ -71,3 +71,7 @@ input[type='range'][orient='vertical'] {
     text-overflow: ellipsis;
   }
 }
+
+.fixed-bottom {
+  z-index: 9999999;
+}

@@ -21,7 +21,7 @@ function createPayment(data) {
 
 function* createPaymentSession(action) {
   try {
-    const result = yield call(createPayment, {session_id: action.id});
+    yield call(createPayment, {session_id: action.id});
     yield put(createPaymentSuccessAction());
   } catch (e) {
     toast.error(e.message);

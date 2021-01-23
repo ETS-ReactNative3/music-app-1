@@ -16,6 +16,7 @@ function useQuery() {
 export function OrderSuccess({createOrder}) {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
+
   const query = useQuery();
 
   useEffect(() => {
