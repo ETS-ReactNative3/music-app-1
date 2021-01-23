@@ -2,11 +2,11 @@
  * Gets the default data to save in redux
  */
 
-import { call, put, takeLatest } from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 import jwt_decode from 'jwt-decode';
-import { PREPARE_APP, GET_USER_DETAILS } from './constants';
-import { getUserDetailsFail, getUserDetailsSuccess, setRole } from './actions';
-import { axiosInstance } from '../../utils/api';
+import {PREPARE_APP, GET_USER_DETAILS} from './constants';
+import {getUserDetailsFail, getUserDetailsSuccess, setRole} from './actions';
+import {axiosInstance} from '../../utils/api';
 
 function fetchUserInformation() {
   return axiosInstance().get('/auth/userDetails');
