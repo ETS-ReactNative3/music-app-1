@@ -12,7 +12,7 @@ import {Link} from 'react-router-dom';
 import './index.scss';
 import PlanSvg from '../../images/svg/plan_icon.svg';
 import LogoPng from '../../images/logo.png';
-import { faGetPocket } from '@fortawesome/free-brands-svg-icons';
+import {faGetPocket} from '@fortawesome/free-brands-svg-icons';
 
 function LeftSideBar({role}) {
   const handleSideBar = () => {
@@ -79,18 +79,6 @@ function LeftSideBar({role}) {
                   <p className="d-inline-block m-0">Campaigns</p>
                 </Link>
               </li>
-              <li className="nav-item rounded-lg">
-                <Link to="/myaccount" className="nav-link mb-1">
-                  <FontAwesomeIcon icon={faMale} className="mr-2"/>
-                  <p className="d-inline-block m-0">My Account</p>
-                </Link>
-              </li>
-              <li className="nav-item rounded-lg">
-                <Link to="/wallet" className="nav-link mb-1">
-                  <FontAwesomeIcon icon={faWallet} className="mr-2"/>
-                  <p className="d-inline-block m-0">Wallet</p>
-                </Link>
-              </li>
             </ul>
           ) : (
             <ul
@@ -115,18 +103,6 @@ function LeftSideBar({role}) {
                     style={{marginRight: 5, marginLeft: -3}}
                   />
                   <p className="d-inline-block m-0">My Plan</p>
-                </Link>
-              </li>
-              <li className="nav-item rounded-lg">
-                <Link to="/myaccount" className="nav-link mb-1">
-                  <FontAwesomeIcon icon={faMale} className="mr-2"/>
-                  <p className="d-inline-block m-0">My Account</p>
-                </Link>
-              </li>
-              <li className="nav-item rounded-lg">
-                <Link to="/wallet" className="nav-link mb-1">
-                  <FontAwesomeIcon icon={faWallet} className="mr-2"/>
-                  <p className="d-inline-block m-0">Wallet</p>
                 </Link>
               </li>
               <li className="nav-item rounded-lg">

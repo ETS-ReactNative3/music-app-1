@@ -1,9 +1,14 @@
 @import '../../styles/variables';
 
+.navbar {
+  background-color: #020f1f;
+}
+
 .search-icon-prepend {
   background: transparent;
   border: none;
 }
+
 .autocomplete-box {
   input {
     background: transparent;

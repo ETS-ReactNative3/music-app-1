@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState} from 'react';
 import {faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
@@ -8,7 +8,7 @@ import request from '../../utils/request';
 import './index.scss';
 
 const AsyncTypeahead = withAsync(Typeahead);
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Dropdown from "react-bootstrap/Dropdown";
 import PlanSvg from "../../images/svg/plan_icon.svg";
 
@@ -112,16 +112,20 @@ const TopNavBar = ({userDetails}) => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">
-                Action
+              <Dropdown.Item>
+                <Link to="/myaccount">
+                  My profile
+                </Link>
               </Dropdown.Item>
-              <Dropdown.Item href="#/action-2">
-                Wallet - <img
-                src={PlanSvg}
-                alt="wallet Logo"
-                width={17}
-                height={17}
-              /> {userDetails.credit}
+              <Dropdown.Item>
+                <Link to="/wallet">
+                  Wallet - <img
+                  src={PlanSvg}
+                  alt="wallet Logo"
+                  width={17}
+                  height={17}
+                /> {userDetails.credit}
+                </Link>
               </Dropdown.Item>
               <Dropdown.Divider/>
               <Dropdown.Item onClick={logout}>

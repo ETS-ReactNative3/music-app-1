@@ -24,11 +24,11 @@
             }
         }
         &:checked + .form-check-label {
-            &::before {
+            &:before {
                 content: '';
                 display: block;
                 position: absolute;
-                left: 10px;
+                left: 9px;
                 top: calc(50% - 11px);
                 width: 8px;
                 height: 16px;
@@ -38,6 +38,26 @@
                 transform: rotate(45deg);
             }
         }
+    }
+    &__right {
+        input {
+            & + .form-check-label {
+                padding-right: $checkbox-size * 1.5;
+                padding-left: 0;
+                &:after {
+                    content: '';
+                    right: 0;
+                    left: auto;
+                }
+            }
+            &:checked + .form-check-label {
+                &:before {
+                    content: '';
+                    right: 7px;
+                    left: auto;
+                }
+            }
+        }   
     }
 }
 

@@ -77,7 +77,7 @@ export function Wallet({userCredit}) {
             }
           />
           CURRENT BALANCE
-        <Link to="/wallet/history">View history</Link>
+        <Link to="/wallet/history"> View history</Link>
         </span>
         <span className="h1">
           {userCredit}
@@ -86,7 +86,7 @@ export function Wallet({userCredit}) {
       </div>
       <Container fluid className="mt-5">
         <Row>
-          <Col md={5} lg={4} xl={3}>
+          <Col>
             <Card className="bg-transparent blick-border">
               <ListGroup>
                 <ListGroup.Item className="p-4 bg-transparent border-bottom-primary">
@@ -126,9 +126,6 @@ export function Wallet({userCredit}) {
                 </ListGroup.Item>
               </ListGroup>
             </Card>
-          </Col>
-          <Col md={7} lg={8} xl={9}>
-            Credit Packs
           </Col>
         </Row>
       </Container>
