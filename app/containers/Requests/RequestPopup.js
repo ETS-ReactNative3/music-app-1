@@ -13,7 +13,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { CampaignStatus } from './constants';
-import { submitSocialLinksAction } from './actions';
 import { SOCIAL_CHANNELS } from '../App/constants';
 import { Link } from 'react-router-dom';
 

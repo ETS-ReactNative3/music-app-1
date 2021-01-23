@@ -12,6 +12,9 @@ import {
   VERIFY_CAMPAIGN,
   ADD_INFLUENCER_RATING,
   ADD_INFLUENCER_REVIEW,
+  REVIEW_SUBMITTING,
+  RATING_SUBMITTING,
+  VERIFY_SUBMITTING,
 } from './constants';
 
 export function launchCampaignAction(data) {
@@ -59,5 +62,26 @@ export function addInfluencerReviewAction(data) {
   return {
     type: ADD_INFLUENCER_REVIEW,
     data,
+  };
+}
+
+export function reviewSubmittingAction(flag) {
+  return {
+    type: REVIEW_SUBMITTING,
+    flag,
+  };
+}
+
+export function ratingSubmittingAction(flag) {
+  return {
+    type: RATING_SUBMITTING,
+    flag,
+  };
+}
+
+export function verifySubmittingAction(flag) {
+  return {
+    type: VERIFY_SUBMITTING,
+    flag,
   };
 }

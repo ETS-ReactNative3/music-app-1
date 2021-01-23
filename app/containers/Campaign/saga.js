@@ -6,7 +6,13 @@ import { toast } from 'react-toastify';
 import { axiosInstance } from '../../utils/api';
 import history from '../../utils/history';
 import { setLoader } from '../App/actions';
-import { fetchCampaignAction, putCampaignAction } from './actions';
+import {
+  fetchCampaignAction,
+  putCampaignAction,
+  ratingSubmittingAction,
+  reviewSubmittingAction,
+  verifySubmittingAction,
+} from './actions';
 import {
   ADD_INFLUENCER_RATING,
   ADD_INFLUENCER_REVIEW,
@@ -61,9 +67,11 @@ function* fetchCampaignSaga() {
 function* verifyCampaignSaga(action) {
   try {
     const { data } = action;
+    yield put(verifySubmittingAction(true));
     yield call(verifyCampaignAPI, data);
     yield put(fetchCampaignAction());
     toast.success('Campaign Verified for this influencer');
+    yield put(verifySubmittingAction(false));
     history.goBack();
   } catch (e) {
     toast.error(e.message);
@@ -73,9 +81,11 @@ function* verifyCampaignSaga(action) {
 function* addInfluencerRatingSaga(action) {
   try {
     const { data } = action;
+    yield put(ratingSubmittingAction(true));
     yield call(addInfluencerRatingAPI, data);
     yield put(fetchCampaignAction());
     toast.success('Influencer Rating submitted!!');
+    yield put(ratingSubmittingAction(false));
   } catch (e) {
     toast.error(e.message);
   }
@@ -84,9 +94,11 @@ function* addInfluencerRatingSaga(action) {
 function* addInfluencerReviewSaga(action) {
   try {
     const { data } = action;
+    yield put(reviewSubmittingAction(true));
     yield call(addInfluencerReviewAPI, data);
     yield put(fetchCampaignAction());
     toast.success('Influencer Review submitted!!');
+    yield put(reviewSubmittingAction(false));
   } catch (e) {
     toast.error(e.message);
   }

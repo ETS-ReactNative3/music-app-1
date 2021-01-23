@@ -101,8 +101,8 @@ const Details = ({
                 history.push(
                   `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
                 );
-              } else if (row.campaignStatusId === CampaignStatus.DECLINED) {
-                toast.info('Influencer not completed requested.');
+              } else {
+                toast.warning('Influencer not completed requested.');
               }
             },
           }}

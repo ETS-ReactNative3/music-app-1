@@ -20,12 +20,40 @@ const makeSelectCampaigns = () =>
 const makeSelectCampaign = () =>
   createSelector(
     selectTastemakerDomain,
-    substate => substate.selectedCampaign,
+    substate => {
+      return (
+        (substate.campaigns &&
+          substate.campaigns.find(
+            campaign => campaign.id === Number(substate.selectedCampaign),
+          )) ||
+        {}
+      )
+    }
   );
 
+const makeSelectReviewSubmitting = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate => substate.reviewSubmitting,
+  );
+
+const makeSelectRatingSubmitting = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate => substate.ratingSubmitting,
+  );
+
+const makeSelectVerifySubmitting = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate => substate.verifySubmitting,
+  );
+
+
 export {
-  // makeSelectTastemaker,
-  // makeSelectSelectedInfluencers,
+  makeSelectReviewSubmitting,
+  makeSelectRatingSubmitting,
+  makeSelectVerifySubmitting,
   makeSelectCampaigns,
   makeSelectCampaign,
 };
