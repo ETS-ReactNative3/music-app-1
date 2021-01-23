@@ -118,6 +118,7 @@ const styles = {
     marginTop: 20,
   },
   alreadyDeclinedStyle: { color: 'red', marginTop: 20, fontSize: 22 },
+  alreadyVerifiedStyle: { color: '#1fdbae', marginTop: 20, fontSize: 22 },
   provideFeedbackParentStyle: {
     margin: 5,
     marginTop: 20,
@@ -137,6 +138,11 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
+  },
+  feedbackTextStyle: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   submitFeedbackButtonStyle: {
     display: 'flex',

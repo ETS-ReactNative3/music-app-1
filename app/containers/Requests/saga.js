@@ -4,8 +4,13 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../utils/api';
-import { putRequestAction, putUserActivities, putUserRatings, putUserReviews } from './actions';
-import { FETCH_ACTIVITY, FETCH_REQUESTS, REQUEST_INFLUENCER, SUBMIT_REQUEST_FEEDBACK, SUBMIT_REQUEST_SOCAIL_LINKS, UPDATE_CAMPAIGN_STATUS } from './constants';
+import { fetchRequestsAction, putRequestAction } from './actions';
+import {
+  FETCH_REQUESTS,
+  SUBMIT_REQUEST_FEEDBACK,
+  SUBMIT_REQUEST_SOCAIL_LINKS,
+  UPDATE_CAMPAIGN_STATUS,
+} from './constants';
 
 function requestInfluencerApi() {
   return axiosInstance().get('influencers/requests');
@@ -33,23 +38,26 @@ export function* fetchRequestSaga() {
 
 export function* updateCampaignStatusSaga(action) {
   const { campaignId, statusId } = action;
-  yield call(updateCampaignStatusApi, { id: campaignId, campaignStatusId: statusId });
+  yield call(updateCampaignStatusApi, {
+    id: campaignId,
+    campaignStatusId: statusId,
+  });
 }
 
 export function* submitFeedbackRequestSaga(action) {
-  console.log('cm hadfads', action)
   const { campaignId, influencerId, feedback } = action;
   yield call(submitFeedbackRequestApi, {
-    influencerId: influencerId,
+    influencerId,
     campaignsId: campaignId,
-    feedback: feedback
-  })
+    feedback,
+  });
 }
 
 export function* submitSocialLinksRequestSaga(action) {
-  const {data} = action;
+  const { data } = action;
   yield call(submitSocialLinksRequestApi, data);
   toast.success('Request completed');
+  yield put(fetchRequestsAction());
 }
 
 export default function* accountSaga() {

@@ -5,27 +5,11 @@ import { initialState } from './reducer';
  * Direct selector to the tastemaker state domain
  */
 
-const selectTastemakerDomain = state => state.tastemaker || initialState;
+const selectTastemakerDomain = state => state.campaign || initialState;
 
 /**
  * Other specific selectors
  */
-
-/**
- * Default selector used by Tastemaker
- */
-
-const makeSelectTastemaker = () =>
-  createSelector(
-    selectTastemakerDomain,
-    substate => substate.influencers,
-  );
-
-const makeSelectSelectedInfluencers = () =>
-  createSelector(
-    selectTastemakerDomain,
-    substate => substate.selectedInfluencers,
-  );
 
 const makeSelectCampaigns = () =>
   createSelector(
@@ -36,12 +20,40 @@ const makeSelectCampaigns = () =>
 const makeSelectCampaign = () =>
   createSelector(
     selectTastemakerDomain,
-    substate => substate.selectedCampaign,
+    substate => {
+      return (
+        (substate.campaigns &&
+          substate.campaigns.find(
+            campaign => campaign.id === Number(substate.selectedCampaign),
+          )) ||
+        {}
+      )
+    }
   );
 
+const makeSelectReviewSubmitting = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate => substate.reviewSubmitting,
+  );
+
+const makeSelectRatingSubmitting = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate => substate.ratingSubmitting,
+  );
+
+const makeSelectVerifySubmitting = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate => substate.verifySubmitting,
+  );
+
+
 export {
-  makeSelectTastemaker,
-  makeSelectSelectedInfluencers,
+  makeSelectReviewSubmitting,
+  makeSelectRatingSubmitting,
+  makeSelectVerifySubmitting,
   makeSelectCampaigns,
   makeSelectCampaign,
 };

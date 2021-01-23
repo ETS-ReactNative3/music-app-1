@@ -1,15 +1,18 @@
+/* eslint-disable prettier/prettier */
+import PropTypes from 'prop-types';
 import React, { memo } from 'react';
-import { Button, FormControl, Image } from 'react-bootstrap';
+import { Button, FormControl, Image, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
+import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
+import ButtonLoader from '../../components/ButtonLoader';
 import defaultImage from '../../images/album-3.jpg';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
+import albumReducer from '../Album/reducer';
 import { updateCampaignStatusAction } from '../Requests/actions';
 import { CampaignStatus } from '../Requests/constants';
 import requestReducer from '../Requests/reducer';
@@ -17,13 +20,14 @@ import requestSaga from '../Requests/saga';
 import {
   addInfluencerRatingAction,
   addInfluencerReviewAction,
+  fetchCampaignAction,
   getSelectedCampaignAction,
-  verifyCampaignAction,
+  verifyCampaignAction
 } from './actions';
 import styles from './index.styles';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectCampaign } from './selectors';
+import { makeSelectCampaign, makeSelectRatingSubmitting, makeSelectReviewSubmitting, makeSelectVerifySubmitting } from './selectors';
 
 const Details = ({
   match,
@@ -32,24 +36,79 @@ const Details = ({
   updateCampaignStatus,
   addRating,
   addReview,
+  fetchCampaigns,
+  reviewSubmitting,
+  ratingSubmitting, getSelectedCampaign, verifySubmitting
 }) => {
-  useInjectReducer({ key: 'tastemaker', reducer });
+  useInjectReducer({ key: 'campaign', reducer });
   useInjectReducer({ key: 'request', reducer: requestReducer });
-  useInjectSaga({ key: 'tastemaker', saga });
+  useInjectSaga({ key: 'campaign', saga });
   useInjectSaga({ key: 'request', saga: requestSaga });
+  useInjectReducer({ key: 'album', reducer: albumReducer });
 
   const [rating, setRating] = React.useState(0);
   const [feedback, setFeedback] = React.useState('');
   const [selectedInfluencer, setSelectedInfluencer] = React.useState({});
   React.useEffect(() => {
-    if (match.params.influencerId) {
+    if (match.params.influencerId && selectedCampaign && selectedCampaign.campaignInfluencers) {
       setSelectedInfluencer(
         selectedCampaign.campaignInfluencers.find(
           influencer => influencer.id === Number(match.params.influencerId),
         ),
       );
     }
-  }, [match.params.influencerId]);
+  }, [match.params.influencerId && selectedCampaign]);
+
+  React.useEffect(() => {
+    fetchCampaigns();
+    getSelectedCampaign(match.params.id)
+  }, []);
+
+  const renderAcceptButton = () => {
+    if (
+      selectedInfluencer.campaignStatusId === CampaignStatus.DECLINED
+    ) {
+      return (
+        <div style={styles.alreadyDeclinedStyle}>
+          You Already declined this request!!
+        </div>
+      );
+    } 
+    if (selectedInfluencer.campaignStatusId === CampaignStatus.APPROVED) {
+      return (
+        <div style={styles.alreadyVerifiedStyle}>
+            You already verified this request!!
+        </div>
+      );
+    }
+    return (
+      <div style={styles.buttonParent}>
+        {!verifySubmitting ? <Button
+          variant="success"
+          onClick={() =>
+            verifyCampaign(
+              selectedCampaign.id,
+              selectedInfluencer.influencerId,
+            )
+          }
+        >
+            Verify this influencer
+        </Button> : <ButtonLoader />}
+        <Button
+          variant="danger"
+          onClick={() =>
+            updateCampaignStatus(
+              selectedCampaign.id,
+              CampaignStatus.DECLINED,
+            )
+          }
+        >
+            Decline
+        </Button>
+      </div>
+    );
+    
+  }
 
   return (
     <div className="container-fluid" style={{ marginTop: '100px' }}>
@@ -63,6 +122,7 @@ const Details = ({
         </div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
+        {(reviewSubmitting || ratingSubmitting) && <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}><Spinner animation="border" /></div>}
         <div style={styles.selectedDataParent}>
           <h3>Influencer:</h3>
           {selectedInfluencer && selectedInfluencer.influencer && (
@@ -149,91 +209,87 @@ const Details = ({
                 })}
             </div>
           </div>
-
-          {selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED ? (
-            <div style={styles.buttonParent}>
-              <Button
-                variant="success"
-                onClick={() =>
-                  verifyCampaign(selectedCampaign.id, selectedInfluencer.id)
-                }
-              >
-                Verify this influencer
-              </Button>
-              <Button
-                variant="danger"
-                onClick={() =>
-                  updateCampaignStatus(
-                    selectedCampaign.id,
-                    CampaignStatus.DECLINED,
-                  )
-                }
-              >
-                Decline
-              </Button>
-            </div>
-          ) : (
-            <div style={styles.alreadyDeclinedStyle}>
-              You Already declined this request!!
-            </div>
-          )}
+          {renderAcceptButton()}
           <div style={styles.provideFeedbackParentStyle}>
-            You can provide rating and feedback for influencer here:
-            <div style={styles.starRatingStyle}>
-              <StarRatings
-                rating={rating}
-                starRatedColor="blue"
-                changeRating={value => {
-                  setRating(value);
-                }}
-                numberOfStars={5}
-                starDimension="30px"
-                name="rating"
-              />
-              <Button
-                style={styles.submitRatingButtonStyle}
-                variant="success"
-                onClick={() => {
-                  if (rating > 0) {
-                    addRating(
-                      selectedCampaign.id,
-                      selectedInfluencer.id,
-                      rating,
-                    );
-                  } else {
-                    toast.error('Please enter rating');
-                  }
-                }}
-              >
-                Submit Rating
-              </Button>
-            </div>
+            Rating and Feedback:
+            {selectedInfluencer.ratings &&
+              selectedInfluencer.ratings.length > 0 ? (
+                <div style={styles.starRatingStyle}>
+                  <StarRatings
+                    rating={selectedInfluencer.ratings[0].rating}
+                    starRatedColor="blue"
+                    changeRating={() => {
+                      // setRating(value);
+                    }}
+                    numberOfStars={5}
+                    starDimension="30px"
+                    name="rating"
+                  />
+                </div>
+              ) : (
+                <div style={styles.starRatingStyle}>
+                  <StarRatings
+                    rating={rating}
+                    starRatedColor="blue"
+                    changeRating={value => {
+                      setRating(value);
+                    }}
+                    numberOfStars={5}
+                    starDimension="30px"
+                    name="rating"
+                  />
+                  <Button
+                    style={styles.submitRatingButtonStyle}
+                    variant="success"
+                    onClick={() => {
+                      if (rating > 0) {
+                        addRating(
+                          selectedCampaign.id,
+                          selectedInfluencer.influencerId,
+                          rating,
+                        );
+                      } else {
+                        toast.error('Please enter rating');
+                      }
+                    }}
+                  >
+                    Submit Rating
+                  </Button>
+                </div>
+              )}
             <div style={styles.horizontalLineStyle} />
-            <div style={styles.feedbackParentStyle}>
-              <FormControl
-                as="textarea"
-                aria-label="With textarea"
-                placeholder="Enter feedback here"
-                onChange={value => setFeedback(value.target.value)}
-              />
-              <Button
-                style={styles.submitFeedbackButtonStyle}
-                variant="success"
-                onClick={() => {
-                  if (feedback !== '') {
-                    addReview(
-                      selectedCampaign.id,
-                      selectedInfluencer.id,
-                      feedback,
-                    );
-                  } else {
-                    toast.error('Please enter review');
-                  }
-                }}
-              >
-                Submit Feedback
-              </Button>
-            </div>
+            {selectedInfluencer.reviews &&
+              selectedInfluencer.reviews.length > 0 ? (
+                <div style={styles.feedbackTextStyle}>
+                  Feedback: {selectedInfluencer.reviews[0].review}
+                </div>
+              ) : (
+                <div style={styles.feedbackParentStyle}>
+                  <FormControl
+                    as="textarea"
+                    aria-label="With textarea"
+                    placeholder="Enter feedback here"
+                    onChange={value => setFeedback(value.target.value)}
+                  />
+                  <Button
+                    style={styles.submitFeedbackButtonStyle}
+                    variant="success"
+                    onClick={() => {
+                      if (feedback !== '') {
+                        addReview(
+                          selectedCampaign.id,
+                          selectedInfluencer.influencerId,
+                          feedback,
+                        );
+                      } else {
+                        toast.error('Please enter review');
+                      }
+                    }}
+                  >
+                    Submit Feedback
+                  </Button>
+                </div>
+              )}
           </div>
         </div>
       </div>
@@ -248,17 +304,26 @@ Details.propTypes = {
   updateCampaignStatus: PropTypes.func,
   addRating: PropTypes.func,
   addReview: PropTypes.func,
+  fetchCampaigns: PropTypes.func,
+  reviewSubmitting: PropTypes.bool,
+  ratingSubmitting: PropTypes.bool,
+  verifySubmitting: PropTypes.bool,
+  getSelectedCampaign: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   selectedCampaign: makeSelectCampaign(),
+  reviewSubmitting: makeSelectReviewSubmitting(),
+  ratingSubmitting: makeSelectRatingSubmitting(),
+  verifySubmitting: makeSelectVerifySubmitting(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchCampaigns: () => dispatch(fetchCampaignAction()),
     getSelectedCampaign: id => dispatch(getSelectedCampaignAction(id)),
-    verifyCampaign: (campaignId, influencerId) =>
-      dispatch(verifyCampaignAction({ campaignId, influencerId })),
+    verifyCampaign: (campaignsId, influencerId) =>
+      dispatch(verifyCampaignAction({ campaignsId, influencerId })),
     updateCampaignStatus: (campaignId, statusId) =>
       dispatch(updateCampaignStatusAction(campaignId, statusId)),
     addReview: (campaignsId, influencerId, review) =>

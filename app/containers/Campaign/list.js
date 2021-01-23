@@ -16,7 +16,7 @@ import { pictureFormatter, dateFormatter } from '../Requests/utils';
 import history from '../../utils/history';
 
 const List = ({ fetchCampaigns, campaigns }) => {
-  useInjectReducer({ key: 'tastemaker', reducer });
+  useInjectReducer({ key: 'campaign', reducer });
   useInjectSaga({ key: 'campaign', saga });
   React.useEffect(() => {
     fetchCampaigns();
@@ -58,7 +58,7 @@ const List = ({ fetchCampaigns, campaigns }) => {
         keyField="id"
         data={campaigns}
         rowEvents={{
-          onClick: (e, row, rowIndex) => {
+          onClick: (e, row) => {
             history.push(`/campaigns/${row.id}`);
           },
         }}

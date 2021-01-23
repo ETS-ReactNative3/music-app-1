@@ -8,25 +8,37 @@ import PropTypes from 'prop-types';
 import { Image } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import { toast } from 'react-toastify';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import styles from './index.styles';
 import { makeSelectCampaign } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getSelectedCampaignAction } from './actions';
+import { fetchCampaignAction, getSelectedCampaignAction } from './actions';
 import defaultImage from '../../images/album-3.jpg';
 import { columns } from './tableFormatter';
 import history from '../../utils/history';
+import { CampaignStatus } from '../Requests/constants';
 
-const Details = ({ match, selectedCampaign, getSelectedCampaign }) => {
-  useInjectReducer({ key: 'tastemaker', reducer });
-  useInjectSaga({ key: 'tastemaker', saga });
+const Details = ({
+  match,
+  selectedCampaign,
+  getSelectedCampaign,
+  fetchCampaigns,
+}) => {
+  useInjectReducer({ key: 'campaign', reducer });
+  useInjectSaga({ key: 'campaign', saga });
   React.useEffect(() => {
     if (match.params.id) {
       getSelectedCampaign(match.params.id);
     }
   }, [match.params.id]);
+
+  React.useEffect(() => {
+    fetchCampaigns();
+    getSelectedCampaign(match.params.id);
+  }, []);
 
   return (
     <div className="container-fluid" style={{ marginTop: '100px' }}>
@@ -81,9 +93,17 @@ const Details = ({ match, selectedCampaign, getSelectedCampaign }) => {
           }
           rowEvents={{
             onClick: (e, row) => {
-              history.push(
-                `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
-              );
+              if (
+                row.campaignStatusId === CampaignStatus.COMPLETED ||
+                row.campaignStatusId === CampaignStatus.DECLINED ||
+                row.campaignStatusId === CampaignStatus.APPROVED
+              ) {
+                history.push(
+                  `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
+                );
+              } else {
+                toast.warning('Influencer not completed requested.');
+              }
             },
           }}
           columns={columns}
@@ -97,6 +117,7 @@ Details.propTypes = {
   match: PropTypes.any,
   selectedCampaign: PropTypes.any,
   getSelectedCampaign: PropTypes.func,
+  fetchCampaigns: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -105,6 +126,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchCampaigns: () => dispatch(fetchCampaignAction()),
     getSelectedCampaign: id => dispatch(getSelectedCampaignAction(id)),
   };
 }
