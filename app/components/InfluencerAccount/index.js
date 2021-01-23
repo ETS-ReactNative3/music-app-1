@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { Row, Col, Container } from 'react-bootstrap';
 import { makeSelectInfluencerDetails } from '../../containers/App/selectors';
 import {
   makeSelectActivities,
@@ -94,9 +95,8 @@ const InfluencerAccount = ({
           </div>
         </div>
         {activities &&
-          activities
-            .slice(0, 3)
-            .map((activity, index) => (
+          activities.slice(0, 3).map((activity, index) => (
+            <>
               <MyActivity
                 key={index}
                 imagePath={activity.campaigns.song.artwork}
@@ -104,7 +104,15 @@ const InfluencerAccount = ({
                 rate={activity.campaigns.song.duration || '3.53'}
                 role={activity.campaigns.user.name}
               />
-            ))}
+              <Container fluid>
+                <Row className="justify-content-center">
+                  <Col md={6}>
+                    <hr className="blick-border" />
+                  </Col>
+                </Row>
+              </Container>
+            </>
+          ))}
         {activities && activities.length === 0 && (
           <small className="text-muted">No Activities to show</small>
         )}
