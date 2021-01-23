@@ -7,7 +7,23 @@ import { styles } from './MyActivity.style';
 
 const MyActivity = ({ imagePath = '', name, role, rate }) => (
   <>
-    <div
+    <div className="d-flex align-items-center">
+      <div>
+        <Image src={imagePath} style={{ width: 40, height: 40 }} />
+      </div>
+      <div className="ml-1">
+        <div className="h6">{name}</div>
+        <div className="text-muted">{role}</div>
+        <div>{rate}</div>
+        <FontAwesomeIcon
+          size="2x"
+          color={PLAY_ICON_BG_COLOR}
+          icon={faAngleRight}
+          style={{ marginLeft: 5 }}
+        />
+      </div>
+    </div>
+    {/* <div
       style={{
         backgroundImage: 'linear-gradient(to right, #0053A5, #091924)',
       }}>
@@ -30,8 +46,8 @@ const MyActivity = ({ imagePath = '', name, role, rate }) => (
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
   </>
-)
+);
 
 export default MyActivity;
