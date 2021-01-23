@@ -3,6 +3,10 @@
 // Individual exports for testing
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
+import { axiosInstance } from '../../utils/api';
+import history from '../../utils/history';
+import { setLoader } from '../App/actions';
+import { fetchCampaignAction, putCampaignAction } from './actions';
 import {
   ADD_INFLUENCER_RATING,
   ADD_INFLUENCER_REVIEW,
@@ -10,11 +14,6 @@ import {
   LAUNCH_CAMPAIGN,
   VERIFY_CAMPAIGN,
 } from './constants';
-import { axiosInstance } from '../../utils/api';
-
-import { setLoader } from '../App/actions';
-import history from '../../utils/history';
-import { fetchCampaignAction, putCampaignAction } from './actions';
 
 function launchCampaign(data) {
   return axiosInstance().post('campaigns', data);
