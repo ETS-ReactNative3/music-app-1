@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {createStructuredSelector} from "reselect";
 import {connect} from "react-redux";
 import {compose} from "redux";
@@ -17,10 +17,10 @@ export function OrderSuccess({createOrder}) {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
   const query = useQuery();
+
   useEffect(() => {
     createOrder(query.get("session_id"));
   }, [query]);
-
 
   return (
     <div>
@@ -44,4 +44,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(OrderSuccess);
+export default compose(withConnect, memo)(OrderSuccess);
