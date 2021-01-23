@@ -1,0 +1,59 @@
+.custom-checkbox {
+    position: relative;
+    margin: $spacer 0;
+    cursor: pointer;
+    input {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+        cursor: pointer;
+        & + .form-check-label {
+            position: relative;
+            padding-left: $checkbox-size * 1.5;
+            cursor: pointer;
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                left: 0;
+                top: calc(50% - #{$checkbox-size / 2});
+                width: $checkbox-size;
+                height: $checkbox-size;
+                border: 1px solid;
+                border-image: linear-gradient(to right, #1fdbae, rgba(31,219,174,0.2)) 1
+            }
+        }
+        &:checked + .form-check-label {
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                left: 10px;
+                top: calc(50% - 11px);
+                width: 8px;
+                height: 16px;
+                border-style: solid;
+                border-width: 0 2px 3px 0;
+                border-image: linear-gradient(to right, #1fdbae, rgba(31,219,174,0.2)) 1;
+                transform: rotate(45deg);
+            }
+        }
+    }
+}
+
+.form-control {
+    &, &:focus, &:hover {
+        box-shadow: none;
+    }
+}
+
+.search-input {
+    position: relative;
+    .input-group-append {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        cursor: pointer;
+    }
+}
