@@ -15,3 +15,7 @@ export const InfluencerRequestForm = loadable(() => import('./requestForm'), {
 export const Influencer = loadable(() => import('./index'), {
   fallback: <LoadingIndicator/>,
 });
+
+export const InfluencerRequests = loadable(() => import('./requests'), {
+  fallback: <LoadingIndicator/>,
+});

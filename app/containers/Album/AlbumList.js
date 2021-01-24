@@ -21,6 +21,7 @@ import format from "date-fns/format";
 
 function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
   const [albumId, setAlbumId] = useState(0);
+
   useInjectReducer({key: 'album', reducer});
   useInjectSaga({key: 'album', saga});
 
@@ -28,7 +29,7 @@ function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
     getMyAlbums();
   }, []);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const columns = [{
     dataField: 'title',
