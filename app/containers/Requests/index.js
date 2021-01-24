@@ -3,27 +3,28 @@
  * Playlist
  *
  */
-import React, {memo, useEffect, useState} from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {Modal, Tab, Tabs} from 'react-bootstrap';
+import { Modal, Tab, Tabs } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
-import {useInjectReducer} from '../../utils/injectReducer';
-import {useInjectSaga} from '../../utils/injectSaga';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import PaperCard from '../../components/PaperCard';
+import { createStructuredSelector } from 'reselect';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
 import influencerReducer from '../Influencer/reducer';
 import influencerSaga from '../Influencer/saga';
 import saga from './saga';
-import {style1} from './index.styles';
+import { style1 } from './index.styles';
 import {
   makeSelectCompletedRequestList,
   makeSelectInProgressRequestList,
   makeSelectNewRequestList,
 } from './selectors';
-import {newRequestColumns} from './utils';
+import { newRequestColumns } from './utils';
 import RequestPopup from './RequestPopup';
 import {
   fetchRequestsAction,
@@ -31,9 +32,9 @@ import {
   submitSocialLinksAction,
   updateCampaignStatusAction
 } from './actions';
-import {getSocialChannelsRequest} from '../Influencer/actions';
-import {makeSelectSocialChannels} from '../Influencer/selectors';
-import {handleSingleSong, setPlaylist} from "../App/actions";
+import { getSocialChannelsRequest } from '../Influencer/actions';
+import { makeSelectSocialChannels } from '../Influencer/selectors';
+import { handleSingleSong, setPlaylist } from "../App/actions";
 
 function RequestListing(
   {
@@ -46,10 +47,10 @@ function RequestListing(
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-  useInjectSaga({key: 'request', saga});
-  useInjectReducer({key: 'request', reducer});
-  useInjectReducer({key: 'influencer', reducer: influencerReducer});
-  useInjectSaga({key: 'influencer', saga: influencerSaga});
+  useInjectSaga({ key: 'request', saga });
+  useInjectReducer({ key: 'request', reducer });
+  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
+  useInjectSaga({ key: 'influencer', saga: influencerSaga });
 
   useEffect(() => {
     fetchRequests()
@@ -72,12 +73,12 @@ function RequestListing(
           },
 
         }}
-        columns={columns}/>
+        columns={columns} />
     )
   }
 
   const playSong = (song) => {
-    setPlaylistAction([{song}])
+    setPlaylistAction([{ song }])
     onHandleSingleSong(0, true)
   }
 
@@ -87,31 +88,19 @@ function RequestListing(
   }
 
   return (
-    <div className="container-fluid" style={{marginTop: '100px'}}>
-      <div className="row album-detail">
-        <div className="col pt-3 pt-md-0">
-          <div className="row">
-            <div className="col">
-              <h1>Requests</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <Tabs defaultActiveKey="new" id="uncontrolled-tab-example" style={style1} className="check">
-          <Tab eventKey="new" title="New" className="tab-style">
-            {renderTable(newRequestList, newRequestColumns)}
-          </Tab>
-          <Tab eventKey="accepted" title="Accepted/In-progress" className="tab-style">
-            {renderTable(inProgressRequestList, newRequestColumns)}
-          </Tab>
-          <Tab eventKey="completed" title="Completed/Approved" className="tab-style">
-            {renderTable(completedRequestList, newRequestColumns)}
-          </Tab>
+    <PaperCard title="Requests">
+      <Tabs defaultActiveKey="new" id="uncontrolled-tab-example" className="mt-4">
+        <Tab eventKey="new" title="New" className="tab-style">
+          {renderTable(newRequestList, newRequestColumns)}
+        </Tab>
+        <Tab eventKey="accepted" title="Accepted/In-progress" className="tab-style">
+          {renderTable(inProgressRequestList, newRequestColumns)}
+        </Tab>
+        <Tab eventKey="completed" title="Completed/Approved" className="tab-style">
+          {renderTable(completedRequestList, newRequestColumns)}
+        </Tab>
 
-        </Tabs>
-      </div>
-
+      </Tabs>
       <Modal
         show={openModal}
         onHide={handleClose}
@@ -120,7 +109,7 @@ function RequestListing(
         size="lg"
       >
         <Modal.Header closeButton>
-          <div style={{display: 'flex', justifyContent: 'center', flex: 1}}>
+          <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
             <div>Request</div>
           </div>
         </Modal.Header>
@@ -134,7 +123,7 @@ function RequestListing(
           submitSocialLinksRequest={submitSocialLinksRequest}
         />
       </Modal>
-    </div>
+    </PaperCard>
   );
 }
 
