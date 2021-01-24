@@ -3,7 +3,13 @@
 // Individual exports for testing
 import {call, put, takeLatest} from '@redux-saga/core/effects';
 import {toast} from 'react-toastify';
-import {BECOME_AN_INFLUENCER, GET_GENRES, GET_SOCIAL_CHANNELS, GET_INFLUENCER_PROFILE} from './constants';
+import {
+  BECOME_AN_INFLUENCER,
+  GET_GENRES,
+  GET_SOCIAL_CHANNELS,
+  GET_INFLUENCER_PROFILE,
+  GET_INFLUENCER_REQUESTS
+} from './constants';
 import {axiosInstance} from '../../utils/api';
 import {
   becomeAnInfluencerSucces,
@@ -75,9 +81,14 @@ export function* getInfluencerProfile() {
   }
 }
 
+export function* getInfluencerRequestsSaga() {
+
+}
+
 export default function* influencerSaga() {
   yield takeLatest(BECOME_AN_INFLUENCER, becomeAnInfluencerSaga);
   yield takeLatest(GET_SOCIAL_CHANNELS, getSocialChannels);
   yield takeLatest(GET_GENRES, getGenresSaga);
   yield takeLatest(GET_INFLUENCER_PROFILE, getInfluencerProfile);
+  yield takeLatest(GET_INFLUENCER_REQUESTS, getInfluencerRequestsSaga);
 }

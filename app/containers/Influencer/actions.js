@@ -16,7 +16,7 @@ import {
   GET_GENRES_FAIL,
   GET_INFLUENCER_PROFILE,
   GET_INFLUENCER_PROFILE_SUCCESS,
-  GET_INFLUENCER_PROFILE_FAIL
+  GET_INFLUENCER_PROFILE_FAIL, GET_INFLUENCER_REQUESTS, GET_INFLUENCER_REQUESTS_SUCCESS, GET_INFLUENCER_REQUESTS_FAIL
 } from './constants';
 
 export function becomeAnInfluencer(data) {
@@ -95,6 +95,26 @@ export function getInfluencerProfileSuccess(profile) {
 export function getInfluencerProfileFail(error) {
   return {
     type: GET_INFLUENCER_PROFILE_FAIL,
+    error,
+  };
+}
+
+export function getInfluencerRequests() {
+  return {
+    type: GET_INFLUENCER_REQUESTS,
+  };
+}
+
+export function getInfluencerRequestsSuccess(requests) {
+  return {
+    type: GET_INFLUENCER_REQUESTS_SUCCESS,
+    requests,
+  };
+}
+
+export function getInfluencerRequestsFail(error) {
+  return {
+    type: GET_INFLUENCER_REQUESTS_FAIL,
     error,
   };
 }
