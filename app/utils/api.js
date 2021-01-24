@@ -13,8 +13,8 @@ export function axiosInstance() {
   }
 
   return axios.create({
-    baseURL: 'http://localhost:3006/',
-    // baseURL: 'https://bliiink.ga/',
+    // baseURL: 'http://localhost:3006/',
+    baseURL: 'https://bliiink.ga/',
     headers,
   });
 }

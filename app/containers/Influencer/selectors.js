@@ -51,11 +51,18 @@ const makeSelectProfile = () =>
     substate => substate.profile,
   );
 
+const makeSelectRequests = () =>
+  createSelector(
+    selectInfluencerDomain,
+    substate => substate.influencers,
+  );
+
 export {
   makeSelectInfluencer,
   makeSelectFormLoader,
   makeSelectGenres,
   makeSelectSocialChannels,
   makeSelectProfile,
-  makeSelectLoader
+  makeSelectLoader,
+  makeSelectRequests
 };
