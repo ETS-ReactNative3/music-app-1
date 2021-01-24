@@ -40,8 +40,10 @@
 
 .show {
   .btn {
-    background: none;
-    border: none;
+    &:not(.btn-warning) {
+      background: none;
+      border: none;
+    }
 
     &:focus {
       background: none;

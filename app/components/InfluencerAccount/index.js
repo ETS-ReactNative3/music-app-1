@@ -50,28 +50,29 @@ const InfluencerAccount = ({
       <div>
         <div className="mb-3 d-flex align-items-center justify-content-between">
           <div>Rating and Reviews</div>
-          <div>
-            <RatingView
-              ratingScore={ratings}
-              totalCount={ratingCount}
-              totalRating={5}
-            />
-            {reviews &&
-              reviews
-                .slice(0, 3)
-                .map((review, index) => (
-                  <Reviews
-                    key={index}
-                    name={review.campaignInfluencersId}
-                    time={createDifferenenceTimeString(
-                      review.createdDate,
-                      new Date().toString(),
-                    )}
-                    message={review.review}
-                  />
-                ))}
-          </div>
         </div>
+        <div>
+          <RatingView
+            ratingScore={ratings}
+            totalCount={ratingCount}
+            totalRating={5}
+          />
+          {reviews &&
+            reviews
+              .slice(0, 3)
+              .map((review, index) => (
+                <Reviews
+                  key={index}
+                  name={review.campaignInfluencersId}
+                  time={createDifferenenceTimeString(
+                    review.createdDate,
+                    new Date().toString(),
+                  )}
+                  message={review.review}
+                />
+              ))}
+        </div>
+
         <div className="text-right">
           <small>
             <Link className="text-success" to="/myaccount/reviews">

@@ -3,7 +3,7 @@ export const styles = {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 10,
+    // marginLeft: 10,
   },
 
   ratingViewTotalCount: {
