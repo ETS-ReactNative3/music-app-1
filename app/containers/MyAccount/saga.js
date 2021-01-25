@@ -1,11 +1,16 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import {call, put, takeLatest} from '@redux-saga/core/effects';
-import {toast} from 'react-toastify';
-import {axiosInstance} from '../../utils/api';
-import {putUserActivities, putUserRatings, putUserReviews} from './actions';
-import {FETCH_ACTIVITY, REQUEST_INFLUENCER} from './constants';
+import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { toast } from 'react-toastify';
+import { axiosInstance } from '../../utils/api';
+import { putUserActivities, putUserRatings, putUserReviews } from './actions';
+import {
+  FETCH_ACTIVITY,
+  REQUEST_INFLUENCER,
+  UPDATE_INFLUENCER_DETAILS,
+  UPDATE_USER_DETAILS,
+} from './constants';
 
 function requestInfluencerApi(data) {
   return axiosInstance().post('influencers', data);
@@ -23,15 +28,23 @@ function getUserReviewsAPI(userId) {
   return axiosInstance().get(`campaigns/reviews/${userId}`);
 }
 
+function updateUserDetailsApi(data) {
+  return axiosInstance().put('users', data);
+}
+
+function updateInfluencerDetailsApi(data) {
+  return axiosInstance().put('influencers', data);
+}
+
 export function* requestInfluencerSaga(data) {
   try {
-    const result = yield call(requestInfluencerApi, data);
+    yield call(requestInfluencerApi, data);
   } catch (e) {
     toast.error(e.message);
   }
 }
 
-export function* getUserActivitiesSaga({userId}) {
+export function* getUserActivitiesSaga({ userId }) {
   let response = yield call(getUserActivitiesAPI, userId);
   // success?
 
@@ -57,7 +70,29 @@ export function* getUserActivitiesSaga({userId}) {
   }
 }
 
+function* updateUserDetailsSaga(action) {
+  try {
+    const { data } = action;
+    yield call(updateUserDetailsApi, data);
+    toast.success('User information updated successfully');
+  } catch (e) {
+    toast.error(e.message);
+  }
+}
+
+function* updateInfluencerDetailslSaga(action) {
+  try {
+    const { data } = action;
+    yield call(updateInfluencerDetailsApi, data);
+    toast.success('Influencer profile updated successfully');
+  } catch (e) {
+    toast.error(e.message);
+  }
+}
+
 export default function* accountSaga() {
   yield takeLatest(REQUEST_INFLUENCER, requestInfluencerSaga);
   yield takeLatest(FETCH_ACTIVITY, getUserActivitiesSaga);
+  yield takeLatest(UPDATE_USER_DETAILS, updateUserDetailsSaga);
+  yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailslSaga);
 }

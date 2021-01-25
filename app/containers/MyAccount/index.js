@@ -9,8 +9,6 @@ import {
   faInstagram,
   faTwitter,
   faYoutube,
-  faFacebook,
-  faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
 import { faBlog, faEdit } from '@fortawesome/free-solid-svg-icons';
 
@@ -24,7 +22,6 @@ import {
   Col,
   Card,
   ListGroup,
-  Button,
   Image,
 } from 'react-bootstrap';
 import { isArray } from 'lodash';
@@ -35,6 +32,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PaperCard from '../../components/PaperCard';
 import InfluencerAccount from '../../components/InfluencerAccount';
 import defaultImage from '../../images/album-3.jpg';
@@ -144,6 +142,12 @@ function MyAccount({
                   </div>
                 }
               </div>
+              <Button
+                onClick={() => history.push('/myaccount/edit')}
+                variant="success"
+              >
+                Edit my profile
+              </Button>
             </div>
             <hr className="my-4 blick-border" />
             <div className="d-flex align-items-center justify-content-between">

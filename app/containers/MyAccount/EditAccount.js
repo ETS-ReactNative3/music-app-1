@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { yupResolver } from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
 import React, { memo } from 'react';
-import { Col, Form, Image } from 'react-bootstrap';
+import { Button, Col, Form, Image } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -27,7 +27,14 @@ import influencerSaga from '../Influencer/saga';
 import { makeSelectSocialChannels } from '../Influencer/selectors';
 import { getGenres } from '../Song/actions';
 import { makeSelectGenres } from '../Song/selectors';
+import {
+  updateInfluencerDetailsAction,
+  updateUserDetailsAction,
+} from './actions';
 import styles from './index.styles';
+
+import accountReducer from './reducer';
+import accountSaga from './saga';
 
 const EditAccount = ({
   userDetails,
@@ -35,6 +42,8 @@ const EditAccount = ({
   genres,
   socialChannels,
   getSocialChannelList,
+  updateInfluencerDetails,
+  updateUserDetails,
 }) => {
   const [data, setData] = React.useState({});
 
@@ -47,12 +56,13 @@ const EditAccount = ({
   useInjectReducer({ key: 'influencer', reducer: influencerReducer });
   useInjectSaga({ key: 'influencer', saga: influencerSaga });
 
+  useInjectSaga({ key: 'account', saga: accountSaga });
+  useInjectReducer({ key: 'account', reducer: accountReducer });
   React.useEffect(() => {
     getSocialChannelList();
   }, []);
-  console.log(socialChannels);
+
   function handleFileChange(event) {
-    console.log(event);
     const { target } = event;
     const { files } = target;
 
@@ -90,15 +100,100 @@ const EditAccount = ({
   };
 
   const validationSchema = Yup.object().shape({
-    description: Yup.string().required('Service information is required'),
-    genres: Yup.array()
-      .required('Genre is required')
-      .nullable(),
+    name: Yup.string().required('Name is required'),
   });
 
-  const { register, handleSubmit, errors, setValue, clearErrors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    setValue,
+    reset,
+    clearErrors,
+  } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  const onSubmit = data => {
+    console.log(data);
+
+    const updatedUserDetails = {
+      ...userDetails,
+      name: data.name,
+      phone: data.phone,
+    };
+    const updatedInfluencerData = prepareDataForSubmit(data);
+    updateUserDetails(updatedUserDetails);
+    updateInfluencerDetails(updatedInfluencerData);
+  };
+
+  React.useEffect(() => {
+    reset({ ...userDetails, ...prepareData(influencerProfile) });
+    console.log({ ...userDetails, ...prepareData(influencerProfile) });
+  }, [userDetails && influencerProfile]);
+
+  const prepareData = influencerProfile => {
+    let data = { ...influencerProfile };
+    delete data.name;
+
+    influencerProfile.influencerServices.map(service => {
+      data = {
+        ...data,
+        [service.socialChannels.title]: {
+          price: service.price,
+          followers: service.followers,
+          link: service.link,
+        },
+      };
+    });
+
+    return data;
+  };
+
+  const prepareDataForSubmit = formData => {
+    const submitData = {
+      description: formData.description,
+      helpArtistDescription: formData.helpArtistDescription,
+    };
+    submitData.links = [];
+
+    if (formData.hasOwnProperty('facebook')) {
+      submitData.links.push({
+        socialChannelsId: socialChannels.find(x => x.title === 'facebook').id,
+        response: formData.facebook,
+      });
+    }
+
+    if (formData.hasOwnProperty('twitter')) {
+      submitData.links.push({
+        socialChannelsId: socialChannels.find(x => x.title === 'twitter').id,
+        response: formData.twitter,
+      });
+    }
+
+    if (formData.hasOwnProperty('youtube')) {
+      submitData.links.push({
+        socialChannelsId: socialChannels.find(x => x.title === 'youtube').id,
+        response: formData.youtube,
+      });
+    }
+
+    if (formData.hasOwnProperty('blog')) {
+      submitData.links.push({
+        socialChannelsId: socialChannels.find(x => x.title === 'blog').id,
+        response: formData.blog,
+      });
+    }
+
+    if (formData.hasOwnProperty('instagram')) {
+      submitData.links.push({
+        socialChannelsId: socialChannels.find(x => x.title === 'instagram').id,
+        response: formData.instagram,
+      });
+    }
+
+    return submitData;
+  };
 
   return (
     <div>
@@ -160,7 +255,7 @@ const EditAccount = ({
             <label htmlFor="phone">Phone</label>
             <input
               name="phone"
-              type="number"
+              //   type="number"
               placeholder="Phone"
               className={`form-control ${
                 errors.description ? 'is-invalid' : ''
@@ -172,7 +267,7 @@ const EditAccount = ({
             </div>
           </Form.Group>
         </Form.Row>
-        <Form.Row>
+        {/* <Form.Row>
           <Form.Group as={Col} controlId="formGridDiscription">
             <label htmlFor="genderId">Gender</label>
             <div>
@@ -180,7 +275,7 @@ const EditAccount = ({
                 type="radio"
                 id="male"
                 name="genderId"
-                value="male"
+                value={1}
                 ref={register}
               />
               <label htmlFor="male">Male</label>
@@ -189,7 +284,7 @@ const EditAccount = ({
                 type="radio"
                 id="female"
                 name="genderId"
-                value="female"
+                value={2}
                 ref={register}
               />
               <label htmlFor="female">Female</label>
@@ -199,7 +294,7 @@ const EditAccount = ({
               {errors.genderId && errors.genderId.message}
             </div>
           </Form.Group>
-        </Form.Row>
+        </Form.Row> */}
         <Form.Row>
           <Form.Group as={Col} controlId="formGridDiscription">
             <label htmlFor="description">Description</label>
@@ -221,7 +316,7 @@ const EditAccount = ({
             <label htmlFor="helpArtistDescription">
               Help Artist Description
             </label>
-            <input
+            <textarea
               name="helpArtistDescription"
               placeholder="Help artist description"
               className={`form-control ${
@@ -256,6 +351,11 @@ const EditAccount = ({
                   value={item.title}
                   id={item.title}
                   onClick={socialChannelChange}
+                  defaultChecked={
+                    influencerProfile.influencerServices.find(
+                      service => service.id === item.id,
+                    ) !== undefined
+                  }
                 />
                 <label className="form-check-label" htmlFor={item.title}>
                   {item.title}
@@ -264,7 +364,10 @@ const EditAccount = ({
             ))}
           </Form.Group>
         </Form.Row>
-        {showFacebook && (
+        {(showFacebook ||
+          influencerProfile.influencerServices.find(
+            service => service.socialChannels.title === 'facebook',
+          ) !== undefined) && (
           <div className="facebook-section">
             <div
               style={{
@@ -325,7 +428,10 @@ const EditAccount = ({
             </Form.Row>
           </div>
         )}
-        {showTwitter && (
+        {(showTwitter ||
+          influencerProfile.influencerServices.find(
+            service => service.socialChannels.title === 'twitter',
+          ) !== undefined) && (
           <div className="twitter-section">
             <div
               style={{
@@ -385,7 +491,10 @@ const EditAccount = ({
             </Form.Row>
           </div>
         )}
-        {showInstagram && (
+        {(showInstagram ||
+          influencerProfile.influencerServices.find(
+            service => service.socialChannels.title === 'instagram',
+          ) !== undefined) && (
           <div className="instagram-section">
             <div
               style={{
@@ -445,7 +554,10 @@ const EditAccount = ({
             </Form.Row>
           </div>
         )}
-        {showYoutube && (
+        {(showYoutube ||
+          influencerProfile.influencerServices.find(
+            service => service.socialChannels.title === 'youtube',
+          ) !== undefined) && (
           <div className="youtube-section">
             <div
               style={{
@@ -505,7 +617,10 @@ const EditAccount = ({
             </Form.Row>
           </div>
         )}
-        {showBlog && (
+        {(showBlog ||
+          influencerProfile.influencerServices.find(
+            service => service.socialChannels.title === 'blog',
+          ) !== undefined) && (
           <div className="blog-section">
             <div
               style={{
@@ -565,8 +680,10 @@ const EditAccount = ({
             </Form.Row>
           </div>
         )}
-        )}
       </div>
+      <Button variant="success" onClick={handleSubmit(onSubmit)}>
+        Submit
+      </Button>
     </div>
   );
 };
@@ -575,6 +692,8 @@ EditAccount.propTypes = {
   userDetails: PropTypes.any,
   influencerProfile: PropTypes.any,
   genres: PropTypes.array,
+  updateUserDetails: PropTypes.func,
+  updateInfluencerDetails: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -588,6 +707,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
+    updateUserDetails: data => dispatch(updateUserDetailsAction(data)),
+    updateInfluencerDetails: data =>
+      dispatch(updateInfluencerDetailsAction(data)),
   };
 }
 

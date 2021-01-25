@@ -113,10 +113,7 @@ const makeSelectUserWallet = () =>
 const makeSelectInfluencerDetails = () =>
   createSelector(
     selectGlobal,
-    globalState => {
-      console.log(globalState);
-      return globalState.influencerProfile;
-    },
+    globalState => globalState.influencerProfile,
   );
 
 const makeSelectLoader = () =>

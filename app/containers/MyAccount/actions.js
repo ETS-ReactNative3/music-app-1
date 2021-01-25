@@ -1,9 +1,12 @@
+import { func } from 'prop-types';
 import {
   FETCH_ACTIVITY,
   PUT_ACTIVITIES,
   PUT_REVIEWS,
   PUT_RATINGS,
   REQUEST_INFLUENCER,
+  UPDATE_USER_DETAILS,
+  UPDATE_INFLUENCER_DETAILS,
 } from './constants';
 
 export function requestInfluencer(data) {
@@ -36,5 +39,19 @@ export function putUserRatings(ratings, ratingCount) {
     type: PUT_RATINGS,
     ratings,
     ratingCount,
+  };
+}
+
+export function updateUserDetailsAction(data) {
+  return {
+    type: UPDATE_USER_DETAILS,
+    data,
+  };
+}
+
+export function updateInfluencerDetailsAction(data) {
+  return {
+    type: UPDATE_INFLUENCER_DETAILS,
+    data,
   };
 }
