@@ -1,10 +1,17 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import {call, put, takeLatest} from '@redux-saga/core/effects';
-import {toast} from 'react-toastify';
-import {BECOME_AN_INFLUENCER, GET_GENRES, GET_SOCIAL_CHANNELS, GET_INFLUENCER_PROFILE} from './constants';
-import {axiosInstance} from '../../utils/api';
+import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { toast } from 'react-toastify';
+import {
+  BECOME_AN_INFLUENCER,
+  GET_GENRES,
+  GET_SOCIAL_CHANNELS,
+  GET_INFLUENCER_PROFILE,
+  GET_INFLUENCER_REQUESTS,
+  UPDATE_INFLUENCER_STATUS_REQUEST,
+} from './constants';
+import { axiosInstance } from '../../utils/api';
 import {
   becomeAnInfluencerSucces,
   becomeAnInfluencerFail,
@@ -13,9 +20,14 @@ import {
   getGenresSuccess,
   getGenresFail,
   getInfluencerProfileSuccess,
-  getInfluencerProfileFail
+  getInfluencerProfileFail,
+  getInfluencerRequestsSuccess,
+  getInfluencerRequestsFail,
+  updateInfluencerStatusSuccess,
+  updateInfluencerStatusFail,
+  getInfluencerRequests,
 } from './actions';
-import history from "../../utils/history";
+import history from '../../utils/history';
 
 function becomeInfuencer(data) {
   return axiosInstance().post('/influencers', data);
@@ -33,7 +45,15 @@ function getProfile() {
   return axiosInstance().get('/influencers');
 }
 
-export function* becomeAnInfluencerSaga({data}) {
+function getInfluencers() {
+  return axiosInstance().get('/influencers/approvalRequests');
+}
+
+function updateStatus(data) {
+  return axiosInstance().put('/influencers/status', data);
+}
+
+export function* becomeAnInfluencerSaga({ data }) {
   try {
     const result = yield call(becomeInfuencer, data);
     yield put(becomeAnInfluencerSucces(result.data));
@@ -75,9 +95,32 @@ export function* getInfluencerProfile() {
   }
 }
 
+export function* getInfluencerRequestsSaga() {
+  try {
+    const result = yield call(getInfluencers);
+    yield put(getInfluencerRequestsSuccess(result.data));
+  } catch (e) {
+    toast.error(e.message);
+    yield put(getInfluencerRequestsFail(e.message));
+  }
+}
+
+export function* updateInfluencerStatus({ data }) {
+  try {
+    yield call(updateStatus, data);
+    yield put(updateInfluencerStatusSuccess());
+    yield put(getInfluencerRequests());
+  } catch (e) {
+    toast.error(e.message);
+    yield put(updateInfluencerStatusFail(e.message));
+  }
+}
+
 export default function* influencerSaga() {
   yield takeLatest(BECOME_AN_INFLUENCER, becomeAnInfluencerSaga);
   yield takeLatest(GET_SOCIAL_CHANNELS, getSocialChannels);
   yield takeLatest(GET_GENRES, getGenresSaga);
   yield takeLatest(GET_INFLUENCER_PROFILE, getInfluencerProfile);
+  yield takeLatest(GET_INFLUENCER_REQUESTS, getInfluencerRequestsSaga);
+  yield takeLatest(UPDATE_INFLUENCER_STATUS_REQUEST, updateInfluencerStatus);
 }

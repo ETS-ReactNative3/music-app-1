@@ -3,8 +3,7 @@
  * Playlist
  *
  */
-
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Tab, Tabs } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -12,66 +11,81 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { combineFollowers } from '../../utils';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
 import influencerReducer from '../Influencer/reducer';
 import influencerSaga from '../Influencer/saga';
 import saga from './saga';
-import { style1, style2 } from './index.styles';
-import { makeSelectCompletedRequestList, makeSelectInProgressRequestList, makeSelectNewRequestList, makeSelectRequestList } from './selectors';
+import { style1 } from './index.styles';
+import {
+  makeSelectCompletedRequestList,
+  makeSelectInProgressRequestList,
+  makeSelectNewRequestList,
+} from './selectors';
 import { newRequestColumns } from './utils';
 import RequestPopup from './RequestPopup';
-import { fetchRequestsAction, submitFeedbackRequestAction, submitSocialLinksAction, updateCampaignStatusAction } from './actions';
+import {
+  fetchRequestsAction,
+  submitFeedbackRequestAction,
+  submitSocialLinksAction,
+  updateCampaignStatusAction,
+} from './actions';
 import { getSocialChannelsRequest } from '../Influencer/actions';
 import { makeSelectSocialChannels } from '../Influencer/selectors';
+import { handleSingleSong, setPlaylist } from '../App/actions';
 
 function RequestListing({
-  newRequestList, inProgressRequestList,
-   completedRequestList, fetchRequests, updateCampaignStatus, 
-   submitFeedbackRequest, submitSocialLinksRequest, getSocialChannelList, socialChannels
+  newRequestList,
+  inProgressRequestList,
+  completedRequestList,
+  fetchRequests,
+  updateCampaignStatus,
+  submitFeedbackRequest,
+  submitSocialLinksRequest,
+  getSocialChannelList,
+  socialChannels,
+  setPlaylistAction,
+  onHandleSingleSong,
 }) {
-
-  const [openModal, setOpenModal] = React.useState(false);
-  const [selectedRow, setSelectedRow] = React.useState({});
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({});
   useInjectSaga({ key: 'request', saga });
   useInjectReducer({ key: 'request', reducer });
+  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
+  useInjectSaga({ key: 'influencer', saga: influencerSaga });
 
-
-  useInjectReducer({key: 'influencer', reducer: influencerReducer});
-  useInjectSaga({key: 'influencer', saga: influencerSaga});
-  React.useEffect(() => {
-    fetchRequests()
+  useEffect(() => {
+    fetchRequests();
     getSocialChannelList();
   }, []);
 
-  const renderTable = (data, columns) => {
-    return (
-      <BootstrapTable
-        striped
-        bordered={false}
-        bootstrap4
-        pagination={paginationFactory()}
-        keyField='id'
-        data={data}
-        rowEvents={{
-          onClick: (e, row, rowIndex) => {
-              setSelectedRow(row);
-              setOpenModal(true);
-          },
+  const renderTable = (data, columns) => (
+    <BootstrapTable
+      striped
+      bordered={false}
+      bootstrap4
+      pagination={paginationFactory()}
+      keyField="id"
+      data={data}
+      rowEvents={{
+        onClick: (e, row, rowIndex) => {
+          setSelectedRow(row);
+          setOpenModal(true);
+        },
+      }}
+      columns={columns}
+    />
+  );
 
-        }}
-        columns={columns} />
-
-    )
-  }
+  const playSong = song => {
+    setPlaylistAction([{ song }]);
+    onHandleSingleSong(0, true);
+  };
 
   function handleClose() {
-    fetchRequests()
-
+    fetchRequests();
     setOpenModal(false);
-
   }
 
   return (
@@ -86,17 +100,29 @@ function RequestListing({
         </div>
       </div>
       <div>
-        <Tabs defaultActiveKey="new" id="uncontrolled-tab-example" style={style1} className="check">
-          <Tab eventKey="new" title="New" className="tab-style" >
+        <Tabs
+          defaultActiveKey="new"
+          id="uncontrolled-tab-example"
+          style={style1}
+          className="check"
+        >
+          <Tab eventKey="new" title="New" className="tab-style">
             {renderTable(newRequestList, newRequestColumns)}
           </Tab>
-          <Tab eventKey="accepted" title="Accepted/In-progress" className="tab-style">
+          <Tab
+            eventKey="accepted"
+            title="Accepted/In-progress"
+            className="tab-style"
+          >
             {renderTable(inProgressRequestList, newRequestColumns)}
           </Tab>
-          <Tab eventKey="completed" title="Completed/Approved" className="tab-style">
+          <Tab
+            eventKey="completed"
+            title="Completed/Approved"
+            className="tab-style"
+          >
             {renderTable(completedRequestList, newRequestColumns)}
           </Tab>
-
         </Tabs>
       </div>
 
@@ -112,7 +138,15 @@ function RequestListing({
             <div>Request</div>
           </div>
         </Modal.Header>
-        <RequestPopup handleClose={handleClose} socialChannels={socialChannels} data={selectedRow} updateCampaignStatus={updateCampaignStatus} submitFeedbackRequest={submitFeedbackRequest} submitSocialLinksRequest={submitSocialLinksRequest}/>
+        <RequestPopup
+          handleClose={handleClose}
+          socialChannels={socialChannels}
+          data={selectedRow}
+          updateCampaignStatus={updateCampaignStatus}
+          playSong={playSong}
+          submitFeedbackRequest={submitFeedbackRequest}
+          submitSocialLinksRequest={submitSocialLinksRequest}
+        />
       </Modal>
     </div>
   );
@@ -122,7 +156,9 @@ RequestListing.propTypes = {
   newRequestList: PropTypes.array,
   inProgressRequestList: PropTypes.array,
   completedRequestList: PropTypes.array,
-  updateCampaignStatus: PropTypes.func
+  updateCampaignStatus: PropTypes.func,
+  setPlaylistAction: PropTypes.func,
+  onHandleSingleSong: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -130,16 +166,20 @@ const mapStateToProps = createStructuredSelector({
   inProgressRequestList: makeSelectInProgressRequestList(),
   completedRequestList: makeSelectCompletedRequestList(),
   socialChannels: makeSelectSocialChannels(),
-
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchRequests: () => dispatch(fetchRequestsAction()),
-    updateCampaignStatus: (campaignId, statusId) => dispatch(updateCampaignStatusAction(campaignId, statusId)),
-    submitFeedbackRequest: (campaignId, influencerId, feedback) => dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
-    submitSocialLinksRequest: (data) => dispatch(submitSocialLinksAction(data)),
+    updateCampaignStatus: (campaignId, statusId) =>
+      dispatch(updateCampaignStatusAction(campaignId, statusId)),
+    submitFeedbackRequest: (campaignId, influencerId, feedback) =>
+      dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
+    submitSocialLinksRequest: data => dispatch(submitSocialLinksAction(data)),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
+    setPlaylistAction: songs => dispatch(setPlaylist(songs)),
+    onHandleSingleSong: (index, status) =>
+      dispatch(handleSingleSong(index, status)),
   };
 }
 

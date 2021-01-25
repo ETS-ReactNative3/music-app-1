@@ -16,7 +16,13 @@ import {
   GET_GENRES_FAIL,
   GET_INFLUENCER_PROFILE,
   GET_INFLUENCER_PROFILE_SUCCESS,
-  GET_INFLUENCER_PROFILE_FAIL
+  GET_INFLUENCER_PROFILE_FAIL,
+  GET_INFLUENCER_REQUESTS,
+  GET_INFLUENCER_REQUESTS_SUCCESS,
+  GET_INFLUENCER_REQUESTS_FAIL,
+  UPDATE_INFLUENCER_STATUS_REQUEST,
+  UPDATE_INFLUENCER_STATUS_SUCCESS,
+  UPDATE_INFLUENCER_STATUS_FAIL,
 } from './constants';
 
 export function becomeAnInfluencer(data) {
@@ -48,7 +54,7 @@ export function getSocialChannelsRequest() {
 export function getSocialChannelsRequestSuccess(data) {
   return {
     type: GET_SOCIAL_CHANNELS_SUCCESS,
-    data
+    data,
   };
 }
 
@@ -95,6 +101,46 @@ export function getInfluencerProfileSuccess(profile) {
 export function getInfluencerProfileFail(error) {
   return {
     type: GET_INFLUENCER_PROFILE_FAIL,
+    error,
+  };
+}
+
+export function getInfluencerRequests() {
+  return {
+    type: GET_INFLUENCER_REQUESTS,
+  };
+}
+
+export function getInfluencerRequestsSuccess(requests) {
+  return {
+    type: GET_INFLUENCER_REQUESTS_SUCCESS,
+    requests,
+  };
+}
+
+export function getInfluencerRequestsFail(error) {
+  return {
+    type: GET_INFLUENCER_REQUESTS_FAIL,
+    error,
+  };
+}
+
+export function updateInfluencerStatus(data) {
+  return {
+    type: UPDATE_INFLUENCER_STATUS_REQUEST,
+    data,
+  };
+}
+
+export function updateInfluencerStatusSuccess() {
+  return {
+    type: UPDATE_INFLUENCER_STATUS_SUCCESS,
+  };
+}
+
+export function updateInfluencerStatusFail(error) {
+  return {
+    type: UPDATE_INFLUENCER_STATUS_FAIL,
     error,
   };
 }

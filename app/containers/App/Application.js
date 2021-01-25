@@ -16,7 +16,10 @@ import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
 import WalletHistory from '../Wallet/History';
 import OrderSuccess from '../Wallet/success';
-import { InfluencerRequestForm } from '../Influencer/Loadable';
+import {
+  InfluencerRequestForm,
+  InfluencerRequests,
+} from '../Influencer/Loadable';
 import RequestListing from '../Requests/index';
 import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
@@ -59,13 +62,13 @@ function PrivateRoute({ children, ...rest }) {
   );
 }
 
-function Application({ history }) {
+function Application() {
   return (
     <Dashboard>
       <Switch>
-        <PrivateRoute exact path="/">
+        <Route exact path="/">
           <HomePage />
-        </PrivateRoute>
+        </Route>
         <PrivateRoute exact path="/album/add">
           <AlbumForm />
         </PrivateRoute>
@@ -137,6 +140,9 @@ function Application({ history }) {
         </PrivateRoute>
         <PrivateRoute path="/requests" exact>
           <RequestListing />
+        </PrivateRoute>
+        <PrivateRoute path="/admin/tastemakers/requests" exact>
+          <InfluencerRequests />
         </PrivateRoute>
       </Switch>
     </Dashboard>

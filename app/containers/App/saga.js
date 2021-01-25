@@ -19,8 +19,10 @@ function fetchInfluencerInformation() {
 
 export function* prepareApp() {
   const token = yield localStorage.getItem('token');
-  const decoded = jwt_decode(token);
-  yield put(setRole(decoded.role));
+  if (token) {
+    const decoded = jwt_decode(token);
+    yield put(setRole(decoded.role));
+  }
 }
 
 export function* getUserInformation() {
