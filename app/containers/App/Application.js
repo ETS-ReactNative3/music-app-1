@@ -62,9 +62,9 @@ function Application() {
   return (
     <Dashboard>
       <Switch>
-        <PrivateRoute exact path="/">
+        <Route exact path="/">
           <HomePage/>
-        </PrivateRoute>
+        </Route>
         <PrivateRoute exact path="/album/add">
           <AlbumForm/>
         </PrivateRoute>

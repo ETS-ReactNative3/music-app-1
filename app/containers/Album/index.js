@@ -10,6 +10,7 @@ import {
   makeSelectWeeklyTop,
   makeSelectPlaylist,
   makeSelectCurrentSong,
+  makeSelectRole,
 } from '../App/selectors';
 import {handleSongPlaying, handleSingleSong} from '../App/actions';
 import {
@@ -55,6 +56,7 @@ const Album = props => {
     addSongIntoPlaylistAction,
     playlists,
     loader,
+    role
   } = props;
 
   useEffect(() => {
@@ -141,17 +143,19 @@ const Album = props => {
                     />
                   </span>
                 </div>
-                <div className="dot-box ml-auto">
-                  <SongsOptionsBox
-                    songId={ele.song.id}
-                    playlists={playlists}
-                    getMyPlaylistAction={getMyPlaylistAction}
-                    createPlaylistandAddSongAction={
-                      createPlaylistandAddSongAction
-                    }
-                    addSongIntoPlaylistAction={addSongIntoPlaylistAction}
-                  />
-                </div>
+                {role &&
+                  <div className="dot-box ml-auto">
+                    <SongsOptionsBox
+                      songId={ele.song.id}
+                      playlists={playlists}
+                      getMyPlaylistAction={getMyPlaylistAction}
+                      createPlaylistandAddSongAction={
+                        createPlaylistandAddSongAction
+                      }
+                      addSongIntoPlaylistAction={addSongIntoPlaylistAction}
+                    />
+                  </div>
+                }
               </div>
             ))}
           </section>
@@ -175,6 +179,7 @@ const mapStateToProps = createStructuredSelector({
   playlist: makeSelectPlaylist(),
   currentSong: makeSelectCurrentSong(),
   playlists: makeSelectPlaylists(),
+  role: makeSelectRole()
 });
 
 export function mapDispatchToProps(dispatch) {
