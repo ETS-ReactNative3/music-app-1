@@ -1,5 +1,5 @@
-import {createSelector} from 'reselect';
-import {initialState} from './reducer';
+import { createSelector } from 'reselect';
+import { initialState } from './reducer';
 
 /**
  * Direct selector to the influencer state domain
@@ -42,7 +42,10 @@ const makeSelectGenres = () =>
 const makeSelectSocialChannels = () =>
   createSelector(
     selectInfluencerDomain,
-    substate => substate.socialChannels,
+    substate => {
+      console.log(substate);
+      return substate.socialChannels;
+    },
   );
 
 const makeSelectProfile = () =>
@@ -57,5 +60,5 @@ export {
   makeSelectGenres,
   makeSelectSocialChannels,
   makeSelectProfile,
-  makeSelectLoader
+  makeSelectLoader,
 };

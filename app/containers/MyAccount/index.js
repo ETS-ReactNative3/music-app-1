@@ -4,67 +4,74 @@
  *
  */
 
-import React, { memo } from 'react';
-import { Image } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+  faYoutube,
+} from '@fortawesome/free-brands-svg-icons';
 import { faBlog, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
+import React, { memo } from 'react';
+import { Button, Image } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import InfluencerAccount from '../../components/InfluencerAccount';
+import defaultImage from '../../images/album-3.jpg';
 import { combineFollowers, formatFollowers } from '../../utils';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import history from '../../utils/history';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { getGenres } from '../Album/actions';
+import reducer from '../Album/reducer';
+import saga from '../Album/saga';
+import { makeSelectGenres } from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
 } from '../App/selectors';
-import saga from '../Album/saga';
-import accountSaga from './saga';
-import reducer from '../Album/reducer';
 import accountReducer from './reducer';
-import defaultImage from '../../images/album-3.jpg';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { getGenres } from '../Album/actions';
-import { makeSelectGenres } from '../Album/selectors';
-import { useInjectReducer } from '../../utils/injectReducer';
-import InfluencerAccount from '../../components/InfluencerAccount';
-import { fetchUserActivities } from './actions';
+import accountSaga from './saga';
 
-const _renderGenres = (genersToRender, genres) => (
-  <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-    {genersToRender &&
-      isArray(genersToRender) &&
-      (genersToRender || []).map(internalGener => (
-        <div
-          style={{
-            backgroundColor: '#1E64D7',
-            padding: 10,
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            margin: 10,
-            width: 'fit-content',
-          }}
-        >
+const renderGenres = (genersToRender, genres) => {
+  return (
+    <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+      {genersToRender &&
+        isArray(genersToRender) &&
+        (genersToRender || []).map(internalGener => (
           <div
             style={{
-              fontSize: 16,
-              fontWeight: 'bold',
-              fontFamily: 'Roboto-Regular',
-              color: 'white',
+              backgroundColor: '#1E64D7',
+              padding: 10,
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              margin: 10,
+              width: 'fit-content',
             }}
           >
-            {
-              (genres.find(gener => gener.id === internalGener.genreId) || {})
-                .title
-            }
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                fontFamily: 'Roboto-Regular',
+                color: 'white',
+              }}
+            >
+              {
+                (genres.find(gener => gener.id === internalGener.genreId) || {})
+                  .title
+              }
+            </div>
           </div>
-        </div>
-      ))}
-  </div>
-);
+        ))}
+    </div>
+  );
+};
 
 function MyAccount({
   userDetails,
@@ -72,7 +79,6 @@ function MyAccount({
   genres,
   getGenreList,
   navigation,
-  getUserActivities,
 }) {
   useInjectSaga({ key: 'album', saga });
   useInjectReducer({ key: 'album', reducer });
@@ -94,6 +100,12 @@ function MyAccount({
           <div className="row">
             <div className="col">
               <h1>My Account</h1>
+              <Button
+                variant="success"
+                onClick={() => history.push('/myaccount/edit')}
+              >
+                Edit my profile
+              </Button>
             </div>
           </div>
         </div>
@@ -181,46 +193,55 @@ function MyAccount({
               />
             </Link>
           </div>
-          {(influencerProfile && influencerProfile.facebook && (
-            <FontAwesomeIcon
-              size="1x"
-              color={PLAY_ICON_BG_COLOR}
-              icon={faFacebook}
-              style={{ marginLeft: 5 }}
-            />
-          )) || <></>}
-          {(influencerProfile && influencerProfile.instagram && (
-            <FontAwesomeIcon
-              size="1x"
-              color={PLAY_ICON_BG_COLOR}
-              icon={faInstagram}
-              style={{ marginLeft: 5 }}
-            />
-          )) || <></>}
-          {(influencerProfile && influencerProfile.twitter && (
-            <FontAwesomeIcon
-              size="1x"
-              color={PLAY_ICON_BG_COLOR}
-              icon={faTwitter}
-              style={{ marginLeft: 5 }}
-            />
-          )) || <></>}
-          {(influencerProfile && influencerProfile.blog && (
-            <FontAwesomeIcon
-              size="1x"
-              color={PLAY_ICON_BG_COLOR}
-              icon={faBlog}
-              style={{ marginLeft: 5 }}
-            />
-          )) || <></>}
-          {(influencerProfile && influencerProfile.youtube && (
-            <FontAwesomeIcon
-              size="1x"
-              color={PLAY_ICON_BG_COLOR}
-              icon={faYoutube}
-              style={{ marginLeft: 5 }}
-            />
-          )) || <></>}
+          {influencerProfile &&
+            influencerProfile.influencerServices.map(service => {
+              if (service.socialChannels.title === 'facebook')
+                return (
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faFacebook}
+                    style={{ marginLeft: 5 }}
+                  />
+                );
+              if (service.socialChannels.title === 'instagram')
+                return (
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faInstagram}
+                    style={{ marginLeft: 5 }}
+                  />
+                );
+              if (service.socialChannels.title === 'twitter')
+                return (
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faTwitter}
+                    style={{ marginLeft: 5 }}
+                  />
+                );
+              if (service.socialChannels.title === 'blog')
+                return (
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faBlog}
+                    style={{ marginLeft: 5 }}
+                  />
+                );
+              if (service.socialChannels.title === 'youtube')
+                return (
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faYoutube}
+                    style={{ marginLeft: 5 }}
+                  />
+                );
+              return <></>;
+            })}
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ marginLeft: 10 }}>
@@ -232,7 +253,7 @@ function MyAccount({
               style={{ marginLeft: 5 }}
             />
           </div>
-          {_renderGenres(influencerProfile.influencerGenres, genres)}
+          {renderGenres(influencerProfile.influencerGenres, genres)}
         </div>
       </div>
 
@@ -246,6 +267,7 @@ MyAccount.propTypes = {
   influencerProfile: PropTypes.any,
   genres: PropTypes.array,
   getGenreList: PropTypes.func,
+  navigation: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({

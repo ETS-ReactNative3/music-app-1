@@ -21,6 +21,7 @@ import RequestListing from '../Requests/index';
 import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
 import CampaignInfluencerVerification from '../Campaign/influencerVerify';
+import EditAccount from '../MyAccount/EditAccount';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -103,6 +104,9 @@ function Application({ history }) {
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount">
           <MyAccount />
+        </PrivateRoute>
+        <PrivateRoute exact path="/myaccount/edit">
+          <EditAccount />
         </PrivateRoute>
         <PrivateRoute exact path="/myaccount/activites">
           <AllActivites />
