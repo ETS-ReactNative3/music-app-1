@@ -29,7 +29,7 @@ export const initialState = {
   userData: {
     repositories: false,
   },
-  userDetails: {},
+  userDetails: null,
   influencerDetails: {},
   featuredAlbum: [],
   latestPosts: [],
