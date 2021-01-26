@@ -90,9 +90,7 @@ const Footer = props => {
         playlist.length === 0 ? 'd-none' : ''
       }`}
     >
-      <div className="d-flex">
-        <div className="d-inline-flex flex-grow-1">
-          <H5AudioPlayer
+      <H5AudioPlayer
             layout="horizontal"
             autoPlayAfterSrcChange={false}
             showSkipControls
@@ -116,8 +114,6 @@ const Footer = props => {
               RHAP_UI.DURATION,
             ]}
           />
-        </div>
-      </div>
     </footer>
   );
 };

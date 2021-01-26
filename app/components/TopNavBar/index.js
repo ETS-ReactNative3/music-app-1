@@ -11,6 +11,7 @@ const AsyncTypeahead = withAsync(Typeahead);
 import {Link, useHistory} from 'react-router-dom';
 import Dropdown from "react-bootstrap/Dropdown";
 import PlanSvg from "../../images/svg/plan_icon.svg";
+import Button from "react-bootstrap/Button";
 
 const TopNavBar = ({userDetails}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -106,33 +107,37 @@ const TopNavBar = ({userDetails}) => {
           />
         </div>
         <div className="pl-5">
-          <Dropdown>
-            <Dropdown.Toggle as="a" id="dropdown-basic">
-              <span className="badge badge-pill badge-dark p-2">{userDetails.name}</span>
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <Link to="/myaccount">
-                  My profile
-                </Link>
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <Link to="/wallet">
-                  Wallet - <img
-                  src={PlanSvg}
-                  alt="wallet Logo"
-                  width={17}
-                  height={17}
-                /> {userDetails.credit}
-                </Link>
-              </Dropdown.Item>
-              <Dropdown.Divider/>
-              <Dropdown.Item onClick={logout}>
-                Log out
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          {userDetails ?
+            <Dropdown>
+              <Dropdown.Toggle as="a" id="dropdown-basic">
+                <span className="badge badge-pill badge-dark p-2">{userDetails.name}</span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link to="/myaccount">
+                    My profile
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <Link to="/wallet">
+                    Wallet - <img
+                    src={PlanSvg}
+                    alt="wallet Logo"
+                    width={17}
+                    height={17}
+                  /> {userDetails.credit}
+                  </Link>
+                </Dropdown.Item>
+                <Dropdown.Divider/>
+                <Dropdown.Item onClick={logout}>
+                  Log out
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown> :
+            <Link to={'/auth/login'}>
+              <Button variant="success">Login</Button>
+            </Link>
+          }
         </div>
       </div>
     </header>
