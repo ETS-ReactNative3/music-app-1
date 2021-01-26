@@ -11,6 +11,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import PaperCard from '../../components/PaperCard';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
@@ -89,43 +90,30 @@ function RequestListing({
   }
 
   return (
-    <div className="container-fluid" style={{ marginTop: '100px' }}>
-      <div className="row album-detail">
-        <div className="col pt-3 pt-md-0">
-          <div className="row">
-            <div className="col">
-              <h1>Requests</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <Tabs
-          defaultActiveKey="new"
-          id="uncontrolled-tab-example"
-          style={style1}
-          className="check"
+    <PaperCard title="Requests">
+      <Tabs
+        defaultActiveKey="new"
+        id="uncontrolled-tab-example"
+        className="mt-4"
+      >
+        <Tab eventKey="new" title="New" className="tab-style">
+          {renderTable(newRequestList, newRequestColumns)}
+        </Tab>
+        <Tab
+          eventKey="accepted"
+          title="Accepted/In-progress"
+          className="tab-style"
         >
-          <Tab eventKey="new" title="New" className="tab-style">
-            {renderTable(newRequestList, newRequestColumns)}
-          </Tab>
-          <Tab
-            eventKey="accepted"
-            title="Accepted/In-progress"
-            className="tab-style"
-          >
-            {renderTable(inProgressRequestList, newRequestColumns)}
-          </Tab>
-          <Tab
-            eventKey="completed"
-            title="Completed/Approved"
-            className="tab-style"
-          >
-            {renderTable(completedRequestList, newRequestColumns)}
-          </Tab>
-        </Tabs>
-      </div>
-
+          {renderTable(inProgressRequestList, newRequestColumns)}
+        </Tab>
+        <Tab
+          eventKey="completed"
+          title="Completed/Approved"
+          className="tab-style"
+        >
+          {renderTable(completedRequestList, newRequestColumns)}
+        </Tab>
+      </Tabs>
       <Modal
         show={openModal}
         onHide={handleClose}
@@ -134,9 +122,7 @@ function RequestListing({
         size="lg"
       >
         <Modal.Header closeButton>
-          <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
-            <div>Request</div>
-          </div>
+          <Modal.Title>Request</Modal.Title>
         </Modal.Header>
         <RequestPopup
           handleClose={handleClose}
@@ -148,7 +134,7 @@ function RequestListing({
           submitSocialLinksRequest={submitSocialLinksRequest}
         />
       </Modal>
-    </div>
+    </PaperCard>
   );
 }
 

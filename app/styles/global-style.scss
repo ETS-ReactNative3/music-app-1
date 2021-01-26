@@ -50,6 +50,9 @@ h3 {
 
 .blick-border {
   border-image: linear-gradient(to right, #1fdbae, rgba(31, 219, 174, 0.2)) 1;
+  &__danger {
+    border-image: linear-gradient(to right, $danger, rgba($danger, 0.2)) 1;
+  }
 }
 
 img {

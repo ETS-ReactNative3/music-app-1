@@ -118,7 +118,7 @@ function MyAccount({
       <PaperCard title="My Account">
         <Row className="mt-5">
           <Col md={7} lg={8} xl={9}>
-            <div className="d-flex">
+            <div className="d-flex align-items-center">
               <Image
                 width={50}
                 height={50}
@@ -148,6 +148,21 @@ function MyAccount({
               >
                 Edit my profile
               </Button>
+              <Link
+                className="ml-auto"
+                to={{
+                  pathname: '/requestInfluencer',
+                  param: influencerProfile,
+                  fromEdit: true,
+                }}
+              >
+                <FontAwesomeIcon
+                  size="1x"
+                  color={PLAY_ICON_BG_COLOR}
+                  icon={faEdit}
+                  style={{ marginLeft: 5 }}
+                />
+              </Link>
             </div>
             <hr className="my-4 blick-border" />
             <div className="d-flex align-items-center justify-content-between">

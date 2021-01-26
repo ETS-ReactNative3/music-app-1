@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import PropTypes from 'prop-types';
+import PaperCard from '../../components/PaperCard';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { fetchCampaignAction } from './actions';
 import { makeSelectCampaigns } from './selectors';
@@ -49,22 +50,24 @@ const List = ({ fetchCampaigns, campaigns }) => {
     },
   ];
   return (
-    <div style={{ marginTop: 20 }}>
-      <BootstrapTable
-        striped
-        bordered={false}
-        bootstrap4
-        pagination={paginationFactory()}
-        keyField="id"
-        data={campaigns}
-        rowEvents={{
-          onClick: (e, row) => {
-            history.push(`/campaigns/${row.id}`);
-          },
-        }}
-        columns={columns}
-      />
-    </div>
+    <PaperCard title="Campaigns">
+      <div className="mt-4">
+        <BootstrapTable
+          striped
+          bordered={false}
+          bootstrap4
+          pagination={paginationFactory()}
+          keyField="id"
+          data={campaigns}
+          rowEvents={{
+            onClick: (e, row) => {
+              history.push(`/campaigns/${row.id}`);
+            },
+          }}
+          columns={columns}
+        />
+      </div>
+    </PaperCard>
   );
 };
 

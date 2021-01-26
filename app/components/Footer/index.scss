@@ -1,9 +1,5 @@
-$rhap_background-color: #222222; // Color of the player background
+$rhap_background-color: transparent; // Color of the player background
 
-.rhap_container {
-  background: $rhap_background-color;
-  outline: none;
-}
 
 input[type='range'][orient='vertical'] {
   writing-mode: bt-lr; /* IE */

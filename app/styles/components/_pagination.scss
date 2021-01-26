@@ -1,0 +1,33 @@
+.react-bootstrap-table-pagination {
+  @extend .blick-border;
+  border-top: 1px solid;
+  text-align: left;
+  margin: 0;
+  > [class*='col'] {
+    padding: 0;
+  }
+  .dropdown-toggle {
+    &,
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+  }
+  .pagination {
+    justify-content: flex-end;
+    .page-item {
+      .page-link {
+        background-color: transparent;
+        border: 0;
+        color: rgba(31, 219, 174, 0.4);
+      }
+      &.active {
+        .page-link {
+          color: rgba(31, 219, 174, 1);
+        }
+      }
+    }
+  }
+}
