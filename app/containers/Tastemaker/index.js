@@ -124,7 +124,7 @@ export function Tastemaker({
       <PaperCard title="Tastemakers">
         <Row className="mt-5">
           <Col md={5} lg={4} xl={3}>
-            {selectedInfluencers && selectedInfluencers.length > 0 && (
+            {/* {selectedInfluencers && selectedInfluencers.length > 0 && (
               <Card className="mb-4 bg-transparent blick-border">
                 <ListGroup>
                   <ListGroup.Item className="p-4 bg-transparent border-bottom-primary">
@@ -179,7 +179,7 @@ export function Tastemaker({
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
-            )}
+            )} */}
 
             <Card className="mb-4 bg-transparent blick-border">
               <ListGroup>
@@ -307,7 +307,7 @@ export function Tastemaker({
                           {item.influencer.description}
                         </Card.Text>
                         <Card.Text className=" music-card__social">
-                        {item.influencer.influencerServices &&
+                          {item.influencer.influencerServices &&
                             item.influencer.influencerServices.map(
                               influencerService => {
                                 if (
@@ -424,13 +424,65 @@ export function Tastemaker({
           </Col>
         </Row>
       </PaperCard>
-      {openModal && userSelected.hasOwnProperty('id') && (
-          <InfluencerAccountPopup
-            openModal={openModal}
-            handleClose={handleClose}
-            userSelected={userSelected}
-          />
+      {selectedInfluencers && selectedInfluencers.length > 0 && (
+        <footer
+        className="main-footer fixed-bottom blick-border ">
+        <div className="px-3 py-1 d-flex align-items-center justify-content-between">
+          <div>
+            <small className="text-success">
+              {`${selectedInfluencers.length} influencers selected`}
+            </small>
+            <div className="d-flex align-items-center">
+              <img
+                src={PlanSvgColor}
+                alt="PlanSvg"
+                width={15}
+                height={15}
+                style={{ marginRight: 5 }}
+              />
+              <span className="h5 mb-0">
+                {`${_calculatePriceForSelectedInfluencers(
+                  selectedInfluencers,
+                )}`}
+              </span>
+              price
+            </div>
+          </div>
+          <Link
+            to={{
+              pathname: `/tastemakers/${match.params.songId}/campaign`,
+            }}
+          >
+            <Button
+              disabled={selectedInfluencers && selectedInfluencers.length === 0}
+              variant="success"
+              style={{ paddingLeft: 15, paddingRight: 15 }}
+              onClick={() => {
+                selectInfluencer({
+                  ...innerInfluencer,
+                  influencer: {
+                    ...innerInfluencer.influencer,
+                    price,
+                  },
+                });
+
+                handleClose();
+              }}
+            >
+              View Order <FontAwesomeIcon size="1x" icon={faAngleRight} />
+            </Button>
+          </Link>
+        </div>
+      
+      </footer>
         )}
+      {openModal && userSelected.hasOwnProperty('id') && (
+        <InfluencerAccountPopup
+          openModal={openModal}
+          handleClose={handleClose}
+          userSelected={userSelected}
+        />
+      )}
       {/* // ======== */}
       {/* <div className="container-fluid" style={{ marginTop: '50px' }}>
         <div className="row album-detail">
