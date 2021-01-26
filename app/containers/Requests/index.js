@@ -109,9 +109,7 @@ function RequestListing(
         size="lg"
       >
         <Modal.Header closeButton>
-          <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
-            <div>Request</div>
-          </div>
+          <Modal.Title>Request</Modal.Title>
         </Modal.Header>
         <RequestPopup
           handleClose={handleClose}
