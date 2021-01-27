@@ -142,27 +142,14 @@ function MyAccount({
                   </div>
                 }
               </div>
-              <Button
-                onClick={() => history.push('/myaccount/edit')}
-                variant="success"
-              >
-                Edit my profile
-              </Button>
-              <Link
-                className="ml-auto"
-                to={{
-                  pathname: '/requestInfluencer',
-                  param: influencerProfile,
-                  fromEdit: true,
-                }}
-              >
                 <FontAwesomeIcon
+                className="ml-auto cursor-pointer"
                   size="1x"
+                  onClick={() => history.push('/myaccount/edit')}
                   color={PLAY_ICON_BG_COLOR}
                   icon={faEdit}
                   style={{ marginLeft: 5 }}
                 />
-              </Link>
             </div>
             <hr className="my-4 blick-border" />
             <div className="d-flex align-items-center justify-content-between">
