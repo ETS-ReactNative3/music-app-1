@@ -22,7 +22,7 @@ import {
   GET_INFLUENCER_REQUESTS_FAIL,
   UPDATE_INFLUENCER_STATUS_REQUEST,
   UPDATE_INFLUENCER_STATUS_SUCCESS,
-  UPDATE_INFLUENCER_STATUS_FAIL
+  UPDATE_INFLUENCER_STATUS_FAIL,
 } from './constants';
 
 export function becomeAnInfluencer(data) {
@@ -54,7 +54,7 @@ export function getSocialChannelsRequest() {
 export function getSocialChannelsRequestSuccess(data) {
   return {
     type: GET_SOCIAL_CHANNELS_SUCCESS,
-    data
+    data,
   };
 }
 
@@ -128,7 +128,7 @@ export function getInfluencerRequestsFail(error) {
 export function updateInfluencerStatus(data) {
   return {
     type: UPDATE_INFLUENCER_STATUS_REQUEST,
-    data
+    data,
   };
 }
 
@@ -141,6 +141,6 @@ export function updateInfluencerStatusSuccess() {
 export function updateInfluencerStatusFail(error) {
   return {
     type: UPDATE_INFLUENCER_STATUS_FAIL,
-    error
+    error,
   };
 }

@@ -53,8 +53,7 @@ function RequestInfluencerForm({
 
   const [selectedGeners, setSelectedGeners] = React.useState([]);
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required('Entity name is required'),
+    name: Yup.string().required('Entity name is required'),
     description: Yup.string()
       .min(6, 'Must be 6 characters or more')
       .required('Your description is required'),
@@ -173,8 +172,6 @@ function RequestInfluencerForm({
     }
   }, [location.param]);
 
-  console.log(getValues());
-
   return (
     <>
       <div className="container-fluid" style={{ marginTop: '100px' }}>
@@ -224,7 +221,9 @@ function RequestInfluencerForm({
               <textarea
                 name="description"
                 placeholder="Tell us about yourself"
-                className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  errors.description ? 'is-invalid' : ''
+                }`}
                 ref={register}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
@@ -244,11 +243,14 @@ function RequestInfluencerForm({
               <textarea
                 name="helpArtistDescription"
                 placeholder="How I can help artists"
-                className={`form-control ${errors.helpArtistDescription ? 'is-invalid' : ''}`}
+                className={`form-control ${
+                  errors.helpArtistDescription ? 'is-invalid' : ''
+                }`}
                 ref={register}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
-                {errors.helpArtistDescription && errors.helpArtistDescription.message}
+                {errors.helpArtistDescription &&
+                  errors.helpArtistDescription.message}
               </div>
             </Form.Group>
           </Form.Row>

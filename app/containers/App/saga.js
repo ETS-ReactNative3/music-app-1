@@ -2,14 +2,19 @@
  * Gets the default data to save in redux
  */
 
-import {call, put, takeLatest} from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import jwt_decode from 'jwt-decode';
-import {PREPARE_APP, GET_USER_DETAILS} from './constants';
-import {getUserDetailsFail, getUserDetailsSuccess, setRole} from './actions';
-import {axiosInstance} from '../../utils/api';
+import { PREPARE_APP, GET_USER_DETAILS } from './constants';
+import { getUserDetailsFail, getUserDetailsSuccess, setRole } from './actions';
+import { axiosInstance } from '../../utils/api';
+import { getInfluencerProfileSuccess } from '../Influencer/actions';
 
 function fetchUserInformation() {
   return axiosInstance().get('/auth/userDetails');
+}
+
+function fetchInfluencerInformation() {
+  return axiosInstance().get('/influencers');
 }
 
 export function* prepareApp() {
@@ -24,6 +29,10 @@ export function* getUserInformation() {
   try {
     const result = yield call(fetchUserInformation);
     yield put(getUserDetailsSuccess(result.data));
+    if (result.data.influencerId) {
+      const influencerResult = yield call(fetchInfluencerInformation);
+      yield put(getInfluencerProfileSuccess(influencerResult.data));
+    }
   } catch (error) {
     yield put(getUserDetailsFail(error));
   }

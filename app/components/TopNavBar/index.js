@@ -1,25 +1,25 @@
-import React, {useRef, useState} from 'react';
-import {faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
-import {redirectOnAlbum} from '../../utils/redirect';
+import React, { useRef, useState } from 'react';
+import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typeahead, withAsync } from 'react-bootstrap-typeahead';
+import { redirectOnAlbum } from '../../utils/redirect';
 
 import request from '../../utils/request';
 import './index.scss';
+import { Link, useHistory } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+import PlanSvg from '../../images/svg/plan_icon.svg';
+import Button from 'react-bootstrap/Button';
 
 const AsyncTypeahead = withAsync(Typeahead);
-import {Link, useHistory} from 'react-router-dom';
-import Dropdown from "react-bootstrap/Dropdown";
-import PlanSvg from "../../images/svg/plan_icon.svg";
-import Button from "react-bootstrap/Button";
 
-const TopNavBar = ({userDetails}) => {
+const TopNavBar = ({ userDetails }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
   const headerRef = useRef('');
   const SEARCH_URI = 'https://bliiink.ga/albums/search/album/';
-  let history = useHistory();
+  const history = useHistory();
 
   const handleSearch = query => {
     setIsLoading(true);
@@ -65,7 +65,7 @@ const TopNavBar = ({userDetails}) => {
               onClick={handleSideBar}
               role="button"
             >
-              <FontAwesomeIcon icon={faBars}/>
+              <FontAwesomeIcon icon={faBars} />
             </span>
           </li>
         </ul>
@@ -75,7 +75,7 @@ const TopNavBar = ({userDetails}) => {
               className="btn btn-navbar bg-transparent text-white"
               type="button"
             >
-              <FontAwesomeIcon icon={faSearch}/>
+              <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>
           <AsyncTypeahead
@@ -107,37 +107,38 @@ const TopNavBar = ({userDetails}) => {
           />
         </div>
         <div className="pl-5">
-          {userDetails ?
+          {userDetails ? (
             <Dropdown>
               <Dropdown.Toggle as="a" id="dropdown-basic">
-                <span className="badge badge-pill badge-dark p-2">{userDetails.name}</span>
+                <span className="badge badge-pill badge-dark p-2">
+                  {userDetails.name}
+                </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item>
-                  <Link to="/myaccount">
-                    My profile
-                  </Link>
+                  <Link to="/myaccount">My profile</Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
                   <Link to="/wallet">
-                    Wallet - <img
-                    src={PlanSvg}
-                    alt="wallet Logo"
-                    width={17}
-                    height={17}
-                  /> {userDetails.credit}
+                    Wallet -{' '}
+                    <img
+                      src={PlanSvg}
+                      alt="wallet Logo"
+                      width={17}
+                      height={17}
+                    />{' '}
+                    {userDetails.credit}
                   </Link>
                 </Dropdown.Item>
-                <Dropdown.Divider/>
-                <Dropdown.Item onClick={logout}>
-                  Log out
-                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={logout}>Log out</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown> :
-            <Link to={'/auth/login'}>
+            </Dropdown>
+          ) : (
+            <Link to="/auth/login">
               <Button variant="success">Login</Button>
             </Link>
-          }
+          )}
         </div>
       </div>
     </header>

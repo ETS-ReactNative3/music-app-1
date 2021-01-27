@@ -4,13 +4,19 @@
  *
  */
 import produce from 'immer';
-import { PUT_ACTIVITIES, PUT_RATINGS, PUT_REVIEWS } from './constants';
+import {
+  PUT_ACTIVITIES,
+  PUT_RATINGS,
+  PUT_REVIEWS,
+  UPDATE_PROCESSING,
+} from './constants';
 
 export const initialState = {
   activities: [],
   reviews: [],
   ratings: null,
   ratingCount: null,
+  updateProcessing: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -26,6 +32,9 @@ const accountReducer = (state = initialState, action) =>
       case PUT_RATINGS:
         draft.ratings = action.ratings;
         draft.ratingCount = action.ratingCount;
+        break;
+      case UPDATE_PROCESSING:
+        draft.updateProcessing = action.flag;
         break;
     }
   });

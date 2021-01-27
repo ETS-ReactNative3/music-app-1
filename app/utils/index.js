@@ -65,18 +65,18 @@ export function duration(t0, t1) {
   );
   const seconds = Math.floor(
     d / 1000 -
-      weekdays * 7 * 24 * 60 * 60 -
-      days * 24 * 60 * 60 -
-      hours * 60 * 60 -
-      minutes * 60,
+    weekdays * 7 * 24 * 60 * 60 -
+    days * 24 * 60 * 60 -
+    hours * 60 * 60 -
+    minutes * 60,
   );
   const milliseconds = Math.floor(
     d -
-      weekdays * 7 * 24 * 60 * 60 * 1000 -
-      days * 24 * 60 * 60 * 1000 -
-      hours * 60 * 60 * 1000 -
-      minutes * 60 * 1000 -
-      seconds * 1000,
+    weekdays * 7 * 24 * 60 * 60 * 1000 -
+    days * 24 * 60 * 60 * 1000 -
+    hours * 60 * 60 * 1000 -
+    minutes * 60 * 1000 -
+    seconds * 1000,
   );
   const t = {};
   ['weekdays', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach(
@@ -102,49 +102,45 @@ export const createDifferenenceTimeString = (start, end) => {
   return `${timeDiffStr} ago`;
 };
 
-export function getQueryVariable(search, variable)
-{
-        var query = search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-                    var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
-         }
-         return(false);
+export function getQueryVariable(search, variable) {
+  let query = search.substring(1);
+  var vars = query.split("&");
+  for (let i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) { return pair[1]; }
+  }
 }
 
 
-export const zipRange= {
-  "US":/^\d{5}([\-]?\d{4})?$/,
-  "UK":/^(GIR|[A-Z]\d[A-Z\d]??|[A-Z]{2}\d[A-Z\d]??)[ ]??(\d[A-Z]{2})$/,
-  "DE":/\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b/,
-  "CA":/^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/,
-  "FR":/^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/,
-  "IT":/^(V-|I-)?[0-9]{5}$/,
-  "AU":/^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$/,
-  "NL":/^[1-9][0-9]{3}\s?([a-zA-Z]{2})?$/,
-  "ES":/^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$/,
-  "DK":/^([D|d][K|k]( |-))?[1-9]{1}[0-9]{3}$/,
-  "SE":/^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$/,
-  "BE":/^[1-9]{1}[0-9]{3}$/,
-  "IN":/^\d{6}$/
-}
+export const zipRange = {
+  US: /^\d{5}([\-]?\d{4})?$/,
+  UK: /^(GIR|[A-Z]\d[A-Z\d]??|[A-Z]{2}\d[A-Z\d]??)[ ]??(\d[A-Z]{2})$/,
+  DE: /\b((?:0[1-46-9]\d{3})|(?:[1-357-9]\d{4})|(?:[4][0-24-9]\d{3})|(?:[6][013-9]\d{3}))\b/,
+  CA: /^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$/,
+  FR: /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/,
+  IT: /^(V-|I-)?[0-9]{5}$/,
+  AU: /^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$/,
+  NL: /^[1-9][0-9]{3}\s?([a-zA-Z]{2})?$/,
+  ES: /^([1-9]{2}|[0-9][1-9]|[1-9][0-9])[0-9]{3}$/,
+  DK: /^([D|d][K|k]( |-))?[1-9]{1}[0-9]{3}$/,
+  SE: /^(s-|S-){0,1}[0-9]{3}\s?[0-9]{2}$/,
+  BE: /^[1-9]{1}[0-9]{3}$/,
+  IN: /^\d{6}$/,
+};
 
-
-export const timeDifference = (date) => {
+export const timeDifference = date => {
   const startDate = moment(date);
   const todaysDate = moment();
-  console.log(startDate, todaysDate)
 
   return 10 - todaysDate.diff(startDate, 'days');
-}
+};
 
-export const calculateExpiry = (date) => {
+export const calculateExpiry = date => {
   const date1 = timeDifference(date);
 
   if (Math.abs(date1) > 10) {
     return 'Expired';
   } else {
-    return Math.abs(date1) + ' days left';
+    return `${Math.abs(date1)} days left`;
   }
-}
+};

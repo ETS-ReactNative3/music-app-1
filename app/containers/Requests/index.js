@@ -10,8 +10,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import PaperCard from '../../components/PaperCard';
 import { createStructuredSelector } from 'reselect';
+import PaperCard from '../../components/PaperCard';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
@@ -30,21 +30,25 @@ import {
   fetchRequestsAction,
   submitFeedbackRequestAction,
   submitSocialLinksAction,
-  updateCampaignStatusAction
+  updateCampaignStatusAction,
 } from './actions';
 import { getSocialChannelsRequest } from '../Influencer/actions';
 import { makeSelectSocialChannels } from '../Influencer/selectors';
-import { handleSingleSong, setPlaylist } from "../App/actions";
+import { handleSingleSong, setPlaylist } from '../App/actions';
 
-function RequestListing(
-  {
-    newRequestList, inProgressRequestList,
-    completedRequestList, fetchRequests, updateCampaignStatus,
-    submitFeedbackRequest, submitSocialLinksRequest, getSocialChannelList, socialChannels,
-    setPlaylistAction,
-    onHandleSingleSong
-  }) {
-
+function RequestListing({
+  newRequestList,
+  inProgressRequestList,
+  completedRequestList,
+  fetchRequests,
+  updateCampaignStatus,
+  submitFeedbackRequest,
+  submitSocialLinksRequest,
+  getSocialChannelList,
+  socialChannels,
+  setPlaylistAction,
+  onHandleSingleSong,
+}) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
   useInjectSaga({ key: 'request', saga });
@@ -53,53 +57,62 @@ function RequestListing(
   useInjectSaga({ key: 'influencer', saga: influencerSaga });
 
   useEffect(() => {
-    fetchRequests()
+    fetchRequests();
     getSocialChannelList();
   }, []);
 
-  const renderTable = (data, columns) => {
-    return (
-      <BootstrapTable
-        striped
-        bordered={false}
-        bootstrap4
-        pagination={paginationFactory()}
-        keyField='id'
-        data={data}
-        rowEvents={{
-          onClick: (e, row, rowIndex) => {
-            setSelectedRow(row);
-            setOpenModal(true);
-          },
+  const renderTable = (data, columns) => (
+    <BootstrapTable
+      striped
+      bordered={false}
+      bootstrap4
+      pagination={paginationFactory()}
+      keyField="id"
+      data={data}
+      rowEvents={{
+        onClick: (e, row, rowIndex) => {
+          setSelectedRow(row);
+          setOpenModal(true);
+        },
+      }}
+      columns={columns}
+    />
+  );
 
-        }}
-        columns={columns} />
-    )
-  }
-
-  const playSong = (song) => {
-    setPlaylistAction([{ song }])
-    onHandleSingleSong(0, true)
-  }
+  const playSong = song => {
+    setPlaylistAction([{ song }]);
+    onHandleSingleSong(0, true);
+  };
 
   function handleClose() {
-    fetchRequests()
+    fetchRequests();
     setOpenModal(false);
   }
 
   return (
     <PaperCard title="Requests">
-      <Tabs defaultActiveKey="new" id="uncontrolled-tab-example" className="mt-4">
+      <Tabs
+        defaultActiveKey="new"
+        id="uncontrolled-tab-example"
+        className="mt-4"
+      >
         <Tab eventKey="new" title="New" className="tab-style">
           {renderTable(newRequestList, newRequestColumns)}
         </Tab>
-        <Tab eventKey="accepted" title="Accepted/In-progress" className="tab-style">
+        <Tab
+          eventKey="accepted"
+          title="Accepted/In-progress"
+          className="tab-style"
+        >
           {renderTable(inProgressRequestList, newRequestColumns)}
         </Tab>
-        <Tab eventKey="completed" title="Completed/Approved" className="tab-style">
+        <Tab
+          eventKey="completed"
+          title="Completed/Approved"
+          className="tab-style"
+        >
           {renderTable(completedRequestList, newRequestColumns)}
         </Tab>
-
       </Tabs>
       <Modal
         show={openModal}
@@ -131,7 +144,7 @@ RequestListing.propTypes = {
   completedRequestList: PropTypes.array,
   updateCampaignStatus: PropTypes.func,
   setPlaylistAction: PropTypes.func,
-  onHandleSingleSong: PropTypes.func
+  onHandleSingleSong: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -139,18 +152,20 @@ const mapStateToProps = createStructuredSelector({
   inProgressRequestList: makeSelectInProgressRequestList(),
   completedRequestList: makeSelectCompletedRequestList(),
   socialChannels: makeSelectSocialChannels(),
-
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchRequests: () => dispatch(fetchRequestsAction()),
-    updateCampaignStatus: (campaignId, statusId) => dispatch(updateCampaignStatusAction(campaignId, statusId)),
-    submitFeedbackRequest: (campaignId, influencerId, feedback) => dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
-    submitSocialLinksRequest: (data) => dispatch(submitSocialLinksAction(data)),
+    updateCampaignStatus: (campaignId, statusId) =>
+      dispatch(updateCampaignStatusAction(campaignId, statusId)),
+    submitFeedbackRequest: (campaignId, influencerId, feedback) =>
+      dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
+    submitSocialLinksRequest: data => dispatch(submitSocialLinksAction(data)),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
-    setPlaylistAction: (songs) => dispatch(setPlaylist(songs)),
-    onHandleSingleSong: (index, status) => dispatch(handleSingleSong(index, status)),
+    setPlaylistAction: songs => dispatch(setPlaylist(songs)),
+    onHandleSingleSong: (index, status) =>
+      dispatch(handleSingleSong(index, status)),
   };
 }
 

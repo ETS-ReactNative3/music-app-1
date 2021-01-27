@@ -91,29 +91,29 @@ const Footer = props => {
       }`}
     >
       <H5AudioPlayer
-            layout="horizontal"
-            autoPlayAfterSrcChange={false}
-            showSkipControls
-            showJumpControls={false}
-            ref={audioRef}
-            src={songDetail.src}
-            onClickPrevious={handleClickPrevious}
-            onClickNext={handleClickNext}
-            onEnded={handleClickNext}
-            onPlay={() => {
-              onHandleSongPlaying(true);
-            }}
-            onPause={() => {
-              onHandleSongPlaying(false);
-            }}
-            onVolumeChange={handleVolumeChange}
-            customProgressBarSection={[
-              footerText,
-              RHAP_UI.CURRENT_TIME,
-              RHAP_UI.PROGRESS_BAR,
-              RHAP_UI.DURATION,
-            ]}
-          />
+        layout="horizontal"
+        autoPlayAfterSrcChange={false}
+        showSkipControls
+        showJumpControls={false}
+        ref={audioRef}
+        src={songDetail.src}
+        onClickPrevious={handleClickPrevious}
+        onClickNext={handleClickNext}
+        onEnded={handleClickNext}
+        onPlay={() => {
+          onHandleSongPlaying(true);
+        }}
+        onPause={() => {
+          onHandleSongPlaying(false);
+        }}
+        onVolumeChange={handleVolumeChange}
+        customProgressBarSection={[
+          footerText,
+          RHAP_UI.CURRENT_TIME,
+          RHAP_UI.PROGRESS_BAR,
+          RHAP_UI.DURATION,
+        ]}
+      />
     </footer>
   );
 };

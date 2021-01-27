@@ -1,16 +1,17 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import {call, put, takeLatest} from '@redux-saga/core/effects';
-import {toast} from 'react-toastify';
+import { call, put, takeLatest } from '@redux-saga/core/effects';
+import { toast } from 'react-toastify';
 import {
   BECOME_AN_INFLUENCER,
   GET_GENRES,
   GET_SOCIAL_CHANNELS,
   GET_INFLUENCER_PROFILE,
-  GET_INFLUENCER_REQUESTS, UPDATE_INFLUENCER_STATUS_REQUEST
+  GET_INFLUENCER_REQUESTS,
+  UPDATE_INFLUENCER_STATUS_REQUEST,
 } from './constants';
-import {axiosInstance} from '../../utils/api';
+import { axiosInstance } from '../../utils/api';
 import {
   becomeAnInfluencerSucces,
   becomeAnInfluencerFail,
@@ -23,9 +24,10 @@ import {
   getInfluencerRequestsSuccess,
   getInfluencerRequestsFail,
   updateInfluencerStatusSuccess,
-  updateInfluencerStatusFail, getInfluencerRequests
+  updateInfluencerStatusFail,
+  getInfluencerRequests,
 } from './actions';
-import history from "../../utils/history";
+import history from '../../utils/history';
 
 function becomeInfuencer(data) {
   return axiosInstance().post('/influencers', data);
@@ -51,7 +53,7 @@ function updateStatus(data) {
   return axiosInstance().put('/influencers/status', data);
 }
 
-export function* becomeAnInfluencerSaga({data}) {
+export function* becomeAnInfluencerSaga({ data }) {
   try {
     const result = yield call(becomeInfuencer, data);
     yield put(becomeAnInfluencerSucces(result.data));
@@ -103,7 +105,7 @@ export function* getInfluencerRequestsSaga() {
   }
 }
 
-export function* updateInfluencerStatus({data}) {
+export function* updateInfluencerStatus({ data }) {
   try {
     yield call(updateStatus, data);
     yield put(updateInfluencerStatusSuccess());

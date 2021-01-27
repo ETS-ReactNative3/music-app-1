@@ -4,6 +4,9 @@ import {
   PUT_REVIEWS,
   PUT_RATINGS,
   REQUEST_INFLUENCER,
+  UPDATE_USER_DETAILS,
+  UPDATE_INFLUENCER_DETAILS,
+  UPDATE_PROCESSING,
 } from './constants';
 
 export function requestInfluencer(data) {
@@ -36,5 +39,33 @@ export function putUserRatings(ratings, ratingCount) {
     type: PUT_RATINGS,
     ratings,
     ratingCount,
+  };
+}
+
+export function updateUserDetailsAction(
+  data,
+  isInfluencer,
+  isProfilePhotoUpdated,
+  influencerData,
+) {
+  return {
+    type: UPDATE_USER_DETAILS,
+    data,
+    isInfluencer,
+    isProfilePhotoUpdated,
+    influencerData,
+  };
+}
+
+export function updateInfluencerDetailsAction(data) {
+  return {
+    type: UPDATE_INFLUENCER_DETAILS,
+    data,
+  };
+}
+export function updateProcessingAction(flag) {
+  return {
+    type: UPDATE_PROCESSING,
+    flag,
   };
 }

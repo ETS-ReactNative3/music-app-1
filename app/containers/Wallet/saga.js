@@ -1,10 +1,14 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
-import {call, put, takeLatest} from "redux-saga/effects";
-import {CREATE_PAYMENT_REQUEST, FETCH_PAYMENT_HISTORY} from "./constants";
-import {axiosInstance} from '../../utils/api';
-import {savePaymentHistoryAction, createPaymentFailAction, createPaymentSuccessAction} from "./actions";
-import {toast} from "react-toastify";
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
+import { CREATE_PAYMENT_REQUEST, FETCH_PAYMENT_HISTORY } from './constants';
+import { axiosInstance } from '../../utils/api';
+import {
+  savePaymentHistoryAction,
+  createPaymentFailAction,
+  createPaymentSuccessAction,
+} from './actions';
 
 function fetchPaymentHistoryApi() {
   return axiosInstance().get('order/list');
@@ -21,7 +25,7 @@ function createPayment(data) {
 
 function* createPaymentSession(action) {
   try {
-    yield call(createPayment, {session_id: action.id});
+    yield call(createPayment, { session_id: action.id });
     yield put(createPaymentSuccessAction());
   } catch (e) {
     toast.error(e.message);

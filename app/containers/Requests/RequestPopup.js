@@ -11,8 +11,6 @@ import {
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { styles } from './index.styles';
-import defaultImage from '../../images/album-3.jpg';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBlog, faCheck, faPlay } from '@fortawesome/free-solid-svg-icons';
@@ -25,9 +23,11 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 import { CampaignStatus } from './constants';
 import { SOCIAL_CHANNELS } from '../App/constants';
-import { Link } from 'react-router-dom';
+import defaultImage from '../../images/album-3.jpg';
+import { styles } from './index.styles';
 
 const RequestPopup = ({
   handleClose,
@@ -641,8 +641,7 @@ const RequestPopup = ({
           </fieldset>
         </div> */}
 
-
-{/* 
+        {/* 
         <div
           style={
             !songPlayed
@@ -815,8 +814,8 @@ const RequestPopup = ({
 
                       {/* </Form.Row> */}
 
-                      {/* <Form.Row> */}
-                      {/*
+        {/* <Form.Row> */}
+        {/*
                       {data.campaignInfluencerServices.findIndex(
                         service =>
                           service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
@@ -869,8 +868,8 @@ const RequestPopup = ({
                         </div>
                       )}
                       {/* </Form.Row> */}
-                      {/* <Form.Row> */}
-                      {/*
+        {/* <Form.Row> */}
+        {/*
                       {data.campaignInfluencerServices.findIndex(
                         service =>
                           service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
@@ -902,7 +901,7 @@ const RequestPopup = ({
                         </div>
                       )}
                       {/* </Form.Row> */}
-                      {/*
+        {/*
                     </div>
                   </form>
                 </div>

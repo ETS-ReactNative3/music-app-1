@@ -8,6 +8,7 @@
  */
 
 import produce from 'immer';
+import { GET_INFLUENCER_PROFILE_SUCCESS } from '../Influencer/constants';
 import {
   SET_PLAYLIST,
   HANDLE_SONG_PLAYING,
@@ -45,6 +46,7 @@ export const initialState = {
   role: '',
   genres: [],
   loader: false,
+  influencerProfile: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -84,6 +86,9 @@ const appReducer = (state = initialState, action) =>
         break;
       case SET_LOADER:
         draft.loader = action.status;
+        break;
+      case GET_INFLUENCER_PROFILE_SUCCESS:
+        draft.influencerProfile = action.profile;
         break;
     }
   });

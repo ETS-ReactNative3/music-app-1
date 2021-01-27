@@ -158,7 +158,6 @@ const InfluencerAccountPopup = ({
 
   useInjectReducer({ key: 'influencer', reducer });
 
-  console.log(userSelected, 'userslectd');
   return (
     <Modal
       show={openModal}
@@ -220,9 +219,7 @@ const InfluencerAccountPopup = ({
                             influencerService.price,
                             () => {
                               selectFacebook(!facebook);
-                              console.log(
-                                innerInfluencer.influencer.influencerServices,
-                              );
+
                               if (!facebook) {
                                 setCampaignMedium(campaignMedium + 1);
                                 if (influencerService.price)
@@ -456,7 +453,7 @@ const InfluencerAccountPopup = ({
                     )}
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-4 border-0 bg-transparent">
-                <hr className="blick-border" />
+                  <hr className="blick-border" />
                   {campaignMedium} campaign mediums
                   <div className="my-3 d-flex align-items-center justify-content-between">
                     <div>

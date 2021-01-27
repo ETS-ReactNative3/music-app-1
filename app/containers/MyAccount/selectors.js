@@ -20,9 +20,7 @@ const makeSelectActivities = () =>
 const makeSelectReviews = () =>
   createSelector(
     selectAccountDomain,
-    substate => {
-      return substate.reviews;
-    },
+    substate => substate.reviews,
   );
 
 const makeSelectRatings = () =>
@@ -37,9 +35,16 @@ const makeSelectRatingCount = () =>
     substate => substate.ratingCount,
   );
 
+const makeSelectUpdateProcessing = () =>
+  createSelector(
+    selectAccountDomain,
+    substate => substate.updateProcessing,
+  );
+
 export {
   makeSelectActivities,
   makeSelectReviews,
   makeSelectRatings,
   makeSelectRatingCount,
+  makeSelectUpdateProcessing,
 };

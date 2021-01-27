@@ -9,27 +9,15 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import defaultImage from '../../images/album-3.jpg';
-
 import {
   faFacebook,
   faTwitter,
   faYoutube,
   faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
-import reducer from './reducer';
-import saga from './saga';
-import { getTasteMakersRequest, removeInfluencerAction } from './actions';
-import PaperCard from '../../components/PaperCard';
-import {
-  makeSelectSelectedInfluencers,
-  makeSelectTastemaker,
-} from './selectors';
-import InfluencerAccountPopup from '../../components/InfluencerAccountPopup';
 import {
   faAngleRight,
   faBlog,
@@ -51,6 +39,19 @@ import {
   ListGroup,
 } from 'react-bootstrap';
 import { debounce } from 'lodash';
+import { Link, useParams, withRouter } from 'react-router-dom';
+import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
+import defaultImage from '../../images/album-3.jpg';
+
+import reducer from './reducer';
+import saga from './saga';
+import { getTasteMakersRequest, removeInfluencerAction } from './actions';
+import PaperCard from '../../components/PaperCard';
+import {
+  makeSelectSelectedInfluencers,
+  makeSelectTastemaker,
+} from './selectors';
+import InfluencerAccountPopup from '../../components/InfluencerAccountPopup';
 import { makeSelectLoader } from '../App/selectors';
 import appReducer from '../App/reducer';
 import {
@@ -58,7 +59,6 @@ import {
   makeSelectSong,
   makeSelectSongToPromote,
 } from '../Song/selectors';
-import { Link, useParams, withRouter } from 'react-router-dom';
 import { getSongRequest } from '../Song/actions';
 import songReducer from '../Song/reducer';
 import songSaga from '../Song/saga';
@@ -425,57 +425,57 @@ export function Tastemaker({
         </Row>
       </PaperCard>
       {selectedInfluencers && selectedInfluencers.length > 0 && (
-        <footer
-        className="main-footer fixed-bottom blick-border ">
-        <div className="px-3 py-1 d-flex align-items-center justify-content-between">
-          <div>
-            <small className="text-success">
-              {`${selectedInfluencers.length} influencers selected`}
-            </small>
-            <div className="d-flex align-items-center">
-              <img
-                src={PlanSvgColor}
-                alt="PlanSvg"
-                width={15}
-                height={15}
-                style={{ marginRight: 5 }}
-              />
-              <span className="h5 mb-0">
-                {`${_calculatePriceForSelectedInfluencers(
-                  selectedInfluencers,
-                )}`}
-              </span>
-              price
+        <footer className="main-footer fixed-bottom blick-border ">
+          <div className="px-3 py-1 d-flex align-items-center justify-content-between">
+            <div>
+              <small className="text-success">
+                {`${selectedInfluencers.length} influencers selected`}
+              </small>
+              <div className="d-flex align-items-center">
+                <img
+                  src={PlanSvgColor}
+                  alt="PlanSvg"
+                  width={15}
+                  height={15}
+                  style={{ marginRight: 5 }}
+                />
+                <span className="h5 mb-0">
+                  {`${_calculatePriceForSelectedInfluencers(
+                    selectedInfluencers,
+                  )}`}
+                </span>
+                price
+              </div>
             </div>
-          </div>
-          <Link
-            to={{
-              pathname: `/tastemakers/${match.params.songId}/campaign`,
-            }}
-          >
-            <Button
-              disabled={selectedInfluencers && selectedInfluencers.length === 0}
-              variant="success"
-              style={{ paddingLeft: 15, paddingRight: 15 }}
-              onClick={() => {
-                selectInfluencer({
-                  ...innerInfluencer,
-                  influencer: {
-                    ...innerInfluencer.influencer,
-                    price,
-                  },
-                });
-
-                handleClose();
+            <Link
+              to={{
+                pathname: `/tastemakers/${match.params.songId}/campaign`,
               }}
             >
-              View Order <FontAwesomeIcon size="1x" icon={faAngleRight} />
-            </Button>
-          </Link>
-        </div>
-      
-      </footer>
-        )}
+              <Button
+                disabled={
+                  selectedInfluencers && selectedInfluencers.length === 0
+                }
+                variant="success"
+                style={{ paddingLeft: 15, paddingRight: 15 }}
+                onClick={() => {
+                  selectInfluencer({
+                    ...innerInfluencer,
+                    influencer: {
+                      ...innerInfluencer.influencer,
+                      price,
+                    },
+                  });
+
+                  handleClose();
+                }}
+              >
+                View Order <FontAwesomeIcon size="1x" icon={faAngleRight} />
+              </Button>
+            </Link>
+          </div>
+        </footer>
+      )}
       {openModal && userSelected.hasOwnProperty('id') && (
         <InfluencerAccountPopup
           openModal={openModal}
@@ -819,13 +819,12 @@ export function Tastemaker({
 export const _calculatePriceForSelectedInfluencers = selectedInfluencers => {
   if (selectedInfluencers.length === 1)
     return selectedInfluencers[0].influencer.price;
-  else {
-    let total = 0;
-    selectedInfluencers.map(prev => {
-      total = prev.influencer.price + total;
-    });
-    return total;
-  }
+
+  let total = 0;
+  selectedInfluencers.map(prev => {
+    total = prev.influencer.price + total;
+  });
+  return total;
 };
 
 export const searchEnhancer = debounce(fuctionToExecute => {

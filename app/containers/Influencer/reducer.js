@@ -19,7 +19,7 @@ import {
   GET_INFLUENCER_PROFILE_FAIL,
   GET_INFLUENCER_REQUESTS,
   GET_INFLUENCER_REQUESTS_SUCCESS,
-  GET_INFLUENCER_REQUESTS_FAIL
+  GET_INFLUENCER_REQUESTS_FAIL,
 } from './constants';
 
 export const initialState = {
@@ -29,7 +29,7 @@ export const initialState = {
   socialChannels: [],
   genres: [],
   profile: null,
-  influencers: null
+  influencers: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */

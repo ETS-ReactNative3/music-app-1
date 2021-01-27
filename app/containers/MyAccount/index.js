@@ -4,15 +4,14 @@
  *
  */
 
-import React, { memo } from 'react';
-import { Image } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+  faYoutube,
+} from '@fortawesome/free-brands-svg-icons';
 import { faBlog, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import PaperCard from '../../components/PaperCard';
+
 import {
   Badge,
   Button,
@@ -23,73 +22,76 @@ import {
   Col,
   Card,
   ListGroup,
+  Image,
 } from 'react-bootstrap';
 import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
+import React, { memo } from 'react';
+
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PaperCard from '../../components/PaperCard';
+import InfluencerAccount from '../../components/InfluencerAccount';
+import defaultImage from '../../images/album-3.jpg';
 import { combineFollowers, formatFollowers } from '../../utils';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import history from '../../utils/history';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { getGenres } from '../Album/actions';
+import reducer from '../Album/reducer';
+import saga from '../Album/saga';
+import { makeSelectGenres } from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
 } from '../App/selectors';
-import saga from '../Album/saga';
-import accountSaga from './saga';
-import reducer from '../Album/reducer';
 import accountReducer from './reducer';
-import defaultImage from '../../images/album-3.jpg';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { getGenres } from '../Album/actions';
-import { makeSelectGenres } from '../Album/selectors';
-import { useInjectReducer } from '../../utils/injectReducer';
-import InfluencerAccount from '../../components/InfluencerAccount';
-import { fetchUserActivities } from './actions';
+import accountSaga from './saga';
 
-const _renderGenres = (genersToRender, genres) => (
+const _renderGenres = (genersToRender, genres) =>
   genersToRender &&
-    isArray(genersToRender) &&
-    (genersToRender || []).map(internalGener => (
-      <Badge variant="success">
-        {
-            (genres.find(gener => gener.id === internalGener.genreId) || {})
-              .title
-          }
-      </Badge>
-    ))
+  isArray(genersToRender) &&
+  (genersToRender || []).map(internalGener => (
+    <Badge variant="success">
+      {(genres.find(gener => gener.id === internalGener.genreId) || {}).title}
+    </Badge>
+  ));
 
-  // <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-  //   {genersToRender &&
-  //     isArray(genersToRender) &&
-  //     (genersToRender || []).map(internalGener => (
-  //       // <div
-  //       //   style={{
-  //       //     backgroundColor: '#1E64D7',
-  //       //     padding: 10,
-  //       //     flexDirection: 'row',
-  //       //     justifyContent: 'flex-start',
-  //       //     margin: 10,
-  //       //     width: 'fit-content',
-  //       //   }}
-  //       // >
-  //       //   <div
-  //       //     style={{
-  //       //       fontSize: 16,
-  //       //       fontWeight: 'bold',
-  //       //       fontFamily: 'Roboto-Regular',
-  //       //       color: 'white',
-  //       //     }}
-  //       //   >
-  //       //     {
-  //       //       (genres.find(gener => gener.id === internalGener.genreId) || {})
-  //       //         .title
-  //       //     }
-  //       //   </div>
-  //       // </div>
-      
-  //     ))}
-  // </div>
+// <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+//   {genersToRender &&
+//     isArray(genersToRender) &&
+//     (genersToRender || []).map(internalGener => (
+//       // <div
+//       //   style={{
+//       //     backgroundColor: '#1E64D7',
+//       //     padding: 10,
+//       //     flexDirection: 'row',
+//       //     justifyContent: 'flex-start',
+//       //     margin: 10,
+//       //     width: 'fit-content',
+//       //   }}
+//       // >
+//       //   <div
+//       //     style={{
+//       //       fontSize: 16,
+//       //       fontWeight: 'bold',
+//       //       fontFamily: 'Roboto-Regular',
+//       //       color: 'white',
+//       //     }}
+//       //   >
+//       //     {
+//       //       (genres.find(gener => gener.id === internalGener.genreId) || {})
+//       //         .title
+//       //     }
+//       //   </div>
+//       // </div>
 
-);
+//     ))}
+// </div>
 
 function MyAccount({
   userDetails,
@@ -97,7 +99,6 @@ function MyAccount({
   genres,
   getGenreList,
   navigation,
-  getUserActivities,
 }) {
   useInjectSaga({ key: 'album', saga });
   useInjectReducer({ key: 'album', reducer });
@@ -141,8 +142,14 @@ function MyAccount({
                   </div>
                 }
               </div>
+              <Button
+                onClick={() => history.push('/myaccount/edit')}
+                variant="success"
+              >
+                Edit my profile
+              </Button>
               <Link
-              className="ml-auto"
+                className="ml-auto"
                 to={{
                   pathname: '/requestInfluencer',
                   param: influencerProfile,
@@ -395,6 +402,7 @@ MyAccount.propTypes = {
   influencerProfile: PropTypes.any,
   genres: PropTypes.array,
   getGenreList: PropTypes.func,
+  navigation: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
