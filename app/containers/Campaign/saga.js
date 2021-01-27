@@ -66,15 +66,22 @@ function* fetchCampaignSaga() {
 
 function* verifyCampaignSaga(action) {
   try {
-    const { data } = action;
+    const { campaignsId, influencerId, rating, feedback } = action;
     yield put(verifySubmittingAction(true));
-    yield call(verifyCampaignAPI, data);
+    yield call(verifyCampaignAPI, { campaignsId, influencerId });
+    yield call(addInfluencerRatingAPI, { campaignsId, influencerId, rating });
+    yield call(addInfluencerReviewAPI, {
+      campaignsId,
+      influencerId,
+      review: feedback,
+    });
     yield put(fetchCampaignAction());
     toast.success('Campaign Verified for this influencer');
     yield put(verifySubmittingAction(false));
     history.goBack();
   } catch (e) {
     toast.error(e.message);
+    yield put(verifySubmittingAction(false));
   }
 }
 

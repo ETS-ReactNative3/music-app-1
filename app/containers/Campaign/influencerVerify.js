@@ -8,7 +8,6 @@ import StarRatings from 'react-star-ratings';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import ButtonLoader from '../../components/ButtonLoader';
 import defaultImage from '../../images/album-3.jpg';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
@@ -18,8 +17,6 @@ import { CampaignStatus } from '../Requests/constants';
 import requestReducer from '../Requests/reducer';
 import requestSaga from '../Requests/saga';
 import {
-  addInfluencerRatingAction,
-  addInfluencerReviewAction,
   fetchCampaignAction,
   getSelectedCampaignAction,
   verifyCampaignAction
@@ -34,8 +31,6 @@ const Details = ({
   selectedCampaign,
   verifyCampaign,
   updateCampaignStatus,
-  addRating,
-  addReview,
   fetchCampaigns,
   reviewSubmitting,
   ratingSubmitting, getSelectedCampaign, verifySubmitting
@@ -73,27 +68,41 @@ const Details = ({
           You Already declined this request!!
         </div>
       );
-    } 
+    }
     if (selectedInfluencer.campaignStatusId === CampaignStatus.APPROVED) {
       return (
         <div style={styles.alreadyVerifiedStyle}>
-            You already verified this request!!
+          You already verified this request!!
         </div>
       );
     }
     return (
       <div style={styles.buttonParent}>
+        
         {!verifySubmitting ? <Button
           variant="success"
-          onClick={() =>
-            verifyCampaign(
-              selectedCampaign.id,
-              selectedInfluencer.influencerId,
-            )
-          }
+          onClick={() => {
+            if (rating > 0) {
+              if (feedback !== '') {
+                verifyCampaign(
+                  selectedCampaign.id,
+                  selectedInfluencer.influencerId,
+                  rating,
+                  feedback
+                )
+              } else {
+                toast.error('Please enter review');
+              }
+            }
+            else {
+              toast.error('Please enter rating');
+            }
+            
+          }}
         >
-            Verify this influencer
-        </Button> : <ButtonLoader />}
+          Verify this influencer
+        </Button> :  <Spinner animation="border" />
+        }
         <Button
           variant="danger"
           onClick={() =>
@@ -103,11 +112,11 @@ const Details = ({
             )
           }
         >
-            Decline
+          Decline
         </Button>
-      </div>
+      </div >
     );
-    
+
   }
 
   return (
@@ -131,14 +140,14 @@ const Details = ({
                 <Image
                   width={100}
                   height={100}
-                  src={selectedInfluencer.influencer.user.avatar || ''}
+                  src={selectedInfluencer.influencer.user && selectedInfluencer.influencer.user.avatar || ''}
                   onError={e => {
                     e.target.onerror = null;
                     e.target.src = defaultImage;
                   }}
                 />
                 <div style={styles.songInfo}>
-                  <div>{selectedInfluencer.influencer.user.name}</div>
+                  <div>{selectedInfluencer.influencer.user && selectedInfluencer.influencer.user.name || ''}</div>
                   <div style={{ color: 'grey' }}>
                     {selectedInfluencer.influencer.description}
                   </div>
@@ -209,7 +218,6 @@ const Details = ({
                 })}
             </div>
           </div>
-          {renderAcceptButton()}
           <div style={styles.provideFeedbackParentStyle}>
             Rating and Feedback:
             {selectedInfluencer.ratings &&
@@ -238,7 +246,7 @@ const Details = ({
                     starDimension="30px"
                     name="rating"
                   />
-                  <Button
+                  {/* <Button
                     style={styles.submitRatingButtonStyle}
                     variant="success"
                     onClick={() => {
@@ -254,7 +262,7 @@ const Details = ({
                     }}
                   >
                     Submit Rating
-                  </Button>
+                  </Button> */}
                 </div>
               )}
             <div style={styles.horizontalLineStyle} />
@@ -271,7 +279,7 @@ const Details = ({
                     placeholder="Enter feedback here"
                     onChange={value => setFeedback(value.target.value)}
                   />
-                  <Button
+                  {/* <Button
                     style={styles.submitFeedbackButtonStyle}
                     variant="success"
                     onClick={() => {
@@ -287,10 +295,14 @@ const Details = ({
                     }}
                   >
                     Submit Feedback
-                  </Button>
+                  </Button> */}
                 </div>
               )}
+
+
           </div>
+          {renderAcceptButton()}
+
         </div>
       </div>
     </div>
@@ -302,8 +314,6 @@ Details.propTypes = {
   selectedCampaign: PropTypes.any,
   verifyCampaign: PropTypes.func,
   updateCampaignStatus: PropTypes.func,
-  addRating: PropTypes.func,
-  addReview: PropTypes.func,
   fetchCampaigns: PropTypes.func,
   reviewSubmitting: PropTypes.bool,
   ratingSubmitting: PropTypes.bool,
@@ -322,18 +332,11 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchCampaigns: () => dispatch(fetchCampaignAction()),
     getSelectedCampaign: id => dispatch(getSelectedCampaignAction(id)),
-    verifyCampaign: (campaignsId, influencerId) =>
-      dispatch(verifyCampaignAction({ campaignsId, influencerId })),
+    verifyCampaign: (campaignsId, influencerId, rating, feedback) =>
+      dispatch(verifyCampaignAction(campaignsId, influencerId, rating, feedback )),
     updateCampaignStatus: (campaignId, statusId) =>
       dispatch(updateCampaignStatusAction(campaignId, statusId)),
-    addReview: (campaignsId, influencerId, review) =>
-      dispatch(
-        addInfluencerReviewAction({ campaignsId, influencerId, review }),
-      ),
-    addRating: (campaignsId, influencerId, rating) =>
-      dispatch(
-        addInfluencerRatingAction({ campaignsId, influencerId, rating }),
-      ),
+   
   };
 }
 

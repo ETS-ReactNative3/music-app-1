@@ -41,10 +41,17 @@ const makeSelectUpdateProcessing = () =>
     substate => substate.updateProcessing,
   );
 
+const makeSelectInfluencerUpdateProcessing = () =>
+  createSelector(
+    selectAccountDomain,
+    substate => substate.updateInfluencerProcessing,
+  );
+
 export {
   makeSelectActivities,
   makeSelectReviews,
   makeSelectRatings,
   makeSelectRatingCount,
   makeSelectUpdateProcessing,
+  makeSelectInfluencerUpdateProcessing,
 };

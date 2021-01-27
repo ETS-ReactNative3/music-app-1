@@ -7,6 +7,7 @@ import {
   UPDATE_USER_DETAILS,
   UPDATE_INFLUENCER_DETAILS,
   UPDATE_PROCESSING,
+  UPDATE_INFLUENCER_PROCESSING,
 } from './constants';
 
 export function requestInfluencer(data) {
@@ -42,18 +43,11 @@ export function putUserRatings(ratings, ratingCount) {
   };
 }
 
-export function updateUserDetailsAction(
-  data,
-  isInfluencer,
-  isProfilePhotoUpdated,
-  influencerData,
-) {
+export function updateUserDetailsAction(data, isProfilePhotoUpdated) {
   return {
     type: UPDATE_USER_DETAILS,
     data,
-    isInfluencer,
     isProfilePhotoUpdated,
-    influencerData,
   };
 }
 
@@ -66,6 +60,13 @@ export function updateInfluencerDetailsAction(data) {
 export function updateProcessingAction(flag) {
   return {
     type: UPDATE_PROCESSING,
+    flag,
+  };
+}
+
+export function updateInfluencerProcessingAction(flag) {
+  return {
+    type: UPDATE_INFLUENCER_PROCESSING,
     flag,
   };
 }

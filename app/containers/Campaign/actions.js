@@ -44,10 +44,18 @@ export function getSelectedCampaignAction(id) {
   };
 }
 
-export function verifyCampaignAction(data) {
+export function verifyCampaignAction(
+  campaignsId,
+  influencerId,
+  rating,
+  feedback,
+) {
   return {
     type: VERIFY_CAMPAIGN,
-    data,
+    campaignsId,
+    influencerId,
+    rating,
+    feedback,
   };
 }
 
