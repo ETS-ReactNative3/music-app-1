@@ -77,7 +77,7 @@ function statusFormatter(cell, row) {
       <span>
         <div style={{ color: 'lightyellow' }}>
           <FontAwesomeIcon icon={faCircle} />
-          Not Approved
+          Pending
         </div>
       </span>
     );

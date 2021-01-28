@@ -22,6 +22,7 @@ const WalletHistory = ({ paymentHistory, fetchPaymentHistory }) => {
     fetchPaymentHistory();
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
     return format(new Date(row.updatedAt), 'MM/dd/yyyy');
   }
@@ -41,7 +42,7 @@ const WalletHistory = ({ paymentHistory, fetchPaymentHistory }) => {
     },
     {
       dataField: 'updatedAt',
-      text: 'Release Date',
+      text: 'Purchased Date',
       formatter: dateFormatter,
     },
   ];

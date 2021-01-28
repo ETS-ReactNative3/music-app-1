@@ -8,6 +8,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -24,6 +25,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import { faClipboard } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
 import { CampaignStatus } from './constants';
 import { SOCIAL_CHANNELS } from '../App/constants';
 import defaultImage from '../../images/album-3.jpg';
@@ -105,15 +108,7 @@ const RequestPopup = ({
     })(),
   });
 
-  const {
-    register,
-    handleSubmit,
-    errors,
-    reset,
-    control,
-    setValue,
-    getValues,
-  } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
@@ -133,7 +128,7 @@ const RequestPopup = ({
     const submitData = {};
     submitData.links = [];
 
-    if (formData.hasOwnProperty('facebook')) {
+    if (Object.prototype.hasOwnProperty.call(formData, 'facebook')) {
       submitData.links.push({
         socialChannelsId: socialChannels.find(x => x.title === 'facebook').id,
         campaignInfluencersId: data.id,
@@ -141,7 +136,7 @@ const RequestPopup = ({
       });
     }
 
-    if (formData.hasOwnProperty('twitter')) {
+    if (Object.prototype.hasOwnProperty.call(formData, 'twitter')) {
       submitData.links.push({
         socialChannelsId: socialChannels.find(x => x.title === 'twitter').id,
         campaignInfluencersId: data.id,
@@ -149,7 +144,7 @@ const RequestPopup = ({
       });
     }
 
-    if (formData.hasOwnProperty('youtube')) {
+    if (Object.prototype.hasOwnProperty.call(formData, 'youtube')) {
       submitData.links.push({
         socialChannelsId: socialChannels.find(x => x.title === 'youtube').id,
         campaignInfluencersId: data.id,
@@ -157,7 +152,7 @@ const RequestPopup = ({
       });
     }
 
-    if (formData.hasOwnProperty('blog')) {
+    if (Object.prototype.hasOwnProperty.call(formData, 'blog')) {
       submitData.links.push({
         socialChannelsId: socialChannels.find(x => x.title === 'blog').id,
         campaignInfluencersId: data.id,
@@ -165,7 +160,7 @@ const RequestPopup = ({
       });
     }
 
-    if (formData.hasOwnProperty('instagram')) {
+    if (Object.prototype.hasOwnProperty.call(formData, 'instagram')) {
       submitData.links.push({
         socialChannelsId: socialChannels.find(x => x.title === 'instagram').id,
         campaignInfluencersId: data.id,
@@ -249,7 +244,7 @@ const RequestPopup = ({
                           feedback,
                         );
                       } else {
-                        alert('Enter Feedback.');
+                        toast.warn('Enter Feedback.');
                       }
                     }}
                   >
@@ -312,6 +307,21 @@ const RequestPopup = ({
                   style={styles.marginHorizontal}
                   icon={faTwitter}
                   onClick={() => {}}
+                />
+              </div>
+              <div
+                style={{ cursor: 'pointer', marginTop: 20, marginBottom: 20 }}
+                onClick={() => {
+                  navigator.clipboard.writeText(data.campaigns.song.url);
+                  toast.success('Song url copied');
+                }}
+              >
+                Song link, Click to Copy
+                <FontAwesomeIcon
+                  icon={faClipboard}
+                  style={{ marginLeft: 10 }}
+                  size="x"
+                  className="text-success"
                 />
               </div>
               {(!(
@@ -1065,9 +1075,18 @@ const RequestPopup = ({
   );
 };
 
+RequestPopup.propTypes = {
+  handleClose: PropTypes.func,
+  data: PropTypes.any,
+  updateCampaignStatus: PropTypes.func,
+  submitFeedbackRequest: PropTypes.func,
+  submitSocialLinksRequest: PropTypes.func,
+  socialChannels: PropTypes.array,
+  playSong: PropTypes.any,
+};
 const mapStateToProps = createStructuredSelector({});
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
   return {};
 }
 

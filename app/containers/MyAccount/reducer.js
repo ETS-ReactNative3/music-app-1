@@ -8,6 +8,7 @@ import {
   PUT_ACTIVITIES,
   PUT_RATINGS,
   PUT_REVIEWS,
+  UPDATE_INFLUENCER_PROCESSING,
   UPDATE_PROCESSING,
 } from './constants';
 
@@ -17,6 +18,7 @@ export const initialState = {
   ratings: null,
   ratingCount: null,
   updateProcessing: false,
+  updateInfluencerProcessing: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -36,6 +38,8 @@ const accountReducer = (state = initialState, action) =>
       case UPDATE_PROCESSING:
         draft.updateProcessing = action.flag;
         break;
+      case UPDATE_INFLUENCER_PROCESSING:
+        draft.updateInfluencerProcessing = action.flag;
     }
   });
 

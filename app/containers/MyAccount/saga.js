@@ -4,17 +4,18 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../utils/api';
-import history from '../../utils/history';
 import { getUserDetails } from '../App/actions';
 import {
   putUserActivities,
   putUserRatings,
   putUserReviews,
+  updateInfluencerProcessingAction,
   updateProcessingAction,
 } from './actions';
 import {
   FETCH_ACTIVITY,
   REQUEST_INFLUENCER,
+  UPDATE_INFLUENCER_DETAILS,
   UPDATE_USER_DETAILS,
 } from './constants';
 
@@ -101,7 +102,7 @@ function* updateUserDetailsSaga(action) {
   try {
     yield put(updateProcessingAction(true));
     let { data } = action;
-    const { isInfluencer, isProfilePhotoUpdated, influencerData } = action;
+    const { isProfilePhotoUpdated } = action;
     if (isProfilePhotoUpdated) {
       const response = yield call(updateAvatar, data.profilePhoto);
       data = {
@@ -112,11 +113,9 @@ function* updateUserDetailsSaga(action) {
     }
     delete data.profilePhoto;
     yield call(updateUserDetailsApi, data);
-    if (isInfluencer) {
-      yield call(updateInfluencerDetailsApi, influencerData);
-    }
+
     yield put(getUserDetails());
-    history.goBack();
+    // history.goBack();
     toast.success('User information updated successfully');
     yield put(updateProcessingAction(false));
   } catch (e) {
@@ -125,9 +124,26 @@ function* updateUserDetailsSaga(action) {
   }
 }
 
+function* updateInfluencerDetailslSaga(action) {
+  try {
+    yield put(updateInfluencerProcessingAction(true));
+    const { data } = action;
+
+    yield call(updateInfluencerDetailsApi, data);
+
+    yield put(getUserDetails());
+    // history.goBack();
+    toast.success('Influencer information updated successfully');
+    yield put(updateInfluencerProcessingAction(false));
+  } catch (e) {
+    toast.error(e.message);
+    yield put(updateInfluencerProcessingAction(false));
+  }
+}
+
 export default function* accountSaga() {
   yield takeLatest(REQUEST_INFLUENCER, requestInfluencerSaga);
   yield takeLatest(FETCH_ACTIVITY, getUserActivitiesSaga);
   yield takeLatest(UPDATE_USER_DETAILS, updateUserDetailsSaga);
-  // yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailslSaga);
+  yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailslSaga);
 }

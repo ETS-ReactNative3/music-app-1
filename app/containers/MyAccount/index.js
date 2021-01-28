@@ -10,41 +10,27 @@ import {
   faTwitter,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
-import { faBlog, faEdit } from '@fortawesome/free-solid-svg-icons';
-
-import {
-  Badge,
-  Button,
-  Form,
-  InputGroup,
-  Spinner,
-  Row,
-  Col,
-  Card,
-  ListGroup,
-  Image,
-} from 'react-bootstrap';
-import { isArray } from 'lodash';
+import {faBlog, faEdit} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {isArray} from 'lodash';
 import PropTypes from 'prop-types';
-import React, { memo } from 'react';
-
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PaperCard from '../../components/PaperCard';
+import React, {memo} from 'react';
+import {Badge, Button, Col, Image, Row} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import InfluencerAccount from '../../components/InfluencerAccount';
+import PaperCard from '../../components/PaperCard';
 import defaultImage from '../../images/album-3.jpg';
-import { combineFollowers, formatFollowers } from '../../utils';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import history from '../../utils/history';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { getGenres } from '../Album/actions';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {getGenres} from '../Album/actions';
 import reducer from '../Album/reducer';
 import saga from '../Album/saga';
-import { makeSelectGenres } from '../Album/selectors';
+import {makeSelectGenres} from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
@@ -52,7 +38,7 @@ import {
 import accountReducer from './reducer';
 import accountSaga from './saga';
 
-const _renderGenres = (genersToRender, genres) =>
+const renderGenres = (genersToRender, genres) =>
   genersToRender &&
   isArray(genersToRender) &&
   (genersToRender || []).map(internalGener => (
@@ -93,26 +79,25 @@ const _renderGenres = (genersToRender, genres) =>
 //     ))}
 // </div>
 
-function MyAccount({
-  userDetails,
-  influencerProfile,
-  genres,
-  getGenreList,
-  navigation,
-}) {
-  useInjectSaga({ key: 'album', saga });
-  useInjectReducer({ key: 'album', reducer });
-  useInjectSaga({ key: 'account', saga: accountSaga });
-  useInjectReducer({ key: 'account', reducer: accountReducer });
-  const [followers, setFollowers] = React.useState(0);
-  React.useEffect(() => {
-    setFollowers(combineFollowers(influencerProfile));
-  }, [influencerProfile]);
+function MyAccount(
+  {
+    userDetails,
+    influencerProfile,
+    genres,
+    getGenreList,
+    navigation,
+  }) {
+  useInjectSaga({key: 'album', saga});
+  useInjectReducer({key: 'album', reducer});
+  useInjectSaga({key: 'account', saga: accountSaga});
+  useInjectReducer({key: 'account', reducer: accountReducer});
 
   React.useEffect(() => {
     getGenreList();
   }, []);
 
+  const isInfluencer =
+    (userDetails && userDetails.influencerId !== null) || false;
   return (
     <>
       <PaperCard title="My Account">
@@ -132,113 +117,138 @@ function MyAccount({
               />
               <div className="ml-3">
                 <div>{userDetails.name}</div>
-                {
-                  <div className="text-muted">
-                    {`${
-                      followers > 1000
-                        ? `${formatFollowers(followers / 1000)}k`
-                        : followers
-                    } followers`}
-                  </div>
-                }
               </div>
-                <FontAwesomeIcon
-                className="ml-auto cursor-pointer"
-                  size="1x"
-                  onClick={() => history.push('/myaccount/edit')}
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faEdit}
-                  style={{ marginLeft: 5 }}
-                />
+
+              {userDetails.roleId === 1 && userDetails.influencerId === null && (
+                <Link to="/tasteMaker/request/form">
+                  <Button style={{margin: 10}} variant="outline-success">
+                    Become an influencer
+                  </Button>
+                </Link>
+              )}
+              <FontAwesomeIcon
+                size="1x"
+                color={PLAY_ICON_BG_COLOR}
+                icon={faEdit}
+                onClick={() => history.push('/myaccount/edit')}
+                style={{marginLeft: 5}}
+              />
             </div>
-            <hr className="my-4 blick-border" />
-            <div className="d-flex align-items-center justify-content-between">
-              Social media
-              <Link
-                to={{
-                  pathname: '/requestInfluencer',
-                  param: influencerProfile,
-                  fromEdit: true,
-                }}
-              >
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faEdit}
-                  style={{ marginLeft: 5 }}
-                />
-              </Link>
-            </div>
-            <div>
-              {(influencerProfile && influencerProfile.facebook && (
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faFacebook}
-                  style={{ marginLeft: 5 }}
-                />
-              )) || <></>}
-              {(influencerProfile && influencerProfile.instagram && (
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faInstagram}
-                  style={{ marginLeft: 5 }}
-                />
-              )) || <></>}
-              {(influencerProfile && influencerProfile.twitter && (
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faTwitter}
-                  style={{ marginLeft: 5 }}
-                />
-              )) || <></>}
-              {(influencerProfile && influencerProfile.blog && (
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faBlog}
-                  style={{ marginLeft: 5 }}
-                />
-              )) || <></>}
-              {(influencerProfile && influencerProfile.youtube && (
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faYoutube}
-                  style={{ marginLeft: 5 }}
-                />
-              )) || <></>}
-            </div>
-            <hr className="my-4 blick-border" />
-            <div className="d-flex align-items-center justify-content-between">
-              Genres
-              <Link
-                to={{
-                  pathname: '/',
-                  param: influencerProfile,
-                  fromEdit: true,
-                }}
-              >
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faEdit}
-                />
-              </Link>
-            </div>
-            {_renderGenres(influencerProfile.influencerGenres, genres)}
+            {isInfluencer && (
+              <>
+                <hr className="my-4 blick-border"/>
+                <div className="d-flex align-items-center justify-content-between">
+                  Social media
+                  <Link
+                    to={{
+                      pathname: '/requestInfluencer',
+                      param: influencerProfile,
+                      fromEdit: true,
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      size="1x"
+                      color={PLAY_ICON_BG_COLOR}
+                      icon={faEdit}
+                      style={{marginLeft: 5}}
+                    />
+                  </Link>
+                </div>
+                <div>
+                  {influencerProfile &&
+                  influencerProfile.influencerServices.map(service => {
+                    switch (service.socialChannels.title) {
+                      case 'facebook':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faFacebook}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'twitter':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faTwitter}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'instagram':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faInstagram}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'blog':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faBlog}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'youtube':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faYoutube}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      default:
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faFacebook}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                    }
+                  })}
+                </div>
+                <hr className="my-4 blick-border"/>
+                <div className="d-flex align-items-center justify-content-between">
+                  Genres
+                  <Link
+                    to={{
+                      pathname: '/',
+                      param: influencerProfile,
+                      fromEdit: true,
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      size="1x"
+                      color={PLAY_ICON_BG_COLOR}
+                      icon={faEdit}
+                    />
+                  </Link>
+                </div>
+                {renderGenres(influencerProfile.influencerGenres, genres)}
+              </>
+            )}
           </Col>
-          <Col md={5} lg={4} xl={3}>
-            <InfluencerAccount
-              navigation={navigation}
-              userId={userDetails.id}
-            />
-          </Col>
+          {isInfluencer && (
+            <>
+              <Col md={5} lg={4} xl={3}>
+                <InfluencerAccount
+                  navigation={navigation}
+                  userId={userDetails.id}
+                />
+              </Col>
+            </>
+          )}
         </Row>
       </PaperCard>
-      <div className="container-fluid" style={{ marginTop: '100px' }}>
+      <div className="container-fluid" style={{marginTop: '100px'}}>
         {/* <div
         style={{
           flexDirection: 'row',

@@ -1,19 +1,19 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGetPocket } from '@fortawesome/free-brands-svg-icons';
 import {
   faHeadphonesAlt,
   faMusic,
-  faWindowClose,
   faPlusSquare,
   faWallet,
+  faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import './index.scss';
-import { faGetPocket } from '@fortawesome/free-brands-svg-icons';
-import PlanSvg from '../../images/svg/plan_icon.svg';
+import PropTypes from 'prop-types';
 import LogoPng from '../../images/logo.png';
+import './index.scss';
 
-function LeftSideBar({ role }) {
+function LeftSideBar({ role, isInfluencer }) {
   const handleSideBar = () => {
     document.body.classList.toggle('sidebar-collapse');
   };
@@ -64,19 +64,7 @@ function LeftSideBar({ role }) {
                       <p className="d-inline-block m-0">My Playlists</p>
                     </Link>
                   </li>
-                  <li className="nav-item rounded-lg">
-                    <Link to="/plan" className="nav-link mb-1">
-                      <img
-                        src={PlanSvg}
-                        alt="React Logo"
-                        width={20}
-                        height={20}
-                        style={{ marginRight: 5, marginLeft: -3 }}
-                      />
 
-                      <p className="d-inline-block m-0">My Plan</p>
-                    </Link>
-                  </li>
                   <li className="nav-item rounded-lg">
                     <Link to="/campaigns" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faWallet} className="mr-2" />
@@ -92,24 +80,17 @@ function LeftSideBar({ role }) {
                       <p className="d-inline-block m-0">My Playlists</p>
                     </Link>
                   </li>
-                  <li className="nav-item rounded-lg">
-                    <Link to="/plan" className="nav-link mb-1">
-                      <img
-                        src={PlanSvg}
-                        alt="React Logo"
-                        width={20}
-                        height={20}
-                        style={{ marginRight: 5, marginLeft: -3 }}
-                      />
-                      <p className="d-inline-block m-0">My Plan</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item rounded-lg">
-                    <Link to="/requests" className="nav-link mb-1">
-                      <FontAwesomeIcon icon={faGetPocket} className="mr-2" />
-                      <p className="d-inline-block m-0">Requests</p>
-                    </Link>
-                  </li>
+
+                  {isInfluencer ? (
+                    <li className="nav-item rounded-lg">
+                      <Link to="/requests" className="nav-link mb-1">
+                        <FontAwesomeIcon icon={faGetPocket} className="mr-2" />
+                        <p className="d-inline-block m-0">Requests</p>
+                      </Link>
+                    </li>
+                  ) : (
+                    <></>
+                  )}
                 </>
               )}
               {role === 'administrator' && (
@@ -145,4 +126,8 @@ function LeftSideBar({ role }) {
   );
 }
 
+LeftSideBar.propTypes = {
+  role: PropTypes.any,
+  isInfluencer: PropTypes.any,
+};
 export default LeftSideBar;
