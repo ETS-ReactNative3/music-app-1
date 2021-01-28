@@ -5,7 +5,8 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Image } from 'react-bootstrap';
+import PaperCard from '../../components/PaperCard';
+import { Image, Row, Col } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { toast } from 'react-toastify';
@@ -41,75 +42,68 @@ const Details = ({
   }, []);
 
   return (
-    <div className="container-fluid" style={{ marginTop: '100px' }}>
-      <div className="row album-detail">
-        <div className="col pt-3 pt-md-0">
-          <div className="row">
-            <div className="col">
-              <h1>Campaign Details</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={styles.selectedDataParent}>
-          <h3>Selected Song:</h3>
-          {selectedCampaign && selectedCampaign.song && (
-            <div style={{ marginLeft: 10 }}>
-              <div style={styles.selectedSongParent}>
+    <>
+      <PaperCard title="Campaign Details">
+        <Row className="mt-5">
+          <Col md={12}>
+            {selectedCampaign && selectedCampaign.song && (
+              <div className="d-flex mb-4 align-items-center">
                 <Image
                   width={100}
                   height={100}
-                  src={selectedCampaign.song.artwork || ''}
                   onError={e => {
                     e.target.onerror = null;
                     e.target.src = defaultImage;
                   }}
+                  src={selectedCampaign.song.artwork || ''}
+                  alt=""
+                  roundedCircle
                 />
-                <div style={styles.songInfo}>
-                  <div>{selectedCampaign.song.title}</div>
-                  <div>{selectedCampaign.song.description}</div>
-                  <div>
+                <div className="ml-3">
+                  {selectedCampaign.song.title}
+                  <small className="text-muted d-block">
+                    {selectedCampaign.song.description}
+                  </small>
+                  <small className="text-muted d-block">
                     {moment(selectedCampaign.song.releaseDate).format(
                       'DD MMMM YYYY',
                     )}
-                  </div>
+                  </small>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <h3>Influencer:</h3>
-      <div style={{ marginTop: 20 }}>
-        <BootstrapTable
-          striped
-          bordered={false}
-          bootstrap4
-          pagination={paginationFactory()}
-          keyField="id"
-          data={
-            (selectedCampaign && selectedCampaign.campaignInfluencers) || []
-          }
-          rowEvents={{
-            onClick: (e, row) => {
-              if (
-                row.campaignStatusId === CampaignStatus.COMPLETED ||
-                row.campaignStatusId === CampaignStatus.DECLINED ||
-                row.campaignStatusId === CampaignStatus.APPROVED
-              ) {
-                history.push(
-                  `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
-                );
-              } else {
-                toast.warning('Influencer not completed requested.');
-              }
-            },
-          }}
-          columns={columns}
-        />
-      </div>
-    </div>
+            )}
+          </Col>
+          <Col>
+          <BootstrapTable
+            striped
+            bordered={false}
+            bootstrap4
+            pagination={paginationFactory()}
+            keyField="id"
+            data={
+              (selectedCampaign && selectedCampaign.campaignInfluencers) || []
+            }
+            rowEvents={{
+              onClick: (e, row) => {
+                if (
+                  row.campaignStatusId === CampaignStatus.COMPLETED ||
+                  row.campaignStatusId === CampaignStatus.DECLINED ||
+                  row.campaignStatusId === CampaignStatus.APPROVED
+                ) {
+                  history.push(
+                    `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
+                  );
+                } else {
+                  toast.warning('Influencer not completed requested.');
+                }
+              },
+            }}
+            columns={columns}
+          />
+          </Col>
+        </Row>
+      </PaperCard>
+    </>
   );
 };
 
