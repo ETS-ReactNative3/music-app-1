@@ -10,27 +10,27 @@ import {
   faTwitter,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
-import { faBlog, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isArray } from 'lodash';
+import {faBlog, faEdit} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {isArray} from 'lodash';
 import PropTypes from 'prop-types';
-import React, { memo } from 'react';
-import { Badge, Button, Col, Image, Row } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, {memo} from 'react';
+import {Badge, Button, Col, Image, Row} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import InfluencerAccount from '../../components/InfluencerAccount';
 import PaperCard from '../../components/PaperCard';
 import defaultImage from '../../images/album-3.jpg';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import history from '../../utils/history';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { getGenres } from '../Album/actions';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {getGenres} from '../Album/actions';
 import reducer from '../Album/reducer';
 import saga from '../Album/saga';
-import { makeSelectGenres } from '../Album/selectors';
+import {makeSelectGenres} from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
@@ -79,17 +79,18 @@ const renderGenres = (genersToRender, genres) =>
 //     ))}
 // </div>
 
-function MyAccount({
-  userDetails,
-  influencerProfile,
-  genres,
-  getGenreList,
-  navigation,
-}) {
-  useInjectSaga({ key: 'album', saga });
-  useInjectReducer({ key: 'album', reducer });
-  useInjectSaga({ key: 'account', saga: accountSaga });
-  useInjectReducer({ key: 'account', reducer: accountReducer });
+function MyAccount(
+  {
+    userDetails,
+    influencerProfile,
+    genres,
+    getGenreList,
+    navigation,
+  }) {
+  useInjectSaga({key: 'album', saga});
+  useInjectReducer({key: 'album', reducer});
+  useInjectSaga({key: 'account', saga: accountSaga});
+  useInjectReducer({key: 'account', reducer: accountReducer});
 
   React.useEffect(() => {
     getGenreList();
@@ -120,24 +121,22 @@ function MyAccount({
 
               {userDetails.roleId === 1 && userDetails.influencerId === null && (
                 <Link to="/tasteMaker/request/form">
-                  <Button style={{ margin: 10 }} variant="outline-success">
+                  <Button style={{margin: 10}} variant="outline-success">
                     Become an influencer
                   </Button>
                 </Link>
               )}
-              <Link className="ml-auto">
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faEdit}
-                  onClick={() => history.push('/myaccount/edit')}
-                  style={{ marginLeft: 5 }}
-                />
-              </Link>
+              <FontAwesomeIcon
+                size="1x"
+                color={PLAY_ICON_BG_COLOR}
+                icon={faEdit}
+                onClick={() => history.push('/myaccount/edit')}
+                style={{marginLeft: 5}}
+              />
             </div>
             {isInfluencer && (
               <>
-                <hr className="my-4 blick-border" />
+                <hr className="my-4 blick-border"/>
                 <div className="d-flex align-items-center justify-content-between">
                   Social media
                   <Link
@@ -151,72 +150,72 @@ function MyAccount({
                       size="1x"
                       color={PLAY_ICON_BG_COLOR}
                       icon={faEdit}
-                      style={{ marginLeft: 5 }}
+                      style={{marginLeft: 5}}
                     />
                   </Link>
                 </div>
                 <div>
                   {influencerProfile &&
-                    influencerProfile.influencerServices.map(service => {
-                      switch (service.socialChannels.title) {
-                        case 'facebook':
-                          return (
-                            <FontAwesomeIcon
-                              size="1x"
-                              color={PLAY_ICON_BG_COLOR}
-                              icon={faFacebook}
-                              style={{ marginLeft: 5 }}
-                            />
-                          );
-                        case 'twitter':
-                          return (
-                            <FontAwesomeIcon
-                              size="1x"
-                              color={PLAY_ICON_BG_COLOR}
-                              icon={faTwitter}
-                              style={{ marginLeft: 5 }}
-                            />
-                          );
-                        case 'instagram':
-                          return (
-                            <FontAwesomeIcon
-                              size="1x"
-                              color={PLAY_ICON_BG_COLOR}
-                              icon={faInstagram}
-                              style={{ marginLeft: 5 }}
-                            />
-                          );
-                        case 'blog':
-                          return (
-                            <FontAwesomeIcon
-                              size="1x"
-                              color={PLAY_ICON_BG_COLOR}
-                              icon={faBlog}
-                              style={{ marginLeft: 5 }}
-                            />
-                          );
-                        case 'youtube':
-                          return (
-                            <FontAwesomeIcon
-                              size="1x"
-                              color={PLAY_ICON_BG_COLOR}
-                              icon={faYoutube}
-                              style={{ marginLeft: 5 }}
-                            />
-                          );
-                        default:
-                          return (
-                            <FontAwesomeIcon
-                              size="1x"
-                              color={PLAY_ICON_BG_COLOR}
-                              icon={faFacebook}
-                              style={{ marginLeft: 5 }}
-                            />
-                          );
-                      }
-                    })}
+                  influencerProfile.influencerServices.map(service => {
+                    switch (service.socialChannels.title) {
+                      case 'facebook':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faFacebook}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'twitter':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faTwitter}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'instagram':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faInstagram}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'blog':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faBlog}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      case 'youtube':
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faYoutube}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                      default:
+                        return (
+                          <FontAwesomeIcon
+                            size="1x"
+                            color={PLAY_ICON_BG_COLOR}
+                            icon={faFacebook}
+                            style={{marginLeft: 5}}
+                          />
+                        );
+                    }
+                  })}
                 </div>
-                <hr className="my-4 blick-border" />
+                <hr className="my-4 blick-border"/>
                 <div className="d-flex align-items-center justify-content-between">
                   Genres
                   <Link
@@ -249,7 +248,7 @@ function MyAccount({
           )}
         </Row>
       </PaperCard>
-      <div className="container-fluid" style={{ marginTop: '100px' }}>
+      <div className="container-fluid" style={{marginTop: '100px'}}>
         {/* <div
         style={{
           flexDirection: 'row',
