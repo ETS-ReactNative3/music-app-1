@@ -9,8 +9,9 @@ import {
   faInstagram,
   faTwitter,
   faYoutube,
+  faBlog,
+  faEdit,
 } from '@fortawesome/free-brands-svg-icons';
-import {faBlog, faEdit} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {isArray} from 'lodash';
 import PropTypes from 'prop-types';

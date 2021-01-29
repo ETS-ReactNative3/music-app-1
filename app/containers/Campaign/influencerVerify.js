@@ -1,10 +1,19 @@
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import React, { memo } from 'react';
-import { Button, FormControl, Image, Spinner } from 'react-bootstrap';
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+  faYoutube,
+  faBlog,
+} from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
+import PaperCard from '../../components/PaperCard';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -19,12 +28,17 @@ import requestSaga from '../Requests/saga';
 import {
   fetchCampaignAction,
   getSelectedCampaignAction,
-  verifyCampaignAction
+  verifyCampaignAction,
 } from './actions';
 import styles from './index.styles';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectCampaign, makeSelectRatingSubmitting, makeSelectReviewSubmitting, makeSelectVerifySubmitting } from './selectors';
+import {
+  makeSelectCampaign,
+  makeSelectRatingSubmitting,
+  makeSelectReviewSubmitting,
+  makeSelectVerifySubmitting,
+} from './selectors';
 
 const Details = ({
   match,
@@ -33,7 +47,9 @@ const Details = ({
   updateCampaignStatus,
   fetchCampaigns,
   reviewSubmitting,
-  ratingSubmitting, getSelectedCampaign, verifySubmitting
+  ratingSubmitting,
+  getSelectedCampaign,
+  verifySubmitting,
 }) => {
   useInjectReducer({ key: 'campaign', reducer });
   useInjectReducer({ key: 'request', reducer: requestReducer });
@@ -45,7 +61,11 @@ const Details = ({
   const [feedback, setFeedback] = React.useState('');
   const [selectedInfluencer, setSelectedInfluencer] = React.useState({});
   React.useEffect(() => {
-    if (match.params.influencerId && selectedCampaign && selectedCampaign.campaignInfluencers) {
+    if (
+      match.params.influencerId &&
+      selectedCampaign &&
+      selectedCampaign.campaignInfluencers
+    ) {
       setSelectedInfluencer(
         selectedCampaign.campaignInfluencers.find(
           influencer => influencer.id === Number(match.params.influencerId),
@@ -56,31 +76,34 @@ const Details = ({
 
   React.useEffect(() => {
     fetchCampaigns();
-    getSelectedCampaign(match.params.id)
+    getSelectedCampaign(match.params.id);
   }, []);
 
   const renderAcceptButton = () => {
-    if (
-      selectedInfluencer.campaignStatusId === CampaignStatus.DECLINED
-    ) {
+    if (selectedInfluencer.campaignStatusId === CampaignStatus.DECLINED) {
       return (
-        <div style={styles.alreadyDeclinedStyle}>
-          You Already declined this request!!
-        </div>
+        <>
+          <hr className="my-4 blick-border__danger" />
+          <div className="text-danger">You Already declined this request!!</div>
+        </>
       );
     }
     if (selectedInfluencer.campaignStatusId === CampaignStatus.APPROVED) {
       return (
-        <div style={styles.alreadyVerifiedStyle}>
-          You already verified this request!!
-        </div>
+        <>
+          <hr className="my-4 blick-border" />
+          <div className="text-success">
+            You already verified this request!!
+          </div>
+        </>
       );
     }
     return (
-      <div style={styles.buttonParent}>
-        
-        {!verifySubmitting ? <Button
-          variant="success"
+      <>
+        <Button
+          className="mr-3"
+          variant="warning"
+          disabled={verifySubmitting}
           onClick={() => {
             if (rating > 0) {
               if (feedback !== '') {
@@ -88,139 +111,309 @@ const Details = ({
                   selectedCampaign.id,
                   selectedInfluencer.influencerId,
                   rating,
-                  feedback
-                )
+                  feedback,
+                );
               } else {
                 toast.error('Please enter review');
               }
-            }
-            else {
+            } else {
               toast.error('Please enter rating');
             }
-            
           }}
         >
           Verify this influencer
-        </Button> :  <Spinner animation="border" />
-        }
+          {verifySubmitting && <Spinner animation="border" />}
+        </Button>
+        {/* {!verifySubmitting ? (
+          <Button
+            variant="warning"
+            onClick={() => {
+              if (rating > 0) {
+                if (feedback !== '') {
+                  verifyCampaign(
+                    selectedCampaign.id,
+                    selectedInfluencer.influencerId,
+                    rating,
+                    feedback,
+                  );
+                } else {
+                  toast.error('Please enter review');
+                }
+              } else {
+                toast.error('Please enter rating');
+              }
+            }}
+          >
+            Verify this influencer
+          </Button>
+        ) : (
+          <Spinner animation="border" />
+        )} */}
         <Button
           variant="danger"
           onClick={() =>
-            updateCampaignStatus(
-              selectedCampaign.id,
-              CampaignStatus.DECLINED,
-            )
+            updateCampaignStatus(selectedCampaign.id, CampaignStatus.DECLINED)
           }
         >
           Decline
         </Button>
-      </div >
+      </>
     );
-
-  }
+  };
 
   return (
-    <div className="container-fluid" style={{ marginTop: '100px' }}>
-      <div className="row album-detail">
-        <div className="col pt-3 pt-md-0">
-          <div className="row">
-            <div className="col">
-              <h1>Campaign Influencer Verification</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        {(reviewSubmitting || ratingSubmitting) && <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}><Spinner animation="border" /></div>}
-        <div style={styles.selectedDataParent}>
-          <h3>Influencer:</h3>
-          {selectedInfluencer && selectedInfluencer.influencer && (
-            <div style={{ marginLeft: 10 }}>
-              <div style={styles.selectedSongParent}>
+    <>
+      <PaperCard title="Campaign Influencer Verification">
+        <Row className="mt-5">
+          <Col md={12}>
+            {(reviewSubmitting || ratingSubmitting) && (
+              <div
+                style={{
+                  position: 'fixed',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
+              >
+                <Spinner animation="border" />
+              </div>
+            )}
+            {selectedInfluencer && selectedInfluencer.influencer && (
+              <div className="d-flex align-items-center">
                 <Image
                   width={100}
                   height={100}
-                  src={selectedInfluencer.influencer.user && selectedInfluencer.influencer.user.avatar || ''}
                   onError={e => {
                     e.target.onerror = null;
                     e.target.src = defaultImage;
                   }}
+                  src={
+                    (selectedInfluencer.influencer.user &&
+                      selectedInfluencer.influencer.user.avatar) ||
+                    ''
+                  }
+                  alt=""
+                  roundedCircle
                 />
-                <div style={styles.songInfo}>
-                  <div>{selectedInfluencer.influencer.user && selectedInfluencer.influencer.user.name || ''}</div>
-                  <div style={{ color: 'grey' }}>
+                <div className="ml-3">
+                  {(selectedInfluencer.influencer.user &&
+                    selectedInfluencer.influencer.user.name) ||
+                    ''}
+                  <small className="text-muted d-block">
                     {selectedInfluencer.influencer.description}
-                  </div>
-                  <div style={{ color: 'grey' }}>
+                  </small>
+                  <small className="text-muted d-block">
                     {selectedInfluencer.influencer.helpArtistDescription}
-                  </div>
+                  </small>
+                  <small className="d-flex align-items-center">
+                    {selectedInfluencer.campaignInfluencerServices &&
+                      selectedInfluencer.campaignInfluencerServices.map(
+                        service => {
+                          switch (service.socialChannelsId) {
+                            case 1:
+                              return (
+                                <Link to={service.response}>
+                                  <FontAwesomeIcon
+                                    size="1x"
+                                    icon={faFacebook}
+                                    style={{ marginLeft: 5 }}
+                                  />
+                                </Link>
+                              );
+                            case 2:
+                              return (
+                                <Link to={service.response}>
+                                  <FontAwesomeIcon
+                                    size="1x"
+                                    icon={faTwitter}
+                                    style={{ marginLeft: 5 }}
+                                  />
+                                </Link>
+                              );
+                            case 3:
+                              return (
+                                <Link to={service.response}>
+                                  <FontAwesomeIcon
+                                    size="1x"
+                                    icon={faInstagram}
+                                    style={{ marginLeft: 5 }}
+                                  />
+                                </Link>
+                              );
+                            case 4:
+                              return (
+                                <Link to={service.response}>
+                                  <FontAwesomeIcon
+                                    size="1x"
+                                    icon={faYoutube}
+                                    style={{ marginLeft: 5 }}
+                                  />
+                                </Link>
+                              );
+                            case 5:
+                              return (
+                                <Link to={service.response}>
+                                  <FontAwesomeIcon
+                                    size="1x"
+                                    icon={faBlog}
+                                    style={{ marginLeft: 5 }}
+                                  />
+                                </Link>
+                              );
+                            default:
+                              return <></>;
+                          }
+                        },
+                      )}
+                  </small>
                 </div>
               </div>
+            )}
+          </Col>
+        </Row>
+        <hr className="my-4 blick-border" />
+        <Row>
+          <Col>
+            Feedback
+            <small className="text-muted d-block">
+              {(selectedInfluencer && selectedInfluencer.feedback) || ''}
+            </small>
+          </Col>
+        </Row>
+        <hr className="my-4 blick-border" />
+        <Row>
+          <Col>
+            Review
+            <small className="mb-2 d-block">
+              {selectedInfluencer.ratings &&
+              selectedInfluencer.ratings.length > 0 ? (
+                <StarRatings
+                  rating={selectedInfluencer.ratings[0].rating}
+                  starRatedColor="yellow"
+                  numberOfStars={5}
+                  starDimension="15px"
+                  name="rating"
+                />
+              ) : (
+                <StarRatings
+                  rating={rating}
+                  starRatedColor="blue"
+                  changeRating={value => {
+                    setRating(value);
+                  }}
+                  numberOfStars={5}
+                  starDimension="30px"
+                  name="rating"
+                />
+              )}
+            </small>
+            {selectedInfluencer.reviews &&
+            selectedInfluencer.reviews.length > 0 ? (
+              <small className="text-muted d-block">
+                {selectedInfluencer.reviews[0].review}
+              </small>
+            ) : (
+              <FormControl
+                as="textarea"
+                className="bg-transparent text-white"
+                aria-label="With textarea"
+                placeholder="Enter feedback here"
+                onChange={value => setFeedback(value.target.value)}
+              />
+            )}
+          </Col>
+        </Row>
+        <Row>
+          <Col>{renderAcceptButton()}</Col>
+        </Row>
+      </PaperCard>
+      {/* <div className="container-fluid" style={{ marginTop: '100px' }}>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          {(reviewSubmitting || ratingSubmitting) && (
+            <div
+              style={{
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <Spinner animation="border" />
             </div>
           )}
-
-          <div style={{ marginTop: 20 }}>
-            <h3>Feedback:</h3>
-            <h5 style={{ color: 'grey' }}>
-              {(selectedInfluencer && selectedInfluencer.feedback) || ''}
-            </h5>
-          </div>
-
-          <div style={{ marginTop: 20 }}>
-            <h3>Social Links:</h3>
-            <div>
-              {selectedInfluencer.campaignInfluencerServices &&
-                selectedInfluencer.campaignInfluencerServices.map(service => {
-                  switch (service.socialChannelsId) {
-                    case 1:
-                      return (
-                        <div>
-                          {' '}
-                          Facebook:{' '}
-                          <Link to={service.response}>{service.response}</Link>
-                        </div>
-                      );
-                    case 2:
-                      return (
-                        <div>
-                          {' '}
-                          Twitter:{' '}
-                          <Link to={service.response}>{service.response}</Link>
-                        </div>
-                      );
-                    case 3:
-                      return (
-                        <div>
-                          {' '}
-                          Instagram:{' '}
-                          <Link to={service.response}>{service.response}</Link>
-                        </div>
-                      );
-                    case 4:
-                      return (
-                        <div>
-                          {' '}
-                          Youtube:{' '}
-                          <Link to={service.response}>{service.response}</Link>
-                        </div>
-                      );
-                    case 5:
-                      return (
-                        <div>
-                          {' '}
-                          Blog:{' '}
-                          <Link to={service.response}>{service.response}</Link>
-                        </div>
-                      );
-                    default:
-                      return <></>;
-                  }
-                })}
+          <div style={styles.selectedDataParent}>
+            <div style={{ marginTop: 20 }}>
+              <h3>Feedback:</h3>
+              <h5 style={{ color: 'grey' }}>
+                {(selectedInfluencer && selectedInfluencer.feedback) || ''}
+              </h5>
             </div>
-          </div>
-          <div style={styles.provideFeedbackParentStyle}>
-            Rating and Feedback:
-            {selectedInfluencer.ratings &&
+
+            <div style={{ marginTop: 20 }}>
+              <h3>Social Links:</h3>
+              <div>
+                {selectedInfluencer.campaignInfluencerServices &&
+                  selectedInfluencer.campaignInfluencerServices.map(service => {
+                    switch (service.socialChannelsId) {
+                      case 1:
+                        return (
+                          <div>
+                            {' '}
+                            Facebook:{' '}
+                            <Link to={service.response}>
+                              {service.response}
+                            </Link>
+                          </div>
+                        );
+                      case 2:
+                        return (
+                          <div>
+                            {' '}
+                            Twitter:{' '}
+                            <Link to={service.response}>
+                              {service.response}
+                            </Link>
+                          </div>
+                        );
+                      case 3:
+                        return (
+                          <div>
+                            {' '}
+                            Instagram:{' '}
+                            <Link to={service.response}>
+                              {service.response}
+                            </Link>
+                          </div>
+                        );
+                      case 4:
+                        return (
+                          <div>
+                            {' '}
+                            Youtube:{' '}
+                            <Link to={service.response}>
+                              {service.response}
+                            </Link>
+                          </div>
+                        );
+                      case 5:
+                        return (
+                          <div>
+                            {' '}
+                            Blog:{' '}
+                            <Link to={service.response}>
+                              {service.response}
+                            </Link>
+                          </div>
+                        );
+                      default:
+                        return <></>;
+                    }
+                  })}
+              </div>
+            </div>
+            <div style={styles.provideFeedbackParentStyle}>
+              Rating and Feedback:
+              {selectedInfluencer.ratings &&
               selectedInfluencer.ratings.length > 0 ? (
                 <div style={styles.starRatingStyle}>
                   <StarRatings
@@ -263,10 +456,11 @@ const Details = ({
                   >
                     Submit Rating
                   </Button> */}
+                  {/*
                 </div>
               )}
-            <div style={styles.horizontalLineStyle} />
-            {selectedInfluencer.reviews &&
+              <div style={styles.horizontalLineStyle} />
+              {selectedInfluencer.reviews &&
               selectedInfluencer.reviews.length > 0 ? (
                 <div style={styles.feedbackTextStyle}>
                   Feedback: {selectedInfluencer.reviews[0].review}
@@ -296,16 +490,16 @@ const Details = ({
                   >
                     Submit Feedback
                   </Button> */}
+                  {/*
                 </div>
               )}
-
-
+            </div>
+            {renderAcceptButton()}
           </div>
-          {renderAcceptButton()}
-
         </div>
       </div>
-    </div>
+     */}
+    </>
   );
 };
 
@@ -318,7 +512,7 @@ Details.propTypes = {
   reviewSubmitting: PropTypes.bool,
   ratingSubmitting: PropTypes.bool,
   verifySubmitting: PropTypes.bool,
-  getSelectedCampaign: PropTypes.func
+  getSelectedCampaign: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -333,10 +527,11 @@ function mapDispatchToProps(dispatch) {
     fetchCampaigns: () => dispatch(fetchCampaignAction()),
     getSelectedCampaign: id => dispatch(getSelectedCampaignAction(id)),
     verifyCampaign: (campaignsId, influencerId, rating, feedback) =>
-      dispatch(verifyCampaignAction(campaignsId, influencerId, rating, feedback )),
+      dispatch(
+        verifyCampaignAction(campaignsId, influencerId, rating, feedback),
+      ),
     updateCampaignStatus: (campaignId, statusId) =>
       dispatch(updateCampaignStatusAction(campaignId, statusId)),
-   
   };
 }
 
