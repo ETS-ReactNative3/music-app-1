@@ -9,13 +9,18 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from 'react-share';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
 
 const ShareBox = () => (
   <>
     <Dropdown className="social-album-share">
       <Dropdown.Toggle id="dropdown-basic" as="span">
-        ...
+      <FontAwesomeIcon
+                        size="1x"
+                        icon={faShareAlt}
+                      />
       </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item>

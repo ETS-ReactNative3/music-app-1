@@ -4,6 +4,10 @@ import React, { memo, useEffect } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
+import PaperCard from '../../components/PaperCard';
+import { Col, Image, Row } from 'react-bootstrap';
+import defaultImage from '../../images/album-3.jpg';
+import ShareBox from '../../components/ShareBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPauseCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import { useInjectReducer } from '../../utils/injectReducer';
@@ -16,6 +20,7 @@ import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import { handleSingleSong, handleSongPlaying, setSongs } from '../App/actions';
 import { makeSelectCurrentSong } from '../App/selectors';
 import PlaylistOptions from '../../components/PlaylistOptions';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 function Detail({
   getPlaylistAction,
@@ -56,25 +61,112 @@ function Detail({
 
   return (
     <>
-      <div className="container-fluid jumbotron-bg-inner">
+      {playlist && (
+        <PaperCard title="PlayList">
+          <Row className="mt-4">
+            <Col md={7} lg={8} xl={9}>
+              <div className="d-flex align-items-center">
+                <Image
+                  width={150}
+                  height={150}
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = defaultImage;
+                  }}
+                  src={defaultImage}
+                  alt=""
+                  roundedCircle
+                />
+                <div className="ml-3">
+                  <div className="d-flex align-items-center">
+                    {playlist.title}
+                    <span className="ml-2">
+                      <ShareBox />
+                    </span>
+                  </div>
+                  <small className="text-muted d-block">
+                    {moment(playlist.createdDate).format('YYYY-MM-DD')}
+                  </small>
+                  <small className="text-muted d-block">
+                    Songs: {playlist.playlistSongs.length}
+                  </small>
+                  <span
+                    onClick={playAllSongsHandler}
+                    className="mt-2 btn btn-warning btn-sm rounded-pill"
+                  >
+                    {currentSong.playing ? 'Pause' : 'Play All'}
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <section className="py-5">
+                {playlist.playlistSongs.map((ele, index) => (
+                  <div
+                    className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                    key={index}
+                  >
+                    <div className="song-number">
+                      {`0${index + 1}`.slice(-2)}
+                    </div>
+                    <div className="song-title px-2 min-w15">
+                      <h5>{ele.song.title}</h5>
+                      <h6>{ele.song.description}</h6>
+                    </div>
+                    <div className="song-duration px-2">4:25</div>
+                    <div className="song-action px-2">
+                      <span
+                        onClick={() => singleSongHandler(index)}
+                        className="cursor-pointer"
+                      >
+                        <FontAwesomeIcon
+                          size="3x"
+                          color={PLAY_ICON_BG_COLOR}
+                          icon={
+                            currentSong.songIndex === index &&
+                            currentSong.playing
+                              ? faPauseCircle
+                              : faPlayCircle
+                          }
+                        />
+                      </span>
+                    </div>
+                    <div className="dot-box ml-auto">
+                      <PlaylistOptions remove={() => removeSong(ele.song.id)} />
+                    </div>
+                  </div>
+                ))}
+              </section>
+            </Col>
+          </Row>
+        </PaperCard>
+      )}
+
+      {/* <div className="container-fluid jumbotron-bg-inner">
         {playlist && (
           <>
             <div className="row album-detail">
               <div className="col-auto">
                 {/* <div className="profile-img-box"> */}
-                {/*  <img */}
-                {/*    src={albumInfo.artwork} */}
-                {/*    className="rounded-lg img-fluid" */}
-                {/*    alt="" */}
-                {/*  /> */}
-                {/* </div> */}
+      {/*  <img */}
+      {/*    src={albumInfo.artwork} */}
+      {/*    className="rounded-lg img-fluid" */}
+      {/*    alt="" */}
+      {/*  /> */}
+      {/* </div> */}
+
+      {/*
               </div>
               <div className="col pt-3 pt-md-0">
                 <div className="row">
                   <div className="col">
                     <h1>{playlist.title}</h1>
                   </div>
-                  <div className="col text-right">{/* <ShareBox /> */}</div>
+                  <div className="col text-right">{/* <ShareBox /> */}
+      {/*
+                  </div>
                 </div>
                 <div className="row flex-column">
                   <div className="col">
@@ -84,15 +176,18 @@ function Detail({
                   </div>
                   <div className="col mt-3">
                     {/* <span */}
-                    {/*  onClick={playAllSongsHandler} */}
-                    {/*  className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center cursor-pointer" */}
-                    {/* > */}
-                    {/*  {playing ? 'Pause' : 'Play All'} */}
-                    {/* </span> */}
+      {/*  onClick={playAllSongsHandler} */}
+      {/*  className="text-decoration-none bg-white text-dark px-4 py-2 rounded-pill text-center cursor-pointer" */}
+      {/* > */}
+      {/*  {playing ? 'Pause' : 'Play All'} */}
+      {/* </span> */}
+
+      {/*
                   </div>
                 </div>
               </div>
             </div>
+
             <section className="py-5">
               {playlist.playlistSongs.map((ele, index) => (
                 <div
@@ -130,6 +225,7 @@ function Detail({
           </>
         )}
       </div>
+     */}
     </>
   );
 }
