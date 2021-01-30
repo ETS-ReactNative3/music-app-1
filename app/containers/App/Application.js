@@ -25,6 +25,7 @@ import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
 import CampaignInfluencerVerification from '../Campaign/influencerVerify';
 import EditAccount from '../MyAccount/EditAccount';
+import WithdrawlRequest from '../Wallet/WithdrawlRequest';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -119,6 +120,9 @@ function Application() {
         </PrivateRoute>
         <PrivateRoute exact path="/wallet">
           <Wallet />
+        </PrivateRoute>
+        <PrivateRoute exact path="/wallet/withdrawal">
+          <WithdrawlRequest/>
         </PrivateRoute>
         <PrivateRoute exact path="/order/success">
           <OrderSuccess />

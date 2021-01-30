@@ -129,11 +129,12 @@ function MyAccount(
               )}
               <FontAwesomeIcon
                 size="1x"
-                color={PLAY_ICON_BG_COLOR}
+                color={'white'}
                 icon={faEdit}
                 onClick={() => history.push('/myaccount/edit')}
                 style={{marginLeft: 5}}
               />
+              
             </div>
             {isInfluencer && (
               <>

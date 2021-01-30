@@ -13,6 +13,8 @@ import { fetchPaymentHistoryAction } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import { makeSelectPaymentHistory } from './selectors';
+import { Button } from 'react-bootstrap';
+import history from '../../utils/history';
 
 const WalletHistory = ({ paymentHistory, fetchPaymentHistory }) => {
   useInjectReducer({ key: 'wallet', reducer });
@@ -49,6 +51,10 @@ const WalletHistory = ({ paymentHistory, fetchPaymentHistory }) => {
 
   return (
     <PaperCard title="Credit Purchase History">
+      <Button variant="success" onClick={() => history.push('/wallet/withdrawal')}>Withdrawal Request</Button>
+      <Button style={{margin: 10}} variant="outline-success">
+                    Make a transfer
+                  </Button>
       <div className="mt-4">
         <BootstrapTable
           striped
