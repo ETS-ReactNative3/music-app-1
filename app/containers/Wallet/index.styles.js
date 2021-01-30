@@ -19,12 +19,12 @@ const styles = {
     headerTitle: {
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 22,
+        fontSize: 26,
         marginTop: 30
     },
     subHeaderTitle: {
         color: 'lightgrey',
-        fontSize: 16
+        fontSize: 18
     },
     withdrawalOptionContainer: {
         display: 'flex',
@@ -49,7 +49,11 @@ const styles = {
         margin: 10,
         cursor: 'pointer'
     },
-    addWithdrawalContainer: { padding:20 ,marginLeft: 10, marginRight: 10, border: 1, borderColor: 'black', borderStyle: 'solid' }
+    addWithdrawalContainer: { padding:20 ,marginLeft: 10, marginRight: 10, border: 1, borderColor: 'black', borderStyle: 'solid' },
+    summaryCardStyle: {  color: 'black', padding: 20, marginTop: 140, width: '60%' },
+    labelCeditText: {fontSize: 14, color: 'grey'},
+    labelCeditValueText: {fontSize: 14, color: 'grey', marginRight: 20},
+    creditParentStyle: {display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, marginBottom: 10}
 }
 
 export default styles;

@@ -12,7 +12,7 @@ import { makeSelectUserWallet } from '../App/selectors';
 import styles from './index.styles';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 
-const WithdrawlRequest = ({ userCredit }) => {
+const TransferRequest = ({ userCredit }) => {
     const [withdrawalAccount, setWithDrawalAccount] = React.useState(1);
 
 
@@ -22,70 +22,9 @@ const WithdrawlRequest = ({ userCredit }) => {
     ];
     const [withdrawalTransfer, setWithDrawalTransfer] = React.useState(options[0]);
 
-
-    const renderWithdrawalInformation = () => {
-        if (withdrawalTransfer.value === 1) {
-            return (<div style={{ marginTop: 30 }}>
-                <FormGroup style={{ marginTop: 10 }}>
-                    <label htmlFor="accountHolder">Account holder</label>
-                    <input
-                        name="accountHolder"
-                        placeholder="Enter account holder"
-                        className={`form-control `}
-                    // ref={register}
-                    />
-                </FormGroup>
-                <FormGroup style={{ marginTop: 10 }}>
-                    <label htmlFor="iban">IBAN</label>
-                    <input
-                        name="iban"
-                        placeholder="Enter IBAN number"
-                        className={`form-control `}
-                    // ref={register}
-                    />
-                </FormGroup>
-                <FormGroup style={{ marginTop: 10 }}>
-                    <label htmlFor="bic">BIC/Swift</label>
-                    <input
-                        name="bic"
-                        placeholder="Enter BIC/swift number"
-                        className={`form-control `}
-                    // ref={register}
-                    />
-                </FormGroup>
-                <Button variant="success">Add this withdrawal method</Button>
-            </div>)
-        } else if (withdrawalTransfer.value === 2) {
-            return (<div style={{ marginTop: 30 }}>
-                <FormGroup style={{ marginTop: 10 }}>
-                    <label htmlFor="emailId">Paypal Email-id</label>
-                    <input
-                        name="emailId"
-                        placeholder="Enter Paypal Email-id"
-                        className={`form-control `}
-                    // ref={register}
-                    />
-                </FormGroup>
-                <Button variant="success">Add this withdrawal method</Button>
-            </div>)
-        }
-    }
-
     return (
         <>
-            <div style={styles.tabContainer}>
-                <div style={styles.tabItem}>
-                    <FontAwesomeIcon icon={faHistory} />
-                    History
-                    </div>
-                <div style={{ ...styles.tabItem, ...styles.activeTabItem }}>
-                    <FontAwesomeIcon icon={faExchangeAlt} />
-                    Transfer</div>
-                <div style={styles.tabItem}>
-                    <FontAwesomeIcon icon={faDownload} />
 
-                    Withdrawal</div>
-            </div>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
 
                 <FormGroup as={Col} style={{ width: '70%', margin: 10 }}>
@@ -93,31 +32,13 @@ const WithdrawlRequest = ({ userCredit }) => {
 
                     <div className="row">
                         <div className="col">
-                            <div style={styles.headerTitle}>Withdrawal</div>
-                            <div style={styles.subHeaderTitle}>Withdraw money what you earned on bliiink</div>
+                            <div style={styles.headerTitle}>Transfer</div>
+                            <div style={styles.subHeaderTitle}>Transfer your credits to another Bliiink account</div>
                         </div>
                     </div>
-
                     <Card style={{ marginTop: 30, color: 'black', padding: 20 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Card.Title>1. Beneficary</Card.Title>
-                            <FontAwesomeIcon icon={faCheck} color={'#28a745'} />
-                        </div>
-                        <Card.Body style={{ color: 'black', padding: 10 }}>
-                            <div className="input-group">
-                                <input className="form-control py-2 border-right-0 border" type="text" placeholder="Company information" id="examddple-search-input" />
-                                <span className="input-group-append">
-                                    <div className="btn btn-outline-secondary border-left-0 border">
-                                        <FontAwesomeIcon icon={faEdit} />
-                                    </div>
-                                </span>
-                            </div>
-                        </Card.Body>
-                    </Card>
-
-                    <Card style={{ marginTop: 30, color: 'black', padding: 20 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Card.Title>2. Withdrawal Method</Card.Title>
+                            <Card.Title>1. Recipient</Card.Title>
                             <FontAwesomeIcon icon={faCheck} color={'#28a745'} />
                         </div>
                         <FormGroup>
@@ -129,19 +50,17 @@ const WithdrawlRequest = ({ userCredit }) => {
                                                 <input type="radio" checked={withdrawalAccount === value} class="form-check-input" name="optradio" />Add Withdrawal Method
                                 </label>
                                         </div>
-                                        {withdrawalAccount === 4 && <div style={styles.addWithdrawalContainer}>
-                                            <label>Withdrawal Method</label>
-                                            <Select
-                                                className="basic-single"
-                                                classNamePrefix="select"
-                                                name="Add Withdrawal"
-                                                options={options}
-                                                value={withdrawalTransfer}
-                                                placeholder="Select Withdrawal type"
-                                                styles={{}}
-                                                onChange={(value) => setWithDrawalTransfer(value)}
-                                            />
-                                            {renderWithdrawalInformation()}
+                                        {withdrawalAccount === 4 && <div style={{ margin: 10, marginTop: 30 }}>
+                                            <FormGroup style={{ marginTop: 10 }}>
+                                                <label htmlFor="emailId">Email address of another bliiink account</label>
+                                                <input
+                                                    name="emailId"
+                                                    placeholder="Enter Email-id"
+                                                    className={`form-control `}
+                                                // ref={register}
+                                                />
+                                            </FormGroup>
+                                            <Button variant="success">Add recipient</Button>
                                         </div>}
                                     </>)
                                 }
@@ -157,10 +76,9 @@ const WithdrawlRequest = ({ userCredit }) => {
                         </FormGroup>
 
                     </Card>
-
                     <Card style={{ marginTop: 30, color: 'black', padding: 20 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Card.Title>3. Amount</Card.Title>
+                            <Card.Title>2. Amount</Card.Title>
                             <FontAwesomeIcon icon={faCheck} color={'#28a745'} />
                         </div>
                         <Card.Body style={{ color: 'black', padding: 10 }}>
@@ -222,7 +140,7 @@ const WithdrawlRequest = ({ userCredit }) => {
     )
 }
 
-WithdrawlRequest.propTypes = {
+TransferRequest.propTypes = {
     dispatch: PropTypes.func.isRequired,
     userCredit: PropTypes.any,
 };
@@ -242,4 +160,4 @@ const withConnect = connect(
     mapDispatchToProps,
 );
 
-export default compose(withConnect, memo)(WithdrawlRequest);
+export default compose(withConnect, memo)(TransferRequest);

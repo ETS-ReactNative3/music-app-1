@@ -52,7 +52,7 @@ const WalletHistory = ({ paymentHistory, fetchPaymentHistory }) => {
   return (
     <PaperCard title="Credit Purchase History">
       <Button variant="success" onClick={() => history.push('/wallet/withdrawal')}>Withdrawal Request</Button>
-      <Button style={{margin: 10}} variant="outline-success">
+      <Button style={{margin: 10}} variant="outline-success" onClick={() => history.push('/wallet/transfer')}>
                     Make a transfer
                   </Button>
       <div className="mt-4">
