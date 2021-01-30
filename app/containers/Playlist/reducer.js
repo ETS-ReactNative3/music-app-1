@@ -9,11 +9,12 @@ import {
   GET_MY_PLAYLISTS_SUCCESS,
   GET_PLAYLIST_SUCCESS,
   GET_PLAYLIST_REQUEST,
-  GET_PLAYLIST_FAIL,
+  GET_PLAYLIST_FAIL, TOGGLE_UPDATE_PLAYLIST_POPUP,
 } from './constants';
 
 export const initialState = {
-  modalState: false,
+  addModalState: false,
+  updateModalState: false,
   playlists: [],
   playlist: null,
   loader: false,
@@ -24,7 +25,10 @@ const playlistReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case TOGGLE_PLAYLIST_POPUP:
-        draft.modalState = action.status;
+        draft.addModalState = action.status;
+        break;
+      case TOGGLE_UPDATE_PLAYLIST_POPUP:
+        draft.updateModalState = action.updateModalStatus;
         break;
       case GET_MY_PLAYLISTS_SUCCESS:
         draft.playlists = action.playlists;

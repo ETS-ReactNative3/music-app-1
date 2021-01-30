@@ -18,7 +18,7 @@ const selectPlaylistDomain = state => state.playlist || initialState;
 const makeSelectPlaylistPopUpState = () =>
   createSelector(
     selectPlaylistDomain,
-    substate => substate.modalState,
+    substate => substate.addModalState,
   );
 
 const makeSelectPlaylists = () =>
@@ -39,10 +39,17 @@ const makeSelectLoader = () =>
     substate => substate.loader,
   );
 
+const makeSelectUpdateModalStatus = () =>
+  createSelector(
+    selectPlaylistDomain,
+    substate => substate.updateModalState,
+  );
+
 export {
   selectPlaylistDomain,
   makeSelectPlaylistPopUpState,
   makeSelectPlaylists,
   makeSelectPlaylist,
   makeSelectLoader,
+  makeSelectUpdateModalStatus
 };

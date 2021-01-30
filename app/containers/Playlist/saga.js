@@ -31,7 +31,7 @@ import {
   getPlaylistFail,
   getPlaylistSuccess,
   togglePlaylistPopup,
-  getPlaylist, updatePlaylistSuccess, updatePlaylistFail,
+  getPlaylist, updatePlaylistSuccess, updatePlaylistFail, toggleUpdatePlaylistPopup,
 } from './actions';
 
 function postPlaylist(data) {
@@ -67,6 +67,7 @@ export function* createPlaylistSaga({data}) {
     yield call(postPlaylist, data);
     yield put(createPlaylistSuccess());
     yield put(togglePlaylistPopup(false));
+    yield put(getMyPlaylist());
     toast.success('Playlist created successfully.');
   } catch (e) {
     toast.error(e.message);
@@ -79,7 +80,7 @@ export function* updatePlaylistSaga({data}) {
     yield call(editPlaylist, data);
     yield put(getMyPlaylist());
     yield put(updatePlaylistSuccess());
-    yield put(togglePlaylistPopup(false));
+    yield put(toggleUpdatePlaylistPopup(false));
     toast.success('Playlist updated successfully.');
   } catch (e) {
     toast.error(e.message);
