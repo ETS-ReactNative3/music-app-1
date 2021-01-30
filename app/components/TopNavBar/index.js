@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/Button';
 
 const AsyncTypeahead = withAsync(Typeahead);
 
-const TopNavBar = ({ userDetails }) => {
+const TopNavBar = ({ userDetails, putUserDetails }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
@@ -46,6 +46,8 @@ const TopNavBar = ({ userDetails }) => {
   };
 
   const logout = () => {
+    putUserDetails(null);
+
     localStorage.removeItem('token');
     history.push('/auth/login');
   };

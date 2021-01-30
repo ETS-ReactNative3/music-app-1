@@ -13,7 +13,7 @@ import {
   makeSelectRole,
   makeSelectUserDetails,
 } from '../App/selectors';
-import { getUserDetails, prepareApp } from '../App/actions';
+import { getUserDetails, getUserDetailsSuccess, prepareApp } from '../App/actions';
 import reducer from '../App/reducer';
 import saga from '../App/saga';
 import LoadingIndicator from '../../components/LoadingIndicator';
@@ -25,6 +25,7 @@ function Dashboard({
   userDetails,
   getUserDetailsAction,
   loading,
+  putUserDetails
 }) {
   useInjectReducer({ key: 'global', reducer });
   useInjectSaga({ key: 'global', saga });
@@ -39,7 +40,7 @@ function Dashboard({
         <LoadingIndicator />
       ) : (
         <main className="content-wrapper" role="main">
-          <TopNavBar userDetails={userDetails} />
+          <TopNavBar userDetails={userDetails} putUserDetails={putUserDetails} />
           <LeftSideBar
             role={role}
             isInfluencer={userDetails && userDetails.influencerId !== null}
@@ -59,6 +60,7 @@ Dashboard.propTypes = {
   userDetails: PropTypes.any,
   getUserDetailsAction: PropTypes.any,
   loading: PropTypes.any,
+  putUserDetails: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -71,6 +73,7 @@ function mapDispatchToProps(dispatch) {
   return {
     appInit: () => dispatch(prepareApp()),
     getUserDetailsAction: () => dispatch(getUserDetails()),
+    putUserDetails: (userDetail) => dispatch(getUserDetailsSuccess(userDetail))
   };
 }
 

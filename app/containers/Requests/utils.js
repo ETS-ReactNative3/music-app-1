@@ -5,6 +5,7 @@ import React from 'react';
 import { Image } from 'react-bootstrap';
 import { calculateExpiry } from '../../utils';
 import { CampaignStatus } from './constants';
+import defaultImage from '../../images/album-3.jpg';
 
 export const newRequestColumns = [
   {
@@ -69,7 +70,13 @@ export function pictureFormatter(cell, row) {
     );
   }
 
-  return <span>{cell}</span>;
+  return (
+    <Image
+      src={defaultImage}
+      style={{ width: 40, height: 40, borderRadius: 20 }}
+
+    />
+  )
 }
 
 function expiryDateFormatter(cell, row) {
