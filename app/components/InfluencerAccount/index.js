@@ -63,7 +63,7 @@ const InfluencerAccount = ({
               .map((review, index) => (
                 <Reviews
                   key={index}
-                  name={review.campaignInfluencersId}
+                  name={review.campaignInfluencers.campaigns.song.user.name}
                   time={createDifferenenceTimeString(
                     review.createdDate,
                     new Date().toString(),
@@ -103,7 +103,6 @@ const InfluencerAccount = ({
                 imagePath={activity.campaigns.song.artwork}
                 name={activity.campaigns.song.title}
                 rate={activity.campaigns.song.duration || '3.53'}
-                role={activity.campaigns.user.name}
               />
               <Container fluid>
                 <Row className="justify-content-center">

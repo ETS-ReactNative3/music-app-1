@@ -28,7 +28,6 @@ function AllActivites({ activities }) {
               imagePath={activity.campaigns.song.artwork}
               name={activity.campaigns.song.title}
               rate={activity.campaigns.song.duration || '3.53'}
-              role={activity.campaigns.user.name}
             />
           ))}
       </div>
