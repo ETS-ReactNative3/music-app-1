@@ -27,7 +27,7 @@ function* createPaymentSession(action) {
   try {
     yield call(createPayment, { session_id: action.id });
     yield put(createPaymentSuccessAction());
-    // yield put(getUserDetails());
+    window.location.reload();
   } catch (e) {
     toast.error(e.message);
     yield put(createPaymentFailAction(e.message));
