@@ -6,7 +6,6 @@ import {
   faInstagram,
   faTwitter,
   faYoutube,
-  faBlog,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';
@@ -30,7 +29,6 @@ import {
   getSelectedCampaignAction,
   verifyCampaignAction,
 } from './actions';
-import styles from './index.styles';
 import reducer from './reducer';
 import saga from './saga';
 import {

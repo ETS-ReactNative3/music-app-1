@@ -9,8 +9,6 @@ import {
   faInstagram,
   faTwitter,
   faYoutube,
-  faBlog,
-  faEdit,
 } from '@fortawesome/free-brands-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {isArray} from 'lodash';
@@ -38,6 +36,7 @@ import {
 } from '../App/selectors';
 import accountReducer from './reducer';
 import accountSaga from './saga';
+import {faEdit} from "@fortawesome/free-regular-svg-icons";
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&

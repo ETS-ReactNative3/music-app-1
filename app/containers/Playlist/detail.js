@@ -1,54 +1,54 @@
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import React, { memo, useEffect } from 'react';
-import { createStructuredSelector } from 'reselect';
-import { useParams } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import React, {memo, useEffect} from 'react';
+import {createStructuredSelector} from 'reselect';
+import {useParams} from 'react-router-dom';
 import moment from 'moment';
 import PaperCard from '../../components/PaperCard';
-import { Col, Image, Row } from 'react-bootstrap';
+import {Col, Image, Row} from 'react-bootstrap';
 import defaultImage from '../../images/album-3.jpg';
 import ShareBox from '../../components/ShareBox';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPauseCircle, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faPauseCircle, faPlayCircle} from '@fortawesome/free-solid-svg-icons';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import { deleteSong, getPlaylist } from './actions';
-import { makeSelectLoader, makeSelectPlaylist } from './selectors';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
-import { handleSingleSong, handleSongPlaying, setSongs } from '../App/actions';
-import { makeSelectCurrentSong } from '../App/selectors';
+import {deleteSong, getPlaylist} from './actions';
+import {makeSelectLoader, makeSelectPlaylist} from './selectors';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
+import {handleSingleSong, handleSongPlaying, setSongs} from '../App/actions';
+import {makeSelectCurrentSong} from '../App/selectors';
 import PlaylistOptions from '../../components/PlaylistOptions';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
 function Detail({
-  getPlaylistAction,
-  playlist,
-  loader,
-  onHandleSongPlaying,
-  onHandleSingleSong,
-  currentSong,
-  setSongsAction,
-  deleteSongAction,
-}) {
-  useInjectReducer({ key: 'playlist', reducer });
-  useInjectSaga({ key: 'playlist', saga });
-  const { id } = useParams();
+                  getPlaylistAction,
+                  playlist,
+                  loader,
+                  onHandleSongPlaying,
+                  onHandleSingleSong,
+                  currentSong,
+                  setSongsAction,
+                  deleteSongAction,
+                }) {
+  useInjectReducer({key: 'playlist', reducer});
+  useInjectSaga({key: 'playlist', saga});
+  const {id} = useParams();
 
   useEffect(() => {
     getPlaylistAction(id);
   }, [id]);
 
   const playAllSongsHandler = () => {
-    const { playing } = currentSong;
+    const {playing} = currentSong;
     onHandleSongPlaying(!playing);
   };
 
   const singleSongHandler = index => {
     const songs = playlist.playlistSongs.map(item => item.song);
     setSongsAction(songs);
-    const { playing, songIndex } = currentSong;
+    const {playing, songIndex} = currentSong;
     const status = songIndex === index ? !playing : true;
     onHandleSingleSong(index, status);
   };
@@ -57,7 +57,7 @@ function Detail({
     deleteSongAction(id, songId);
   };
 
-  const { playing, songIndex } = currentSong;
+  const {playing, songIndex} = currentSong;
 
   return (
     <>
@@ -66,22 +66,34 @@ function Detail({
           <Row className="mt-4">
             <Col md={7} lg={8} xl={9}>
               <div className="d-flex align-items-center">
-                <Image
-                  width={150}
-                  height={150}
-                  onError={e => {
-                    e.target.onerror = null;
-                    e.target.src = defaultImage;
-                  }}
-                  src={defaultImage}
-                  alt=""
-                  roundedCircle
-                />
+                {playlist.playlistSongs.length > 0 ? <Image
+                    width={150}
+                    height={150}
+                    onError={e => {
+                      e.target.onerror = null;
+                      e.target.src = defaultImage;
+                    }}
+                    src={playlist.playlistSongs[0].song.artwork ? playlist.playlistSongs[0].song.artwork : defaultImage}
+                    alt=""
+                    roundedCircle
+                  /> :
+                  <Image
+                    width={150}
+                    height={150}
+                    onError={e => {
+                      e.target.onerror = null;
+                      e.target.src = defaultImage;
+                    }}
+                    src={defaultImage}
+                    alt=""
+                    roundedCircle
+                  />
+                }
                 <div className="ml-3">
                   <div className="d-flex align-items-center">
                     {playlist.title}
                     <span className="ml-2">
-                      <ShareBox />
+                      <ShareBox/>
                     </span>
                   </div>
                   <small className="text-muted d-block">
@@ -134,7 +146,7 @@ function Detail({
                       </span>
                     </div>
                     <div className="dot-box ml-auto">
-                      <PlaylistOptions remove={() => removeSong(ele.song.id)} />
+                      <PlaylistOptions remove={() => removeSong(ele.song.id)}/>
                     </div>
                   </div>
                 ))}
