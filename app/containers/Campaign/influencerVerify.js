@@ -164,6 +164,9 @@ const Details = ({
   return (
     <>
       <PaperCard title="Campaign Influencer Verification">
+        <div style={{ color: 'white' }}>
+          <Link to="/campaigns">Campaigns</Link> {'>>'} <Link to={`/campaigns/${selectedCampaign.id}`}>Campaigns Details</Link> {'>>'} <Link style={{ pointerEvents: 'none', opacity: 0.7, color: 'grey' }} to={''}>Campaign Influencer Verification</Link>
+        </div>
         <Row className="mt-5">
           <Col md={12}>
             {(reviewSubmitting || ratingSubmitting) && (
@@ -286,41 +289,41 @@ const Details = ({
             Review
             <small className="mb-2 d-block">
               {selectedInfluencer.ratings &&
-              selectedInfluencer.ratings.length > 0 ? (
-                <StarRatings
-                  rating={selectedInfluencer.ratings[0].rating}
-                  starRatedColor="yellow"
-                  numberOfStars={5}
-                  starDimension="15px"
-                  name="rating"
-                />
-              ) : (
-                <StarRatings
-                  rating={rating}
-                  starRatedColor="blue"
-                  changeRating={value => {
-                    setRating(value);
-                  }}
-                  numberOfStars={5}
-                  starDimension="30px"
-                  name="rating"
-                />
-              )}
+                selectedInfluencer.ratings.length > 0 ? (
+                  <StarRatings
+                    rating={selectedInfluencer.ratings[0].rating}
+                    starRatedColor="yellow"
+                    numberOfStars={5}
+                    starDimension="15px"
+                    name="rating"
+                  />
+                ) : (
+                  <StarRatings
+                    rating={rating}
+                    starRatedColor="blue"
+                    changeRating={value => {
+                      setRating(value);
+                    }}
+                    numberOfStars={5}
+                    starDimension="30px"
+                    name="rating"
+                  />
+                )}
             </small>
             {selectedInfluencer.reviews &&
-            selectedInfluencer.reviews.length > 0 ? (
-              <small className="text-muted d-block">
-                {selectedInfluencer.reviews[0].review}
-              </small>
-            ) : (
-              <FormControl
-                as="textarea"
-                className="bg-transparent text-white"
-                aria-label="With textarea"
-                placeholder="Enter feedback here"
-                onChange={value => setFeedback(value.target.value)}
-              />
-            )}
+              selectedInfluencer.reviews.length > 0 ? (
+                <small className="text-muted d-block">
+                  {selectedInfluencer.reviews[0].review}
+                </small>
+              ) : (
+                <FormControl
+                  as="textarea"
+                  className="bg-transparent text-white"
+                  aria-label="With textarea"
+                  placeholder="Enter feedback here"
+                  onChange={value => setFeedback(value.target.value)}
+                />
+              )}
           </Col>
         </Row>
         <Row>
@@ -456,7 +459,7 @@ const Details = ({
                   >
                     Submit Rating
                   </Button> */}
-                  {/*
+      {/*
                 </div>
               )}
               <div style={styles.horizontalLineStyle} />
@@ -490,7 +493,7 @@ const Details = ({
                   >
                     Submit Feedback
                   </Button> */}
-                  {/*
+      {/*
                 </div>
               )}
             </div>
