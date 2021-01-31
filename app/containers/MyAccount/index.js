@@ -130,6 +130,7 @@ function MyAccount(
                 size="1x"
                 color={PLAY_ICON_BG_COLOR}
                 icon={faEdit}
+                className="cursor-pointer"
                 onClick={() => history.push('/myaccount/edit')}
                 style={{marginLeft: 5}}
               />

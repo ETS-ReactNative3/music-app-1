@@ -15,7 +15,7 @@ function PlaylistOptions({ remove }) {
         ...
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={remove}>
+        <Dropdown.Item className="cursor-pointer" onClick={remove}>
           Remove from this playlist
         </Dropdown.Item>
       </Dropdown.Menu>

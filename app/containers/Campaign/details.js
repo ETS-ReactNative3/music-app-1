@@ -45,10 +45,9 @@ const Details = ({
     <>
       <PaperCard title="Campaign Details">
         
-       
-        <div style={{ color: 'white' }}>
-          <Link to="/campaigns">Campaigns</Link> {'>>'} <Link style={{pointerEvents: 'none', opacity: 0.7, color: 'grey'}} to={`/campaigns/${selectedCampaign.id}`}>Campaigns Details</Link>
-        </div>
+        <small className="d-flex align-items-center"> 
+          <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="ml-1" style={{ pointerEvents: 'none', opacity: 0.6, color: '#fff' }} to={''}>Campaigns Details</Link>
+        </small>
         <Row className="mt-5">
           <Col md={12}>
             {selectedCampaign && selectedCampaign.song && (

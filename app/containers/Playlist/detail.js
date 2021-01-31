@@ -104,7 +104,7 @@ function Detail({
                   </small>
                   <span
                     onClick={playAllSongsHandler}
-                    className="mt-2 btn btn-warning btn-sm rounded-pill"
+                    className="mt-2 btn btn-warning btn-sm rounded-pill cursor-pointer"
                   >
                     {currentSong.playing ? 'Pause' : 'Play All'}
                   </span>

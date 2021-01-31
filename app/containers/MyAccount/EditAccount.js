@@ -158,6 +158,7 @@ const EditAccount = ({
               style={{ cursor: 'pointer', color: 'black' }}
               htmlFor="fileImage"
               variant="link"
+              className="cursor-pointer"
               onClick={handleFileChange}
             >
               Change photo

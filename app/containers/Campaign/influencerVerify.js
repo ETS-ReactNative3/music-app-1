@@ -6,6 +6,7 @@ import {
   faInstagram,
   faTwitter,
   faYoutube,
+  faBlog,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';
@@ -162,9 +163,9 @@ const Details = ({
   return (
     <>
       <PaperCard title="Campaign Influencer Verification">
-        <div style={{ color: 'white' }}>
-          <Link to="/campaigns">Campaigns</Link> {'>>'} <Link to={`/campaigns/${selectedCampaign.id}`}>Campaigns Details</Link> {'>>'} <Link style={{ pointerEvents: 'none', opacity: 0.7, color: 'grey' }} to={''}>Campaign Influencer Verification</Link>
-        </div>
+        <small className="d-flex align-items-center"> 
+          <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="mx-1 text-warning"  to={`/campaigns/${selectedCampaign.id}`}>Campaigns Details</Link> {'>'} <Link className="ml-1" style={{ pointerEvents: 'none', opacity: 0.6, color: '#fff' }} to={''}>Campaign Influencer Verification</Link>
+        </small>
         <Row className="mt-5">
           <Col md={12}>
             {(reviewSubmitting || ratingSubmitting) && (
