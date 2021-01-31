@@ -197,7 +197,9 @@ const InfluencerAccountPopup = ({
               </div>
             </div>
             <hr className="blick-border" />
-            <InfluencerAccount navigation={{}} userId={userSelected.id} />
+            <InfluencerAccount navigation={{}} userId={userSelected.id} 
+          showActivites={false}
+          />
           </Col>
           <Col md={6} xl={5}>
             <Card className="mb-4 bg-transparent blick-border">

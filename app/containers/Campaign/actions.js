@@ -14,7 +14,7 @@ import {
   ADD_INFLUENCER_REVIEW,
   REVIEW_SUBMITTING,
   RATING_SUBMITTING,
-  VERIFY_SUBMITTING,
+  VERIFY_SUBMITTING,DECLINE_REQUEST,DECLINE_SUBMITTING
 } from './constants';
 
 export function launchCampaignAction(data) {
@@ -59,6 +59,23 @@ export function verifyCampaignAction(
   };
 }
 
+export function declineCampaignAction(
+  campaignsId,
+  influencerId,
+  campaignInfluencerId,
+  rating,
+  feedback,
+) {
+  return {
+    type: DECLINE_REQUEST,
+    campaignsId,
+    influencerId,
+    campaignInfluencerId,
+    rating,
+    feedback,
+  };
+}
+
 export function addInfluencerRatingAction(data) {
   return {
     type: ADD_INFLUENCER_RATING,
@@ -90,6 +107,14 @@ export function ratingSubmittingAction(flag) {
 export function verifySubmittingAction(flag) {
   return {
     type: VERIFY_SUBMITTING,
+    flag,
+  };
+}
+
+
+export function declineSubmittingAction(flag) {
+  return {
+    type: DECLINE_SUBMITTING,
     flag,
   };
 }

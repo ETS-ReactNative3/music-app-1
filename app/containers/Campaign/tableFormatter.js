@@ -64,7 +64,7 @@ function statusFormatter(cell, row) {
     return (
       <span>
         <div style={{ color: 'lightyellow' }}>
-          <FontAwesomeIcon icon={faCircle} /> Not accepted
+          <FontAwesomeIcon icon={faCircle} /> Not accepted by influencer
         </div>
       </span>
     );

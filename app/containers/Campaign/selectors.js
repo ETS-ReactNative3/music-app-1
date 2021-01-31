@@ -49,6 +49,12 @@ const makeSelectVerifySubmitting = () =>
     substate => substate.verifySubmitting,
   );
 
+  const makeSelectDeclineSubmitting = () =>
+  createSelector(
+    selectTastemakerDomain,
+    substate => substate.declineSubmitting,
+  );
+
 
 export {
   makeSelectReviewSubmitting,
@@ -56,4 +62,5 @@ export {
   makeSelectVerifySubmitting,
   makeSelectCampaigns,
   makeSelectCampaign,
+  makeSelectDeclineSubmitting
 };
