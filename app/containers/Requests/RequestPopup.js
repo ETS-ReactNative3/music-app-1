@@ -325,9 +325,8 @@ const RequestPopup = ({
                 <FontAwesomeIcon
                   icon={faClipboard}
                   style={{ marginLeft: 10 }}
-                  className="cursor-pointer"
+                  className="cursor-pointer text-success"
                   size="x"
-                  className="text-success"
                 />
               </div>
               {(!(
@@ -657,7 +656,7 @@ const RequestPopup = ({
           </fieldset>
         </div> */}
 
-        {/* 
+        {/*
         <div
           style={
             !songPlayed
@@ -764,7 +763,7 @@ const RequestPopup = ({
                   onClick={() => {}}
                 />
               </div>
-              
+
               {(!(
                 data.campaignStatusId === CampaignStatus.COMPLETED ||
                 data.campaignStatusId === CampaignStatus.APPROVED
