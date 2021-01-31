@@ -133,7 +133,7 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
                   </Link>
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item onClick={logout}>Log out</Dropdown.Item>
+                <Dropdown.Item className="cursor-pointer" onClick={logout}>Log out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (

@@ -6,6 +6,7 @@ import {
   faInstagram,
   faTwitter,
   faYoutube,
+  faBlog,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';

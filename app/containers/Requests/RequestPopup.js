@@ -205,7 +205,7 @@ const RequestPopup = ({
             <Col md={4} xl={3} className="text-center">
               <FontAwesomeIcon
                 size="5x"
-                className="text-success"
+                className="text-success cursor-pointer"
                 icon={faPlay}
                 onClick={() => listenToSong(data.campaigns.song)}
               />
@@ -281,36 +281,41 @@ const RequestPopup = ({
                 <FontAwesomeIcon
                   size="2x"
                   icon={faFacebook}
+                  className="cursor-pointer"
                   style={styles.marginHorizontal}
                   onClick={() => {}}
                 />
                 <FontAwesomeIcon
                   size="2x"
                   icon={faInstagram}
+                  className="cursor-pointer"
                   style={styles.marginHorizontal}
                   onClick={() => {}}
                 />
                 <FontAwesomeIcon
                   size="2x"
+                  className="cursor-pointer"
                   style={styles.marginHorizontal}
                   icon={faYoutube}
                   onClick={() => {}}
                 />
                 <FontAwesomeIcon
                   size="2x"
+                  className="cursor-pointer"
                   style={styles.marginHorizontal}
                   icon={faBlog}
                   onClick={() => {}}
                 />
                 <FontAwesomeIcon
                   size="2x"
+                  className="cursor-pointer"
                   style={styles.marginHorizontal}
                   icon={faTwitter}
                   onClick={() => {}}
                 />
               </div>
               <div
-                style={{ cursor: 'pointer', marginTop: 20, marginBottom: 20 }}
+                className="cursor-pointer my-4"
                 onClick={() => {
                   navigator.clipboard.writeText(data.campaigns.song.url);
                   toast.success('Song url copied');
@@ -320,6 +325,7 @@ const RequestPopup = ({
                 <FontAwesomeIcon
                   icon={faClipboard}
                   style={{ marginLeft: 10 }}
+                  className="cursor-pointer"
                   size="x"
                   className="text-success"
                 />

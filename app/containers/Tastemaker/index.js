@@ -276,6 +276,7 @@ export function Tastemaker({
                   <span className="input-group-text">
                     <FontAwesomeIcon
                       icon={faTimes}
+                      className="cursor-pointer"
                       onClick={() => {
                         getSearchResults('');
                         inputRef.target.value = '';
