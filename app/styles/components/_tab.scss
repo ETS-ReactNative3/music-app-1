@@ -1,17 +1,24 @@
 .nav-tabs {
-    @extend .blick-border;
+    border-bottom: 1px solid $warning;
+    display: flex;
+    justify-content: space-evenly;
     .nav-link {
-        color: rgba(31,219,174,0.4);
+        flex-grow: 1;
+        text-align: center;
+        color: rgba($warning,0.4);
         &, &:hover, &:focus {
             background-color: transparent;
             border: 0;
         }
         &:hover, &:focus {
-            color: rgba(31,219,174,0.6);
+            color: rgba($warning,0.6);
         }
         &.active {
+            border-width: 1px 1px 0 1px;
+            border-color: rgba($warning,1);
+            border-style: solid;
             &, &:hover, &:focus {
-                color: rgba(31,219,174,1);
+                color: rgba($warning,1);
                 background-color: transparent;
             }   
         }
