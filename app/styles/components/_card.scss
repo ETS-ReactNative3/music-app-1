@@ -17,3 +17,8 @@
         cursor: pointer;
     }
 }
+.tastemaker__header {
+    .title {
+        max-width: calc(100% - 80px);
+    }
+}
