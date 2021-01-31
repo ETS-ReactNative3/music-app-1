@@ -9,6 +9,7 @@ import {
   createPaymentFailAction,
   createPaymentSuccessAction,
 } from './actions';
+import {getUserDetails, getUserDetailsSuccess} from "../App/actions";
 
 function fetchPaymentHistoryApi() {
   return axiosInstance().get('order/list');
@@ -23,11 +24,16 @@ function createPayment(data) {
   return axiosInstance().post('/order/createPayment', data);
 }
 
+function fetchUserInformation() {
+  return axiosInstance().get('/auth/userDetails');
+}
+
 function* createPaymentSession(action) {
   try {
     yield call(createPayment, { session_id: action.id });
     yield put(createPaymentSuccessAction());
-    window.location.reload();
+    const result = yield call(fetchUserInformation);
+    yield put(getUserDetailsSuccess(result.data));
   } catch (e) {
     toast.error(e.message);
     yield put(createPaymentFailAction(e.message));
