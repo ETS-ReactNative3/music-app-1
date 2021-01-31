@@ -6,6 +6,9 @@
     &__gener {
         height: 50px;
         overflow: hidden;
+        .badge-light {
+            background-color: rgba($white, .6);
+        }
     }
 }
 
