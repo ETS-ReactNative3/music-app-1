@@ -120,14 +120,39 @@ function statusFormatter(cell, row) {
   }
 
   if (
-    row.campaignStatusId === CampaignStatus.COMPLETED ||
-    row.campaignStatusId === CampaignStatus.APPROVED
+    row.campaignStatusId === CampaignStatus.COMPLETED 
   ) {
     return (
       <span>
         <div style={{ color: 'lightyellow' }}>
           <FontAwesomeIcon icon={faCircle} />
           Completed
+        </div>
+      </span>
+    );
+  }
+
+  if (
+    row.campaignStatusId === CampaignStatus.APPROVED 
+  ) {
+    return (
+      <span>
+        <div style={{ color: 'lightyellow' }}>
+          <FontAwesomeIcon icon={faCircle} />
+          Approved
+        </div>
+      </span>
+    );
+  }
+
+  if (
+    row.campaignStatusId === CampaignStatus.DECLINED 
+  ) {
+    return (
+      <span>
+        <div style={{ color: 'red' }}>
+          <FontAwesomeIcon icon={faCircle} />
+          Declined
         </div>
       </span>
     );

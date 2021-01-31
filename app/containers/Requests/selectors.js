@@ -13,8 +13,8 @@ const makeSelectNewRequestList = () =>
     substate =>
       substate.requests
         ? substate.requests.filter(
-            request => request.campaignStatusId === CampaignStatus.PEDNING,
-          )
+          request => request.campaignStatusId === CampaignStatus.PEDNING,
+        )
         : [],
   );
 
@@ -24,10 +24,10 @@ const makeSelectInProgressRequestList = () =>
     substate =>
       substate.requests
         ? substate.requests.filter(
-            request =>
-              request.campaignStatusId === CampaignStatus.ACCEPTED ||
-              request.campaignStatusId === CampaignStatus['IN-PROGRESS'],
-          )
+          request =>
+            request.campaignStatusId === CampaignStatus.ACCEPTED ||
+            request.campaignStatusId === CampaignStatus['IN-PROGRESS'],
+        )
         : [],
   );
 
@@ -37,15 +37,40 @@ const makeSelectCompletedRequestList = () =>
     substate =>
       substate.requests
         ? substate.requests.filter(
-            request =>
-              request.campaignStatusId === CampaignStatus.COMPLETED ||
-              request.campaignStatusId === CampaignStatus.APPROVED,
-          )
+          request =>
+            request.campaignStatusId === CampaignStatus.COMPLETED)
         : [],
   );
+
+const makeSelectDeclinedRequestList = () =>
+  createSelector(
+    selectRequestDomain,
+    substate =>
+      substate.requests
+        ? substate.requests.filter(
+          request =>
+            request.campaignStatusId === CampaignStatus.DECLINED,
+        )
+        : [],
+  );
+
+
+const makeSelectApprovedRequestList = () =>
+createSelector(
+  selectRequestDomain,
+  substate =>
+    substate.requests
+      ? substate.requests.filter(
+        request =>
+          request.campaignStatusId === CampaignStatus.APPROVED,
+      )
+      : [],
+);
 
 export {
   makeSelectNewRequestList,
   makeSelectCompletedRequestList,
   makeSelectInProgressRequestList,
+  makeSelectDeclinedRequestList,
+  makeSelectApprovedRequestList
 };
