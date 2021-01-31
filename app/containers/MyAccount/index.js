@@ -174,7 +174,7 @@ function MyAccount(
                   </h3>
                   <div className="mb-3">
                     <div>
-                      {influencerProfile &&
+                      {influencerProfile && influencerProfile.influencerServices &&
                       influencerProfile.influencerServices.map(service => {
                         switch (service.socialChannels.title) {
                           case 'facebook':
