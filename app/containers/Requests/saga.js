@@ -4,6 +4,7 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../utils/api';
+import { fetchCampaignAction } from '../Campaign/actions';
 import { fetchRequestsAction, putRequestAction } from './actions';
 import {
   FETCH_REQUESTS,
@@ -42,6 +43,11 @@ export function* updateCampaignStatusSaga(action) {
     id: campaignId,
     campaignStatusId: statusId,
   });
+  const {updateCampaigns} = action;
+  if (updateCampaigns) {
+    yield put(fetchCampaignAction());
+    history.goBack();
+  }
 }
 
 export function* submitFeedbackRequestSaga(action) {

@@ -23,7 +23,7 @@ import {
 import RequestListing from '../Requests/index';
 import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
-import CampaignInfluencerVerification from '../Campaign/influencerVerify';
+import { InfluencerVerify } from '../Campaign/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -135,7 +135,7 @@ function Application() {
           <CampaignDetails />
         </PrivateRoute>
         <PrivateRoute path="/campaigns/:id/influencer/:influencerId" exact>
-          <CampaignInfluencerVerification />
+          <InfluencerVerify />
         </PrivateRoute>
         <PrivateRoute path="/requests" exact>
           <RequestListing />

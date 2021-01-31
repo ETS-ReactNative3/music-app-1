@@ -12,6 +12,7 @@ import {
   makeSelectActivities,
   makeSelectRatingCount,
   makeSelectRatings,
+  makeSelectRecentReviews,
   makeSelectReviews,
 } from '../../containers/MyAccount/selectors';
 import MyActivity from '../MyActivity/MyActivity';
@@ -34,6 +35,7 @@ const InfluencerAccount = ({
   activities,
   getUserActivities,
   userId,
+  showActivites
 }) => {
   useInjectSaga({ key: 'account', saga: accountSaga });
   useInjectReducer({ key: 'account', reducer: accountReducer });
@@ -59,7 +61,6 @@ const InfluencerAccount = ({
           />
           {reviews &&
             reviews
-              .slice(0, 3)
               .map((review, index) => (
                 <Reviews
                   key={index}
@@ -73,17 +74,17 @@ const InfluencerAccount = ({
               ))}
         </div>
 
-        <div className="text-right">
+        {showActivites && <div className="text-right">
           <small>
             <Link className="text-success" to="/myaccount/reviews">
               View more{' '}
               <FontAwesomeIcon icon={faShare} className="text-success" />
             </Link>
           </small>
-        </div>
+        </div>}
       </div>
       <hr className="blick-border" />
-      <div>
+      {showActivites &&<div>
         <div className="mb-3 d-flex align-items-center justify-content-between">
           <div>Activites</div>
           <div>
@@ -116,7 +117,7 @@ const InfluencerAccount = ({
         {activities && activities.length === 0 && (
           <small className="text-muted">No Activities to show</small>
         )}
-      </div>
+      </div>}
 
       {/* <div>
         <div style={{ marginLeft: 10 }}>Service Information</div>
@@ -193,13 +194,14 @@ InfluencerAccount.propTypes = {
   ratings: PropTypes.any,
   reviews: PropTypes.any,
   activities: PropTypes.array,
+  showActivites:  PropTypes.bool
 };
 
 const mapStateToProps = createStructuredSelector({
   influencerProfile: makeSelectInfluencerDetails(),
   ratings: makeSelectRatings(),
   ratingCount: makeSelectRatingCount(),
-  reviews: makeSelectReviews(),
+  reviews: makeSelectRecentReviews(),
   activities: makeSelectActivities(),
 });
 

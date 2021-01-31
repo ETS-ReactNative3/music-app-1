@@ -113,6 +113,8 @@ const RequestPopup = ({
     resolver: yupResolver(validationSchema),
   });
 
+  console.log(errors);
+
   const onSubmit = localData => {
     submitSocialLinksRequest(prepareDataForSubmit(localData));
     updateCampaignStatus(data.id, CampaignStatus.COMPLETED);
@@ -122,7 +124,7 @@ const RequestPopup = ({
   const listenToSong = song => {
     playSong(song);
     setSongPlayed(true);
-    updateCampaignStatus(data.id, CampaignStatus['IN-PROGRESS']);
+    if (data.campaignStatusId === CampaignStatus.ACCEPTED || data.campaignStatusId === CampaignStatus.PEDNING) updateCampaignStatus(data.id, CampaignStatus['IN-PROGRESS']);
   };
 
   const prepareDataForSubmit = formData => {
@@ -380,7 +382,7 @@ const RequestPopup = ({
                                 required
                               />
                               {errors.facebook && errors.facebook.message && (
-                                <small className="invalid-feedback">
+                                <small className="invalid-feedback" style={{ display: 'block' }}>
                                   {errors.facebook && errors.facebook.message}
                                 </small>
                               )}
@@ -405,7 +407,7 @@ const RequestPopup = ({
                                 required
                               />
                               {errors.instagram && errors.instagram.message && (
-                                <small className="invalid-feedback">
+                                <small className="invalid-feedback" style={{ display: 'block' }}>
                                   {errors.instagram && errors.instagram.message}
                                 </small>
                               )}
@@ -428,7 +430,7 @@ const RequestPopup = ({
                                 required
                               />
                               {errors.twitter && errors.twitter.message && (
-                                <small className="invalid-feedback">
+                                <small className="invalid-feedback" style={{ display: 'block' }}>
                                   {errors.twitter && errors.twitter.message}
                                 </small>
                               )}
@@ -451,7 +453,7 @@ const RequestPopup = ({
                                 required
                               />
                               {errors.blog && errors.blog.message && (
-                                <small className="invalid-feedback">
+                                <small className="invalid-feedback" style={{ display: 'block' }}>
                                   {errors.blog && errors.blog.message}
                                 </small>
                               )}
@@ -474,7 +476,7 @@ const RequestPopup = ({
                                 required
                               />
                               {errors.youtube && errors.youtube.message && (
-                                <small className="invalid-feedback">
+                                <small className="invalid-feedback" style={{ display: 'block' }}>
                                   {errors.youtube && errors.youtube.message}
                                 </small>
                               )}

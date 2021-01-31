@@ -10,6 +10,7 @@ import {
   REVIEW_SUBMITTING,
   SELECT_CAMPAIGN,
   VERIFY_SUBMITTING,
+  DECLINE_SUBMITTING
 } from './constants';
 
 export const initialState = {
@@ -18,6 +19,7 @@ export const initialState = {
   reviewSubmitting: false,
   ratingSubmitting: false,
   verifySubmitting: false,
+  declineSubmitting: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -39,6 +41,8 @@ const campaignReducer = (state = initialState, action) =>
       case VERIFY_SUBMITTING:
         draft.verifySubmitting = action.flag;
         break;
+      case DECLINE_SUBMITTING:
+        draft.declineSubmitting = action.flag;
     }
   });
 

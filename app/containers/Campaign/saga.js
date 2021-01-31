@@ -5,17 +5,20 @@ import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../utils/api';
 import history from '../../utils/history';
-import { setLoader } from '../App/actions';
+import { getUserDetails, setLoader } from '../App/actions';
+import { CampaignStatus } from '../Requests/constants';
 import {
   fetchCampaignAction,
   putCampaignAction,
   ratingSubmittingAction,
   reviewSubmittingAction,
   verifySubmittingAction,
+  declineSubmittingAction
 } from './actions';
 import {
   ADD_INFLUENCER_RATING,
   ADD_INFLUENCER_REVIEW,
+  DECLINE_REQUEST,
   FETCH_CAMPAIGN,
   LAUNCH_CAMPAIGN,
   VERIFY_CAMPAIGN,
@@ -40,6 +43,11 @@ function addInfluencerRatingAPI(data) {
 function addInfluencerReviewAPI(data) {
   return axiosInstance().post('campaigns/review', data);
 }
+
+function updateCampaignStatusApi(data) {
+  return axiosInstance().put('campaigns/status/', data);
+}
+
 
 export function* launchCampaignSaga(action) {
   try {
@@ -78,10 +86,38 @@ function* verifyCampaignSaga(action) {
     yield put(fetchCampaignAction());
     toast.success('Campaign Verified for this influencer');
     yield put(verifySubmittingAction(false));
+    yield put(getUserDetails());
     history.goBack();
   } catch (e) {
     toast.error(e.message);
     yield put(verifySubmittingAction(false));
+  }
+}
+
+function* declineCampaignSaga(action) {
+  try {
+    const { campaignsId,
+      influencerId,
+      campaignInfluencerId,
+      rating,
+      feedback, } = action;
+      console.log(action);
+    yield put(declineSubmittingAction(true));
+    yield call(updateCampaignStatusApi, { id: campaignInfluencerId,
+      campaignStatusId: CampaignStatus.DECLINED, });
+    if (rating && rating > 0) yield call(addInfluencerRatingAPI, { campaignsId, influencerId, rating });
+    if (feedback && feedback.length > 0) yield call(addInfluencerReviewAPI, {
+      campaignsId,
+      influencerId,
+      review: feedback,
+    });
+    yield put(fetchCampaignAction());
+    toast.success('Campaign Decline for this influencer');
+    yield put(declineSubmittingAction(false));
+    history.goBack();
+  } catch (e) {
+    toast.error(e.message);
+    yield put(declineSubmittingAction(false));
   }
 }
 
@@ -117,4 +153,5 @@ export default function* campaignSaga() {
   yield takeLatest(VERIFY_CAMPAIGN, verifyCampaignSaga);
   yield takeLatest(ADD_INFLUENCER_RATING, addInfluencerRatingSaga);
   yield takeLatest(ADD_INFLUENCER_REVIEW, addInfluencerReviewSaga);
+  yield takeLatest(DECLINE_REQUEST, declineCampaignSaga);
 }

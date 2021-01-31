@@ -8,6 +8,7 @@ import {
   faYoutube,
   faBlog,
 } from '@fortawesome/free-brands-svg-icons';
+import LoadingIndicator from 'components/LoadingIndicator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -26,6 +27,7 @@ import { CampaignStatus } from '../Requests/constants';
 import requestReducer from '../Requests/reducer';
 import requestSaga from '../Requests/saga';
 import {
+  declineCampaignAction,
   fetchCampaignAction,
   getSelectedCampaignAction,
   verifyCampaignAction,
@@ -34,21 +36,24 @@ import reducer from './reducer';
 import saga from './saga';
 import {
   makeSelectCampaign,
+  makeSelectDeclineSubmitting,
   makeSelectRatingSubmitting,
   makeSelectReviewSubmitting,
   makeSelectVerifySubmitting,
 } from './selectors';
+import history from '../../utils/history';
 
 const Details = ({
   match,
   selectedCampaign,
   verifyCampaign,
-  updateCampaignStatus,
+  declineCampaign,
   fetchCampaigns,
   reviewSubmitting,
   ratingSubmitting,
   getSelectedCampaign,
   verifySubmitting,
+  declineSubmitting
 }) => {
   useInjectReducer({ key: 'campaign', reducer });
   useInjectReducer({ key: 'request', reducer: requestReducer });
@@ -59,6 +64,7 @@ const Details = ({
   const [rating, setRating] = React.useState(0);
   const [feedback, setFeedback] = React.useState('');
   const [selectedInfluencer, setSelectedInfluencer] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     if (
       match.params.influencerId &&
@@ -70,6 +76,7 @@ const Details = ({
           influencer => influencer.id === Number(match.params.influencerId),
         ),
       );
+      setLoading(false);
     }
   }, [match.params.influencerId && selectedCampaign]);
 
@@ -97,7 +104,7 @@ const Details = ({
         </>
       );
     }
-    return (
+    if (selectedInfluencer.campaignStatusId !== CampaignStatus.APPROVED && selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED) return (
       <>
         <Button
           className="mr-3"
@@ -150,11 +157,17 @@ const Details = ({
         )} */}
         <Button
           variant="danger"
-          onClick={() =>
-            updateCampaignStatus(selectedCampaign.id, CampaignStatus.DECLINED)
-          }
+          onClick={() => {
+            declineCampaign(selectedCampaign.id,
+              selectedInfluencer.influencerId,
+              selectedInfluencer.id,
+              rating,
+              feedback)
+          }}
         >
           Decline
+          {declineSubmitting && <Spinner animation="border" />}
+
         </Button>
       </>
     );
@@ -162,9 +175,10 @@ const Details = ({
 
   return (
     <>
-      <PaperCard title="Campaign Influencer Verification">
-        <small className="d-flex align-items-center"> 
-          <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="mx-1 text-warning"  to={`/campaigns/${selectedCampaign.id}`}>Campaigns Details</Link> {'>'} <Link className="ml-1" style={{ pointerEvents: 'none', opacity: 0.6, color: '#fff' }} to={''}>Campaign Influencer Verification</Link>
+
+     {loading ? <LoadingIndicator/> :<PaperCard title="Campaign Influencer Verification">
+        <small className="d-flex align-items-center">
+          <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="mx-1 text-warning" to={`/campaigns/${selectedCampaign.id}`}>Campaigns Details</Link> {'>'} <Link className="ml-1" style={{ pointerEvents: 'none', opacity: 0.6, color: '#fff' }} to={''}>Campaign Influencer Verification</Link>
         </small>
         <Row className="mt-5">
           <Col md={12}>
@@ -285,7 +299,8 @@ const Details = ({
         <hr className="my-4 blick-border" />
         <Row>
           <Col>
-            Review
+            {((selectedInfluencer.ratings &&
+                selectedInfluencer.ratings.length > 0) || (selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED)) && <div>Review</div>}
             <small className="mb-2 d-block">
               {selectedInfluencer.ratings &&
                 selectedInfluencer.ratings.length > 0 ? (
@@ -296,7 +311,7 @@ const Details = ({
                     starDimension="15px"
                     name="rating"
                   />
-                ) : (
+                ) : selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED && (
                   <StarRatings
                     rating={rating}
                     starRatedColor="blue"
@@ -314,7 +329,7 @@ const Details = ({
                 <small className="text-muted d-block">
                   {selectedInfluencer.reviews[0].review}
                 </small>
-              ) : (
+              ) : selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED &&(
                 <FormControl
                   as="textarea"
                   className="bg-transparent text-white"
@@ -328,7 +343,7 @@ const Details = ({
         <Row>
           <Col>{renderAcceptButton()}</Col>
         </Row>
-      </PaperCard>
+      </PaperCard>}
       {/* <div className="container-fluid" style={{ marginTop: '100px' }}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           {(reviewSubmitting || ratingSubmitting) && (
@@ -509,7 +524,7 @@ Details.propTypes = {
   match: PropTypes.any,
   selectedCampaign: PropTypes.any,
   verifyCampaign: PropTypes.func,
-  updateCampaignStatus: PropTypes.func,
+  declineCampaign: PropTypes.func,
   fetchCampaigns: PropTypes.func,
   reviewSubmitting: PropTypes.bool,
   ratingSubmitting: PropTypes.bool,
@@ -522,6 +537,7 @@ const mapStateToProps = createStructuredSelector({
   reviewSubmitting: makeSelectReviewSubmitting(),
   ratingSubmitting: makeSelectRatingSubmitting(),
   verifySubmitting: makeSelectVerifySubmitting(),
+  declineSubmitting: makeSelectDeclineSubmitting()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -532,8 +548,16 @@ function mapDispatchToProps(dispatch) {
       dispatch(
         verifyCampaignAction(campaignsId, influencerId, rating, feedback),
       ),
-    updateCampaignStatus: (campaignId, statusId) =>
-      dispatch(updateCampaignStatusAction(campaignId, statusId)),
+    declineCampaign: (campaignsId,
+      influencerId,
+      campaignInfluencerId,
+      rating,
+      feedback) =>
+      dispatch(declineCampaignAction(campaignsId,
+        influencerId,
+        campaignInfluencerId,
+        rating,
+        feedback)),
   };
 }
 

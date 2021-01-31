@@ -243,6 +243,7 @@ function MyAccount(
                 <InfluencerAccount
                   navigation={navigation}
                   userId={userDetails.id}
+                  showActivites={true}
                 />
               </Col>
             </>

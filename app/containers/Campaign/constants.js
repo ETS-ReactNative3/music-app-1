@@ -14,3 +14,5 @@ export const ADD_INFLUENCER_REVIEW = 'app/campaign/ADD_INFLUENCER_REVIEW';
 export const REVIEW_SUBMITTING = 'app/campaign/REVIEW_SUBMITTING';
 export const RATING_SUBMITTING = 'app/campaign/RATING_SUBMITTING';
 export const VERIFY_SUBMITTING = 'app/campaign/VERIFY_SUBMITTING';
+export const DECLINE_SUBMITTING = 'app/campaign/DECLINE_SUBMITTING';
+export const DECLINE_REQUEST = 'app/campaign/DECLINE_REQUEST';
