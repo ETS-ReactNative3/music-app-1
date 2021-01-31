@@ -1,49 +1,50 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
-import React, { memo } from 'react';
-import { Button, Card, Col, Form, Image } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, {memo} from 'react';
+import {Button, Card, Col, Form, Image} from 'react-bootstrap';
+import {useForm} from 'react-hook-form';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import * as Yup from 'yup';
 import ButtonLoader from '../../components/ButtonLoader';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { getGenres } from '../Album/actions';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {getGenres} from '../Album/actions';
 import albumReducer from '../Album/reducer';
 import albumSaga from '../Album/saga';
-import { makeSelectGenres } from '../Album/selectors';
+import {makeSelectGenres} from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
 } from '../App/selectors';
-import { getSocialChannelsRequest } from '../Influencer/actions';
+import {getSocialChannelsRequest} from '../Influencer/actions';
 import influencerReducer from '../Influencer/reducer';
 import influencerSaga from '../Influencer/saga';
-import { updateUserDetailsAction } from './actions';
+import {updateUserDetailsAction} from './actions';
 import EditInfluencerAccount from './EditInfluencerAccount';
 import styles from './index.styles';
 import accountReducer from './reducer';
 import accountSaga from './saga';
-import { makeSelectUpdateProcessing } from './selectors';
+import {makeSelectUpdateProcessing} from './selectors';
+import PaperCard from "../../components/PaperCard";
 
 const EditAccount = ({
-  userDetails,
-  influencerProfile,
-  genres,
-  getSocialChannelList,
-  updateUserDetails,
-  updateProcessing,
-  getGenreList,
-}) => {
-  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
-  useInjectSaga({ key: 'influencer', saga: influencerSaga });
+                       userDetails,
+                       influencerProfile,
+                       genres,
+                       getSocialChannelList,
+                       updateUserDetails,
+                       updateProcessing,
+                       getGenreList,
+                     }) => {
+  useInjectReducer({key: 'influencer', reducer: influencerReducer});
+  useInjectSaga({key: 'influencer', saga: influencerSaga});
 
-  useInjectSaga({ key: 'album', saga: albumSaga });
-  useInjectReducer({ key: 'album', reducer: albumReducer });
-  useInjectSaga({ key: 'account', saga: accountSaga });
-  useInjectReducer({ key: 'account', reducer: accountReducer });
+  useInjectSaga({key: 'album', saga: albumSaga});
+  useInjectReducer({key: 'album', reducer: albumReducer});
+  useInjectSaga({key: 'account', saga: accountSaga});
+  useInjectReducer({key: 'account', reducer: accountReducer});
   const [data, setData] = React.useState({});
 
   React.useEffect(() => {
@@ -52,8 +53,8 @@ const EditAccount = ({
   }, []);
 
   function handleFileChange(event) {
-    const { target } = event;
-    const { files } = target;
+    const {target} = event;
+    const {files} = target;
 
     if (files && files[0]) {
       const reader = new FileReader();
@@ -78,7 +79,7 @@ const EditAccount = ({
     name: Yup.string().required('Name is required'),
   });
 
-  const { register, handleSubmit, errors, reset } = useForm({
+  const {register, handleSubmit, errors, reset} = useForm({
     resolver: yupResolver(validationSchema),
   });
 
@@ -96,13 +97,13 @@ const EditAccount = ({
     const tempFullGenre = [];
     console.log(influencerProfile);
     influencerProfile && Object.keys(influencerProfile).length > 0 &&
-      influencerProfile.influencerGenres.map(generToSearch => {
-        const index = genres.findIndex(
-          genre => genre.id === generToSearch.genreId,
-        );
-        if (index !== -1) tempFullGenre.push(genres[index]);
-        return true;
-      });
+    influencerProfile.influencerGenres.map(generToSearch => {
+      const index = genres.findIndex(
+        genre => genre.id === generToSearch.genreId,
+      );
+      if (index !== -1) tempFullGenre.push(genres[index]);
+      return true;
+    });
     reset({
       ...userDetails,
       ...prepareData(influencerProfile),
@@ -112,7 +113,7 @@ const EditAccount = ({
 
   const prepareData = influencerProfileInner => {
     if (influencerProfileInner && Object.keys(influencerProfileInner).length === 0) return {};
-    let dataInner = { ...influencerProfileInner };
+    let dataInner = {...influencerProfileInner};
     delete dataInner.name;
 
     influencerProfileInner.influencerServices.map(service => {
@@ -131,18 +132,9 @@ const EditAccount = ({
   };
 
   return (
-    <div>
-      <div className="row album-detail">
-        <div className="col pt-3 pt-md-0">
-          <div className="row">
-            <div className="col">
-              <h1>Edit Account</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Card style={{ width: '50%' }}>
-        <Card.Body style={{ color: 'black' }}>
+    <PaperCard title="Edit Account">
+      <Card style={{width: '50%'}}>
+        <Card.Body style={{color: 'black'}}>
           <div style={styles.imageContainer}>
             <Image
               width={120}
@@ -150,14 +142,14 @@ const EditAccount = ({
               src={
                 Object.keys(data).length === 0
                   ? userDetails
-                    ? userDetails.avatar
-                    : ''
+                  ? userDetails.avatar
+                  : ''
                   : data
               }
               roundedCircle
             />
             <label
-              style={{ cursor: 'pointer', color: 'black' }}
+              style={{cursor: 'pointer', color: 'black'}}
               htmlFor="fileImage"
               variant="link"
               className="cursor-pointer"
@@ -211,7 +203,7 @@ const EditAccount = ({
             </Form.Group>
           </Form.Row>
           {updateProcessing ? (
-            <ButtonLoader />
+            <ButtonLoader/>
           ) : (
             <Button variant="success" onClick={handleSubmit(onSubmit)}>
               Submit
@@ -220,11 +212,11 @@ const EditAccount = ({
         </Card.Body>
       </Card>
       {isInfluencer && (
-        <div style={{ marginTop: 30 }}>
-          <EditInfluencerAccount />
+        <div style={{marginTop: 30}}>
+          <EditInfluencerAccount/>
         </div>
       )}
-    </div>
+    </PaperCard>
   );
 };
 
