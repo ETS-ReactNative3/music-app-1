@@ -115,7 +115,7 @@ const EditInfluencerAccount = ({
 
   React.useEffect(() => {
     const tempFullGenre = [];
-    influencerProfile.influencerGenres.map(generToSearch => {
+    influencerProfile && Object.keys(influencerProfile).length > 0 && influencerProfile.influencerGenres.map(generToSearch => {
       const index = genres.findIndex(
         genre => genre.id === generToSearch.genreId,
       );
@@ -130,6 +130,7 @@ const EditInfluencerAccount = ({
   }, [userDetails && influencerProfile]);
 
   const prepareData = influencerProfileInner => {
+    if (influencerProfileInner && Object.keys(influencerProfileInner).length === 0) return {};
     let dataInner = { ...influencerProfileInner };
     delete dataInner.name;
 
@@ -209,7 +210,7 @@ const EditInfluencerAccount = ({
   return (
     <div>
       <Card style={{ width: '50%' }}>
-        <Card.Body style={{ color: 'black' }}>
+        {influencerProfile && Object.keys(influencerProfile).length > 0 && <Card.Body style={{ color: 'black' }}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridDiscription">
               <label htmlFor="description">Description</label>
@@ -658,7 +659,7 @@ const EditInfluencerAccount = ({
               Submit
             </Button>
           )}
-        </Card.Body>
+        </Card.Body>}
       </Card>
     </div>
   );

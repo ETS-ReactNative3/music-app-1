@@ -9,7 +9,7 @@ import { SongList, SongForm } from '../Song/Loadable';
 import { Playlist, PlaylistDetail } from '../Playlist/Loadable';
 import { PlanDetails } from '../Plan/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
-import { MyAccount } from '../MyAccount/Loadable';
+import { EditAccount, MyAccount } from '../MyAccount/Loadable';
 import { Wallet } from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
@@ -24,7 +24,6 @@ import RequestListing from '../Requests/index';
 import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
 import CampaignInfluencerVerification from '../Campaign/influencerVerify';
-import EditAccount from '../MyAccount/EditAccount';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
