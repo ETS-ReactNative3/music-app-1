@@ -11,3 +11,8 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 export const MyAccount = loadable(() => import('./index'), {
   fallback: <LoadingIndicator />,
 });
+
+
+export const EditAccount = loadable(() => import('./EditAccount.js'), {
+  fallback: <LoadingIndicator />,
+});
