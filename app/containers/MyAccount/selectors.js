@@ -22,6 +22,11 @@ const makeSelectReviews = () =>
     selectAccountDomain,
     substate => substate.reviews,
   );
+  const makeSelectRecentReviews = () =>
+  createSelector(
+    selectAccountDomain,
+    substate => substate.reviews && substate.reviews.slice(0,3),
+  );
 
 const makeSelectRatings = () =>
   createSelector(
@@ -54,4 +59,5 @@ export {
   makeSelectRatingCount,
   makeSelectUpdateProcessing,
   makeSelectInfluencerUpdateProcessing,
+  makeSelectRecentReviews
 };

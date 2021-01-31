@@ -19,11 +19,12 @@ export function putRequestAction(requests) {
   };
 }
 
-export function updateCampaignStatusAction(campaignId, statusId) {
+export function updateCampaignStatusAction(campaignId, statusId,updateCampaigns) {
   return {
     type: UPDATE_CAMPAIGN_STATUS,
     campaignId,
     statusId,
+    updateCampaigns
   };
 }
 
