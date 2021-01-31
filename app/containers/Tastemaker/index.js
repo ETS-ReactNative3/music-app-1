@@ -452,7 +452,7 @@ export function Tastemaker({
                     selectedInfluencers,
                   )}`}
                 </span>
-                price
+                 credits
               </div>
             </div>
             <Link
