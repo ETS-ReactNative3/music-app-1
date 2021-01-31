@@ -96,20 +96,20 @@ function RequestListing({
         id="uncontrolled-tab-example"
         className="mt-4"
       >
-        <Tab eventKey="new" title="New" className="tab-style">
+        <Tab eventKey="new" title="New" className="tab-style table-cursor">
           {renderTable(newRequestList, newRequestColumns)}
         </Tab>
         <Tab
           eventKey="accepted"
           title="Accepted/In-progress"
-          className="tab-style"
+          className="tab-style table-cursor"
         >
           {renderTable(inProgressRequestList, newRequestColumns)}
         </Tab>
         <Tab
           eventKey="completed"
           title="Completed/Approved"
-          className="tab-style"
+          className="tab-style table-cursor"
         >
           {renderTable(completedRequestList, newRequestColumns)}
         </Tab>

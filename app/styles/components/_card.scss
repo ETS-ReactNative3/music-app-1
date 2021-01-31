@@ -8,3 +8,9 @@
         overflow: hidden;
     }
 }
+
+.table-cursor {
+    tbody tr {
+        cursor: pointer;
+    }
+}
