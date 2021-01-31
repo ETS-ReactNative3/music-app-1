@@ -292,8 +292,8 @@ export function Tastemaker({
                   <Col md={2} lg={4} key={index}>
                     <Card className="mb-4 bg-transparent blick-border music-card">
                       <Card.Body>
-                        <div className="d-flex align-items-center">
-                          <div className="mr-2 flex-grow-1">
+                        <div className="d-flex align-items-center tastemaker__header">
+                          <div className="mr-2 flex-grow-1 title">
                             <Card.Title className="text-truncate">
                               {item.name}
                             </Card.Title>
@@ -302,6 +302,7 @@ export function Tastemaker({
                             </Card.Text>
                           </div>
                           <Image
+                          className="ml-auto"
                             width={50}
                             height={50}
                             onError={e => {
