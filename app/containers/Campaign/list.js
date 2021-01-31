@@ -51,7 +51,7 @@ const List = ({ fetchCampaigns, campaigns }) => {
   ];
   return (
     <PaperCard title="Campaigns">
-      <div className="mt-4">
+      <div className="mt-4 table-cursor">
         <BootstrapTable
           striped
           bordered={false}

@@ -77,7 +77,7 @@ const Details = ({
               </div>
             )}
           </Col>
-          <Col>
+          <Col className="table-cursor">
             <BootstrapTable
               striped
               bordered={false}

@@ -6,5 +6,19 @@
     &__gener {
         height: 50px;
         overflow: hidden;
+        .badge-light {
+            background-color: rgba($white, .6);
+        }
+    }
+}
+
+.table-cursor {
+    tbody tr {
+        cursor: pointer;
+    }
+}
+.tastemaker__header {
+    .title {
+        max-width: calc(100% - 80px);
     }
 }
