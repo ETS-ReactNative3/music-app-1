@@ -291,22 +291,28 @@ export function Tastemaker({
                 tasteMakers.map((item, index) => (
                   <Col md={2} lg={4} key={index}>
                     <Card className="mb-4 bg-transparent blick-border music-card">
-                      <Card.Img
-                        variant="top"
-                        height={200}
-                        src={item.avatar}
-                        onError={e => {
-                          e.target.onerror = null;
-                          e.target.src = defaultImage;
-                        }}
-                      />
                       <Card.Body>
-                        <Card.Title className="text-truncate">
-                          {item.name}
-                        </Card.Title>
-                        <Card.Text className=" music-card__desc">
-                          {item.influencer.description}
-                        </Card.Text>
+                        <div className="d-flex align-items-center">
+                          <div className="mr-2 flex-grow-1">
+                            <Card.Title className="text-truncate">
+                              {item.name}
+                            </Card.Title>
+                            <Card.Text className=" music-card__desc">
+                              {item.influencer.description}
+                            </Card.Text>
+                          </div>
+                          <Image
+                            width={50}
+                            height={50}
+                            onError={e => {
+                              e.target.onerror = null;
+                              e.target.src = defaultImage;
+                            }}
+                            src={item.avatar}
+                            alt=""
+                            roundedCircle
+                          />
+                        </div>
                         <Card.Text className=" music-card__social">
                           {item.influencer.influencerServices &&
                             item.influencer.influencerServices.map(
@@ -373,7 +379,7 @@ export function Tastemaker({
                               },
                             )}
                         </Card.Text>
-                        <Card.Text className=" music-card__gener">
+                        <Card.Text className="music-card__gener">
                           {item.influencer.influencerGenres.map(genre => (
                             <span
                               className="badge badge-pill badge-light  mr-2"
