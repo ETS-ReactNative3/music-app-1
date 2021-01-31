@@ -69,6 +69,7 @@ function RequestListing({
       pagination={paginationFactory()}
       keyField="id"
       data={data}
+      noDataIndication={() => (<div>No Requests available</div>)}
       rowEvents={{
         onClick: (e, row, rowIndex) => {
           setSelectedRow(row);

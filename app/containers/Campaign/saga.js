@@ -55,6 +55,7 @@ export function* launchCampaignSaga(action) {
     yield call(launchCampaign, action.data);
     yield put(setLoader(false));
     history.push('/');
+    yield put(getUserDetails());
     toast.success('Campaign Launched successfully');
   } catch (e) {
     toast.error(e.message);
@@ -86,7 +87,6 @@ function* verifyCampaignSaga(action) {
     yield put(fetchCampaignAction());
     toast.success('Campaign Verified for this influencer');
     yield put(verifySubmittingAction(false));
-    yield put(getUserDetails());
     history.goBack();
   } catch (e) {
     toast.error(e.message);

@@ -62,7 +62,7 @@ export function* submitFeedbackRequestSaga(action) {
 export function* submitSocialLinksRequestSaga(action) {
   const { data } = action;
   yield call(submitSocialLinksRequestApi, data);
-  toast.success('Request completed');
+  toast.success('Request completed, its moved to completed tab');
   yield put(fetchRequestsAction());
 }
 

@@ -14,6 +14,7 @@ export const newRequestColumns = [
     formatter: pictureFormatter,
     style: {
       width: '10%',
+      textAlign: 'left'
     },
     headerStyle: {
       textAlign: 'left',
