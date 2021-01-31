@@ -42,7 +42,7 @@ const EditAccount = ({
 
   useInjectSaga({ key: 'album', saga: albumSaga });
   useInjectReducer({ key: 'album', reducer: albumReducer });
-  useInjectSaga({ key: 'account1', saga: accountSaga });
+  useInjectSaga({ key: 'account', saga: accountSaga });
   useInjectReducer({ key: 'account', reducer: accountReducer });
   const [data, setData] = React.useState({});
 
@@ -94,7 +94,8 @@ const EditAccount = ({
 
   React.useEffect(() => {
     const tempFullGenre = [];
-    influencerProfile &&
+    console.log(influencerProfile);
+    influencerProfile && Object.keys(influencerProfile).length > 0 &&
       influencerProfile.influencerGenres.map(generToSearch => {
         const index = genres.findIndex(
           genre => genre.id === generToSearch.genreId,
@@ -110,6 +111,7 @@ const EditAccount = ({
   }, [userDetails && influencerProfile]);
 
   const prepareData = influencerProfileInner => {
+    if (influencerProfileInner && Object.keys(influencerProfileInner).length === 0) return {};
     let dataInner = { ...influencerProfileInner };
     delete dataInner.name;
 
