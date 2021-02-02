@@ -358,7 +358,7 @@ const RequestPopup = ({
               </div>
               {(!(
                 data.campaignStatusId === CampaignStatus.COMPLETED ||
-                data.campaignStatusId === CampaignStatus.APPROVED
+                data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
               ) && (
                   <div style={styles.shareLinkStyle}>
                     <FormLabel className="mt-4">Provide Links</FormLabel>
@@ -618,7 +618,7 @@ const RequestPopup = ({
 
               {!(
                 data.campaignStatusId === CampaignStatus.COMPLETED ||
-                data.campaignStatusId === CampaignStatus.APPROVED
+                data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
               ) && (
                   <>
                     <Button

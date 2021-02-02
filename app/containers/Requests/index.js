@@ -20,7 +20,9 @@ import influencerSaga from '../Influencer/saga';
 import saga from './saga';
 import { style1 } from './index.styles';
 import {
+  makeSelectApprovedRequestList,
   makeSelectCompletedRequestList,
+  makeSelectDeclinedRequestList,
   makeSelectInProgressRequestList,
   makeSelectNewRequestList,
 } from './selectors';
@@ -48,6 +50,8 @@ function RequestListing({
   socialChannels,
   setPlaylistAction,
   onHandleSingleSong,
+  approvedRequestList,
+  declinedRequestList,
 }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
@@ -109,10 +113,24 @@ function RequestListing({
         </Tab>
         <Tab
           eventKey="completed"
-          title="Completed/Approved"
+          title="Completed"
           className="tab-style table-cursor"
         >
           {renderTable(completedRequestList, newRequestColumns)}
+        </Tab>
+        <Tab
+          eventKey="approved"
+          title="Approved"
+          className="tab-style table-cursor"
+        >
+          {renderTable(approvedRequestList, newRequestColumns)}
+        </Tab>
+        <Tab
+          eventKey="declined"
+          title="Declined"
+          className="tab-style table-cursor"
+        >
+          {renderTable(declinedRequestList, newRequestColumns)}
         </Tab>
       </Tabs>
       <Modal
@@ -143,6 +161,8 @@ RequestListing.propTypes = {
   newRequestList: PropTypes.array,
   inProgressRequestList: PropTypes.array,
   completedRequestList: PropTypes.array,
+  approvedRequestList: PropTypes.array,
+  declinedRequestList: PropTypes.array,
   updateCampaignStatus: PropTypes.func,
   setPlaylistAction: PropTypes.func,
   onHandleSingleSong: PropTypes.func,
@@ -153,6 +173,8 @@ const mapStateToProps = createStructuredSelector({
   inProgressRequestList: makeSelectInProgressRequestList(),
   completedRequestList: makeSelectCompletedRequestList(),
   socialChannels: makeSelectSocialChannels(),
+  approvedRequestList: makeSelectApprovedRequestList(),
+  declinedRequestList: makeSelectDeclinedRequestList()
 });
 
 function mapDispatchToProps(dispatch) {
