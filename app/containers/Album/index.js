@@ -1,11 +1,11 @@
-import React, { memo, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, {memo, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
+import {faPlayCircle, faPauseCircle} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PaperCard from '../../components/PaperCard';
-import { Col, Image, Row } from 'react-bootstrap';
+import {Col, Image, Row} from 'react-bootstrap';
 import moment from 'moment';
 import {
   makeSelectRecommended,
@@ -14,44 +14,50 @@ import {
   makeSelectCurrentSong,
   makeSelectRole,
 } from '../App/selectors';
-import { handleSongPlaying, handleSingleSong } from '../App/actions';
+import {handleSongPlaying, handleSingleSong} from '../App/actions';
 import {
   createPlaylistandAddSong,
   getMyPlaylist,
   addSongIntoPlaylist,
 } from '../Playlist/actions';
-import { makeSelectPlaylists } from '../Playlist/selectors';
+import {makeSelectPlaylists} from '../Playlist/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import reducerPlaylist from '../Playlist/reducer';
 import sagaPlaylist from '../Playlist/saga';
 import globalReducer from '../HomePage/reducer';
 import globalSaga from '../HomePage/saga';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../../components/ShareBox';
 import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
-import { useParams } from 'react-router-dom';
-import { loadAlbum } from './actions';
-import { makeSelectAlbum, makeSelectAlbumLoader } from './selectors';
+import {useLocation, useParams} from 'react-router-dom';
+import {loadAlbum} from './actions';
+import {makeSelectAlbum, makeSelectAlbumLoader} from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import {getNewReleases} from "../HomePage/actions";
 import {makeSelectNewReleaseLoading, makeSelectNewReleases} from "../HomePage/selectors";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 const key = 'album';
 
 const Album = props => {
-  useInjectReducer({ key, reducer });
-  useInjectSaga({ key, saga });
-  useInjectReducer({ key: 'playlist', reducer: reducerPlaylist });
-  useInjectSaga({ key: 'playlist', saga: sagaPlaylist });
-  useInjectReducer({ key: 'home', reducer: globalReducer });
-  useInjectSaga({ key: 'home', saga: globalSaga });
+  useInjectReducer({key, reducer});
+  useInjectSaga({key, saga});
+  useInjectReducer({key: 'playlist', reducer: reducerPlaylist});
+  useInjectSaga({key: 'playlist', saga: sagaPlaylist});
+  useInjectReducer({key: 'home', reducer: globalReducer});
+  useInjectSaga({key: 'home', saga: globalSaga});
 
-  const { slug } = useParams();
+  const {slug} = useParams();
+  const query = useQuery();
+
   const {
     newReleases,
     onLoadAlbum,
@@ -63,6 +69,7 @@ const Album = props => {
     getMyPlaylistAction,
     addSongIntoPlaylistAction,
     playlists,
+    playlist,
     loader,
     role,
     getNewReleasesAction,
@@ -74,20 +81,25 @@ const Album = props => {
     getNewReleasesAction();
   }, [slug]);
 
+  useEffect(() => {
+    if (query.get("songId") && playlist.length > 0) {
+      document.getElementById(`songNumber${query.get("songId")}`).classList.add('highLightSong')
+    }
+  }, [query]);
+
   const playAllSongsHandler = () => {
     onHandleSongPlaying(!currentSong.playing);
   };
 
   const singleSongHandler = index => {
-    const status =
-      currentSong.songIndex === index ? !currentSong.playing : true;
+    const status = currentSong.songIndex === index ? !currentSong.playing : true;
     onHandleSingleSong(index, status);
   };
 
   return (
     <>
       {loader || !albumInfo ? (
-        <LoadingIndicator />
+        <LoadingIndicator/>
       ) : (
         <>
           <PaperCard title={albumInfo.title}>
@@ -109,7 +121,7 @@ const Album = props => {
                     <div className="d-flex align-items-center">
                       {albumInfo.caption}
                       <span className="ml-2">
-                        <ShareBox />
+                        <ShareBox/>
                       </span>
                     </div>
                     <small className="text-muted d-block">
@@ -134,6 +146,7 @@ const Album = props => {
                   {albumInfo.albumSongs.map((ele, index) => (
                     <div
                       className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                      id={`songNumber${ele.song.id}`}
                       key={index}
                     >
                       <div className="song-number">

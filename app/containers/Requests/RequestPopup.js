@@ -344,7 +344,7 @@ const RequestPopup = ({
               <div
                 className="cursor-pointer my-4"
                 onClick={() => {
-                  navigator.clipboard.writeText(data.campaigns.song.url);
+                  navigator.clipboard.writeText(`https://open.bliiink.co.uk/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
                   toast.success('Song url copied');
                 }}
               >
