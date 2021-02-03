@@ -43,3 +43,11 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+:root {
+  --color--text: 0, 123, 255;
+}
+
+.bg-dark {
+  background-color: rgba(var(--color--text), 14%) !important;
+}

@@ -133,89 +133,93 @@ const EditAccount = ({
 
   return (
     <PaperCard title="Edit Account">
-      <Card style={{width: '50%'}}>
-        <Card.Body style={{color: 'black'}}>
-          <div style={styles.imageContainer}>
-            <Image
-              width={120}
-              height={120}
-              src={
-                Object.keys(data).length === 0
-                  ? userDetails
-                  ? userDetails.avatar
-                  : ''
-                  : data
-              }
-              roundedCircle
-            />
-            <label
-              style={{cursor: 'pointer', color: 'black'}}
-              htmlFor="fileImage"
-              variant="link"
-              className="cursor-pointer"
-              onClick={handleFileChange}
-            >
-              Change photo
-            </label>
-            <input
-              style={{
-                position: 'absolute',
-                opacity: 0,
-                zIndex: -1,
-              }}
-              id="fileImage"
-              accept="image/*"
-              type="file"
-              onChange={handleFileChange}
-            />
+      <div className="row">
+        <div className="col-md-8">
+          <div className="card bg-dark">
+            <div className="card-body">
+              <div style={styles.imageContainer}>
+                <Image
+                  width={120}
+                  height={120}
+                  src={
+                    Object.keys(data).length === 0
+                      ? userDetails
+                      ? userDetails.avatar
+                      : ''
+                      : data
+                  }
+                  roundedCircle
+                />
+                <label
+                  style={{cursor: 'pointer', color: 'white'}}
+                  htmlFor="fileImage"
+                  variant="link"
+                  className="cursor-pointer"
+                  onClick={handleFileChange}
+                >
+                  Change photo
+                </label>
+                <input
+                  style={{
+                    position: 'absolute',
+                    opacity: 0,
+                    zIndex: -1,
+                  }}
+                  id="fileImage"
+                  accept="image/*"
+                  type="file"
+                  onChange={handleFileChange}
+                />
+              </div>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    name="name"
+                    placeholder="Name"
+                    className={`form-control ${
+                      errors.description ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.name && errors.name.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    name="phone"
+                    //   type="number"
+                    placeholder="Phone"
+                    className={`form-control ${
+                      errors.description ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.phone && errors.phone.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              {updateProcessing ? (
+                <ButtonLoader/>
+              ) : (
+                <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                  Submit
+                </Button>
+              )}
+            </div>
           </div>
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridDiscription">
-              <label htmlFor="name">Name</label>
-              <input
-                name="name"
-                placeholder="Name"
-                className={`form-control ${
-                  errors.description ? 'is-invalid' : ''
-                }`}
-                ref={register}
-              />
-              <div className="invalid-feedback">
-                {errors.name && errors.name.message}
-              </div>
-            </Form.Group>
-          </Form.Row>
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridDiscription">
-              <label htmlFor="phone">Phone</label>
-              <input
-                name="phone"
-                //   type="number"
-                placeholder="Phone"
-                className={`form-control ${
-                  errors.description ? 'is-invalid' : ''
-                }`}
-                ref={register}
-              />
-              <div className="invalid-feedback">
-                {errors.phone && errors.phone.message}
-              </div>
-            </Form.Group>
-          </Form.Row>
-          {updateProcessing ? (
-            <ButtonLoader/>
-          ) : (
-            <Button variant="success" onClick={handleSubmit(onSubmit)}>
-              Submit
-            </Button>
+          {isInfluencer && (
+            <div className="mt-3">
+              <EditInfluencerAccount/>
+            </div>
           )}
-        </Card.Body>
-      </Card>
-      {isInfluencer && (
-        <div style={{marginTop: 30}}>
-          <EditInfluencerAccount/>
         </div>
-      )}
+      </div>
     </PaperCard>
   );
 };

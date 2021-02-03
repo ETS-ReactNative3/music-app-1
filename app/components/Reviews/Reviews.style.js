@@ -1,7 +1,7 @@
 const styles = {
-  container: { display: 'flex', flexDirection: 'row', margin: 10 },
-  textStyle: { fontSize: 14, fontFamily: 'Roboto-Medium', color: 'white' },
-  secondTextStyle: { fontSize: 14, fontFamily: 'Roboto-Regular' },
+  container: {display: 'flex', flexDirection: 'row', margin: 10},
+  textStyle: {fontSize: 14, color: 'white'},
+  secondTextStyle: {fontSize: 14},
   profileStyle: {
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',
@@ -18,11 +18,10 @@ const styles = {
     flexShrink: 1,
     marginLeft: 10,
   },
-  nameStyle: { fontSize: 14, fontFamily: 'Roboto-Medium', color: 'white' },
+  nameStyle: {fontSize: 14, color: 'white'},
   timeStyle: {
     fontSize: 14,
     marginLeft: 10,
-    fontFamily: 'Roboto-Regular',
     color: 'green',
   },
   messageStyle: {
@@ -32,7 +31,6 @@ const styles = {
     backgroundColor: '#0053A5',
   },
   messageTextStyle: {
-    fontFamily: 'Roboto-Regular',
     fontSize: 14,
     color: 'white',
   },

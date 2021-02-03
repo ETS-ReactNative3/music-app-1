@@ -84,40 +84,7 @@ const InfluencerAccount = ({
         </div>}
       </div>
       <hr className="blick-border" />
-      {showActivites &&<div>
-        <div className="mb-3 d-flex align-items-center justify-content-between">
-          <div>Activites</div>
-          <div>
-            <small>
-              <Link className="text-success" to="/myaccount/activites">
-                View more{' '}
-                <FontAwesomeIcon icon={faShare} className="text-success" />
-              </Link>
-            </small>
-          </div>
-        </div>
-        {activities &&
-          activities.slice(0, 3).map((activity, index) => (
-            <>
-              <MyActivity
-                key={index}
-                imagePath={activity.campaigns.song.artwork}
-                name={activity.campaigns.song.title}
-                rate={activity.campaigns.song.duration || '3.53'}
-              />
-              <Container fluid>
-                <Row className="justify-content-center">
-                  <Col md={6}>
-                    <hr className="blick-border" />
-                  </Col>
-                </Row>
-              </Container>
-            </>
-          ))}
-        {activities && activities.length === 0 && (
-          <small className="text-muted">No Activities to show</small>
-        )}
-      </div>}
+
 
       {/* <div>
         <div style={{ marginLeft: 10 }}>Service Information</div>
