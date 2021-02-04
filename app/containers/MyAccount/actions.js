@@ -43,11 +43,12 @@ export function putUserRatings(ratings, ratingCount) {
   };
 }
 
-export function updateUserDetailsAction(data, isProfilePhotoUpdated) {
+export function updateUserDetailsAction(data, isProfilePhotoUpdated, isCoverPhotoUpdated) {
   return {
     type: UPDATE_USER_DETAILS,
     data,
     isProfilePhotoUpdated,
+    isCoverPhotoUpdated
   };
 }
 
