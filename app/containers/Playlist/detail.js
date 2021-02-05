@@ -22,16 +22,17 @@ import {makeSelectCurrentSong} from '../App/selectors';
 import PlaylistOptions from '../../components/PlaylistOptions';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
-function Detail({
-                  getPlaylistAction,
-                  playlist,
-                  loader,
-                  onHandleSongPlaying,
-                  onHandleSingleSong,
-                  currentSong,
-                  setSongsAction,
-                  deleteSongAction,
-                }) {
+function Detail(
+  {
+    getPlaylistAction,
+    playlist,
+    loader,
+    onHandleSongPlaying,
+    onHandleSingleSong,
+    currentSong,
+    setSongsAction,
+    deleteSongAction,
+  }) {
   useInjectReducer({key: 'playlist', reducer});
   useInjectSaga({key: 'playlist', saga});
   const {id} = useParams();
@@ -41,13 +42,12 @@ function Detail({
   }, [id]);
 
   const playAllSongsHandler = () => {
-    const {playing} = currentSong;
-    onHandleSongPlaying(!playing);
+    setSongsAction(playlist.playlistSongs);
+    onHandleSongPlaying(!currentSong.playing);
   };
 
   const singleSongHandler = index => {
-    const songs = playlist.playlistSongs.map(item => item.song);
-    setSongsAction(songs);
+    setSongsAction(playlist.playlistSongs);
     const {playing, songIndex} = currentSong;
     const status = songIndex === index ? !playing : true;
     onHandleSingleSong(index, status);
