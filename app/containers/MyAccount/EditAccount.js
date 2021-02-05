@@ -46,6 +46,7 @@ const EditAccount = ({
   useInjectSaga({key: 'account', saga: accountSaga});
   useInjectReducer({key: 'account', reducer: accountReducer});
   const [data, setData] = React.useState({});
+  const [coverPhoto, setCoverPhoto] = React.useState({});
 
   React.useEffect(() => {
     getGenreList();
@@ -69,6 +70,20 @@ const EditAccount = ({
     }
   }
 
+  function handleCoverFileChange(event) {
+    const {target} = event;
+    const {files} = target;
+
+    if (files && files[0]) {
+      const reader = new FileReader();
+      reader.onload = event1 => {
+        setCoverPhoto(event1.target.result);
+      };
+
+      reader.readAsDataURL(files[0]);
+    }
+  }
+
   const isInfluencer =
     (userDetails &&
       userDetails.roleId === 1 &&
@@ -86,11 +101,11 @@ const EditAccount = ({
   const onSubmit = submitData => {
     const updatedUserDetails = {
       ...userDetails,
-      name: submitData.name,
-      phone: submitData.phone,
+      ...submitData,
       profilePhoto: data,
+      coverPhotoLocal: coverPhoto
     };
-    updateUserDetails(updatedUserDetails, Object.keys(data).length > 0);
+    updateUserDetails(updatedUserDetails, Object.keys(data).length > 0, Object.keys(coverPhoto).length > 0);
   };
 
   React.useEffect(() => {
@@ -204,6 +219,159 @@ const EditAccount = ({
                   </div>
                 </Form.Group>
               </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="biography">Biography</label>
+                  <input
+                    name="biography"
+                    //   type="number"
+                    placeholder="Biography"
+                    className={`form-control ${
+                      errors.biography ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.biography && errors.biography.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              {userDetails.roleId === 2 && <><div style={styles.imageContainer}>
+                <Image
+                  width={120}
+                  height={120}
+                  src={
+                    Object.keys(coverPhoto).length === 0
+                      ? userDetails
+                      ? userDetails.coverPhoto
+                      : ''
+                      : coverPhoto
+                  }
+                  roundedCircle
+                />
+                <label
+                  style={{cursor: 'pointer', color: 'white'}}
+                  htmlFor="fileImageCoverPhoto"
+                  variant="link"
+                  className="cursor-pointer"
+                  onClick={handleCoverFileChange}
+                >
+                  Change Cover photo
+                </label>
+                <input
+                  style={{
+                    position: 'absolute',
+                    opacity: 0,
+                    zIndex: -1,
+                  }}
+                  id="fileImageCoverPhoto"
+                  accept="image/*"
+                  type="file"
+                  onChange={handleCoverFileChange}
+                />
+              </div>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="publicPhone">Public Phone</label>
+                  <input
+                    name="publicPhone"
+                    //   type="number"
+                    placeholder="Public Phone"
+                    className={`form-control ${
+                      errors.publicPhone ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.publicPhone && errors.publicPhone.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="publicEmail">Public Email</label>
+                  <input
+                    name="publicEmail"
+                    //   type="number"
+                    placeholder="Public Email"
+                    className={`form-control ${
+                      errors.publicEmail ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.publicEmail && errors.publicEmail.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="managementEmail">Management Email</label>
+                  <input
+                    name="managementEmail"
+                    //   type="number"
+                    placeholder="Management Email"
+                    className={`form-control ${
+                      errors.managementEmail ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.managementEmail && errors.managementEmail.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="bookingEmail">Booking Email</label>
+                  <input
+                    name="bookingEmail"
+                    //   type="number"
+                    placeholder="Booking Email"
+                    className={`form-control ${
+                      errors.bookingEmail ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.bookingEmail && errors.bookingEmail.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="recordLabelManager">Recodrd label manager</label>
+                  <input
+                    name="recordLabelManager"
+                    //   type="number"
+                    placeholder="Record Label manager"
+                    className={`form-control ${
+                      errors.recordLabelManager ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.recordLabelManager && errors.recordLabelManager.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="location">Location</label>
+                  <input
+                    name="location"
+                    //   type="number"
+                    placeholder="Location"
+                    className={`form-control ${
+                      errors.location ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.location && errors.location.message}
+                  </div>
+                </Form.Group>
+              </Form.Row></>}
               {updateProcessing ? (
                 <ButtonLoader/>
               ) : (
@@ -245,8 +413,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
-    updateUserDetails: (data, isProfilePhotoUpdated) =>
-      dispatch(updateUserDetailsAction(data, isProfilePhotoUpdated)),
+    updateUserDetails: (data, isProfilePhotoUpdated, isCoverPhotoUpdated) =>
+      dispatch(updateUserDetailsAction(data, isProfilePhotoUpdated, isCoverPhotoUpdated)),
   };
 }
 

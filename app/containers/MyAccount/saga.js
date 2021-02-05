@@ -56,6 +56,19 @@ function updateAvatar(data) {
     });
 }
 
+function updateCoverPhoto(data) {
+  const base64 = data; // Place your base64 url here.
+  return fetch(base64)
+    .then(res => res.blob())
+    .then(blob => {
+      const fd = new FormData();
+      const file = new File([blob], 'filename.jpeg');
+      fd.append('coverPhoto', file);
+
+      return axiosInstance().post('users/upload/coverPhoto', fd);
+    });
+}
+
 export function* requestInfluencerSaga(data) {
   try {
     yield call(requestInfluencerApi, data);
@@ -102,7 +115,7 @@ function* updateUserDetailsSaga(action) {
   try {
     yield put(updateProcessingAction(true));
     let { data } = action;
-    const { isProfilePhotoUpdated } = action;
+    const { isProfilePhotoUpdated, isCoverPhotoUpdated } = action;
     if (isProfilePhotoUpdated) {
       const response = yield call(updateAvatar, data.profilePhoto);
       data = {
@@ -111,7 +124,16 @@ function* updateUserDetailsSaga(action) {
         avatarImageKey: response.data.avatarImageKey,
       };
     }
+    if (isCoverPhotoUpdated) {
+      const response = yield call(updateCoverPhoto, data.coverPhotoLocal);
+      data = {
+        ...data,
+        coverPhoto: response.data.coverPhotoLocation,
+        coverPhotoImageKey: response.data.coverPhotoImageKey,
+      };
+    }
     delete data.profilePhoto;
+    delete data.coverPhotoLocal;
     yield call(updateUserDetailsApi, data);
 
     yield put(getUserDetails());
