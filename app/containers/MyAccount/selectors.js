@@ -25,7 +25,7 @@ const makeSelectReviews = () =>
   const makeSelectRecentReviews = () =>
   createSelector(
     selectAccountDomain,
-    substate => substate.reviews && substate.reviews.slice(substate.reviews.length -3,substate.reviews.length),
+    substate => substate.reviews && substate.reviews.length > 3 && substate.reviews.slice(substate.reviews.length -3,substate.reviews.length) || [],
   );
 
 const makeSelectRatings = () =>
