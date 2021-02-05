@@ -59,3 +59,8 @@
     color: #ffffff;
   }
 }
+
+.table-hover tbody tr:hover {
+  color: #1fdbae;
+  background-color: rgba(var(--color--text), 14%) !important;
+}
