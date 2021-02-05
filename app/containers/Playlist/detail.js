@@ -22,16 +22,17 @@ import {makeSelectCurrentSong} from '../App/selectors';
 import PlaylistOptions from '../../components/PlaylistOptions';
 import LoadingIndicator from '../../components/LoadingIndicator';
 
-function Detail({
-                  getPlaylistAction,
-                  playlist,
-                  loader,
-                  onHandleSongPlaying,
-                  onHandleSingleSong,
-                  currentSong,
-                  setSongsAction,
-                  deleteSongAction,
-                }) {
+function Detail(
+  {
+    getPlaylistAction,
+    playlist,
+    loader,
+    onHandleSongPlaying,
+    onHandleSingleSong,
+    currentSong,
+    setSongsAction,
+    deleteSongAction,
+  }) {
   useInjectReducer({key: 'playlist', reducer});
   useInjectSaga({key: 'playlist', saga});
   const {id} = useParams();
@@ -41,13 +42,12 @@ function Detail({
   }, [id]);
 
   const playAllSongsHandler = () => {
-    const {playing} = currentSong;
-    onHandleSongPlaying(!playing);
+    setSongsAction(playlist.playlistSongs);
+    onHandleSongPlaying(!currentSong.playing);
   };
 
   const singleSongHandler = index => {
-    const songs = playlist.playlistSongs.map(item => item.song);
-    setSongsAction(songs);
+    setSongsAction(playlist.playlistSongs);
     const {playing, songIndex} = currentSong;
     const status = songIndex === index ? !playing : true;
     onHandleSingleSong(index, status);
@@ -117,13 +117,13 @@ function Detail({
               <section className="py-5">
                 {playlist.playlistSongs.map((ele, index) => (
                   <div
-                    className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                    className="row border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
                     key={index}
                   >
-                    <div className="song-number">
+                    <div className="song-number pr-3 col-md-1">
                       {`0${index + 1}`.slice(-2)}
                     </div>
-                    <div className="song-title px-2 min-w15">
+                    <div className="song-title px-2 col-md-4">
                       <h5>{ele.song.title}</h5>
                       <h6>{ele.song.description}</h6>
                     </div>

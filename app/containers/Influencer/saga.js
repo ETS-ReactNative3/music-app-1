@@ -110,6 +110,11 @@ export function* updateInfluencerStatus({ data }) {
     yield call(updateStatus, data);
     yield put(updateInfluencerStatusSuccess());
     yield put(getInfluencerRequests());
+    if (data.influencerStatusId === 1) {
+      toast.success('User request to become a tastemaker is rejected.');
+    } else {
+      toast.success('The user is now a tastemaker.');
+    }
   } catch (e) {
     toast.error(e.message);
     yield put(updateInfluencerStatusFail(e.message));
