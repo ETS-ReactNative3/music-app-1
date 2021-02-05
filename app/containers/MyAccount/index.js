@@ -96,8 +96,14 @@ function MyAccount(
                           {userDetails.roleId !== 1 && userDetails.role.title}
                         </p>
                         <p className="font-13 text-white-50">
-                          {userDetails.roleId === 1 && userDetails.influencerId ? 'Tastemaker' : userDetails.role.title}
+                          {userDetails.roleId === 1 && userDetails.influencerId && 'Tastemaker'}
+                          {userDetails.roleId === 1 && !userDetails.influencerId && userDetails.role.title}
                         </p>
+                        {userDetails.biography &&
+                        <p>
+                          <strong>Bio:</strong> {userDetails.biography}
+                        </p>
+                        }
                         <ul className="mb-0 list-inline text-light">
                           <li className="list-inline-item">
                             <h5 className="mb-1">
