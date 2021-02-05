@@ -51,3 +51,11 @@
 .bg-dark {
   background-color: rgba(var(--color--text), 14%) !important;
 }
+
+.dropdown-menu {
+  background-color: #041E3F;
+
+  a {
+    color: #ffffff;
+  }
+}

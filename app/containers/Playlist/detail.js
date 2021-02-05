@@ -117,13 +117,13 @@ function Detail({
               <section className="py-5">
                 {playlist.playlistSongs.map((ele, index) => (
                   <div
-                    className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                    className="row border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
                     key={index}
                   >
-                    <div className="song-number">
+                    <div className="song-number pr-3 col-md-1">
                       {`0${index + 1}`.slice(-2)}
                     </div>
-                    <div className="song-title px-2 min-w15">
+                    <div className="song-title px-2 col-md-4">
                       <h5>{ele.song.title}</h5>
                       <h6>{ele.song.description}</h6>
                     </div>

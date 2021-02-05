@@ -4,7 +4,7 @@ const styles = {
   secondTextStyle: {fontSize: 14},
   profileStyle: {
     borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
+    borderColor: 'rgba(0, 123, 255, 14%)',
     alignItems: 'center',
     justifyContent: 'center',
     width: 40,
@@ -25,10 +25,9 @@ const styles = {
     color: 'green',
   },
   messageStyle: {
-    padding: 5,
-    marginTop: 5,
+    padding: 10,
     borderRadius: 5,
-    backgroundColor: '#0053A5',
+    backgroundColor: "rgba(0, 123, 255, 14%)",
   },
   messageTextStyle: {
     fontSize: 14,
