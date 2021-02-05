@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import { initialState } from './reducer';
+import {createSelector} from 'reselect';
+import {initialState} from './reducer';
 
 /**
  * Direct selector to the album state domain
@@ -22,10 +22,11 @@ const makeSelectReviews = () =>
     selectAccountDomain,
     substate => substate.reviews,
   );
-  const makeSelectRecentReviews = () =>
+
+const makeSelectRecentReviews = () =>
   createSelector(
     selectAccountDomain,
-    substate => substate.reviews && substate.reviews.length > 3 && substate.reviews.slice(substate.reviews.length -3,substate.reviews.length) || [],
+    substate => substate.reviews.slice(0, 3),
   );
 
 const makeSelectRatings = () =>

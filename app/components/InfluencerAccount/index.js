@@ -52,19 +52,17 @@ const InfluencerAccount = (
           totalCount={ratingCount}
           totalRating={5}
         />
-        {reviews &&
-        reviews
-          .map((review, index) => (
-            <Reviews
-              key={index}
-              name={review.campaignInfluencers.campaigns.song.user.name}
-              time={createDifferenenceTimeString(
-                review.createdDate,
-                new Date().toString(),
-              )}
-              message={review.review}
-            />
-          ))}
+        {reviews && reviews.map((review, index) => (
+          <Reviews
+            key={index}
+            name={review.campaignInfluencers.campaigns.song.user.name}
+            time={createDifferenenceTimeString(
+              review.createdDate,
+              new Date().toString(),
+            )}
+            message={review.review}
+          />
+        ))}
       </div>
 
       {showActivites && <div className="text-right">

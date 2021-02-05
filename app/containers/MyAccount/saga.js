@@ -1,10 +1,10 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import { call, put, takeLatest } from '@redux-saga/core/effects';
-import { toast } from 'react-toastify';
-import { axiosInstance } from '../../utils/api';
-import { getUserDetails } from '../App/actions';
+import {call, put, takeLatest} from '@redux-saga/core/effects';
+import {toast} from 'react-toastify';
+import {axiosInstance} from '../../utils/api';
+import {getUserDetails} from '../App/actions';
 import {
   putUserActivities,
   putUserRatings,
@@ -77,7 +77,7 @@ export function* requestInfluencerSaga(data) {
   }
 }
 
-export function* getUserActivitiesSaga({ userId }) {
+export function* getUserActivitiesSaga({userId}) {
   try {
     // let response = yield call(getUserActivitiesAPI, userId);
     // // success?
@@ -102,10 +102,7 @@ export function* getUserActivitiesSaga({ userId }) {
     }
 
     response = yield call(getUserReviewsAPI, userId);
-
-    if (response.statusText === 'OK') {
-      yield put(putUserReviews(response.data));
-    }
+    yield put(putUserReviews(response.data));
   } catch (e) {
     console.error(e);
   }
@@ -114,8 +111,8 @@ export function* getUserActivitiesSaga({ userId }) {
 function* updateUserDetailsSaga(action) {
   try {
     yield put(updateProcessingAction(true));
-    let { data } = action;
-    const { isProfilePhotoUpdated, isCoverPhotoUpdated } = action;
+    let {data} = action;
+    const {isProfilePhotoUpdated, isCoverPhotoUpdated} = action;
     if (isProfilePhotoUpdated) {
       const response = yield call(updateAvatar, data.profilePhoto);
       data = {
@@ -149,7 +146,7 @@ function* updateUserDetailsSaga(action) {
 function* updateInfluencerDetailslSaga(action) {
   try {
     yield put(updateInfluencerProcessingAction(true));
-    const { data } = action;
+    const {data} = action;
 
     yield call(updateInfluencerDetailsApi, data);
 
