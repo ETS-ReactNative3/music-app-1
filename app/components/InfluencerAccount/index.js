@@ -42,42 +42,39 @@ const InfluencerAccount = (
 
   return (
     <>
-      <h5>Service Information</h5>
-      <div className="mb-3">{influencerProfile.description}</div>
-      <div>
-        <div className="mb-3 d-flex align-items-center justify-content-between">
-          <div>Rating and Reviews</div>
-        </div>
-        <div>
-          <RatingView
-            ratingScore={ratings}
-            totalCount={ratingCount}
-            totalRating={5}
-          />
-          {reviews &&
-          reviews
-            .map((review, index) => (
-              <Reviews
-                key={index}
-                name={review.campaignInfluencers.campaigns.song.user.name}
-                time={createDifferenenceTimeString(
-                  review.createdDate,
-                  new Date().toString(),
-                )}
-                message={review.review}
-              />
-            ))}
-        </div>
 
-        {showActivites && <div className="text-right">
-          <small>
-            <Link className="text-success" to="/myaccount/reviews">
-              View more{' '}
-              <FontAwesomeIcon icon={faShare} className="text-success"/>
-            </Link>
-          </small>
-        </div>}
+      <div className="mb-3 d-flex align-items-center justify-content-between">
+        <div>Rating and Reviews</div>
       </div>
+      <div>
+        <RatingView
+          ratingScore={ratings}
+          totalCount={ratingCount}
+          totalRating={5}
+        />
+        {reviews &&
+        reviews
+          .map((review, index) => (
+            <Reviews
+              key={index}
+              name={review.campaignInfluencers.campaigns.song.user.name}
+              time={createDifferenenceTimeString(
+                review.createdDate,
+                new Date().toString(),
+              )}
+              message={review.review}
+            />
+          ))}
+      </div>
+
+      {showActivites && <div className="text-right">
+        <small>
+          <Link className="text-success" to="/myaccount/reviews">
+            View more{' '}
+            <FontAwesomeIcon icon={faShare} className="text-success"/>
+          </Link>
+        </small>
+      </div>}
     </>
   );
 };
