@@ -79,14 +79,14 @@ export function* requestInfluencerSaga(data) {
 
 export function* getUserActivitiesSaga({ userId }) {
   try {
-    let response = yield call(getUserActivitiesAPI, userId);
-    // success?
+    // let response = yield call(getUserActivitiesAPI, userId);
+    // // success?
 
-    if (response.statusText === 'OK') {
-      yield put(putUserActivities(response.data));
-    }
+    // if (response.statusText === 'OK') {
+    //   yield put(putUserActivities(response.data));
+    // }
 
-    response = yield call(getUserRatingsAPI, userId);
+    let response = yield call(getUserRatingsAPI, userId);
     if (response.statusText === 'OK') {
       let totalRatings = 0;
       response.data.map(rating => {

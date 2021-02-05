@@ -17,7 +17,7 @@ import {
   Col,
   Card,
   ListGroup,
-  Container,
+  Container,Badge
 } from 'react-bootstrap';
 import {faBlog} from '@fortawesome/free-solid-svg-icons';
 import {compose} from 'redux';
@@ -29,16 +29,20 @@ import {combineFollowers, formatFollowers} from '../../utils';
 import defaultImage from '../../images/album-3.jpg';
 import {useInjectReducer} from '../../utils/injectReducer';
 import reducer from '../../containers/Tastemaker/reducer';
-import {selectInfluencerAction} from '../../containers/Tastemaker/actions';
-import {SOCIAL_MEDIA} from '../../containers/App/constants';
+import { selectInfluencerAction } from '../../containers/Tastemaker/actions';
+import { SOCIAL_MEDIA } from '../../containers/App/constants';
+import { getGenres } from '../../containers/Album/actions';
+import { createStructuredSelector } from 'reselect';
+import { isArray } from 'lodash';
+import { makeSelectGenres } from '../../containers/Album/selectors';
 
-const InfluencerAccountPopup = (
-  {
-    openModal,
-    handleClose,
-    userSelected,
-    selectInfluencer,
-  }) => {
+const InfluencerAccountPopup = ({
+  openModal,
+  handleClose,
+  userSelected,
+  selectInfluencer,
+  genres
+}) => {
   const followers = combineFollowers(
     (userSelected && userSelected.influencer) || {},
   );
@@ -159,6 +163,16 @@ const InfluencerAccountPopup = (
 
   useInjectReducer({key: 'influencer', reducer});
 
+  const renderGenres = (genersToRender, genres) =>
+  genersToRender &&
+  isArray(genersToRender) &&
+  (genersToRender || []).map(internalGener => (
+    <Badge variant="success" className="p-2 mr-3">
+      {(genres.find(gener => gener.id === internalGener.genreId) || {}).title}
+    </Badge>
+  ));
+
+  console.log(userSelected.influencer.influencerGenres, genres)
   return (
     <Modal
       show={openModal}
@@ -197,16 +211,11 @@ const InfluencerAccountPopup = (
                 </small>
               </div>
             </div>
-            <h4>Service Information</h4>
-            <p>
-              {userSelected.influencer.helpArtistDescription}
-            </p>
-            <hr className="blick-border"/>
-            <InfluencerAccount
-              navigation={{}}
-              userId={userSelected.id}
-              showActivites={false}
-            />
+                  {renderGenres(userSelected.influencer.influencerGenres,genres )}
+            <hr className="blick-border" />
+            <InfluencerAccount navigation={{}} userId={userSelected.id} 
+          showActivites={false}
+          />
           </Col>
           <Col md={6} xl={5}>
             <Card className="mb-4 bg-transparent blick-border">
@@ -823,6 +832,10 @@ InfluencerAccountPopup.propTypes = {
   selectInfluencer: PropTypes.func,
 };
 
+const mapStateToProps = createStructuredSelector({
+  genres: makeSelectGenres(),
+});
+
 function mapDispatchToProps(dispatch) {
   return {
     selectInfluencer: data => dispatch(selectInfluencerAction(data)),
@@ -830,7 +843,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const withConnect = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 );
 

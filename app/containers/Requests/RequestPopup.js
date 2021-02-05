@@ -8,6 +8,7 @@ import {
   Row,
   Col,
 } from 'react-bootstrap';
+import StarRatings from 'react-star-ratings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -113,7 +114,7 @@ const RequestPopup = ({
     resolver: yupResolver(validationSchema),
   });
 
-  console.log(errors);
+  const isReviewFromArtist = (data.ratings && data.ratings.length > 0) || (data.reviews && data.reviews.length > 0);
 
   const onSubmit = localData => {
     submitSocialLinksRequest(prepareDataForSubmit(localData));
@@ -633,6 +634,25 @@ const RequestPopup = ({
                   </small>
                   </>
                 )}
+
+              {isReviewFromArtist && <>
+                <hr className="my-4 blick-border" />
+                <h4>Feedback from artist:</h4>
+                <Row>
+                  <Col>
+                    {data.ratings && data.ratings.length > 0 && <StarRatings
+                      rating={data.ratings[0].rating}
+                      starRatedColor="yellow"
+                      numberOfStars={5}
+                      starDimension="15px"
+                      name="rating"
+                    />}
+                    {data.reviews && data.reviews.length > 0 && <small className="text-muted d-block">
+                      {data.reviews[0].review}
+                    </small>}
+                  </Col>
+                </Row>
+              </>}
             </fieldset>
           </Col>
         </Row>

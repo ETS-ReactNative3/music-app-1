@@ -62,25 +62,32 @@ import {
 import {getSongRequest} from '../Song/actions';
 import songReducer from '../Song/reducer';
 import songSaga from '../Song/saga';
-import {SOCIAL_MEDIA} from '../App/constants';
-
+import { SOCIAL_MEDIA } from '../App/constants';
+import { getGenres } from '../Album/actions';
+import albumSaga from '../Album/saga';
+import albumReducer from '../Album/reducer';
 export function Tastemaker({
-                             getTasteMakersAction,
-                             getSongAction,
-                             tasteMakers,
-                             selectedInfluencers,
-                             removeInfluencer,
-                             formLoader,
-                             match,
-                             selectedSong,
-                           }) {
-  useInjectReducer({key: 'tastemaker', reducer});
-  useInjectSaga({key: 'tastemaker', saga});
-  useInjectReducer({key: 'song', reducer: songReducer});
-  useInjectSaga({key: 'song', saga: songSaga});
-  useInjectReducer({key: 'app', reducer: appReducer});
-  useEffect(() => {
+  getTasteMakersAction,
+  getSongAction,
+  tasteMakers,
+  selectedInfluencers,
+  removeInfluencer,
+  formLoader,
+  match,
+  selectedSong,
+  getGenreList
+}) {
+  useInjectReducer({ key: 'tastemaker', reducer });
+  useInjectSaga({ key: 'tastemaker', saga });
+  useInjectReducer({ key: 'song', reducer: songReducer });
+  useInjectSaga({ key: 'song', saga: songSaga });
+  useInjectReducer({ key: 'app', reducer: appReducer });
+
+  useInjectSaga({key: 'album', saga: albumSaga});
+  useInjectReducer({key: 'album', reducer: albumReducer});
+    useEffect(() => {
     getTasteMakersAction();
+    getGenreList();
   }, []);
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -517,6 +524,7 @@ Tastemaker.propTypes = {
   selectedInfluencers: PropTypes.array,
   removeInfluencer: PropTypes.func,
   formLoader: PropTypes.bool,
+  getGenreList: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -532,6 +540,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(getTasteMakersRequest({filters, searchText})),
     removeInfluencer: data => dispatch(removeInfluencerAction(data)),
     getSongAction: id => dispatch(getSongRequest(id)),
+    getGenreList: () => dispatch(getGenres()),
   };
 }
 
