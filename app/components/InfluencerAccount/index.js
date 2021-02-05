@@ -98,7 +98,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    getUserActivities: userId => dispatch(fetchUserActivities(userId)),
+    getUserActivities: influencerId => dispatch(fetchUserActivities(influencerId)),
   };
 }
 

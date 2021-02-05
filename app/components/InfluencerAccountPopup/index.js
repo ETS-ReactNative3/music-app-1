@@ -213,7 +213,7 @@ const InfluencerAccountPopup = ({
             </div>
                   {renderGenres(userSelected.influencer.influencerGenres,genres )}
             <hr className="blick-border" />
-            <InfluencerAccount navigation={{}} userId={userSelected.id} 
+            <InfluencerAccount navigation={{}} userId={userSelected.influencer.id} 
           showActivites={false}
           />
           </Col>

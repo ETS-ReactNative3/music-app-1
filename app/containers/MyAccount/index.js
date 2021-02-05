@@ -266,7 +266,7 @@ function MyAccount(
               <Col md={5} lg={4} xl={3}>
                 <InfluencerAccount
                   navigation={navigation}
-                  userId={userDetails.id}
+                  userId={userDetails.influencerId}
                   showActivites={true}
                 />
               </Col>
