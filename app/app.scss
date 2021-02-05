@@ -64,3 +64,8 @@
   color: #1fdbae;
   background-color: rgba(var(--color--text), 14%) !important;
 }
+
+.form-control, .form-control:focus {
+  background-color: #020f1f;
+  color: #ffffff;
+}

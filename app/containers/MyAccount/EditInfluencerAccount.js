@@ -66,6 +66,7 @@ const EditInfluencerAccount = ({
     control: provided => ({
       ...provided,
       color: 'black',
+      backgroundColor: '#020f1f'
     }),
     singleValue: provided => ({
       ...provided,
