@@ -1,8 +1,8 @@
-import React, { memo } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import React, {memo, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
+import {createStructuredSelector} from 'reselect';
 import {
   Button,
   Image,
@@ -13,51 +13,54 @@ import {
   ListGroup,
 } from 'react-bootstrap';
 import PaperCard from '../../components/PaperCard';
-import { withRouter } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faFacebook,
   faInstagram,
   faTwitter,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
-import { faBlog } from '@fortawesome/free-solid-svg-icons';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { makeSelectSelectedInfluencers } from '../Tastemaker/selectors';
-import { launchCampaignAction } from './actions';
+import {faBlog} from '@fortawesome/free-solid-svg-icons';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {makeSelectSelectedInfluencers} from '../Tastemaker/selectors';
+import {launchCampaignAction} from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import songReducer from '../Song/reducer';
 import songSaga from '../Song/saga';
-import { makeSelectedSong } from '../Song/selectors';
-import { useInjectSaga } from '../../utils/injectSaga';
+import {makeSelectedSong} from '../Song/selectors';
+import {useInjectSaga} from '../../utils/injectSaga';
 import styles from './index.styles';
 import defaultImage from '../../images/album-3.jpg';
-import { getSongRequest } from '../Song/actions';
+import {getSongRequest} from '../Song/actions';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
-import { makeSelectLoader, makeSelectUserDetails } from '../App/selectors';
-import { _calculatePriceForSelectedInfluencers } from '../Tastemaker';
-import { makeSelectFormLoader } from '../Album/selectors';
+import {makeSelectLoader, makeSelectUserDetails} from '../App/selectors';
+import {_calculatePriceForSelectedInfluencers} from '../Tastemaker';
+import {makeSelectFormLoader} from '../Album/selectors';
 import appReducer from '../App/reducer';
 import ButtonLoader from '../../components/ButtonLoader';
-import { SOCIAL_MEDIA } from '../App/constants';
-const CampaignSummary = ({
-  launchCampaign,
-  userDetails,
-  formLoader,
-  selectedInfluencers,
-  selectedSong,
-  match,
-  getSongAction,
-}) => {
-  useInjectReducer({ key: 'campaign', reducer });
-  useInjectSaga({ key: 'campaign', saga });
-  useInjectReducer({ key: 'app', reducer: appReducer });
-  useInjectReducer({ key: 'song', reducer: songReducer });
-  useInjectSaga({ key: 'song', saga: songSaga });
+import {SOCIAL_MEDIA} from '../App/constants';
+import LoadingIndicator from "../../components/LoadingIndicator";
 
-  React.useEffect(() => {
+const CampaignSummary = (
+  {
+    launchCampaign,
+    userDetails,
+    formLoader,
+    selectedInfluencers,
+    selectedSong,
+    match,
+    getSongAction,
+  }) => {
+  useInjectReducer({key: 'campaign', reducer});
+  useInjectSaga({key: 'campaign', saga});
+  useInjectReducer({key: 'app', reducer: appReducer});
+  useInjectReducer({key: 'song', reducer: songReducer});
+  useInjectSaga({key: 'song', saga: songSaga});
+
+  useEffect(() => {
     if (match.params.songId) {
       getSongAction(match.params.songId);
     }
@@ -66,9 +69,8 @@ const CampaignSummary = ({
   const _renderInfluencer = (selectedInfluencer, index) => (
     <>
       <div style={styles.influencerParentStyle}>
-        {index > 0 && <div style={styles.listItemDividerStyle} />}
         <div style={styles.influencerItemParentStyle}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
             <div style={styles.influencerLeftStyle}>
               <div style={styles.profileStyle}>
                 <Image
@@ -86,42 +88,42 @@ const CampaignSummary = ({
             </div>
             <div style={styles.influencerBodyStyle}>
               {selectedInfluencer.name}
-              <small className="text-muted d-block">
+              <p className="d-block">
                 {selectedInfluencer.influencer.description}
-              </small>
-              <small className="text-muted d-block">
+              </p>
+              <span className="d-block">
                 {selectedInfluencer &&
-                  selectedInfluencer.influencer &&
-                  selectedInfluencer.influencer.influencerServices.map(
-                    influencerService => {
-                      if (
-                        influencerService.socialChannels.title ===
-                        SOCIAL_MEDIA.FACEBOOK
-                      )
-                        return <FontAwesomeIcon icon={faFacebook} />;
-                      if (
-                        influencerService.socialChannels.title ===
-                        SOCIAL_MEDIA.INSTAGRAM
-                      )
-                        return <FontAwesomeIcon icon={faInstagram} />;
-                      if (
-                        influencerService.socialChannels.title ===
-                        SOCIAL_MEDIA.TWITTER
-                      )
-                        return <FontAwesomeIcon icon={faTwitter} />;
-                      if (
-                        influencerService.socialChannels.title ===
-                        SOCIAL_MEDIA.BLOG
-                      )
-                        return <FontAwesomeIcon icon={faBlog} />;
-                      if (
-                        influencerService.socialChannels.title ===
-                        SOCIAL_MEDIA.YOUTUBE
-                      )
-                        return <FontAwesomeIcon icon={faYoutube} />;
-                    },
-                  )}
-              </small>
+                selectedInfluencer.influencer &&
+                selectedInfluencer.influencer.influencerServices.map(
+                  influencerService => {
+                    if (
+                      influencerService.socialChannels.title ===
+                      SOCIAL_MEDIA.FACEBOOK
+                    )
+                      return <FontAwesomeIcon icon={faFacebook} className="mr-2"/>;
+                    if (
+                      influencerService.socialChannels.title ===
+                      SOCIAL_MEDIA.INSTAGRAM
+                    )
+                      return <FontAwesomeIcon icon={faInstagram} className="mr-2"/>;
+                    if (
+                      influencerService.socialChannels.title ===
+                      SOCIAL_MEDIA.TWITTER
+                    )
+                      return <FontAwesomeIcon icon={faTwitter} className="mr-2"/>;
+                    if (
+                      influencerService.socialChannels.title ===
+                      SOCIAL_MEDIA.BLOG
+                    )
+                      return <FontAwesomeIcon icon={faBlog} className="mr-2"/>;
+                    if (
+                      influencerService.socialChannels.title ===
+                      SOCIAL_MEDIA.YOUTUBE
+                    )
+                      return <FontAwesomeIcon icon={faYoutube} className="mr-2"/>;
+                  },
+                )}
+              </span>
             </div>
           </div>
           <div>
@@ -131,7 +133,7 @@ const CampaignSummary = ({
                 alt="PlanSvg"
                 width={20}
                 height={20}
-                style={{ marginLeft: 10, marginRight: 5 }}
+                style={{marginLeft: 10, marginRight: 5}}
               />
               <div style={styles.creditTextStyle}>{`${
                 selectedInfluencer.influencer.price
@@ -146,7 +148,7 @@ const CampaignSummary = ({
   return (
     <>
       <PaperCard title="Campaign Summary">
-        <Row className="mt-5">
+        {userDetails ? <Row className="mt-5">
           <Col md={7} lg={8}>
             <Container fluid>
               <Row>
@@ -211,7 +213,7 @@ const CampaignSummary = ({
                         alt="PlanSvg"
                         width={20}
                         height={20}
-                        style={{ marginLeft: 10, marginRight: 5 }}
+                        style={{marginLeft: 10, marginRight: 5}}
                       />
                       {_calculatePriceForSelectedInfluencers(
                         selectedInfluencers,
@@ -226,13 +228,13 @@ const CampaignSummary = ({
                         alt="PlanSvg"
                         width={20}
                         height={20}
-                        style={{ marginLeft: 10, marginRight: 5 }}
+                        style={{marginLeft: 10, marginRight: 5}}
                       />
                       {userDetails.credit}
                     </div>
                   </div>
                   {userDetails.credit -
-                    _calculatePriceForSelectedInfluencers(selectedInfluencers) >
+                  _calculatePriceForSelectedInfluencers(selectedInfluencers) >
                   0 ? (
                     <div className="d-flex my-3 align-items-center justify-content-between">
                       <div>Credits left:</div>
@@ -242,12 +244,12 @@ const CampaignSummary = ({
                           alt="PlanSvg"
                           width={20}
                           height={20}
-                          style={{ marginLeft: 10, marginRight: 5 }}
+                          style={{marginLeft: 10, marginRight: 5}}
                         />
                         {userDetails.credit -
-                          _calculatePriceForSelectedInfluencers(
-                            selectedInfluencers,
-                          )}
+                        _calculatePriceForSelectedInfluencers(
+                          selectedInfluencers,
+                        )}
                       </div>
                     </div>
                   ) : (
@@ -258,18 +260,20 @@ const CampaignSummary = ({
                         campaigns with the help of an amazing community of
                         influencers!
                       </small>
-                      <Button variant="success">Buy Credits</Button>
+                      <Link to={'/wallet'}>
+                        <Button variant="success" block className="mt-2">Buy Credits</Button>
+                      </Link>
                     </div>
                   )}
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-4 border-0 bg-transparent">
-                  <hr className="blick-border" />
+                  <hr className="blick-border"/>
                   {userDetails.credit -
-                    _calculatePriceForSelectedInfluencers(selectedInfluencers) >
-                    0 && (
+                  _calculatePriceForSelectedInfluencers(selectedInfluencers) >
+                  0 && (
                     <>
                       {formLoader ? (
-                        <ButtonLoader />
+                        <ButtonLoader/>
                       ) : (
                         <Button
                           onClick={() => {
@@ -283,14 +287,14 @@ const CampaignSummary = ({
                                 influencer => ({
                                   ...influencer.influencer,
                                   services:
-                                    influencer.influencer.influencerServices,
+                                  influencer.influencer.influencerServices,
                                 }),
                               ),
                             });
                           }}
                           variant="warning"
                           block
-                    className="mt-4"
+                          className="mt-4"
                         >
                           Launch Campaign
                         </Button>
@@ -301,159 +305,9 @@ const CampaignSummary = ({
               </ListGroup>
             </Card>
           </Col>
-        </Row>
+        </Row> : <LoadingIndicator/>}
+
       </PaperCard>
-      {/* <div className="container-fluid" style={{ marginTop: '100px' }}>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={styles.selectedDataParent}>
-            <h3>Selected Song:</h3>
-            {selectedSong && (
-              <div style={{ marginLeft: 10 }}>
-                <div style={styles.selectedSongParent}>
-                  <Image
-                    width={100}
-                    height={100}
-                    src={selectedSong.artwork || ''}
-                    onError={e => {
-                      e.target.onerror = null;
-                      e.target.src = defaultImage;
-                    }}
-                  />
-                  <div style={styles.songInfo}>
-                    <div>{selectedSong.title}</div>
-                    <div>{selectedSong.description}</div>
-                    <div>
-                      {moment(selectedSong.releaseDate).format('DD MMMM YYYY')}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <h3 style={{ marginTop: 20 }}>Selected Influencers:</h3>
-            {selectedInfluencers && (
-              <div style={{ marginLeft: 10 }}>
-                {selectedInfluencers.map((influencer, index) =>
-                  _renderInfluencer(influencer, index),
-                )}
-              </div>
-            )}
-          </div>
-          <div style={{ width: '50%', margin: 30 }}>
-            <div style={styles.creditSectionParent}>
-              <div style={styles.creditParent}>
-                <>Total Credits:</>
-                <div style={{ flexDirection: 'row' }}>
-                  <img
-                    src={PlanSvgColor}
-                    alt="PlanSvg"
-                    width={20}
-                    height={20}
-                    style={{ marginLeft: 10, marginRight: 5 }}
-                  />
-                  {_calculatePriceForSelectedInfluencers(selectedInfluencers)}
-                </div>
-              </div>
-
-              <div style={styles.creditParent}>
-                <>You have:</>
-                <div style={{ flexDirection: 'row' }}>
-                  <img
-                    src={PlanSvgColor}
-                    alt="PlanSvg"
-                    width={20}
-                    height={20}
-                    style={{ marginLeft: 10, marginRight: 5 }}
-                  />
-                  {userDetails.credit}
-                </div>
-              </div>
-
-              {userDetails.credit -
-                _calculatePriceForSelectedInfluencers(selectedInfluencers) >
-              0 ? (
-                <div style={styles.creditParent}>
-                  <>Credits left:</>
-                  <div style={{ flexDirection: 'row' }}>
-                    <img
-                      src={PlanSvgColor}
-                      alt="PlanSvg"
-                      width={20}
-                      height={20}
-                      style={{ marginLeft: 10, marginRight: 5 }}
-                    />
-                    {userDetails.credit -
-                      _calculatePriceForSelectedInfluencers(
-                        selectedInfluencers,
-                      )}
-                  </div>
-                </div>
-              ) : (
-                <div style={styles.cardStyle}>
-                  <div
-                    style={{
-                      padding: 20,
-                      backgroundImage:
-                        'linear-gradient(to right, #091924, #0053A5',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <div style={styles.buyCreditText}>
-                      You don’t have enough credits
-                    </div>
-                    <div style={styles.buyCreditText1}>
-                      Buy credits and start promoting your music by starting
-                      campaigns with the help of an amazing community of
-                      influencers!
-                    </div>
-
-                    <Button variant="success">Buy Credits</Button>
-                  </div>
-                </div>
-              )}
-            </div>
-            {userDetails.credit -
-              _calculatePriceForSelectedInfluencers(selectedInfluencers) >
-              0 && (
-              <div
-                style={{
-                  width: '100%',
-                  margin: 20,
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                {formLoader ? (
-                  <ButtonLoader />
-                ) : (
-                  <Button
-                    onClick={() => {
-                      launchCampaign({
-                        songId: selectedSong.id,
-                        price: _calculatePriceForSelectedInfluencers(
-                          selectedInfluencers,
-                        ),
-                        // "campaignStatusId": 1,
-                        influencers: selectedInfluencers.map(influencer => ({
-                          ...influencer.influencer,
-                          services: influencer.influencer.influencerServices,
-                        })),
-                      });
-                    }}
-                    style={{ width: '70%' }}
-                    variant="success"
-                  >
-                    Launch Campaign
-                  </Button>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-     */}
     </>
   );
 };
