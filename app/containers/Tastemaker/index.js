@@ -6,7 +6,7 @@
 
 import React, {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {connect, useSelector} from 'react-redux';
+import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {compose} from 'redux';
 import {useInjectSaga} from 'utils/injectSaga';
@@ -22,16 +22,11 @@ import {
   faAngleRight,
   faBlog,
   faCheck,
-  faCross,
-  faSearch,
-  faSpellCheck,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   Button,
-  Form,
   Image,
-  InputGroup,
   Spinner,
   Row,
   Col,
@@ -39,7 +34,7 @@ import {
   ListGroup,
 } from 'react-bootstrap';
 import {debounce} from 'lodash';
-import {Link, useParams, withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import defaultImage from '../../images/album-3.jpg';
 
@@ -52,40 +47,41 @@ import {
   makeSelectTastemaker,
 } from './selectors';
 import InfluencerAccountPopup from '../../components/InfluencerAccountPopup';
-import {makeSelectLoader} from '../App/selectors';
+import {makeSelectLoader, makeSelectPlaylist} from '../App/selectors';
 import appReducer from '../App/reducer';
 import {
   makeSelectedSong,
-  makeSelectSong,
-  makeSelectSongToPromote,
 } from '../Song/selectors';
 import {getSongRequest} from '../Song/actions';
 import songReducer from '../Song/reducer';
 import songSaga from '../Song/saga';
-import { SOCIAL_MEDIA } from '../App/constants';
-import { getGenres } from '../Album/actions';
+import {SOCIAL_MEDIA} from '../App/constants';
+import {getGenres} from '../Album/actions';
 import albumSaga from '../Album/saga';
 import albumReducer from '../Album/reducer';
-export function Tastemaker({
-  getTasteMakersAction,
-  getSongAction,
-  tasteMakers,
-  selectedInfluencers,
-  removeInfluencer,
-  formLoader,
-  match,
-  selectedSong,
-  getGenreList
-}) {
-  useInjectReducer({ key: 'tastemaker', reducer });
-  useInjectSaga({ key: 'tastemaker', saga });
-  useInjectReducer({ key: 'song', reducer: songReducer });
-  useInjectSaga({ key: 'song', saga: songSaga });
-  useInjectReducer({ key: 'app', reducer: appReducer });
+
+export function Tastemaker(
+  {
+    getTasteMakersAction,
+    getSongAction,
+    tasteMakers,
+    selectedInfluencers,
+    removeInfluencer,
+    formLoader,
+    match,
+    selectedSong,
+    getGenreList,
+    getPlaylist
+  }) {
+  useInjectReducer({key: 'tastemaker', reducer});
+  useInjectSaga({key: 'tastemaker', saga});
+  useInjectReducer({key: 'song', reducer: songReducer});
+  useInjectSaga({key: 'song', saga: songSaga});
+  useInjectReducer({key: 'app', reducer: appReducer});
 
   useInjectSaga({key: 'album', saga: albumSaga});
   useInjectReducer({key: 'album', reducer: albumReducer});
-    useEffect(() => {
+  useEffect(() => {
     getTasteMakersAction();
     getGenreList();
   }, []);
@@ -131,63 +127,6 @@ export function Tastemaker({
       <PaperCard title="Tastemakers">
         <Row className="mt-5">
           <Col md={5} lg={4} xl={3}>
-            {/* {selectedInfluencers && selectedInfluencers.length > 0 && (
-              <Card className="mb-4 bg-transparent blick-border">
-                <ListGroup>
-                  <ListGroup.Item className="p-4 bg-transparent border-bottom-primary">
-                    <small className="h6 text-success">
-                      {`${selectedInfluencers.length} influencers selected`}
-                    </small>
-                    <div className="my-3 d-flex align-items-center">
-                      <img
-                        src={PlanSvgColor}
-                        alt="PlanSvg"
-                        width={20}
-                        height={20}
-                        style={{ marginRight: 5 }}
-                      />
-                      <span className="h3 mb-0">
-                        {`${_calculatePriceForSelectedInfluencers(
-                          selectedInfluencers,
-                        )}`}
-                      </span>
-                      price
-                    </div>
-                    <Link
-                      to={{
-                        pathname: `/tastemakers/${
-                          match.params.songId
-                        }/campaign`,
-                      }}
-                    >
-                      <Button
-                        disabled={
-                          selectedInfluencers &&
-                          selectedInfluencers.length === 0
-                        }
-                        variant="success"
-                        style={{ paddingLeft: 15, paddingRight: 15 }}
-                        onClick={() => {
-                          selectInfluencer({
-                            ...innerInfluencer,
-                            influencer: {
-                              ...innerInfluencer.influencer,
-                              price,
-                            },
-                          });
-
-                          handleClose();
-                        }}
-                      >
-                        View Order{' '}
-                        <FontAwesomeIcon size="1x" icon={faAngleRight} />
-                      </Button>
-                    </Link>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Card>
-            )} */}
-
             <Card className="mb-4 bg-transparent blick-border">
               <ListGroup>
                 <ListGroup.Item className="pt-4 bg-transparent">
@@ -445,7 +384,7 @@ export function Tastemaker({
         </Row>
       </PaperCard>
       {selectedInfluencers && selectedInfluencers.length > 0 && (
-        <footer className="main-footer fixed-bottom blick-border ">
+        <footer className={`main-footer fixed-bottom blick-border ${getPlaylist.length > 0 ? "footer-extra-padding": ""}`}>
           <div className="px-3 py-1 d-flex align-items-center justify-content-between">
             <div>
               <small className="text-success">
@@ -535,6 +474,7 @@ const mapStateToProps = createStructuredSelector({
   selectedInfluencers: makeSelectSelectedInfluencers(),
   formLoader: makeSelectLoader(),
   selectedSong: makeSelectedSong(),
+  getPlaylist: makeSelectPlaylist()
 });
 
 function mapDispatchToProps(dispatch) {
