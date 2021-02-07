@@ -29,15 +29,16 @@ import accountSaga from './saga';
 import {makeSelectUpdateProcessing} from './selectors';
 import PaperCard from "../../components/PaperCard";
 
-const EditAccount = ({
-                       userDetails,
-                       influencerProfile,
-                       genres,
-                       getSocialChannelList,
-                       updateUserDetails,
-                       updateProcessing,
-                       getGenreList,
-                     }) => {
+const EditAccount = (
+  {
+    userDetails,
+    influencerProfile,
+    genres,
+    getSocialChannelList,
+    updateUserDetails,
+    updateProcessing,
+    getGenreList,
+  }) => {
   useInjectReducer({key: 'influencer', reducer: influencerReducer});
   useInjectSaga({key: 'influencer', saga: influencerSaga});
 
@@ -152,40 +153,6 @@ const EditAccount = ({
         <div className="col-md-8">
           <div className="card bg-dark">
             <div className="card-body">
-              <div style={styles.imageContainer}>
-                <Image
-                  width={120}
-                  height={120}
-                  src={
-                    Object.keys(data).length === 0
-                      ? userDetails
-                      ? userDetails.avatar
-                      : ''
-                      : data
-                  }
-                  roundedCircle
-                />
-                <label
-                  style={{cursor: 'pointer', color: 'white'}}
-                  htmlFor="fileImage"
-                  variant="link"
-                  className="cursor-pointer"
-                  onClick={handleFileChange}
-                >
-                  Change photo
-                </label>
-                <input
-                  style={{
-                    position: 'absolute',
-                    opacity: 0,
-                    zIndex: -1,
-                  }}
-                  id="fileImage"
-                  accept="image/*"
-                  type="file"
-                  onChange={handleFileChange}
-                />
-              </div>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridDiscription">
                   <label htmlFor="name">Name</label>
@@ -236,142 +203,163 @@ const EditAccount = ({
                   </div>
                 </Form.Group>
               </Form.Row>
-              {userDetails.roleId === 2 && <><div style={styles.imageContainer}>
-                <Image
-                  width={120}
-                  height={120}
-                  src={
-                    Object.keys(coverPhoto).length === 0
-                      ? userDetails
-                      ? userDetails.coverPhoto
-                      : ''
-                      : coverPhoto
-                  }
-                  roundedCircle
-                />
-                <label
-                  style={{cursor: 'pointer', color: 'white'}}
-                  htmlFor="fileImageCoverPhoto"
-                  variant="link"
-                  className="cursor-pointer"
-                  onClick={handleCoverFileChange}
-                >
-                  Change Cover photo
-                </label>
-                <input
-                  style={{
-                    position: 'absolute',
-                    opacity: 0,
-                    zIndex: -1,
-                  }}
-                  id="fileImageCoverPhoto"
-                  accept="image/*"
-                  type="file"
-                  onChange={handleCoverFileChange}
-                />
-              </div>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridDiscription">
-                  <label htmlFor="publicPhone">Public Phone</label>
-                  <input
-                    name="publicPhone"
-                    //   type="number"
-                    placeholder="Public Phone"
-                    className={`form-control ${
-                      errors.publicPhone ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.publicPhone && errors.publicPhone.message}
+                  <div style={styles.imageContainer}>
+                    {(userDetails && userDetails.avatar) || Object.keys(data).length !== 0 ?
+                      <Image
+                        width={120}
+                        height={120}
+                        src={
+                          Object.keys(data).length === 0
+                            ? userDetails
+                            ? userDetails.avatar
+                            : ''
+                            : data
+                        }
+                        roundedCircle
+                      /> : <></>
+                    }
+                    <label htmlFor="fileImage">Upload Avatar</label>
+                    <input
+                      id="fileImage"
+                      accept="image/*"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
                   </div>
                 </Form.Group>
               </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridDiscription">
-                  <label htmlFor="publicEmail">Public Email</label>
-                  <input
-                    name="publicEmail"
-                    //   type="number"
-                    placeholder="Public Email"
-                    className={`form-control ${
-                      errors.publicEmail ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.publicEmail && errors.publicEmail.message}
-                  </div>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridDiscription">
-                  <label htmlFor="managementEmail">Management Email</label>
-                  <input
-                    name="managementEmail"
-                    //   type="number"
-                    placeholder="Management Email"
-                    className={`form-control ${
-                      errors.managementEmail ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.managementEmail && errors.managementEmail.message}
-                  </div>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridDiscription">
-                  <label htmlFor="bookingEmail">Booking Email</label>
-                  <input
-                    name="bookingEmail"
-                    //   type="number"
-                    placeholder="Booking Email"
-                    className={`form-control ${
-                      errors.bookingEmail ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.bookingEmail && errors.bookingEmail.message}
-                  </div>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridDiscription">
-                  <label htmlFor="recordLabelManager">Recodrd label manager</label>
-                  <input
-                    name="recordLabelManager"
-                    //   type="number"
-                    placeholder="Record Label manager"
-                    className={`form-control ${
-                      errors.recordLabelManager ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.recordLabelManager && errors.recordLabelManager.message}
-                  </div>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridDiscription">
-                  <label htmlFor="location">Location</label>
-                  <input
-                    name="location"
-                    //   type="number"
-                    placeholder="Location"
-                    className={`form-control ${
-                      errors.location ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.location && errors.location.message}
-                  </div>
-                </Form.Group>
-              </Form.Row></>}
+              {userDetails.roleId === 2 && <>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="publicPhone">Public Phone</label>
+                    <input
+                      name="publicPhone"
+                      //   type="number"
+                      placeholder="Public Phone"
+                      className={`form-control ${
+                        errors.publicPhone ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.publicPhone && errors.publicPhone.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <div style={styles.imageContainer}>
+                      {(userDetails && userDetails.coverPhoto) || Object.keys(coverPhoto).length !== 0 ?
+                        <Image
+                          width={120}
+                          height={120}
+                          src={
+                            Object.keys(coverPhoto).length === 0
+                              ? userDetails
+                              ? userDetails.coverPhoto
+                              : ''
+                              : coverPhoto
+                          }
+                          roundedCircle
+                        /> : <></>
+                      }
+                      <label htmlFor="fileImageCoverPhoto">Upload cover photo</label>
+                      <input
+                        id="fileImageCoverPhoto"
+                        accept="image/*"
+                        type="file"
+                        onChange={handleCoverFileChange}
+                      />
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="publicEmail">Public Email</label>
+                    <input
+                      name="publicEmail"
+                      //   type="number"
+                      placeholder="Public Email"
+                      className={`form-control ${
+                        errors.publicEmail ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.publicEmail && errors.publicEmail.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="managementEmail">Management Email</label>
+                    <input
+                      name="managementEmail"
+                      //   type="number"
+                      placeholder="Management Email"
+                      className={`form-control ${
+                        errors.managementEmail ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.managementEmail && errors.managementEmail.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="bookingEmail">Booking Email</label>
+                    <input
+                      name="bookingEmail"
+                      //   type="number"
+                      placeholder="Booking Email"
+                      className={`form-control ${
+                        errors.bookingEmail ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.bookingEmail && errors.bookingEmail.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="recordLabelManager">Recodrd label manager</label>
+                    <input
+                      name="recordLabelManager"
+                      //   type="number"
+                      placeholder="Record Label manager"
+                      className={`form-control ${
+                        errors.recordLabelManager ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.recordLabelManager && errors.recordLabelManager.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="location">Location</label>
+                    <input
+                      name="location"
+                      //   type="number"
+                      placeholder="Location"
+                      className={`form-control ${
+                        errors.location ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.location && errors.location.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row></>}
               {updateProcessing ? (
                 <ButtonLoader/>
               ) : (
