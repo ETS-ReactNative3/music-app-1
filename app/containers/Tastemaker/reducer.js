@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { GET_TASTEMAKERS_REQUEST_SUCCESS, REMOVE_INFLUENCER, SELECT_INFLUENCER } from './constants';
+import {GET_TASTEMAKERS_REQUEST_SUCCESS, REMOVE_INFLUENCER, SELECT_INFLUENCER} from './constants';
 
 export const initialState = {
   influencers: [],
@@ -19,9 +19,9 @@ const tastemakerReducer = (state = initialState, action) =>
         draft.influencers = action.data.data;
         break;
       case SELECT_INFLUENCER:
-        if (draft.selectedInfluencers === undefined) 
+        if (draft.selectedInfluencers === undefined)
           draft.selectedInfluencers = [];
-        draft.selectedInfluencers= draft.selectedInfluencers.concat(action.data);
+        draft.selectedInfluencers = draft.selectedInfluencers.concat(action.data);
         break;
       case REMOVE_INFLUENCER:
         draft.selectedInfluencers = draft.selectedInfluencers.filter(item => item.id !== action.data.id)

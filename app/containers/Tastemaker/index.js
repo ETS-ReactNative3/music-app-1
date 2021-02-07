@@ -298,12 +298,12 @@ export function Tastemaker({
                 tasteMakers.map((item, index) => (
                   <Col md={2} lg={4} key={index}>
                     <Card className="mb-4 bg-transparent blick-border music-card">
-                      <Card.Body className="cursor-pointer" onClick={() => {
-                        handleOpen(item);
-                      }}>
+                      <Card.Body>
                         <div className="d-flex align-items-center tastemaker__header">
                           <div className="mr-2 flex-grow-1 title">
-                            <Card.Title className="text-truncate">
+                            <Card.Title className="text-truncate cursor-pointer" onClick={() => {
+                              handleOpen(item);
+                            }}>
                               {item.name}
                             </Card.Title>
                             <Card.Text className=" music-card__desc">
@@ -311,7 +311,7 @@ export function Tastemaker({
                             </Card.Text>
                           </div>
                           <Image
-                            className="ml-auto"
+                            className="ml-auto cursor-pointer"
                             width={50}
                             height={50}
                             onError={e => {
@@ -321,6 +321,9 @@ export function Tastemaker({
                             src={item.avatar}
                             alt=""
                             roundedCircle
+                            onClick={() => {
+                              handleOpen(item);
+                            }}
                           />
                         </div>
                         <Card.Text className=" music-card__social">
