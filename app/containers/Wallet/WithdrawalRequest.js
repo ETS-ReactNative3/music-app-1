@@ -1,12 +1,7 @@
-import {faCheck} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
-  Button,
-  Card,
-  Col,
-  FormGroup,
+  Button
 } from 'react-bootstrap';
 import {connect} from 'react-redux';
 import Select from 'react-select';
@@ -17,29 +12,40 @@ import {makeSelectUserWallet} from '../App/selectors';
 import styles from './index.styles';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import {useForm} from "react-hook-form";
-import {addPaymentMethodAction} from "./actions";
+import {addPaymentMethodAction, deletePaymentMethodsAction, getPaymentMethodsAction} from "./actions";
 import {useInjectReducer} from "../../utils/injectReducer";
 import {useInjectSaga} from "../../utils/injectSaga";
 import reducer from "./reducer";
 import saga from "./saga";
+import {makeSelectLoader, makeSelectPaymentMethods} from "./selectors";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
-const WithdrawalRequest = ({userCredit, addWithdrawalMethod}) => {
+const WithdrawalRequest = (
+  {
+    userCredit,
+    addWithdrawalMethod,
+    getPaymentMethods,
+    loader,
+    paymentMethods,
+    removePaymentMethod
+  }) => {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
 
-  const [withdrawalAccount, setWithDrawalAccount] = React.useState(1);
+  const [withdrawalAccount, setWithdrawalAccount] = useState(null);
+  const [amount, setAmount] = useState(0);
   const options = [
     {value: 1, label: 'Bank Transfer'},
     {value: 2, label: 'Paypal Transfer'},
     {value: 3, label: 'PTM Token Transfer'},
   ];
-  const [withdrawalTransfer, setWithdrawalTransfer] = React.useState(options[0]);
+  const [withdrawalTransfer, setWithdrawalTransfer] = useState(options[0]);
   const {register, handleSubmit, errors, setValue} = useForm();
   const onSubmit = data => {
     switch (withdrawalTransfer.value) {
       case 1:
         addWithdrawalMethod({
-          name: data.beneficiaryName,
+          beneficiaryName: data.beneficiaryName,
           accountNumber: data.accountNumber,
           iban: data.iban,
           swift: data.swift
@@ -47,18 +53,26 @@ const WithdrawalRequest = ({userCredit, addWithdrawalMethod}) => {
         break;
       case 2:
         addWithdrawalMethod({
-          name: data.beneficiaryName,
+          beneficiaryName: data.beneficiaryName,
           paypalEmail: data.paypalEmail
         });
         break;
       case 3:
         addWithdrawalMethod({
-          name: data.beneficiaryName,
+          beneficiaryName: data.beneficiaryName,
           walletId: data.walletId
         });
         break;
     }
   };
+
+  const deletePaymentMethod = id => {
+    removePaymentMethod(id)
+  }
+
+  useEffect(() => {
+    getPaymentMethods();
+  }, []);
 
   const renderWithdrawalInformation = () => {
     switch (withdrawalTransfer.value) {
@@ -141,240 +155,167 @@ const WithdrawalRequest = ({userCredit, addWithdrawalMethod}) => {
 
   return (
     <PaperCard title="Withdrawal">
-      <p>
-        Withdraw money what you earned on bliiink
-      </p>
-      <div className="row">
-        <div className="col-md-7">
-          <div className="card bg-dark">
-            <div className="card-body">
-              <div className="form-group">
-                <label htmlFor="beneficiary-name">1. Withdrawal method</label>
-              </div>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group">
-                  <div style={styles.addWithdrawalContainer}>
-                    <div className="form-group">
-                      <label htmlFor="beneficiary-name">Beneficiary</label>
-                      <input
-                        className={`form-control ${errors.beneficiaryName ? 'is-invalid' : ''}`}
-                        type="text"
-                        placeholder="Company information"
-                        name="beneficiaryName"
-                        ref={register({required: true})}
-                        id="beneficiary-name"/>
-                      {errors.beneficiaryName && <div className="invalid-feedback">This field is required</div>}
-                    </div>
-                    <label>Withdrawal Method</label>
-                    <Select
-                      className="basic-single"
-                      classNamePrefix="select"
-                      name="Add Withdrawal"
-                      options={options}
-                      value={withdrawalTransfer}
-                      placeholder="Select Withdrawal type"
-                      onChange={(value) => setWithdrawalTransfer(value)}
-                    />
-                    {renderWithdrawalInformation()}
-                    <button type="submit" className="btn btn-primary">Add Method</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div className="card bg-dark mt-4">
-            <div className="card-body">
-              <div className="form-group">
-                <label htmlFor="amount">3. Amount</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Enter amount"
-                  id="amount"/>
-                <small>The withdrawal is not immediate. You'll
-                  receive an email once the Bliiink team validates your request.</small>
-              </div>
-              <button type="submit" className="btn btn-primary">Confirm request</button>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="card bg-dark">
-            <div style={styles.creditParentStyle}>
-              <div style={styles.labelCeditText}>
-                Availabe Credits
-              </div>
-              <div style={styles.labelCeditValueText}>
-                {userCredit}
-              </div>
-            </div>
-            <div style={{...styles.creditParentStyle}}>
-              <div style={{...styles.labelCeditText, ...{color: 'blue'}}}>
-                Transfer
-              </div>
-              <div style={{...styles.labelCeditText, ...{color: 'blue'}}}>
-                30<img
-                src={PlanSvgColor}
-                alt="PlanSvg"
-                width={20}
-                height={20}
-                style={{marginRight: 5}}
-              />
-              </div>
-            </div>
-            <div style={styles.creditParentStyle}>
-              <div style={styles.labelCeditText}>
-                New balance <br/> After transfer
-              </div>
-              <div style={styles.labelCeditValueText}>
-                500
-              </div>
-            </div>
-            <Button variant="success"
-            >Confirm request</Button>
-          </div>
-        </div>
-      </div>
-      <div style={{display: 'flex', flexDirection: 'row'}}>
-        <FormGroup as={Col} style={{width: '70%', margin: 10}}>
+      {loader ? <LoadingIndicator/> :
+        <>
+          <p>
+            Withdraw money what you earned on bliiink
+          </p>
           <div className="row">
-            <div className="col">
-              <div style={styles.headerTitle}>Withdrawal</div>
-              <div style={styles.subHeaderTitle}>Withdraw money what you earned on bliiink</div>
-            </div>
-          </div>
-
-          <Card style={{marginTop: 30, color: 'black', padding: 20}}>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <Card.Title>2. Withdrawal Method</Card.Title>
-              <FontAwesomeIcon icon={faCheck} color={'#28a745'}/>
-            </div>
-            <FormGroup>
-              {[1, 2, 3, 4].map(value => {
-                if (value === 4) {
-                  return (<>
-                    <div style={styles.addWithdrawalOptionContainer} onClick={() => setWithDrawalAccount(value)}>
-                      <label class="form-check-label">
-                        <input type="radio" checked={withdrawalAccount === value} class="form-check-input"
-                               name="optradio"/>Add Withdrawal Method
+            <div className="col-md-7">
+              <div className="card bg-dark">
+                <div className="card-body">
+                  <div className="form-group">
+                    <label htmlFor="beneficiary-name">1. Withdrawal method</label>
+                    {paymentMethods.map(item => {
+                      return (
+                        <div style={styles.withdrawalOptionContainer} key={item.id}
+                             onClick={() => setWithdrawalAccount(item.id)}>
+                          <label className="form-check-label">
+                            <input
+                              type="radio"
+                              className="form-check-input"
+                              checked={withdrawalAccount === item.id}
+                              value={item.id}
+                              name="optradio"/>Account: {item.beneficiaryName}
+                          </label>
+                          <Button variant="link" onClick={() => deletePaymentMethod(item.id)}>Delete</Button>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <div className="form-group">
+                    <div style={styles.addWithdrawalContainer} onClick={() => setWithdrawalAccount('no')}>
+                      <label className="form-check-label">
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          checked={withdrawalAccount === 'no'}
+                          name="optradio"/>Add Withdrawal Method
                       </label>
                     </div>
-                    {withdrawalAccount === 4 && <div style={styles.addWithdrawalContainer}>
-                      <div className="form-group">
-                        <label htmlFor="beneficiary-name">1. Beneficiary</label>
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Company information"
-                          id="beneficiary-name"/>
-                      </div>
-                      <label>Withdrawal Method</label>
-                      <Select
-                        className="basic-single"
-                        classNamePrefix="select"
-                        name="Add Withdrawal"
-                        options={options}
-                        value={withdrawalTransfer}
-                        placeholder="Select Withdrawal type"
-                        styles={{}}
-                        onChange={(value) => setWithDrawalTransfer(value)}
-                      />
-                      {renderWithdrawalInformation()}
-                    </div>}
-                  </>)
-                }
-                return (
-                  <div style={styles.withdrawalOptionContainer} onClick={() => setWithDrawalAccount(value)}>
-                    <label class="form-check-label">
-                      <input type="radio" checked={withdrawalAccount === value} class="form-check-input"
-                             name="optradio"/>Account: ms.aaabb@gm.com
-                    </label>
-                    <Button variant="link">Delete</Button>
                   </div>
-                )
-              })}
-            </FormGroup>
-
-          </Card>
-
-          <Card style={{marginTop: 30, color: 'black', padding: 20}}>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <Card.Title>3. Amount</Card.Title>
-              <FontAwesomeIcon icon={faCheck} color={'#28a745'}/>
+                  {withdrawalAccount === 'no' &&
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="form-group">
+                      <div style={styles.addWithdrawalContainer}>
+                        <div className="form-group">
+                          <label htmlFor="beneficiary-name">Beneficiary</label>
+                          <input
+                            className={`form-control ${errors.beneficiaryName ? 'is-invalid' : ''}`}
+                            type="text"
+                            placeholder="Company information"
+                            name="beneficiaryName"
+                            ref={register({required: true})}
+                            id="beneficiary-name"/>
+                          {errors.beneficiaryName && <div className="invalid-feedback">This field is required</div>}
+                        </div>
+                        <label>Withdrawal Method</label>
+                        <Select
+                          className="basic-single"
+                          classNamePrefix="select"
+                          name="Add Withdrawal"
+                          options={options}
+                          value={withdrawalTransfer}
+                          placeholder="Select Withdrawal type"
+                          onChange={(value) => setWithdrawalTransfer(value)}
+                        />
+                        {renderWithdrawalInformation()}
+                        <button type="submit" className="btn btn-primary">Add Method</button>
+                      </div>
+                    </div>
+                  </form>
+                  }
+                </div>
+              </div>
+              <div className="card bg-dark mt-4">
+                <div className="card-body">
+                  <div className="form-group">
+                    <label htmlFor="amount">3. Amount</label>
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Enter amount"
+                      max={userCredit}
+                      onChange={(e) => setAmount(e.target.value)}
+                      id="amount"/>
+                    <small>The withdrawal is not immediate. You'll
+                      receive an email once the Bliiink team validates your request.</small>
+                  </div>
+                  <button type="submit" className="btn btn-primary">Confirm request</button>
+                </div>
+              </div>
             </div>
-            <Card.Body style={{color: 'black', padding: 10}}>
-              <label style={{color: 'grey', fontSize: 14}}>Enter amount you want to withdrawal</label>
-              <div className="input-group">
-                <input className="form-control py-2 border" type="number" placeholder="Enter amount"
-                       id="examddple-search-input"/>
+            <div className="col-md-4">
+              <div className="card bg-dark">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <h4 className="mb-3">Summary</h4>
+                      <div className="row mb-2">
+                        <div className="col-md-8">
+                          Available Credits
+                        </div>
+                        <div className="col-md-4">
+                          {userCredit} <img
+                          src={PlanSvgColor}
+                          alt="PlanSvg"
+                          width={20}
+                          height={20}/>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-md-8">
+                          Withdrawal
+                        </div>
+                        <div className="col-md-4">
+                          {amount} <img
+                          src={PlanSvgColor}
+                          alt="PlanSvg"
+                          width={20}
+                          height={20}/>
+                        </div>
+                      </div>
+                      <hr/>
+                      <div className="row">
+                        <div className="col-md-8">
+                          New balance After Withdrawal
+                        </div>
+                        <div className="col-md-4">
+                          {userCredit - amount} <img
+                          src={PlanSvgColor}
+                          alt="PlanSvg"
+                          width={20}
+                          height={20}/>
+                        </div>
+                      </div>
+                      <Button variant="success" className="mt-3">Confirm request</Button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <label style={{color: 'grey', fontSize: 12, fontStyle: 'italic'}}>The withdrawal is not immediate. You'll
-                recieve an email once the Bliiink team validates your request.</label>
-
-              <div></div>
-
-              <Button variant="success">Confirm request</Button>
-            </Card.Body>
-          </Card>
-        </FormGroup>
-        <FormGroup as={Col} style={{width: '30%'}}>
-          <Card style={styles.summaryCardStyle}>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <Card.Title>Summary</Card.Title>
             </div>
-            <Card.Body style={{color: 'black', padding: 0,}}>
-              <div style={styles.creditParentStyle}>
-                <div style={styles.labelCeditText}>
-                  Availabe Credits
-                </div>
-                <div style={styles.labelCeditValueText}>
-                  {userCredit}
-                </div>
-              </div>
-              <div style={{...styles.creditParentStyle}}>
-                <div style={{...styles.labelCeditText, ...{color: 'blue'}}}>
-                  Transfer
-                </div>
-                <div style={{...styles.labelCeditText, ...{color: 'blue'}}}>
-                  30<img
-                  src={PlanSvgColor}
-                  alt="PlanSvg"
-                  width={20}
-                  height={20}
-                  style={{marginRight: 5}}
-                />
-                </div>
-              </div>
-              <div style={styles.creditParentStyle}>
-                <div style={styles.labelCeditText}>
-                  New balance <br/> After transfer
-                </div>
-                <div style={styles.labelCeditValueText}>
-                  500
-                </div>
-              </div>
-              <Button variant="success"
-              >Confirm request</Button>
-            </Card.Body>
-          </Card>
-        </FormGroup>
-      </div>
+          </div>
+        </>
+      }
     </PaperCard>
   )
 }
 
 WithdrawalRequest.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   userCredit: PropTypes.any,
 };
 
 const mapStateToProps = createStructuredSelector({
   userCredit: makeSelectUserWallet(),
+  loader: makeSelectLoader(),
+  paymentMethods: makeSelectPaymentMethods()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     addWithdrawalMethod: (methodData) => dispatch(addPaymentMethodAction(methodData)),
+    getPaymentMethods: () => dispatch(getPaymentMethodsAction()),
+    removePaymentMethod: (id) => dispatch(deletePaymentMethodsAction(id)),
   };
 }
 

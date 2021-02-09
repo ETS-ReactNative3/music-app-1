@@ -22,7 +22,6 @@ import Button from 'react-bootstrap/Button';
 import {faWallet, faCircle} from '@fortawesome/free-solid-svg-icons';
 import {loadStripe} from '@stripe/stripe-js';
 import {Link} from 'react-router-dom';
-import makeSelectWallet from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -30,6 +29,7 @@ import PaperCard from '../../components/PaperCard';
 import {makeSelectUserWallet} from '../App/selectors';
 import {axiosInstance} from '../../utils/api';
 import {toast} from "react-toastify";
+import {makeSelectWallet} from "./selectors";
 
 const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
 
