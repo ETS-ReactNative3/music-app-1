@@ -15,3 +15,7 @@ export const Wallet = loadable(() => import('./index'), {
 export const OrderSuccess = loadable(() => import('./success'), {
   fallback: <LoadingIndicator />,
 });
+
+export const WalletWithdrawal = loadable(() => import('./WithdrawalRequest'), {
+  fallback: <LoadingIndicator />,
+});

@@ -50,6 +50,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
 
     localStorage.removeItem('token');
     history.push('/auth/login');
+    location.reload();
   };
 
   return (

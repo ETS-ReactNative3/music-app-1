@@ -1,22 +1,25 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import format from 'date-fns/format';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import PaperCard from '../../components/PaperCard';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { fetchPaymentHistoryAction } from './actions';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {fetchPaymentHistoryAction} from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectPaymentHistory } from './selectors';
+import {makeSelectPaymentHistory} from './selectors';
+import {Button} from 'react-bootstrap';
+import history from '../../utils/history';
+import {makeSelectInfluencerDetails} from "../App/selectors";
 
-const WalletHistory = ({ paymentHistory, fetchPaymentHistory }) => {
-  useInjectReducer({ key: 'wallet', reducer });
-  useInjectSaga({ key: 'wallet', saga });
+const WalletHistory = ({paymentHistory, fetchPaymentHistory, influencerProfile}) => {
+  useInjectReducer({key: 'wallet', reducer});
+  useInjectSaga({key: 'wallet', saga});
 
   useEffect(() => {
     fetchPaymentHistory();
@@ -49,6 +52,9 @@ const WalletHistory = ({ paymentHistory, fetchPaymentHistory }) => {
 
   return (
     <PaperCard title="Credit Purchase History">
+      {Object.keys(influencerProfile).length !== 0 &&
+      <Button variant="success" onClick={() => history.push('/wallet/withdrawal')}>Withdrawal Request</Button>
+      }
       <div className="mt-4">
         <BootstrapTable
           striped
@@ -71,6 +77,7 @@ WalletHistory.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   paymentHistory: makeSelectPaymentHistory(),
+  influencerProfile: makeSelectInfluencerDetails()
 });
 
 function mapDispatchToProps(dispatch) {

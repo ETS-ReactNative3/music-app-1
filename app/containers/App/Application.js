@@ -10,7 +10,7 @@ import {Playlist, PlaylistDetail} from '../Playlist/Loadable';
 import {PlanDetails} from '../Plan/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
 import {EditAccount, MyAccount} from '../MyAccount/Loadable';
-import {OrderSuccess, Wallet} from '../Wallet/Loadable';
+import {OrderSuccess, Wallet, WalletWithdrawal} from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
@@ -23,6 +23,7 @@ import {
 import RequestListing from '../Requests/index';
 import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
+import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
 
 function useAuth() {
@@ -118,6 +119,12 @@ function Application() {
         </PrivateRoute>
         <PrivateRoute exact path="/wallet">
           <Wallet/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/wallet/withdrawal">
+          <WalletWithdrawal/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/wallet/transfer">
+          <TransferRequest/>
         </PrivateRoute>
         <PrivateRoute exact path="/order/success">
           <OrderSuccess/>
