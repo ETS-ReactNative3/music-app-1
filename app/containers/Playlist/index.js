@@ -28,12 +28,12 @@ import {
   createPlaylist,
   deletePlaylist,
   getMyPlaylist,
-  togglePlaylistPopup, updatePlaylist,
+  togglePlaylistPopup, toggleUpdatePlaylistPopup, updatePlaylist,
 } from './actions';
 import PaperCard from '../../components/PaperCard';
 import saga from './saga';
 import reducer from './reducer';
-import {makeSelectPlaylistPopUpState, makeSelectPlaylists} from './selectors';
+import {makeSelectPlaylistPopUpState, makeSelectPlaylists, makeSelectUpdateModalStatus} from './selectors';
 
 export function Playlist(
   {
@@ -43,7 +43,9 @@ export function Playlist(
     getMyPlaylistAction,
     playlists,
     deletePlaylistAction,
-    updatePlaylistAction
+    updatePlaylistAction,
+    toggleUpdatePlaylistPopupAction,
+    updatePopupState
   }
 ) {
   useInjectReducer({key: 'playlist', reducer});
@@ -63,6 +65,8 @@ export function Playlist(
 
   const handleClose = () => togglePlaylistPopupAction(false);
   const handleShow = () => togglePlaylistPopupAction(true);
+  const handleUpdatePopupClose = () => toggleUpdatePlaylistPopupAction(false);
+  const handleUpdatePopupShow = () => toggleUpdatePlaylistPopupAction(true);
 
   const {register, handleSubmit, errors} = useForm({
     resolver: yupResolver(validationSchema),
@@ -135,13 +139,13 @@ export function Playlist(
   }
 
   function handleEditPopupOpen(id, title) {
-    handleShow();
+    handleUpdatePopupShow();
     setPlaylistId(id);
     setPlaylistTitle(title);
   }
 
   function handleEditPopupClick() {
-    handleClose();
+    handleUpdatePopupClose();
   }
 
   function handleDeletePopupClose() {
@@ -207,7 +211,7 @@ export function Playlist(
           </Modal.Footer>
         </form>
       </Modal>
-      <Modal show={popupState} onHide={handleEditPopupClick}>
+      <Modal show={updatePopupState} onHide={handleEditPopupClick}>
         <form onSubmit={handleSubmit(savePlaylist)}>
           <Modal.Header closeButton>
             <Modal.Title>Edit Playlist</Modal.Title>
@@ -265,15 +269,18 @@ export function Playlist(
 Playlist.propTypes = {
   createPlaylistAction: PropTypes.func.isRequired,
   togglePlaylistPopupAction: PropTypes.func.isRequired,
+  toggleUpdatePlaylistPopupAction: PropTypes.func.isRequired,
   getMyPlaylistAction: PropTypes.func.isRequired,
   deletePlaylistAction: PropTypes.func.isRequired,
   updatePlaylistAction: PropTypes.func.isRequired,
   popupState: PropTypes.bool.isRequired,
+  updatePopupState: PropTypes.bool.isRequired,
   playlists: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   popupState: makeSelectPlaylistPopUpState(),
+  updatePopupState: makeSelectUpdateModalStatus(),
   playlists: makeSelectPlaylists(),
 });
 
@@ -282,6 +289,7 @@ function mapDispatchToProps(dispatch) {
     createPlaylistAction: data => dispatch(createPlaylist(data)),
     updatePlaylistAction: data => dispatch(updatePlaylist(data)),
     togglePlaylistPopupAction: data => dispatch(togglePlaylistPopup(data)),
+    toggleUpdatePlaylistPopupAction: data => dispatch(toggleUpdatePlaylistPopup(data)),
     getMyPlaylistAction: () => dispatch(getMyPlaylist()),
     deletePlaylistAction: id => dispatch(deletePlaylist(id)),
   };

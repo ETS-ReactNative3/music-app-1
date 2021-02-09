@@ -52,7 +52,7 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
                     />
                   </span>
                   </div>
-                  <div className="ml-auto d-flex align-self-baseline">
+                  <div className="ml-auto d-flex align-self-center">
                     <ShareBox/>
                   </div>
                 </div>

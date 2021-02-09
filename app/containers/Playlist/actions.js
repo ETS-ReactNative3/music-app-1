@@ -29,7 +29,8 @@ import {
   CREATE_PLAYLIST_AND_ADD_SONG_FAIL,
   UPDATE_PLAYLIST_REQUEST,
   UPDATE_PLAYLIST_FAIL,
-  UPDATE_PLAYLIST_SUCCESS
+  UPDATE_PLAYLIST_SUCCESS,
+  TOGGLE_UPDATE_PLAYLIST_POPUP
 } from './constants';
 
 export function createPlaylist(data) {
@@ -117,6 +118,13 @@ export function togglePlaylistPopup(status) {
   return {
     type: TOGGLE_PLAYLIST_POPUP,
     status,
+  };
+}
+
+export function toggleUpdatePlaylistPopup(updateModalStatus) {
+  return {
+    type: TOGGLE_UPDATE_PLAYLIST_POPUP,
+    updateModalStatus,
   };
 }
 

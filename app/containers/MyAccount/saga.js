@@ -1,10 +1,10 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import { call, put, takeLatest } from '@redux-saga/core/effects';
-import { toast } from 'react-toastify';
-import { axiosInstance } from '../../utils/api';
-import { getUserDetails } from '../App/actions';
+import {call, put, takeLatest} from '@redux-saga/core/effects';
+import {toast} from 'react-toastify';
+import {axiosInstance} from '../../utils/api';
+import {getUserDetails} from '../App/actions';
 import {
   putUserActivities,
   putUserRatings,
@@ -56,6 +56,19 @@ function updateAvatar(data) {
     });
 }
 
+function updateCoverPhoto(data) {
+  const base64 = data; // Place your base64 url here.
+  return fetch(base64)
+    .then(res => res.blob())
+    .then(blob => {
+      const fd = new FormData();
+      const file = new File([blob], 'filename.jpeg');
+      fd.append('coverPhoto', file);
+
+      return axiosInstance().post('users/upload/coverPhoto', fd);
+    });
+}
+
 export function* requestInfluencerSaga(data) {
   try {
     yield call(requestInfluencerApi, data);
@@ -64,16 +77,16 @@ export function* requestInfluencerSaga(data) {
   }
 }
 
-export function* getUserActivitiesSaga({ userId }) {
+export function* getUserActivitiesSaga({userId}) {
   try {
-    let response = yield call(getUserActivitiesAPI, userId);
-    // success?
+    // let response = yield call(getUserActivitiesAPI, userId);
+    // // success?
 
-    if (response.statusText === 'OK') {
-      yield put(putUserActivities(response.data));
-    }
+    // if (response.statusText === 'OK') {
+    //   yield put(putUserActivities(response.data));
+    // }
 
-    response = yield call(getUserRatingsAPI, userId);
+    let response = yield call(getUserRatingsAPI, userId);
     if (response.statusText === 'OK') {
       let totalRatings = 0;
       response.data.map(rating => {
@@ -89,10 +102,7 @@ export function* getUserActivitiesSaga({ userId }) {
     }
 
     response = yield call(getUserReviewsAPI, userId);
-
-    if (response.statusText === 'OK') {
-      yield put(putUserReviews(response.data));
-    }
+    yield put(putUserReviews(response.data));
   } catch (e) {
     console.error(e);
   }
@@ -101,8 +111,8 @@ export function* getUserActivitiesSaga({ userId }) {
 function* updateUserDetailsSaga(action) {
   try {
     yield put(updateProcessingAction(true));
-    let { data } = action;
-    const { isProfilePhotoUpdated } = action;
+    let {data} = action;
+    const {isProfilePhotoUpdated, isCoverPhotoUpdated} = action;
     if (isProfilePhotoUpdated) {
       const response = yield call(updateAvatar, data.profilePhoto);
       data = {
@@ -111,7 +121,16 @@ function* updateUserDetailsSaga(action) {
         avatarImageKey: response.data.avatarImageKey,
       };
     }
+    if (isCoverPhotoUpdated) {
+      const response = yield call(updateCoverPhoto, data.coverPhotoLocal);
+      data = {
+        ...data,
+        coverPhoto: response.data.coverPhotoLocation,
+        coverPhotoImageKey: response.data.coverPhotoImageKey,
+      };
+    }
     delete data.profilePhoto;
+    delete data.coverPhotoLocal;
     yield call(updateUserDetailsApi, data);
 
     yield put(getUserDetails());
@@ -127,7 +146,7 @@ function* updateUserDetailsSaga(action) {
 function* updateInfluencerDetailslSaga(action) {
   try {
     yield put(updateInfluencerProcessingAction(true));
-    const { data } = action;
+    const {data} = action;
 
     yield call(updateInfluencerDetailsApi, data);
 

@@ -10,7 +10,6 @@ import {useInjectSaga} from 'utils/injectSaga';
 import {
   makeSelectLatestPosts,
   makeSelectFeaturedAlbums,
-  makeSelectWeeklyTop,
   makeSelectRecommended,
   makeSelectPlaylist,
   makeSelectCurrentSong,
@@ -36,10 +35,8 @@ const key = 'home';
 
 export function HomePage(props) {
   const {
-    albums,
     newReleasesLoading,
     newReleases,
-    weeklyTop,
     onHandleSetPlaylist,
     onHandleSingleSong,
     currentPlaylist,
@@ -66,7 +63,10 @@ export function HomePage(props) {
     const {playing, songIndex} = currentSong;
     let status = !playing;
     if (currentPlaylist.length === 0) {
-      onHandleSetPlaylist(weeklyTop);
+      const weeklySongs = topSongs.map(item => {
+        return {song: item}
+      })
+      onHandleSetPlaylist(weeklySongs);
     }
     if (songIndex !== index) {
       status = true;
@@ -123,7 +123,6 @@ HomePage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   posts: makeSelectLatestPosts(),
   albums: makeSelectFeaturedAlbums(),
-  weeklyTop: makeSelectWeeklyTop(),
   newReleasesLoading: makeSelectNewReleaseLoading(),
   newReleases: makeSelectNewReleases(),
   topSongsLoading: makeSelectTopSongsLoading(),

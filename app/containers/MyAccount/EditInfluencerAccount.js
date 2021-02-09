@@ -9,36 +9,36 @@ import {
   faBriefcase,
   faMusic,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {yupResolver} from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
-import React, { memo } from 'react';
-import { Button, Card, Col, Form } from 'react-bootstrap';
-import { Controller, useForm } from 'react-hook-form';
-import { connect } from 'react-redux';
+import React, {memo} from 'react';
+import {Button, Card, Col, Form} from 'react-bootstrap';
+import {Controller, useForm} from 'react-hook-form';
+import {connect} from 'react-redux';
 import Select from 'react-select';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import * as Yup from 'yup';
 import ButtonLoader from '../../components/ButtonLoader';
-import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
-import { makeSelectGenres } from '../Album/selectors';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
+import {makeSelectGenres} from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
 } from '../App/selectors';
-import { makeSelectSocialChannels } from '../Influencer/selectors';
-import { updateInfluencerDetailsAction } from './actions';
-import { makeSelectInfluencerUpdateProcessing } from './selectors';
+import {makeSelectSocialChannels} from '../Influencer/selectors';
+import {updateInfluencerDetailsAction} from './actions';
+import {makeSelectInfluencerUpdateProcessing} from './selectors';
 
 const EditInfluencerAccount = ({
-  userDetails,
-  influencerProfile,
-  genres,
-  socialChannels,
-  updateInfluencerDetails,
-  updateInfluencerProcessing,
-}) => {
+                                 userDetails,
+                                 influencerProfile,
+                                 genres,
+                                 socialChannels,
+                                 updateInfluencerDetails,
+                                 updateInfluencerProcessing,
+                               }) => {
   // useInjectReducer({ key: 'influencer', reducer: influencerReducer });
   // useInjectSaga({ key: 'influencer', saga: influencerSaga });
 
@@ -66,12 +66,13 @@ const EditInfluencerAccount = ({
     control: provided => ({
       ...provided,
       color: 'black',
+      backgroundColor: '#020f1f'
     }),
     singleValue: provided => ({
       ...provided,
       color: 'black',
     }),
-    menu: provided => ({ ...provided, zIndex: 9999 }),
+    menu: provided => ({...provided, zIndex: 9999}),
   };
 
   const socialChannelChange = event => {
@@ -103,7 +104,7 @@ const EditInfluencerAccount = ({
     ),
   });
 
-  const { register, handleSubmit, errors, reset, control } = useForm({
+  const {register, handleSubmit, errors, reset, control} = useForm({
     resolver: yupResolver(validationSchema),
   });
 
@@ -115,7 +116,7 @@ const EditInfluencerAccount = ({
 
   React.useEffect(() => {
     const tempFullGenre = [];
-    influencerProfile.influencerGenres.map(generToSearch => {
+    influencerProfile && Object.keys(influencerProfile).length > 0 && influencerProfile.influencerGenres.map(generToSearch => {
       const index = genres.findIndex(
         genre => genre.id === generToSearch.genreId,
       );
@@ -130,7 +131,8 @@ const EditInfluencerAccount = ({
   }, [userDetails && influencerProfile]);
 
   const prepareData = influencerProfileInner => {
-    let dataInner = { ...influencerProfileInner };
+    if (influencerProfileInner && Object.keys(influencerProfileInner).length === 0) return {};
+    let dataInner = {...influencerProfileInner};
     delete dataInner.name;
 
     influencerProfileInner.influencerServices.map(service => {
@@ -207,459 +209,463 @@ const EditInfluencerAccount = ({
   };
 
   return (
-    <div>
-      <Card style={{ width: '50%' }}>
-        <Card.Body style={{ color: 'black' }}>
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridDiscription">
-              <label htmlFor="description">Description</label>
-              <input
-                name="description"
-                placeholder="Description"
-                className={`form-control ${
-                  errors.description ? 'is-invalid' : ''
-                }`}
-                ref={register}
-              />
-              <div className="invalid-feedback">
-                {errors.description && errors.description.message}
-              </div>
-            </Form.Group>
-          </Form.Row>
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridDiscription">
-              <label htmlFor="helpArtistDescription">
-                Help Artist Description
-              </label>
-              <textarea
-                name="helpArtistDescription"
-                placeholder="Help artist description"
-                className={`form-control ${
-                  errors.helpArtistDescription ? 'is-invalid' : ''
-                }`}
-                ref={register}
-              />
-              <div className="invalid-feedback">
-                {errors.helpArtistDescription &&
-                  errors.helpArtistDescription.message}
-              </div>
-            </Form.Group>
-            <Form.Group as={Col} controlId="formGridTitle">
-              <div>
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faMusic}
-                  style={{ marginRight: 5 }}
+    <div className="row">
+      <div className="col-md-12">
+        <div className="card bg-dark">
+          {influencerProfile && Object.keys(influencerProfile).length > 0 &&
+          <div className="card-body">
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridDiscription">
+                <label htmlFor="description">Description</label>
+                <input
+                  name="description"
+                  placeholder="Description"
+                  className={`form-control ${
+                    errors.description ? 'is-invalid' : ''
+                  }`}
+                  ref={register}
                 />
-                Genres
-              </div>
-              <Controller
-                name="genres"
-                styles={customStyles}
-                control={control}
-                isMulti
-                isClearable
-                getOptionLabel={option => option.title}
-                getOptionValue={option => option.id}
-                options={genres}
-                as={Select}
-              />
-              <div className="invalid-feedback" style={{ display: 'block' }}>
-                {errors.genres && errors.genres.message}
-              </div>
-            </Form.Group>
-          </Form.Row>
-
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridTitle">
-              <div>
+                <div className="invalid-feedback">
+                  {errors.description && errors.description.message}
+                </div>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridDiscription">
                 <label htmlFor="helpArtistDescription">
+                  Help Artist Description
+                </label>
+                <textarea
+                  name="helpArtistDescription"
+                  placeholder="Help artist description"
+                  className={`form-control ${
+                    errors.helpArtistDescription ? 'is-invalid' : ''
+                  }`}
+                  ref={register}
+                />
+                <div className="invalid-feedback">
+                  {errors.helpArtistDescription &&
+                  errors.helpArtistDescription.message}
+                </div>
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridTitle">
+                <div>
                   <FontAwesomeIcon
                     size="1x"
                     color={PLAY_ICON_BG_COLOR}
-                    icon={faBriefcase}
-                    style={{ marginRight: 5 }}
+                    icon={faMusic}
+                    style={{marginRight: 5}}
                   />
-                  Select Social Mediums
-                </label>
-              </div>
-              {socialChannels.map(item => (
-                <div className="form-check form-check-inline" key={item.id}>
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value={item.title}
-                    id={item.title}
-                    onClick={socialChannelChange}
-                    defaultChecked={
-                      influencerProfile.influencerServices.find(
-                        service => service.socialChannels.id === item.id,
-                      ) !== undefined
-                    }
-                  />
-                  <label className="form-check-label" htmlFor={item.title}>
-                    {item.title}
+                  Genres
+                </div>
+                <Controller
+                  name="genres"
+                  styles={customStyles}
+                  control={control}
+                  isMulti
+                  isClearable
+                  getOptionLabel={option => option.title}
+                  getOptionValue={option => option.id}
+                  options={genres}
+                  as={Select}
+                />
+                <div className="invalid-feedback" style={{display: 'block'}}>
+                  {errors.genres && errors.genres.message}
+                </div>
+              </Form.Group>
+            </Form.Row>
+
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridTitle">
+                <div>
+                  <label htmlFor="helpArtistDescription">
+                    <FontAwesomeIcon
+                      size="1x"
+                      color={PLAY_ICON_BG_COLOR}
+                      icon={faBriefcase}
+                      style={{marginRight: 5}}
+                    />
+                    Select Social Mediums
                   </label>
                 </div>
-              ))}
-            </Form.Group>
-          </Form.Row>
-          {(showFacebook ||
-            influencerProfile.influencerServices.find(
-              service => service.socialChannels.title === 'facebook',
-            ) !== undefined) && (
-            <div className="facebook-section">
-              <div
-                style={{
-                  marginTop: 5,
-                  marginBottom: 10,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderWidth: 0,
-                  borderColor: 'green',
-                  borderStyle: 'solid',
-                  borderTopWidth: 1,
-                  paddingTop: 5,
-                }}
-              >
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faFacebook}
-                  style={{ marginRight: 5 }}
-                />
-                <div style={{ fontSize: 18 }}>Facebook</div>
+                {socialChannels.map(item => (
+                  <div className="form-check form-check-inline" key={item.id}>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={item.title}
+                      id={item.title}
+                      onClick={socialChannelChange}
+                      defaultChecked={
+                        influencerProfile.influencerServices.find(
+                          service => service.socialChannels.id === item.id,
+                        ) !== undefined
+                      }
+                    />
+                    <label className="form-check-label" htmlFor={item.title}>
+                      {item.title}
+                    </label>
+                  </div>
+                ))}
+              </Form.Group>
+            </Form.Row>
+            {(showFacebook ||
+              influencerProfile.influencerServices.find(
+                service => service.socialChannels.title === 'facebook',
+              ) !== undefined) && (
+              <div className="facebook-section">
+                <div
+                  style={{
+                    marginTop: 5,
+                    marginBottom: 10,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderWidth: 0,
+                    borderColor: 'green',
+                    borderStyle: 'solid',
+                    borderTopWidth: 1,
+                    paddingTop: 5,
+                  }}
+                >
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faFacebook}
+                    style={{marginRight: 5}}
+                  />
+                  <div style={{fontSize: 18}}>Facebook</div>
+                </div>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="email">Link</label>
+                    <input
+                      style={{width: '50%'}}
+                      name="facebook.link"
+                      placeholder="Enter url"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Price</label>
+                    <input
+                      type="number"
+                      name="facebook.price"
+                      placeholder="Enter amt."
+                      inputMode="numeric"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Followers Count</label>
+                    <input
+                      type="number"
+                      name="facebook.followers"
+                      placeholder="Enter count"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
               </div>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="email">Link</label>
-                  <input
-                    style={{ width: '50%' }}
-                    name="facebook.link"
-                    placeholder="Enter url"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
+            )}
+            {(showTwitter ||
+              influencerProfile.influencerServices.find(
+                service => service.socialChannels.title === 'twitter',
+              ) !== undefined) && (
+              <div className="twitter-section">
+                <div
+                  style={{
+                    marginTop: 5,
+                    marginBottom: 10,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderWidth: 0,
+                    borderColor: 'green',
+                    borderStyle: 'solid',
+                    borderTopWidth: 1,
+                    paddingTop: 5,
+                  }}
+                >
+                  <FontAwesomeIcon
+                    size="1x"
+                    icon={faTwitter}
+                    color={PLAY_ICON_BG_COLOR}
+                    style={{marginRight: 5}}
                   />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Price</label>
-                  <input
-                    type="number"
-                    name="facebook.price"
-                    placeholder="Enter amt."
-                    inputMode="numeric"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Followers Count</label>
-                  <input
-                    type="number"
-                    name="facebook.followers"
-                    placeholder="Enter count"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-              </Form.Row>
-            </div>
-          )}
-          {(showTwitter ||
-            influencerProfile.influencerServices.find(
-              service => service.socialChannels.title === 'twitter',
-            ) !== undefined) && (
-            <div className="twitter-section">
-              <div
-                style={{
-                  marginTop: 5,
-                  marginBottom: 10,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderWidth: 0,
-                  borderColor: 'green',
-                  borderStyle: 'solid',
-                  borderTopWidth: 1,
-                  paddingTop: 5,
-                }}
-              >
-                <FontAwesomeIcon
-                  size="1x"
-                  icon={faTwitter}
-                  color={PLAY_ICON_BG_COLOR}
-                  style={{ marginRight: 5 }}
-                />
-                <div style={{ fontSize: 18 }}>Twitter</div>
+                  <div style={{fontSize: 18}}>Twitter</div>
+                </div>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="email">Link</label>
+                    <input
+                      style={{width: '50%'}}
+                      name="twitter.link"
+                      placeholder="Enter url"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Price</label>
+                    <input
+                      type="number"
+                      name="twitter.price"
+                      placeholder="Enter amt."
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Followers Count</label>
+                    <input
+                      type="number"
+                      name="twitter.followers"
+                      placeholder="Enter count"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
               </div>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="email">Link</label>
-                  <input
-                    style={{ width: '50%' }}
-                    name="twitter.link"
-                    placeholder="Enter url"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
+            )}
+            {(showInstagram ||
+              influencerProfile.influencerServices.find(
+                service => service.socialChannels.title === 'instagram',
+              ) !== undefined) && (
+              <div className="instagram-section">
+                <div
+                  style={{
+                    marginTop: 5,
+                    marginBottom: 10,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderWidth: 0,
+                    borderColor: 'green',
+                    borderStyle: 'solid',
+                    borderTopWidth: 1,
+                    paddingTop: 5,
+                  }}
+                >
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faInstagram}
+                    style={{marginRight: 5}}
                   />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Price</label>
-                  <input
-                    type="number"
-                    name="twitter.price"
-                    placeholder="Enter amt."
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Followers Count</label>
-                  <input
-                    type="number"
-                    name="twitter.followers"
-                    placeholder="Enter count"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-              </Form.Row>
-            </div>
-          )}
-          {(showInstagram ||
-            influencerProfile.influencerServices.find(
-              service => service.socialChannels.title === 'instagram',
-            ) !== undefined) && (
-            <div className="instagram-section">
-              <div
-                style={{
-                  marginTop: 5,
-                  marginBottom: 10,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderWidth: 0,
-                  borderColor: 'green',
-                  borderStyle: 'solid',
-                  borderTopWidth: 1,
-                  paddingTop: 5,
-                }}
-              >
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faInstagram}
-                  style={{ marginRight: 5 }}
-                />
-                <div style={{ fontSize: 18 }}>Instagram</div>
+                  <div style={{fontSize: 18}}>Instagram</div>
+                </div>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="email">Link</label>
+                    <input
+                      style={{width: '50%'}}
+                      name="instagram.link"
+                      placeholder="Enter url"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Price</label>
+                    <input
+                      type="number"
+                      name="instagram.price"
+                      placeholder="Enter amt."
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Followers Count</label>
+                    <input
+                      type="number"
+                      name="instagram.followers"
+                      placeholder="Enter count"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
               </div>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="email">Link</label>
-                  <input
-                    style={{ width: '50%' }}
-                    name="instagram.link"
-                    placeholder="Enter url"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
+            )}
+            {(showYoutube ||
+              influencerProfile.influencerServices.find(
+                service => service.socialChannels.title === 'youtube',
+              ) !== undefined) && (
+              <div className="youtube-section">
+                <div
+                  style={{
+                    marginTop: 5,
+                    marginBottom: 10,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderWidth: 0,
+                    borderColor: 'green',
+                    borderStyle: 'solid',
+                    borderTopWidth: 1,
+                    paddingTop: 5,
+                  }}
+                >
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faYoutube}
+                    style={{marginRight: 5}}
                   />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Price</label>
-                  <input
-                    type="number"
-                    name="instagram.price"
-                    placeholder="Enter amt."
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Followers Count</label>
-                  <input
-                    type="number"
-                    name="instagram.followers"
-                    placeholder="Enter count"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-              </Form.Row>
-            </div>
-          )}
-          {(showYoutube ||
-            influencerProfile.influencerServices.find(
-              service => service.socialChannels.title === 'youtube',
-            ) !== undefined) && (
-            <div className="youtube-section">
-              <div
-                style={{
-                  marginTop: 5,
-                  marginBottom: 10,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderWidth: 0,
-                  borderColor: 'green',
-                  borderStyle: 'solid',
-                  borderTopWidth: 1,
-                  paddingTop: 5,
-                }}
-              >
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faYoutube}
-                  style={{ marginRight: 5 }}
-                />
-                <div style={{ fontSize: 18 }}>Youtube</div>
+                  <div style={{fontSize: 18}}>Youtube</div>
+                </div>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="email">Link</label>
+                    <input
+                      style={{width: '50%'}}
+                      name="youtube.link"
+                      placeholder="Enter url"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Price</label>
+                    <input
+                      name="youtube.price"
+                      type="number"
+                      placeholder="Enter amt."
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Followers Count</label>
+                    <input
+                      name="youtube.followers"
+                      type="number"
+                      placeholder="Enter count"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
               </div>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="email">Link</label>
-                  <input
-                    style={{ width: '50%' }}
-                    name="youtube.link"
-                    placeholder="Enter url"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
+            )}
+            {(showBlog ||
+              influencerProfile.influencerServices.find(
+                service => service.socialChannels.title === 'blog',
+              ) !== undefined) && (
+              <div className="blog-section">
+                <div
+                  style={{
+                    marginTop: 5,
+                    marginBottom: 10,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderWidth: 0,
+                    borderColor: 'green',
+                    borderStyle: 'solid',
+                    borderTopWidth: 1,
+                    paddingTop: 5,
+                  }}
+                >
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faBlog}
+                    style={{marginRight: 5}}
                   />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Price</label>
-                  <input
-                    name="youtube.price"
-                    type="number"
-                    placeholder="Enter amt."
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Followers Count</label>
-                  <input
-                    name="youtube.followers"
-                    type="number"
-                    placeholder="Enter count"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-              </Form.Row>
-            </div>
-          )}
-          {(showBlog ||
-            influencerProfile.influencerServices.find(
-              service => service.socialChannels.title === 'blog',
-            ) !== undefined) && (
-            <div className="blog-section">
-              <div
-                style={{
-                  marginTop: 5,
-                  marginBottom: 10,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  borderWidth: 0,
-                  borderColor: 'green',
-                  borderStyle: 'solid',
-                  borderTopWidth: 1,
-                  paddingTop: 5,
-                }}
-              >
-                <FontAwesomeIcon
-                  size="1x"
-                  color={PLAY_ICON_BG_COLOR}
-                  icon={faBlog}
-                  style={{ marginRight: 5 }}
-                />
-                <div style={{ fontSize: 18 }}>Blog</div>
+                  <div style={{fontSize: 18}}>Blog</div>
+                </div>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="email">Link</label>
+                    <input
+                      style={{width: '50%'}}
+                      name="blog.link"
+                      placeholder="Enter url"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Price</label>
+                    <input
+                      name="blog.price"
+                      type="number"
+                      placeholder="Enter amt."
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Followers Count</label>
+                    <input
+                      name="blog.followers"
+                      type="number"
+                      placeholder="Enter count"
+                      className={`form-control ${
+                        errors.title ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                  </Form.Group>
+                </Form.Row>
               </div>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="email">Link</label>
-                  <input
-                    style={{ width: '50%' }}
-                    name="blog.link"
-                    placeholder="Enter url"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Price</label>
-                  <input
-                    name="blog.price"
-                    type="number"
-                    placeholder="Enter amt."
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="formGridGenre">
-                  <label htmlFor="releaseDate">Followers Count</label>
-                  <input
-                    name="blog.followers"
-                    type="number"
-                    placeholder="Enter count"
-                    className={`form-control ${
-                      errors.title ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                </Form.Group>
-              </Form.Row>
-            </div>
-          )}
-          {updateInfluencerProcessing ? (
-            <ButtonLoader />
-          ) : (
-            <Button variant="success" onClick={handleSubmit(onSubmit)}>
-              Submit
-            </Button>
-          )}
-        </Card.Body>
-      </Card>
+            )}
+            {updateInfluencerProcessing ? (
+              <ButtonLoader/>
+            ) : (
+              <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                Submit
+              </Button>
+            )}
+          </div>
+          }
+        </div>
+      </div>
     </div>
   );
 };

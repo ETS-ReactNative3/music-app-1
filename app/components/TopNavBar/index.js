@@ -1,19 +1,19 @@
-import React, { useRef, useState } from 'react';
-import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Typeahead, withAsync } from 'react-bootstrap-typeahead';
-import { redirectOnAlbum } from '../../utils/redirect';
+import React, {useRef, useState} from 'react';
+import {faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
+import {redirectOnAlbum} from '../../utils/redirect';
 
 import request from '../../utils/request';
 import './index.scss';
-import { Link, useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlanSvg from '../../images/svg/plan_icon.svg';
 import Button from 'react-bootstrap/Button';
 
 const AsyncTypeahead = withAsync(Typeahead);
 
-const TopNavBar = ({ userDetails }) => {
+const TopNavBar = ({userDetails, putUserDetails}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
@@ -46,6 +46,8 @@ const TopNavBar = ({ userDetails }) => {
   };
 
   const logout = () => {
+    putUserDetails(null);
+
     localStorage.removeItem('token');
     history.push('/auth/login');
   };
@@ -65,7 +67,7 @@ const TopNavBar = ({ userDetails }) => {
               onClick={handleSideBar}
               role="button"
             >
-              <FontAwesomeIcon icon={faBars} />
+              <FontAwesomeIcon icon={faBars}/>
             </span>
           </li>
         </ul>
@@ -75,7 +77,7 @@ const TopNavBar = ({ userDetails }) => {
               className="btn btn-navbar bg-transparent text-white"
               type="button"
             >
-              <FontAwesomeIcon icon={faSearch} />
+              <FontAwesomeIcon icon={faSearch}/>
             </button>
           </div>
           <AsyncTypeahead
@@ -115,23 +117,21 @@ const TopNavBar = ({ userDetails }) => {
                 </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item>
-                  <Link to="/myaccount">My profile</Link>
+                <Dropdown.Item as={Link} to="/myaccount">
+                  My profile
                 </Dropdown.Item>
-                <Dropdown.Item>
-                  <Link to="/wallet">
-                    Wallet -{' '}
-                    <img
-                      src={PlanSvg}
-                      alt="wallet Logo"
-                      width={17}
-                      height={17}
-                    />{' '}
-                    {userDetails.credit}
-                  </Link>
+                <Dropdown.Item as={Link} to="/wallet">
+                  Wallet -{' '}
+                  <img
+                    src={PlanSvg}
+                    alt="wallet Logo"
+                    width={17}
+                    height={17}
+                  />{' '}
+                  {userDetails.credit}
                 </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={logout}>Log out</Dropdown.Item>
+                <Dropdown.Divider/>
+                <Dropdown.Item className="cursor-pointer" onClick={logout}>Log out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (

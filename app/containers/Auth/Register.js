@@ -166,7 +166,7 @@ function Register({registerRequest}) {
               id="termsCheckbox"
               />
             <label className="custom-control-label" htmlFor="termsCheckbox">
-              I accept the <a href="#" onClick={handleShow}>Terms and Conditions</a>
+              I accept the <a href="#" className="cursor-pointer" onClick={handleShow}>Terms and Conditions</a>
             </label>
             <div className="invalid-feedback">{errors.acceptTerms && errors.acceptTerms.message}</div>
           </div>

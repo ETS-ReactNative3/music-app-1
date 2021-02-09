@@ -49,7 +49,7 @@ const CarouselCustom = props => {
           return (
             <div key={index}>
               <div
-                className="img-preview rounded"
+                className="img-preview rounded cursor-pointer"
                 onClick={e => {
                   e.preventDefault();
                   redirectOnAlbum(ele.slug);

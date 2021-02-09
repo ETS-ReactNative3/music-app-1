@@ -4,17 +4,17 @@
  *
  */
 
-import React, { memo, useEffect, useState } from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faBan } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCheckCircle, faBan, faBlog} from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
@@ -22,21 +22,23 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import PaperCard from '../../components/PaperCard';
 import saga from './saga';
 import reducer from './reducer';
-import { makeSelectLoader, makeSelectRequests } from './selectors';
-import { getInfluencerRequests, updateInfluencerStatus } from './actions';
+import {makeSelectLoader, makeSelectRequests} from './selectors';
+import {getInfluencerRequests, updateInfluencerStatus} from './actions';
+import {PLAY_ICON_BG_COLOR} from "../../utils/constants";
+import {faFacebook, faInstagram, faTwitter, faYoutube} from "@fortawesome/free-brands-svg-icons";
 
 export function Requests({
-  getRequests,
-  influencerRequests,
-  loader,
-  updateInfluencerStatusAction,
-}) {
+                           getRequests,
+                           influencerRequests,
+                           loader,
+                           updateInfluencerStatusAction,
+                         }) {
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approvalOpen, setApprovalOpen] = useState(false);
   const [influencer, setInfluencer] = useState(null);
 
-  useInjectReducer({ key: 'influencer', reducer });
-  useInjectSaga({ key: 'influencer', saga });
+  useInjectReducer({key: 'influencer', reducer});
+  useInjectSaga({key: 'influencer', saga});
 
   useEffect(() => {
     getRequests();
@@ -77,10 +79,10 @@ export function Requests({
           className="btn btn-success mr-3"
           onClick={() => openApprovalModal(row)}
         >
-          <FontAwesomeIcon icon={faCheckCircle} />
+          <FontAwesomeIcon icon={faCheckCircle}/>
         </button>
         <button className="btn btn-danger" onClick={() => openRejectModal(row)}>
-          <FontAwesomeIcon icon={faBan} />
+          <FontAwesomeIcon icon={faBan}/>
         </button>
       </div>
     );
@@ -105,13 +107,13 @@ export function Requests({
   }
 
   function rejectInfluencer() {
-    updateInfluencerStatusAction({ id: influencer.id, influencerStatusId: 1 });
+    updateInfluencerStatusAction({id: influencer.id, influencerStatusId: 1});
     setInfluencer(null);
     setRejectOpen(false);
   }
 
   function approveInfluencer() {
-    updateInfluencerStatusAction({ id: influencer.id, influencerStatusId: 2 });
+    updateInfluencerStatusAction({id: influencer.id, influencerStatusId: 2});
     setInfluencer(null);
     setApprovalOpen(false);
   }
@@ -121,7 +123,7 @@ export function Requests({
       <div className="row">
         <div className="col">
           {loader || !influencerRequests ? (
-            <LoadingIndicator />
+            <LoadingIndicator/>
           ) : (
             <BootstrapTable
               striped
@@ -184,12 +186,91 @@ export function Requests({
               </div>
               <div className="services">
                 <h3>Services</h3>
+                <div className="mb-3">
+                  <div>
+                    {influencer && influencer.influencerServices &&
+                    influencer.influencerServices.map(service => {
+                      switch (service.socialChannels.title) {
+                        case 'facebook':
+                          return (
+                            <div key={service.id}>
+                              <a href={service.link} target="_blank" className="pr-2">
+                                <FontAwesomeIcon
+                                  size="1x"
+                                  color={PLAY_ICON_BG_COLOR}
+                                  icon={faFacebook}
+                                  style={{marginLeft: 5}}
+                                />
+                                <span className="pl-2">{service.followers} followers</span>
+                              </a> | Price: {service.price} credits
+                            </div>
+                          );
+                        case 'twitter':
+                          return (
+                            <div key={service.id}>
+                              <a href={service.link} target="_blank" className="pr-2">
+                                <FontAwesomeIcon
+                                  size="1x"
+                                  color={PLAY_ICON_BG_COLOR}
+                                  icon={faTwitter}
+                                  style={{marginLeft: 5}}
+                                />
+                                <span className="pl-2">{service.followers} followers</span>
+                              </a> | Price: {service.price} credits
+                            </div>
+                          );
+                        case 'instagram':
+                          return (
+                            <div key={service.id}>
+                              <a href={service.link} target="_blank" className="pr-2">
+                                <FontAwesomeIcon
+                                  size="1x"
+                                  color={PLAY_ICON_BG_COLOR}
+                                  icon={faInstagram}
+                                  style={{marginLeft: 5}}
+                                />
+                                <span className="pl-2">{service.followers} followers</span>
+                              </a> | Price: {service.price} credits
+                            </div>
+                          );
+                        case 'blog':
+                          return (
+                            <div key={service.id}>
+                              <a href={service.link} target="_blank" className="pr-2">
+                                <FontAwesomeIcon
+                                  size="1x"
+                                  color={PLAY_ICON_BG_COLOR}
+                                  icon={faBlog}
+                                  style={{marginLeft: 5}}
+                                />
+                                <span className="pl-2">{service.followers} followers</span>
+                              </a> | Price: {service.price} credits
+                            </div>
+                          );
+                        case 'youtube':
+                          return (
+                            <div key={service.id}>
+                              <a href={service.link} target="_blank" className="pr-2">
+                                <FontAwesomeIcon
+                                  size="1x"
+                                  color={PLAY_ICON_BG_COLOR}
+                                  icon={faYoutube}
+                                  style={{marginLeft: 5}}
+                                />
+                                <span className="pl-2">{service.followers} followers</span>
+                              </a> | Price: {service.price} credits
+                            </div>
+                          );
+                      }
+                    })}
+                  </div>
+                </div>
               </div>
             </>
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleRejectClose}>
+          <Button variant="secondary" onClick={handleApprovalClose}>
             No
           </Button>
           <Button variant="primary" onClick={approveInfluencer}>

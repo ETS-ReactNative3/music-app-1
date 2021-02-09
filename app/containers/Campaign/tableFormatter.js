@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Image } from 'react-bootstrap';
 import { CampaignStatus } from '../Requests/constants';
+import defaultImage from '../../images/album-3.jpg';
+
 export const columns = [
   {
     dataField: '',
@@ -40,12 +42,21 @@ export function pictureFormatter(cell, row) {
         <Image
           src={row.influencer.user.avatar}
           style={{ width: 40, height: 40, borderRadius: 20 }}
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = defaultImage;
+          }}
         />
       </span>
     );
-  }
+  } return (
+    <Image
+      src={defaultImage}
+      style={{ width: 40, height: 40, borderRadius: 20 }}
 
-  return <span>{cell}</span>;
+    />
+  )
+
 }
 
 function statusFormatter(cell, row) {
@@ -53,7 +64,7 @@ function statusFormatter(cell, row) {
     return (
       <span>
         <div style={{ color: 'lightyellow' }}>
-          <FontAwesomeIcon icon={faCircle} /> Not accepted
+          <FontAwesomeIcon icon={faCircle} /> Not accepted by influencer
         </div>
       </span>
     );

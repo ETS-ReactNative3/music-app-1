@@ -43,3 +43,33 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+:root {
+  --color--text: 0, 123, 255;
+}
+
+.bg-dark {
+  background-color: rgba(var(--color--text), 14%) !important;
+}
+
+.dropdown-menu {
+  background-color: #041E3F;
+
+  a {
+    color: #ffffff;
+  }
+}
+
+.table-hover tbody tr:hover {
+  color: #1fdbae;
+  background-color: rgba(var(--color--text), 14%) !important;
+}
+
+.form-control, .form-control:focus {
+  background-color: #020f1f;
+  color: #ffffff;
+}
+
+.footer-extra-padding {
+  padding-bottom: 70px;
+}

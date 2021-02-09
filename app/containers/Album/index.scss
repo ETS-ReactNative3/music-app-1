@@ -68,10 +68,6 @@
 }
 
 @media (min-width: 1200px) {
-  .song-number {
-    min-width: 60px;
-    max-width: 60px;
-  }
   .song-title {
     flex-basis: 280px;
     max-width: 280px;
@@ -79,4 +75,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.highLightSong {
+  background-color: #000000;
 }

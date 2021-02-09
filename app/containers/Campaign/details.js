@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import moment from 'moment';
@@ -44,6 +44,10 @@ const Details = ({
   return (
     <>
       <PaperCard title="Campaign Details">
+        
+        <small className="d-flex align-items-center"> 
+          <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="ml-1" style={{ pointerEvents: 'none', opacity: 0.6, color: '#fff' }} to={''}>Campaigns Details</Link>
+        </small>
         <Row className="mt-5">
           <Col md={12}>
             {selectedCampaign && selectedCampaign.song && (
@@ -73,33 +77,33 @@ const Details = ({
               </div>
             )}
           </Col>
-          <Col>
-          <BootstrapTable
-            striped
-            bordered={false}
-            bootstrap4
-            pagination={paginationFactory()}
-            keyField="id"
-            data={
-              (selectedCampaign && selectedCampaign.campaignInfluencers) || []
-            }
-            rowEvents={{
-              onClick: (e, row) => {
-                if (
-                  row.campaignStatusId === CampaignStatus.COMPLETED ||
-                  row.campaignStatusId === CampaignStatus.DECLINED ||
-                  row.campaignStatusId === CampaignStatus.APPROVED
-                ) {
-                  history.push(
-                    `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
-                  );
-                } else {
-                  toast.warning('Influencer not completed requested.');
-                }
-              },
-            }}
-            columns={columns}
-          />
+          <Col className="table-cursor">
+            <BootstrapTable
+              striped
+              bordered={false}
+              bootstrap4
+              pagination={paginationFactory()}
+              keyField="id"
+              data={
+                (selectedCampaign && selectedCampaign.campaignInfluencers) || []
+              }
+              rowEvents={{
+                onClick: (e, row) => {
+                  if (
+                    row.campaignStatusId === CampaignStatus.COMPLETED ||
+                    row.campaignStatusId === CampaignStatus.DECLINED ||
+                    row.campaignStatusId === CampaignStatus.APPROVED
+                  ) {
+                    history.push(
+                      `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
+                    );
+                  } else {
+                    toast.warning('Influencer not completed requested.');
+                  }
+                },
+              }}
+              columns={columns}
+            />
           </Col>
         </Row>
       </PaperCard>

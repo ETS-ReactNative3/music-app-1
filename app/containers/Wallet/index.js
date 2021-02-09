@@ -4,38 +4,38 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
 
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Container from 'react-bootstrap/Container';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { faWallet, faCircle } from '@fortawesome/free-solid-svg-icons';
-import { loadStripe } from '@stripe/stripe-js';
-import { Link } from 'react-router-dom';
+import {faWallet, faCircle} from '@fortawesome/free-solid-svg-icons';
+import {loadStripe} from '@stripe/stripe-js';
+import {Link} from 'react-router-dom';
 import makeSelectWallet from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
 import PaperCard from '../../components/PaperCard';
-import { makeSelectUserWallet } from '../App/selectors';
-import { axiosInstance } from '../../utils/api';
+import {makeSelectUserWallet} from '../App/selectors';
+import {axiosInstance} from '../../utils/api';
+import {toast} from "react-toastify";
 
 const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
 
-export function Wallet({ userCredit }) {
-  useInjectReducer({ key: 'wallet', reducer });
-  useInjectSaga({ key: 'wallet', saga });
+export function Wallet({userCredit}) {
+  useInjectReducer({key: 'wallet', reducer});
+  useInjectSaga({key: 'wallet', saga});
 
   const [amount, setAmount] = useState(true);
 
@@ -60,6 +60,7 @@ export function Wallet({ userCredit }) {
       // If `redirectToCheckout` fails due to a browser or network
       // error, display the localized error message to your customer
       // using `result.error.message`.
+      toast.error('Something went wrong, please try again');
     }
   };
 
@@ -84,7 +85,7 @@ export function Wallet({ userCredit }) {
         </span>
         <span className="h1">
           {userCredit}
-          <FontAwesomeIcon icon={faWallet} className="ml-2 h3 mb-0" />
+          <FontAwesomeIcon icon={faWallet} className="ml-2 h3 mb-0"/>
         </span>
       </div>
       <Row className="mt-4">

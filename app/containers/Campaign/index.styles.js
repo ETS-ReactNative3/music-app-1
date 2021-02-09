@@ -66,14 +66,6 @@ const styles = {
     justifyContent: 'space-around',
     marginLeft: 10,
   },
-  listItemDividerStyle: {
-    alignSelf: 'center',
-    borderStyle: 'dotted',
-    borderColor: 'green',
-    borderTopWidth: 1,
-    width: '80%',
-    marginBottom: 20,
-  },
   profileStyle: {
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)',

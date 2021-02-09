@@ -71,6 +71,7 @@ const AddtoPlaylistModal = ({
             <ListGroup>
               {playlists.map(list => (
                 <ListGroup.Item
+                className="cursor-pointer"
                   key={list.id}
                   action
                   onClick={() => addSongintoPlaylist(list.id)}

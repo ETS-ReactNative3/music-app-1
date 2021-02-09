@@ -24,7 +24,7 @@ const SongsOptionBox = ({
           ...
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item onClick={handleShow}>Add To Playlist</Dropdown.Item>
+          <Dropdown.Item className="cursor-pointer" onClick={handleShow}>Add To Playlist</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
       <AddtoPlaylistModal

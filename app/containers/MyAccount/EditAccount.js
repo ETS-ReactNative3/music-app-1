@@ -1,50 +1,53 @@
-import { yupResolver } from '@hookform/resolvers/yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
-import React, { memo } from 'react';
-import { Button, Card, Col, Form, Image } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, {memo} from 'react';
+import {Button, Card, Col, Form, Image} from 'react-bootstrap';
+import {useForm} from 'react-hook-form';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import * as Yup from 'yup';
 import ButtonLoader from '../../components/ButtonLoader';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { getGenres } from '../Album/actions';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {getGenres} from '../Album/actions';
 import albumReducer from '../Album/reducer';
 import albumSaga from '../Album/saga';
-import { makeSelectGenres } from '../Album/selectors';
+import {makeSelectGenres} from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
 } from '../App/selectors';
-import { getSocialChannelsRequest } from '../Influencer/actions';
+import {getSocialChannelsRequest} from '../Influencer/actions';
 import influencerReducer from '../Influencer/reducer';
 import influencerSaga from '../Influencer/saga';
-import { updateUserDetailsAction } from './actions';
+import {updateUserDetailsAction} from './actions';
 import EditInfluencerAccount from './EditInfluencerAccount';
 import styles from './index.styles';
 import accountReducer from './reducer';
 import accountSaga from './saga';
-import { makeSelectUpdateProcessing } from './selectors';
+import {makeSelectUpdateProcessing} from './selectors';
+import PaperCard from "../../components/PaperCard";
 
-const EditAccount = ({
-  userDetails,
-  influencerProfile,
-  genres,
-  getSocialChannelList,
-  updateUserDetails,
-  updateProcessing,
-  getGenreList,
-}) => {
-  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
-  useInjectSaga({ key: 'influencer', saga: influencerSaga });
+const EditAccount = (
+  {
+    userDetails,
+    influencerProfile,
+    genres,
+    getSocialChannelList,
+    updateUserDetails,
+    updateProcessing,
+    getGenreList,
+  }) => {
+  useInjectReducer({key: 'influencer', reducer: influencerReducer});
+  useInjectSaga({key: 'influencer', saga: influencerSaga});
 
-  useInjectSaga({ key: 'album', saga: albumSaga });
-  useInjectReducer({ key: 'album', reducer: albumReducer });
-  useInjectSaga({ key: 'account1', saga: accountSaga });
-  useInjectReducer({ key: 'account', reducer: accountReducer });
+  useInjectSaga({key: 'album', saga: albumSaga});
+  useInjectReducer({key: 'album', reducer: albumReducer});
+  useInjectSaga({key: 'account', saga: accountSaga});
+  useInjectReducer({key: 'account', reducer: accountReducer});
   const [data, setData] = React.useState({});
+  const [coverPhoto, setCoverPhoto] = React.useState({});
 
   React.useEffect(() => {
     getGenreList();
@@ -52,8 +55,8 @@ const EditAccount = ({
   }, []);
 
   function handleFileChange(event) {
-    const { target } = event;
-    const { files } = target;
+    const {target} = event;
+    const {files} = target;
 
     if (files && files[0]) {
       const reader = new FileReader();
@@ -62,6 +65,20 @@ const EditAccount = ({
 
       reader.onload = event1 => {
         setData(event1.target.result);
+      };
+
+      reader.readAsDataURL(files[0]);
+    }
+  }
+
+  function handleCoverFileChange(event) {
+    const {target} = event;
+    const {files} = target;
+
+    if (files && files[0]) {
+      const reader = new FileReader();
+      reader.onload = event1 => {
+        setCoverPhoto(event1.target.result);
       };
 
       reader.readAsDataURL(files[0]);
@@ -78,30 +95,31 @@ const EditAccount = ({
     name: Yup.string().required('Name is required'),
   });
 
-  const { register, handleSubmit, errors, reset } = useForm({
+  const {register, handleSubmit, errors, reset} = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = submitData => {
     const updatedUserDetails = {
       ...userDetails,
-      name: submitData.name,
-      phone: submitData.phone,
+      ...submitData,
       profilePhoto: data,
+      coverPhotoLocal: coverPhoto
     };
-    updateUserDetails(updatedUserDetails, Object.keys(data).length > 0);
+    updateUserDetails(updatedUserDetails, Object.keys(data).length > 0, Object.keys(coverPhoto).length > 0);
   };
 
   React.useEffect(() => {
     const tempFullGenre = [];
-    influencerProfile &&
-      influencerProfile.influencerGenres.map(generToSearch => {
-        const index = genres.findIndex(
-          genre => genre.id === generToSearch.genreId,
-        );
-        if (index !== -1) tempFullGenre.push(genres[index]);
-        return true;
-      });
+    console.log(influencerProfile);
+    influencerProfile && Object.keys(influencerProfile).length > 0 &&
+    influencerProfile.influencerGenres.map(generToSearch => {
+      const index = genres.findIndex(
+        genre => genre.id === generToSearch.genreId,
+      );
+      if (index !== -1) tempFullGenre.push(genres[index]);
+      return true;
+    });
     reset({
       ...userDetails,
       ...prepareData(influencerProfile),
@@ -110,7 +128,8 @@ const EditAccount = ({
   }, [userDetails && influencerProfile]);
 
   const prepareData = influencerProfileInner => {
-    let dataInner = { ...influencerProfileInner };
+    if (influencerProfileInner && Object.keys(influencerProfileInner).length === 0) return {};
+    let dataInner = {...influencerProfileInner};
     delete dataInner.name;
 
     influencerProfileInner.influencerServices.map(service => {
@@ -129,99 +148,235 @@ const EditAccount = ({
   };
 
   return (
-    <div>
-      <div className="row album-detail">
-        <div className="col pt-3 pt-md-0">
-          <div className="row">
-            <div className="col">
-              <h1>Edit Account</h1>
+    <PaperCard title="Edit Account">
+      <div className="row">
+        <div className="col-md-8">
+          <div className="card bg-dark">
+            <div className="card-body">
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    name="name"
+                    placeholder="Name"
+                    className={`form-control ${
+                      errors.description ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.name && errors.name.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="phone">Phone</label>
+                  <input
+                    name="phone"
+                    //   type="number"
+                    placeholder="Phone"
+                    className={`form-control ${
+                      errors.description ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.phone && errors.phone.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="biography">Biography</label>
+                  <input
+                    name="biography"
+                    //   type="number"
+                    placeholder="Biography"
+                    className={`form-control ${
+                      errors.biography ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.biography && errors.biography.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
+                  <div style={styles.imageContainer}>
+                    {(userDetails && userDetails.avatar) || Object.keys(data).length !== 0 ?
+                      <Image
+                        width={120}
+                        height={120}
+                        src={
+                          Object.keys(data).length === 0
+                            ? userDetails
+                            ? userDetails.avatar
+                            : ''
+                            : data
+                        }
+                        roundedCircle
+                      /> : <></>
+                    }
+                    <label htmlFor="fileImage">Upload Avatar</label>
+                    <input
+                      id="fileImage"
+                      accept="image/*"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              {userDetails.roleId === 2 && <>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="publicPhone">Public Phone</label>
+                    <input
+                      name="publicPhone"
+                      //   type="number"
+                      placeholder="Public Phone"
+                      className={`form-control ${
+                        errors.publicPhone ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.publicPhone && errors.publicPhone.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <div style={styles.imageContainer}>
+                      {(userDetails && userDetails.coverPhoto) || Object.keys(coverPhoto).length !== 0 ?
+                        <Image
+                          width={120}
+                          height={120}
+                          src={
+                            Object.keys(coverPhoto).length === 0
+                              ? userDetails
+                              ? userDetails.coverPhoto
+                              : ''
+                              : coverPhoto
+                          }
+                          roundedCircle
+                        /> : <></>
+                      }
+                      <label htmlFor="fileImageCoverPhoto">Upload cover photo</label>
+                      <input
+                        id="fileImageCoverPhoto"
+                        accept="image/*"
+                        type="file"
+                        onChange={handleCoverFileChange}
+                      />
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="publicEmail">Public Email</label>
+                    <input
+                      name="publicEmail"
+                      //   type="number"
+                      placeholder="Public Email"
+                      className={`form-control ${
+                        errors.publicEmail ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.publicEmail && errors.publicEmail.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="managementEmail">Management Email</label>
+                    <input
+                      name="managementEmail"
+                      //   type="number"
+                      placeholder="Management Email"
+                      className={`form-control ${
+                        errors.managementEmail ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.managementEmail && errors.managementEmail.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="bookingEmail">Booking Email</label>
+                    <input
+                      name="bookingEmail"
+                      //   type="number"
+                      placeholder="Booking Email"
+                      className={`form-control ${
+                        errors.bookingEmail ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.bookingEmail && errors.bookingEmail.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="recordLabelManager">Recodrd label manager</label>
+                    <input
+                      name="recordLabelManager"
+                      //   type="number"
+                      placeholder="Record Label manager"
+                      className={`form-control ${
+                        errors.recordLabelManager ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.recordLabelManager && errors.recordLabelManager.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="location">Location</label>
+                    <input
+                      name="location"
+                      //   type="number"
+                      placeholder="Location"
+                      className={`form-control ${
+                        errors.location ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.location && errors.location.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row></>}
+              {updateProcessing ? (
+                <ButtonLoader/>
+              ) : (
+                <Button variant="success" onClick={handleSubmit(onSubmit)}>
+                  Submit
+                </Button>
+              )}
             </div>
           </div>
+          {isInfluencer && (
+            <div className="mt-3">
+              <EditInfluencerAccount/>
+            </div>
+          )}
         </div>
       </div>
-      <Card style={{ width: '50%' }}>
-        <Card.Body style={{ color: 'black' }}>
-          <div style={styles.imageContainer}>
-            <Image
-              width={120}
-              height={120}
-              src={
-                Object.keys(data).length === 0
-                  ? userDetails
-                    ? userDetails.avatar
-                    : ''
-                  : data
-              }
-              roundedCircle
-            />
-            <label
-              style={{ cursor: 'pointer', color: 'black' }}
-              htmlFor="fileImage"
-              variant="link"
-              onClick={handleFileChange}
-            >
-              Change photo
-            </label>
-            <input
-              style={{
-                position: 'absolute',
-                opacity: 0,
-                zIndex: -1,
-              }}
-              id="fileImage"
-              accept="image/*"
-              type="file"
-              onChange={handleFileChange}
-            />
-          </div>
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridDiscription">
-              <label htmlFor="name">Name</label>
-              <input
-                name="name"
-                placeholder="Name"
-                className={`form-control ${
-                  errors.description ? 'is-invalid' : ''
-                }`}
-                ref={register}
-              />
-              <div className="invalid-feedback">
-                {errors.name && errors.name.message}
-              </div>
-            </Form.Group>
-          </Form.Row>
-          <Form.Row>
-            <Form.Group as={Col} controlId="formGridDiscription">
-              <label htmlFor="phone">Phone</label>
-              <input
-                name="phone"
-                //   type="number"
-                placeholder="Phone"
-                className={`form-control ${
-                  errors.description ? 'is-invalid' : ''
-                }`}
-                ref={register}
-              />
-              <div className="invalid-feedback">
-                {errors.phone && errors.phone.message}
-              </div>
-            </Form.Group>
-          </Form.Row>
-          {updateProcessing ? (
-            <ButtonLoader />
-          ) : (
-            <Button variant="success" onClick={handleSubmit(onSubmit)}>
-              Submit
-            </Button>
-          )}
-        </Card.Body>
-      </Card>
-      {isInfluencer && (
-        <div style={{ marginTop: 30 }}>
-          <EditInfluencerAccount />
-        </div>
-      )}
-    </div>
+    </PaperCard>
   );
 };
 
@@ -246,8 +401,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
-    updateUserDetails: (data, isProfilePhotoUpdated) =>
-      dispatch(updateUserDetailsAction(data, isProfilePhotoUpdated)),
+    updateUserDetails: (data, isProfilePhotoUpdated, isCoverPhotoUpdated) =>
+      dispatch(updateUserDetailsAction(data, isProfilePhotoUpdated, isCoverPhotoUpdated)),
   };
 }
 
