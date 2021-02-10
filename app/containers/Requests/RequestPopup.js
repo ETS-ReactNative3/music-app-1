@@ -43,6 +43,7 @@ const RequestPopup = ({
   socialChannels,
   playSong,
 }) => {
+  const [feedbackOption, setFeedbackOption] = React.useState(1);
   const [feedbackProvided, setFeedbackProvided] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [songPlayed, setSongPlayed] = useState(false);
@@ -174,7 +175,11 @@ const RequestPopup = ({
 
     return submitData;
   };
-
+  const showSocialMediaSection = (
+    data.campaignStatusId === CampaignStatus.COMPLETED ||
+    data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED)
+  ? data.campaignInfluencerServices && data.campaignInfluencerServices.length> 0 && data.campaignInfluencerServices[0].response !== undefined &&  data.campaignInfluencerServices[0].response !== '' && data.campaignInfluencerServices[0].response !== null ? true : false : true;
+  
   return (
     <>
       <Container fluid>
@@ -219,6 +224,44 @@ const RequestPopup = ({
             </Col>
           </Row>
         )}
+        {!(
+          data.campaignStatusId === CampaignStatus.COMPLETED ||
+          data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
+        ) ? <><hr className="blick-border" />
+            <Row className="my-4" >
+              <Col>
+                <fieldset disabled={!songPlayed}>
+
+                  <div>Action:</div>
+                  <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <input type="radio" name="site_name"
+                      value={1}
+                      checked={feedbackOption === 1}
+                      disabled={!songPlayed}
+                      onChange={() => {
+                        if (!songPlayed) return true;
+                        setFeedbackOption(1)
+                      }} /><div style={{ marginLeft: 10 }} onClick={() => {
+                        if (!songPlayed) return true;
+                        setFeedbackOption(1)
+                      }}>Want to share to social media and provide feedback as well</div>
+                  </tr>
+                  <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <input type="radio" name="address"
+                      value={2}
+                      disabled={!songPlayed}
+                      checked={feedbackOption === 2}
+                      onChange={() => {
+                        if (!songPlayed) return true;
+                        setFeedbackOption(2)
+                      }} /><div style={{ marginLeft: 10 }} onClick={() => {
+                        if (!songPlayed) return true;
+                        setFeedbackOption(2)
+                      }}>Want to provide feedback only</div>
+                  </tr>
+                </fieldset>
+              </Col>
+            </Row></> : <></>}
         <hr className="blick-border" />
         <Row className="my-4">
           <Col>
@@ -247,6 +290,12 @@ const RequestPopup = ({
                           data.influencerId,
                           feedback,
                         );
+
+                        if (feedbackOption === 2) {
+                          updateCampaignStatus(data.id, CampaignStatus.DECLINED);
+                          handleClose();
+                        }
+
                       } else {
                         toast.warn('Enter Feedback.');
                       }
@@ -276,387 +325,388 @@ const RequestPopup = ({
             </fieldset>
           </Col>
         </Row>
-        <hr className="blick-border" />
-        <Row className="my-4">
-          <Col>
-            <fieldset disabled={!(feedbackProvided || data.feedback !== null)}>
-              <div className="d-flex align-items-center">
-                <FormLabel className="m-0">Share with</FormLabel>
-                {data.campaignInfluencerServices.map(service => {
-                  switch (service.socialChannels.title) {
-                    case 'facebook':
-                      return (
-                        <FontAwesomeIcon
-                          size="2x"
-                          className="cursor-pointer"
-                          icon={faFacebook}
-                          style={{ marginLeft: 5 }}
-                        />
-                      );
-                    case 'twitter':
-                      return (
-                        <FontAwesomeIcon
-                          size="2x"
-                          className="cursor-pointer"
-                          icon={faTwitter}
-                          style={{ marginLeft: 5 }}
-                        />
-                      );
-                    case 'instagram':
-                      return (
-                        <FontAwesomeIcon
-                          size="2x"
-                          className="cursor-pointer"
-                          icon={faInstagram}
-                          style={{ marginLeft: 5 }}
-                        />
-                      );
-                    case 'blog':
-                      return (
-                        <FontAwesomeIcon
-                          size="2x"
-                          className="cursor-pointer"
-                          icon={faBlog}
-                          style={{ marginLeft: 5 }}
-                        />
-                      );
-                    case 'youtube':
-                      return (
-                        <FontAwesomeIcon
-                          size="2x"
-                          className="cursor-pointer"
-                          icon={faYoutube}
-                          style={{ marginLeft: 5 }}
-                        />
-                      );
-                    default:
-                      return (
-                        <FontAwesomeIcon
-                          size="2x"
-                          className="cursor-pointer"
-                          icon={faFacebook}
-                          style={{ marginLeft: 5 }}
-                        />
-                      );
-                  }
-                })}
+        {feedbackOption === 1 && <><hr className="blick-border" />
+          <Row className="my-4">
+            <Col>
+              {showSocialMediaSection && 
+                <fieldset disabled={!(feedbackProvided || data.feedback !== null)}>
+                <div className="d-flex align-items-center">
+                  <FormLabel className="m-0">Share with</FormLabel>
+                  {data.campaignInfluencerServices.map(service => {
+                    switch (service.socialChannels.title) {
+                      case 'facebook':
+                        return (
+                          <FontAwesomeIcon
+                            size="2x"
+                            className="cursor-pointer"
+                            icon={faFacebook}
+                            style={{ marginLeft: 5 }}
+                          />
+                        );
+                      case 'twitter':
+                        return (
+                          <FontAwesomeIcon
+                            size="2x"
+                            className="cursor-pointer"
+                            icon={faTwitter}
+                            style={{ marginLeft: 5 }}
+                          />
+                        );
+                      case 'instagram':
+                        return (
+                          <FontAwesomeIcon
+                            size="2x"
+                            className="cursor-pointer"
+                            icon={faInstagram}
+                            style={{ marginLeft: 5 }}
+                          />
+                        );
+                      case 'blog':
+                        return (
+                          <FontAwesomeIcon
+                            size="2x"
+                            className="cursor-pointer"
+                            icon={faBlog}
+                            style={{ marginLeft: 5 }}
+                          />
+                        );
+                      case 'youtube':
+                        return (
+                          <FontAwesomeIcon
+                            size="2x"
+                            className="cursor-pointer"
+                            icon={faYoutube}
+                            style={{ marginLeft: 5 }}
+                          />
+                        );
+                      default:
+                        return (
+                          <FontAwesomeIcon
+                            size="2x"
+                            className="cursor-pointer"
+                            icon={faFacebook}
+                            style={{ marginLeft: 5 }}
+                          />
+                        );
+                    }
+                  })}
 
-              </div>
-              <div
-                className="cursor-pointer my-4"
-                onClick={() => {
-                  navigator.clipboard.writeText(`https://open.bliiink.co.uk/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
-                  toast.success('Song url copied');
-                }}
-              >
-                Song link, Click to Copy
+                </div>
+                <div
+                  className="cursor-pointer my-4"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`https://open.bliiink.co.uk/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
+                    toast.success('Song url copied');
+                  }}
+                >
+                  Song link, Click to Copy
                 <FontAwesomeIcon
-                  icon={faClipboard}
-                  style={{ marginLeft: 10 }}
-                  className="cursor-pointer text-success"
-                  size="x"
-                />
-              </div>
-              {(!(
-                data.campaignStatusId === CampaignStatus.COMPLETED ||
-                data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
-              ) && (
-                  <div style={styles.shareLinkStyle}>
-                    <FormLabel className="mt-4">Provide Links</FormLabel>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <Row>
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
-                        ) !== -1 && (
-                            <Col md={6}>
-                              <FormLabel>Facebook</FormLabel>
-                              <FormControl
-                                ref={register}
-                                className="bg-transparent text-white"
-                                as="input"
-                                name="facebook"
-                                id="endereco"
-                                type="text"
-                                placeholder="Enter Facebook url"
-                                required
-                              />
-                              {errors.facebook && errors.facebook.message && (
-                                <small className="invalid-feedback" style={{ display: 'block' }}>
-                                  {errors.facebook && errors.facebook.message}
-                                </small>
-                              )}
-                            </Col>
-                          )}
+                    icon={faClipboard}
+                    style={{ marginLeft: 10 }}
+                    className="cursor-pointer text-success"
+                    size="x"
+                  />
+                </div>
+                {(!(
+                  data.campaignStatusId === CampaignStatus.COMPLETED ||
+                  data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
+                ) && (
+                    <div style={styles.shareLinkStyle}>
+                      <FormLabel className="mt-4">Provide Links</FormLabel>
+                      <form onSubmit={handleSubmit(onSubmit)}>
+                        <Row>
+                          {data.campaignInfluencerServices.findIndex(
+                            service =>
+                              service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
+                          ) !== -1 && (
+                              <Col md={6}>
+                                <FormLabel>Facebook</FormLabel>
+                                <FormControl
+                                  ref={register}
+                                  className="bg-transparent text-white"
+                                  as="input"
+                                  name="facebook"
+                                  id="endereco"
+                                  type="text"
+                                  placeholder="Enter Facebook url"
+                                  required
+                                />
+                                {errors.facebook && errors.facebook.message && (
+                                  <small className="invalid-feedback" style={{ display: 'block' }}>
+                                    {errors.facebook && errors.facebook.message}
+                                  </small>
+                                )}
+                              </Col>
+                            )}
 
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId ===
-                            SOCIAL_CHANNELS.INSTAGRAM,
-                        ) !== -1 && (
-                            <Col md={6}>
-                              <FormLabel>Instagram</FormLabel>
-                              <FormControl
-                                ref={register}
-                                className="bg-transparent text-white"
-                                as="input"
-                                name="instagram"
-                                id="endereco"
-                                type="text"
-                                placeholder="Enter Instagram url"
-                                required
-                              />
-                              {errors.instagram && errors.instagram.message && (
-                                <small className="invalid-feedback" style={{ display: 'block' }}>
-                                  {errors.instagram && errors.instagram.message}
-                                </small>
-                              )}
-                            </Col>
-                          )}
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
-                        ) !== -1 && (
-                            <Col md={6}>
-                              <FormLabel>Twitter</FormLabel>
-                              <FormControl
-                                ref={register}
-                                className="bg-transparent text-white"
-                                as="input"
-                                name="twitter"
-                                id="endereco"
-                                type="text"
-                                placeholder="Enter twitter url"
-                                required
-                              />
-                              {errors.twitter && errors.twitter.message && (
-                                <small className="invalid-feedback" style={{ display: 'block' }}>
-                                  {errors.twitter && errors.twitter.message}
-                                </small>
-                              )}
-                            </Col>
-                          )}
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                        ) !== -1 && (
-                            <Col md={6}>
-                              <FormLabel>Blog</FormLabel>
-                              <FormControl
-                                ref={register}
-                                className="bg-transparent text-white"
-                                as="input"
-                                name="blog"
-                                id="endereco"
-                                type="text"
-                                placeholder="Enter Blog url"
-                                required
-                              />
-                              {errors.blog && errors.blog.message && (
-                                <small className="invalid-feedback" style={{ display: 'block' }}>
-                                  {errors.blog && errors.blog.message}
-                                </small>
-                              )}
-                            </Col>
-                          )}
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
-                        ) !== -1 && (
-                            <Col md={6}>
-                              <FormLabel>Youtube</FormLabel>
-                              <FormControl
-                                ref={register}
-                                className="bg-transparent text-white"
-                                as="input"
-                                name="youtube"
-                                id="endereco"
-                                type="text"
-                                placeholder="Enter Youtube url"
-                                required
-                              />
-                              {errors.youtube && errors.youtube.message && (
-                                <small className="invalid-feedback" style={{ display: 'block' }}>
-                                  {errors.youtube && errors.youtube.message}
-                                </small>
-                              )}
-                            </Col>
-                          )}
-                      </Row>
-                    </form>
-                  </div>
-                )) || (
-                  <div>
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
-                    ) !== -1 && (
-                        <div>
-                          {' '}
+                          {data.campaignInfluencerServices.findIndex(
+                            service =>
+                              service.socialChannelsId ===
+                              SOCIAL_CHANNELS.INSTAGRAM,
+                          ) !== -1 && (
+                              <Col md={6}>
+                                <FormLabel>Instagram</FormLabel>
+                                <FormControl
+                                  ref={register}
+                                  className="bg-transparent text-white"
+                                  as="input"
+                                  name="instagram"
+                                  id="endereco"
+                                  type="text"
+                                  placeholder="Enter Instagram url"
+                                  required
+                                />
+                                {errors.instagram && errors.instagram.message && (
+                                  <small className="invalid-feedback" style={{ display: 'block' }}>
+                                    {errors.instagram && errors.instagram.message}
+                                  </small>
+                                )}
+                              </Col>
+                            )}
+                          {data.campaignInfluencerServices.findIndex(
+                            service =>
+                              service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
+                          ) !== -1 && (
+                              <Col md={6}>
+                                <FormLabel>Twitter</FormLabel>
+                                <FormControl
+                                  ref={register}
+                                  className="bg-transparent text-white"
+                                  as="input"
+                                  name="twitter"
+                                  id="endereco"
+                                  type="text"
+                                  placeholder="Enter twitter url"
+                                  required
+                                />
+                                {errors.twitter && errors.twitter.message && (
+                                  <small className="invalid-feedback" style={{ display: 'block' }}>
+                                    {errors.twitter && errors.twitter.message}
+                                  </small>
+                                )}
+                              </Col>
+                            )}
+                          {data.campaignInfluencerServices.findIndex(
+                            service =>
+                              service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
+                          ) !== -1 && (
+                              <Col md={6}>
+                                <FormLabel>Blog</FormLabel>
+                                <FormControl
+                                  ref={register}
+                                  className="bg-transparent text-white"
+                                  as="input"
+                                  name="blog"
+                                  id="endereco"
+                                  type="text"
+                                  placeholder="Enter Blog url"
+                                  required
+                                />
+                                {errors.blog && errors.blog.message && (
+                                  <small className="invalid-feedback" style={{ display: 'block' }}>
+                                    {errors.blog && errors.blog.message}
+                                  </small>
+                                )}
+                              </Col>
+                            )}
+                          {data.campaignInfluencerServices.findIndex(
+                            service =>
+                              service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
+                          ) !== -1 && (
+                              <Col md={6}>
+                                <FormLabel>Youtube</FormLabel>
+                                <FormControl
+                                  ref={register}
+                                  className="bg-transparent text-white"
+                                  as="input"
+                                  name="youtube"
+                                  id="endereco"
+                                  type="text"
+                                  placeholder="Enter Youtube url"
+                                  required
+                                />
+                                {errors.youtube && errors.youtube.message && (
+                                  <small className="invalid-feedback" style={{ display: 'block' }}>
+                                    {errors.youtube && errors.youtube.message}
+                                  </small>
+                                )}
+                              </Col>
+                            )}
+                        </Row>
+                      </form>
+                    </div>
+                  )) ||  (
+                    <div>
+                      {data.campaignInfluencerServices.findIndex(
+                        service =>
+                          service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
+                      ) !== -1 && (
+                          <div>
+                            {' '}
                       Facebook:{' '}
-                          <Link
-                            to={`${data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.FACEBOOK,
-                            ).response
-                              }`}
-                          >
-                            {
-                              data.campaignInfluencerServices.find(
+                            <Link
+                              to={`${data.campaignInfluencerServices.find(
                                 service =>
                                   service.socialChannelsId ===
                                   SOCIAL_CHANNELS.FACEBOOK,
                               ).response
-                            }
-                          </Link>
-                        </div>
-                      )}
+                                }`}
+                            >
+                              {
+                                data.campaignInfluencerServices.find(
+                                  service =>
+                                    service.socialChannelsId ===
+                                    SOCIAL_CHANNELS.FACEBOOK,
+                                ).response
+                              }
+                            </Link>
+                          </div>
+                        )}
 
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.INSTAGRAM,
-                    ) !== -1 && (
-                        <div>
-                          {' '}
+                      {data.campaignInfluencerServices.findIndex(
+                        service =>
+                          service.socialChannelsId === SOCIAL_CHANNELS.INSTAGRAM,
+                      ) !== -1 && (
+                          <div>
+                            {' '}
                       Instagram:{' '}
-                          <Link
-                            to={`${data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.INSTAGRAM,
-                            ).response
-                              }`}
-                          >
-                            {
-                              data.campaignInfluencerServices.find(
+                            <Link
+                              to={`${data.campaignInfluencerServices.find(
                                 service =>
                                   service.socialChannelsId ===
                                   SOCIAL_CHANNELS.INSTAGRAM,
                               ).response
-                            }
-                          </Link>
-                        </div>
-                      )}
+                                }`}
+                            >
+                              {
+                                data.campaignInfluencerServices.find(
+                                  service =>
+                                    service.socialChannelsId ===
+                                    SOCIAL_CHANNELS.INSTAGRAM,
+                                ).response
+                              }
+                            </Link>
+                          </div>
+                        )}
 
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
-                    ) !== -1 && (
-                        <div>
-                          {' '}
+                      {data.campaignInfluencerServices.findIndex(
+                        service =>
+                          service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
+                      ) !== -1 && (
+                          <div>
+                            {' '}
                       Twitter:{' '}
-                          <Link
-                            to={`${data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.TWITTER,
-                            ).response
-                              }`}
-                          >
-                            {
-                              data.campaignInfluencerServices.find(
+                            <Link
+                              to={`${data.campaignInfluencerServices.find(
                                 service =>
                                   service.socialChannelsId ===
                                   SOCIAL_CHANNELS.TWITTER,
                               ).response
-                            }
-                          </Link>
-                        </div>
-                      )}
+                                }`}
+                            >
+                              {
+                                data.campaignInfluencerServices.find(
+                                  service =>
+                                    service.socialChannelsId ===
+                                    SOCIAL_CHANNELS.TWITTER,
+                                ).response
+                              }
+                            </Link>
+                          </div>
+                        )}
 
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                    ) !== -1 && (
-                        <div>
-                          {' '}
+                      {data.campaignInfluencerServices.findIndex(
+                        service =>
+                          service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
+                      ) !== -1 && (
+                          <div>
+                            {' '}
                       Blog:{' '}
-                          <Link
-                            to={`${data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                            ).response
-                              }`}
-                          >
-                            {
-                              data.campaignInfluencerServices.find(
+                            <Link
+                              to={`${data.campaignInfluencerServices.find(
                                 service =>
                                   service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
                               ).response
-                            }
-                          </Link>
-                        </div>
-                      )}
+                                }`}
+                            >
+                              {
+                                data.campaignInfluencerServices.find(
+                                  service =>
+                                    service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
+                                ).response
+                              }
+                            </Link>
+                          </div>
+                        )}
 
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
-                    ) !== -1 && (
-                        <div>
-                          {' '}
+                      {data.campaignInfluencerServices.findIndex(
+                        service =>
+                          service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
+                      ) !== -1 && (
+                          <div>
+                            {' '}
                       Youtube:{' '}
-                          <Link
-                            to={`${data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.YOUTUBE,
-                            ).response
-                              }`}
-                          >
-                            {
-                              data.campaignInfluencerServices.find(
+                            <Link
+                              to={`${data.campaignInfluencerServices.find(
                                 service =>
                                   service.socialChannelsId ===
                                   SOCIAL_CHANNELS.YOUTUBE,
                               ).response
-                            }
-                          </Link>
-                        </div>
-                      )}
-                  </div>
-                )}
+                                }`}
+                            >
+                              {
+                                data.campaignInfluencerServices.find(
+                                  service =>
+                                    service.socialChannelsId ===
+                                    SOCIAL_CHANNELS.YOUTUBE,
+                                ).response
+                              }
+                            </Link>
+                          </div>
+                        )}
+                    </div>
+                  )}
 
-              {!(
-                data.campaignStatusId === CampaignStatus.COMPLETED ||
-                data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
-              ) && (
-                  <>
-                    <Button
-                      variant="warning"
-                      className="mt-4"
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      Submit
+                {!(
+                  data.campaignStatusId === CampaignStatus.COMPLETED ||
+                  data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
+                ) && (
+                    <>
+                      <Button
+                        variant="warning"
+                        className="mt-4"
+                        onClick={handleSubmit(onSubmit)}
+                      >
+                        Submit
                   </Button>
-                    <small className="text-muted d-block">
-                      Please share and provide url
+                      <small className="text-muted d-block">
+                        Please share and provide url
                   </small>
-                  </>
-                )}
+                    </>
+                  )}
 
-              {isReviewFromArtist && <>
-                <hr className="my-4 blick-border" />
-                <h4>Feedback from artist:</h4>
-                <Row>
-                  <Col>
-                    {data.ratings && data.ratings.length > 0 && <StarRatings
-                      rating={data.ratings[0].rating}
-                      starRatedColor="yellow"
-                      numberOfStars={5}
-                      starDimension="15px"
-                      name="rating"
-                    />}
-                    {data.reviews && data.reviews.length > 0 && <small className="text-muted d-block">
-                      {data.reviews[0].review}
-                    </small>}
-                  </Col>
-                </Row>
-              </>}
-            </fieldset>
-          </Col>
-        </Row>
-      </Container>
+                {isReviewFromArtist && <>
+                  <hr className="my-4 blick-border" />
+                  <h4>Feedback from artist:</h4>
+                  <Row>
+                    <Col>
+                      {data.ratings && data.ratings.length > 0 && <StarRatings
+                        rating={data.ratings[0].rating}
+                        starRatedColor="yellow"
+                        numberOfStars={5}
+                        starDimension="15px"
+                        name="rating"
+                      />}
+                      {data.reviews && data.reviews.length > 0 && <small className="text-muted d-block">
+                        {data.reviews[0].review}
+                      </small>}
+                    </Col>
+                  </Row>
+                </>}
+              </fieldset>}
+            </Col>
+          </Row>
+        </>}</Container>
       <div style={styles.container}>
         {/* <div>
           <h4>Song/track:</h4>

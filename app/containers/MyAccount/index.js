@@ -171,10 +171,7 @@ function MyAccount(
                   <div className="mb-3">
                     {influencerProfile.name}
                   </div>
-                  <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">Bio</h3>
-                  <div className="mb-3">
-                    {influencerProfile.description}
-                  </div>
+                  
                   <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
                     Social Channels
                   </h3>
