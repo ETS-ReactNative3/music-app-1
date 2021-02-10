@@ -25,7 +25,7 @@ import {
   makeSelectInProgressRequestList,
   makeSelectNewRequestList,
 } from './selectors';
-import {newRequestColumns} from './utils';
+import {declineRequestColumn, newRequestColumns} from './utils';
 import RequestPopup from './RequestPopup';
 import {
   fetchRequestsAction,
@@ -131,7 +131,7 @@ function RequestListing(
           title="Declined"
           className="tab-style table-cursor"
         >
-          {renderTable(declinedRequestList, newRequestColumns)}
+          {renderTable(declinedRequestList, declineRequestColumn)}
         </Tab>
       </Tabs>
       <Modal
