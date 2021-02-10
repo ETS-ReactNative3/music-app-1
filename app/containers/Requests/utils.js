@@ -133,7 +133,8 @@ function expiryDateFormatter(cell, row) {
 
 
 export function dateFormatter(cell, row, rowIndex, formatExtraData) {
-  return format(new Date(row.campaigns.createdDate), 'MM/dd/yyyy');
+  if (row.campaigns) return format(new Date(row.campaigns.createdDate), 'MM/dd/yyyy');
+  return format(new Date(row.createdDate), 'MM/dd/yyyy');
 }
 
 function statusFormatter(cell, row) {
