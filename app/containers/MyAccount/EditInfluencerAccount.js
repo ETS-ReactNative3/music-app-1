@@ -156,6 +156,7 @@ const EditInfluencerAccount = ({
     const submitData = {
       description: formData.description,
       helpArtistDescription: formData.helpArtistDescription,
+      name: formData.influencerName,
       genres: filteredGenres,
     };
     submitData.services = [];
@@ -214,6 +215,22 @@ const EditInfluencerAccount = ({
         <div className="card bg-dark">
           {influencerProfile && Object.keys(influencerProfile).length > 0 &&
           <div className="card-body">
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridDiscription">
+                <label htmlFor="name">Name</label>
+                <input
+                  name="influencerName"
+                  placeholder="Name"
+                  className={`form-control ${
+                    errors.influencerName ? 'is-invalid' : ''
+                  }`}
+                  ref={register}
+                />
+                <div className="invalid-feedback">
+                  {errors.influencerName && errors.influencerName.message}
+                </div>
+              </Form.Group>
+            </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridDiscription">
                 <label htmlFor="description">Description</label>
