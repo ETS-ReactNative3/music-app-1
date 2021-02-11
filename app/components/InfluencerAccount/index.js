@@ -21,7 +21,7 @@ import accountReducer from '../../containers/MyAccount/reducer';
 import accountSaga from '../../containers/MyAccount/saga';
 import {useInjectSaga} from '../../utils/injectSaga';
 import {useInjectReducer} from '../../utils/injectReducer';
-
+import { formatDistanceToNow } from 'date-fns';
 const InfluencerAccount = (
   {
     influencerProfile,
@@ -39,7 +39,6 @@ const InfluencerAccount = (
       getUserActivities(userId);
     }
   }, [userId]);
-
   return (
     <>
 
@@ -56,10 +55,7 @@ const InfluencerAccount = (
           <Reviews
             key={index}
             name={review.campaignInfluencers.campaigns.song.user.name}
-            time={createDifferenenceTimeString(
-              review.createdDate,
-              new Date().toString(),
-            )}
+            time={formatDistanceToNow(new Date(review.createdDate), { addSuffix: true })}
             message={review.review}
           />
         ))}

@@ -50,22 +50,23 @@ const InfluencerAccountPopup = ({
 
   console.log(userSelected);
   const _field = (icon, label, link, credits, callBack, followers, selected) => (
-    <OverlayTrigger
-      style={{
-        cursor: 'pointer'
-      }}
 
-      trigger="hover" placement="left" overlay={
-        <Tooltip>
-          Click to open
+    <div
+
+      className="d-flex align-items-center justify-content-between">
+      <OverlayTrigger
+        style={{
+          cursor: 'pointer'
+        }}
+
+        trigger="hover" placement="left" overlay={
+          <Tooltip>
+            Click to open
       </Tooltip>
-      }>
-      <div
-
-        onClick={() => {
+        }>
+        <div onClick={() => {
           window.open(link, "_blank")
-        }} className="d-flex align-items-center justify-content-between">
-        <div>
+        }} >
           <div>
             <FontAwesomeIcon
               size="1x"
@@ -77,30 +78,29 @@ const InfluencerAccountPopup = ({
           </div>
           <small className="text-muted">{`${followers} followers`}</small>
         </div>
-
-        {credits !== '' && (
-          <div className="custom-checkbox custom-checkbox__right">
-            <input
-              type="checkbox"
-              id={`campaign${label}`}
-              className="form-check-input"
-              defaultChecked={selected}
-              onChange={callBack}
+      </OverlayTrigger>
+      {credits !== '' && (
+        <div className="custom-checkbox custom-checkbox__right">
+          <input
+            type="checkbox"
+            id={`campaign${label}`}
+            className="form-check-input"
+            defaultChecked={selected}
+            onChange={callBack}
+          />
+          <label className="form-check-label" htmlFor={`campaign${label}`}>
+            <img
+              className="mr-1"
+              src={PlanSvgColor}
+              alt="PlanSvg"
+              width={15}
+              height={15}
             />
-            <label className="form-check-label" htmlFor={`campaign${label}`}>
-              <img
-                className="mr-1"
-                src={PlanSvgColor}
-                alt="PlanSvg"
-                width={15}
-                height={15}
-              />
-              <small>{credits}</small>
-            </label>
-          </div>
-        )}
-      </div>
-    </OverlayTrigger>
+            <small>{credits}</small>
+          </label>
+        </div>
+      )}
+    </div>
 
     // <div
     //   style={{

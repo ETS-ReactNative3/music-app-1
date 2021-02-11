@@ -47,6 +47,48 @@ export const newRequestColumns = [
   },
 ];
 
+export const declineRequestColumn = [
+  {
+    dataField: 'picture',
+    text: '#',
+    formatter: pictureFormatter,
+    style: {
+      width: '10%',
+      textAlign: 'left'
+    },
+    headerStyle: {
+      textAlign: 'left',
+    },
+  },
+  {
+    dataField: 'campaigns.song.title',
+    text: 'Track',
+    style: {
+      width: '30%',
+      textAlign: 'left',
+    },
+    headerStyle: {
+      textAlign: 'left',
+    },
+  },
+  {
+    dataField: 'updatedAt',
+    text: 'Status',
+    style: {
+      width: '15%',
+    },
+    formatter: statusFormatter,
+  },
+  {
+    dataField: 'Expiry Date',
+    text: 'Created Date',
+    style: {
+      width: '15%',
+    },
+    formatter: dateFormatter,
+  },
+];
+
 export function pictureFormatter(cell, row) {
   if (row.campaigns && row.campaigns.song && row.campaigns.song.artwork) {
     return (
@@ -89,7 +131,9 @@ function expiryDateFormatter(cell, row) {
   return <span>$ {cell}</span>;
 }
 
+
 export function dateFormatter(cell, row, rowIndex, formatExtraData) {
+  if (row.campaigns) return format(new Date(row.campaigns.createdDate), 'MM/dd/yyyy');
   return format(new Date(row.createdDate), 'MM/dd/yyyy');
 }
 
@@ -97,7 +141,7 @@ function statusFormatter(cell, row) {
   if (row.campaignStatusId === 1) {
     return (
       <span>
-          Not accepted
+          Waiting for your response
       </span>
     );
   }
