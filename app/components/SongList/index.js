@@ -10,7 +10,7 @@ import ShareBox from '../ShareBox';
 import LoadingIndicator from "../LoadingIndicator";
 
 const SongList = ({list, heading, singleSongHandler, currentSong, classes, loading}) => {
-  const {playing, songIndex} = currentSong;
+  const {playing} = currentSong;
   return (
     <section className={`weekly-song-list ${classes}`}>
       <h3 className="mb-5 pb-3 d-inline-block border-top-0 border-right-0 border-left-0">{heading}</h3>
@@ -39,13 +39,13 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
                   <div className="song-action px-1 ml-auto">
                   <span
                     className="cursor-pointer"
-                    onClick={() => singleSongHandler(index)}
+                    onClick={() => singleSongHandler(ele.id)}
                   >
                     <FontAwesomeIcon
                       size="2x"
                       color={PLAY_ICON_BG_COLOR}
                       icon={
-                        songIndex === index && playing
+                        currentSong.songData.id === ele.id && playing
                           ? faPauseCircle
                           : faPlayCircle
                       }

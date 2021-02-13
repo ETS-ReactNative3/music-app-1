@@ -1,25 +1,25 @@
-import React, { memo } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, {memo, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import PropTypes from 'prop-types';
 import PaperCard from '../../components/PaperCard';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { fetchCampaignAction } from './actions';
-import { makeSelectCampaigns } from './selectors';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {fetchCampaignAction} from './actions';
+import {makeSelectCampaigns} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { pictureFormatter, dateFormatter } from '../Requests/utils';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {pictureFormatter, dateFormatter} from '../Requests/utils';
 import history from '../../utils/history';
 
-const List = ({ fetchCampaigns, campaigns }) => {
-  useInjectReducer({ key: 'campaign', reducer });
-  useInjectSaga({ key: 'campaign', saga });
-  React.useEffect(() => {
+const List = ({fetchCampaigns, campaigns}) => {
+  useInjectReducer({key: 'campaign', reducer});
+  useInjectSaga({key: 'campaign', saga});
+  useEffect(() => {
     fetchCampaigns();
   }, []);
 

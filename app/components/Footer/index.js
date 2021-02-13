@@ -1,8 +1,8 @@
-import React, { memo, useEffect, useRef } from 'react';
-import H5AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, {memo, useEffect, useRef} from 'react';
+import H5AudioPlayer, {RHAP_UI} from 'react-h5-audio-player';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import {
   handleSongPlaying,
   handleSingleSong,
@@ -23,42 +23,25 @@ const Footer = props => {
   } = props;
   const audioRef = useRef(null);
   const volumeRef = useRef(null);
-  const { songIndex } = currentSong;
-  let songDetail = {
-    src: '',
-    title: 'Song Title',
-    artist: 'Artist Name',
-  };
-
-  songDetail =
-    playlist.length > 0
-      ? {
-        ...songDetail,
-        src: playlist[songIndex].song.url,
-        title: playlist[songIndex].song.title,
-        artist: playlist[songIndex].song.user.name,
-        artwork: playlist[songIndex].song.artwork,
-      }
-      : songDetail;
 
   useEffect(() => {
-    const { playing: status } = currentSong;
-    status
+    currentSong.playing
       ? audioRef.current.audio.current.play()
       : audioRef.current.audio.current.pause();
+
   }, [currentSong]);
 
   const handleClickPrevious = () => {
+    const songIndex = playlist.findIndex(item => item.songId === currentSong.songData.id)
     if (songIndex !== 0) {
-      const previousIndex = songIndex - 1;
-      onHandleSingleSong(previousIndex, true);
+      onHandleSingleSong(playlist[songIndex - 1].songId, true);
     }
   };
 
   const handleClickNext = () => {
-    const nextIndex = songIndex + 1;
-    if (nextIndex < playlist.length) {
-      onHandleSingleSong(nextIndex, true);
+    const songIndex = playlist.findIndex(item => item.songId === currentSong.songData.id)
+    if (songIndex < (playlist.length - 1)) {
+      onHandleSingleSong(playlist[songIndex + 1].songId, true);
     }
   };
 
@@ -70,7 +53,7 @@ const Footer = props => {
     <div className="row mr-3">
       <div className="col-auto">
         <img
-          src={songDetail.artwork}
+          src={currentSong.songData.artwork}
           alt=""
           width="40"
           height="40"
@@ -78,8 +61,8 @@ const Footer = props => {
         />
       </div>
       <div className="col">
-        <h4>{songDetail.title}</h4>
-        <h6>{songDetail.artist}</h6>
+        <h4>{currentSong.songData.title}</h4>
+        <h6>{currentSong.songData.artist}</h6>
       </div>
     </div>
   );
@@ -87,7 +70,7 @@ const Footer = props => {
   return (
     <footer
       className={`main-footer fixed-bottom ${
-        playlist.length === 0 ? 'd-none' : ''
+        currentSong.songData.id === '' ? 'd-none' : ''
       }`}
     >
       <H5AudioPlayer
@@ -96,7 +79,7 @@ const Footer = props => {
         showSkipControls
         showJumpControls={false}
         ref={audioRef}
-        src={songDetail.src}
+        src={currentSong.songData.src}
         onClickPrevious={handleClickPrevious}
         onClickNext={handleClickNext}
         onEnded={handleClickNext}

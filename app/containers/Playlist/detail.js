@@ -43,21 +43,18 @@ function Detail(
 
   const playAllSongsHandler = () => {
     setSongsAction(playlist.playlistSongs);
-    onHandleSongPlaying(!currentSong.playing);
+    onHandleSingleSong(playlist.playlistSongs[0].songId, !currentSong.playing);
   };
 
-  const singleSongHandler = index => {
+  const singleSongHandler = songId => {
     setSongsAction(playlist.playlistSongs);
-    const {playing, songIndex} = currentSong;
-    const status = songIndex === index ? !playing : true;
-    onHandleSingleSong(index, status);
+    const status = currentSong.songData.id === songId ? !currentSong.playing : true;
+    onHandleSingleSong(songId, status);
   };
 
   const removeSong = songId => {
     deleteSongAction(id, songId);
   };
-
-  const {playing, songIndex} = currentSong;
 
   return (
     <>
@@ -130,14 +127,14 @@ function Detail(
                     <div className="song-duration px-2">4:25</div>
                     <div className="song-action px-2">
                       <span
-                        onClick={() => singleSongHandler(index)}
+                        onClick={() => singleSongHandler(ele.song.id)}
                         className="cursor-pointer"
                       >
                         <FontAwesomeIcon
                           size="3x"
                           color={PLAY_ICON_BG_COLOR}
                           icon={
-                            currentSong.songIndex === index &&
+                            currentSong.songData.id === ele.song.id &&
                             currentSong.playing
                               ? faPauseCircle
                               : faPlayCircle

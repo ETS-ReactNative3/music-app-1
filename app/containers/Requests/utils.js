@@ -3,7 +3,7 @@ import React from 'react';
 import {Image} from 'react-bootstrap';
 import {calculateExpiry} from '../../utils';
 import {CampaignStatus} from './constants';
-import defaultImage from '../../images/album-3.jpg';
+import defaultImage from '../../images/default-image.png';
 
 export const newRequestColumns = [
   {
@@ -90,21 +90,22 @@ export const declineRequestColumn = [
 ];
 
 export function pictureFormatter(cell, row) {
-  if (row.campaigns && row.campaigns.song && row.campaigns.song.artwork) {
+  if (row.campaigns && row.campaigns.song && row.campaigns.song.albumSongs.length > 0 && row.campaigns.song.albumSongs[0].album.artwork) {
     return (
       <span>
         <Image
-          src={row.campaigns.song.artwork}
+          src={row.campaigns.song.albumSongs[0].album.artwork}
           style={{width: 40, height: 40, borderRadius: 20}}
         />
       </span>
     );
   }
-  if (row && row.song && row.song.artwork) {
+
+  if (row.song && row.song.albumSongs.length > 0 && row.song.albumSongs[0].album.artwork) {
     return (
       <span>
         <Image
-          src={row.song.artwork}
+          src={row.song.albumSongs[0].album.artwork}
           style={{width: 40, height: 40, borderRadius: 20}}
         />
       </span>

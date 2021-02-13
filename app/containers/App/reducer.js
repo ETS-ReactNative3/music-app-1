@@ -8,7 +8,7 @@
  */
 
 import produce from 'immer';
-import { GET_INFLUENCER_PROFILE_SUCCESS } from '../Influencer/constants';
+import {GET_INFLUENCER_PROFILE_SUCCESS} from '../Influencer/constants';
 import {
   SET_PLAYLIST,
   HANDLE_SONG_PLAYING,
@@ -40,7 +40,13 @@ export const initialState = {
   albumInfo: {},
   currentPlaylist: [],
   currentSong: {
-    songIndex: 0,
+    songData: {
+      id: '',
+      src: '',
+      title: '',
+      artist: '',
+      artwork: ''
+    },
     playing: false,
   },
   role: '',
@@ -54,7 +60,9 @@ const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case SET_PLAYLIST:
+      case SET_SONGS:
         draft.currentPlaylist = action.songs;
+        draft.currentSong.playing = false;
         break;
       case HANDLE_SONG_PLAYING:
         draft.loading = false;
@@ -62,17 +70,24 @@ const appReducer = (state = initialState, action) =>
         break;
       case HANDLE_SINGLE_SONG:
         draft.loading = false;
-        draft.currentSong.songIndex = action.index;
         draft.currentSong.playing = action.status;
+        const song = state.currentPlaylist.find(item => item.song.id === action.songId)
+        if (song) {
+          const albumImage = song.album ? song.album.artwork : song.song.albumSongs[0].album.artwork
+          draft.currentSong.songData = {
+            id: song.song.id,
+            src: song.song.url,
+            title: song.song.title,
+            artist: song.song.user.name,
+            artwork: albumImage,
+          }
+        }
         break;
       case SET_ROLE:
         draft.role = action.role;
         break;
       case GET_GENRES_SUCCESS:
         draft.genres = action.genres;
-        break;
-      case SET_SONGS:
-        draft.currentPlaylist = action.songs;
         break;
       case GET_USER_DETAILS:
         draft.loading = true;

@@ -91,8 +91,6 @@ const styles = {
     flexDirection: 'row',
   },
   creditTextStyle: {
-    fontSize: 16,
-    fontFamily: 'Roboto-Medium',
     color: 'white',
     marginLeft: 5,
   },

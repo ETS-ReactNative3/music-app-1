@@ -87,7 +87,7 @@ function RequestListing(
 
   const playSong = song => {
     setPlaylistAction([{song}]);
-    onHandleSingleSong(0, true);
+    onHandleSingleSong(song.id, true);
   };
 
   function handleClose() {

@@ -1,42 +1,42 @@
-import React, { memo } from 'react';
-import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
+import React, {memo, useEffect} from 'react';
+import {connect} from 'react-redux';
+import {Link, withRouter} from 'react-router-dom';
+import {compose} from 'redux';
+import {createStructuredSelector} from 'reselect';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import PaperCard from '../../components/PaperCard';
-import { Image, Row, Col } from 'react-bootstrap';
+import {Image, Row, Col} from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { toast } from 'react-toastify';
-import { useInjectReducer } from '../../utils/injectReducer';
-import { useInjectSaga } from '../../utils/injectSaga';
-import styles from './index.styles';
-import { makeSelectCampaign } from './selectors';
+import {toast} from 'react-toastify';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {makeSelectCampaign} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { fetchCampaignAction, getSelectedCampaignAction } from './actions';
-import defaultImage from '../../images/album-3.jpg';
-import { columns } from './tableFormatter';
+import {fetchCampaignAction, getSelectedCampaignAction} from './actions';
+import defaultImage from '../../images/default-image.png';
+import {columns} from './tableFormatter';
 import history from '../../utils/history';
-import { CampaignStatus } from '../Requests/constants';
+import {CampaignStatus} from '../Requests/constants';
 
-const Details = ({
-  match,
-  selectedCampaign,
-  getSelectedCampaign,
-  fetchCampaigns,
-}) => {
-  useInjectReducer({ key: 'campaign', reducer });
-  useInjectSaga({ key: 'campaign', saga });
-  React.useEffect(() => {
+const Details = (
+  {
+    match,
+    selectedCampaign,
+    getSelectedCampaign,
+    fetchCampaigns,
+  }) => {
+  useInjectReducer({key: 'campaign', reducer});
+  useInjectSaga({key: 'campaign', saga});
+  useEffect(() => {
     if (match.params.id) {
       getSelectedCampaign(match.params.id);
     }
   }, [match.params.id]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchCampaigns();
     getSelectedCampaign(match.params.id);
   }, []);
@@ -44,9 +44,13 @@ const Details = ({
   return (
     <>
       <PaperCard title="Campaign Details">
-        
-        <small className="d-flex align-items-center"> 
-          <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="ml-1" style={{ pointerEvents: 'none', opacity: 0.6, color: '#fff' }} to={''}>Campaigns Details</Link>
+
+        <small className="d-flex align-items-center">
+          <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="ml-1" style={{
+          pointerEvents: 'none',
+          opacity: 0.6,
+          color: '#fff'
+        }} to={''}>Campaigns Details</Link>
         </small>
         <Row className="mt-5">
           <Col md={12}>
@@ -59,7 +63,7 @@ const Details = ({
                     e.target.onerror = null;
                     e.target.src = defaultImage;
                   }}
-                  src={selectedCampaign.song.artwork || ''}
+                  src={(selectedCampaign.song.albumSongs.length >0 && selectedCampaign.song.albumSongs[0].album.artwork) || ''}
                   alt=""
                   roundedCircle
                 />

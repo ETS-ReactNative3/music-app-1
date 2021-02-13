@@ -59,19 +59,17 @@ export function HomePage(props) {
     getNewReleasesAction();
   }, []);
 
-  const handleWeeklySong = index => {
-    const {playing, songIndex} = currentSong;
+  const handleWeeklySong = songId => {
+    const {playing, songData} = currentSong;
     let status = !playing;
-    if (currentPlaylist.length === 0) {
-      const weeklySongs = topSongs.map(item => {
-        return {song: item}
-      })
-      onHandleSetPlaylist(weeklySongs);
+    const weeklySongs = topSongs.map(item => {
+      return {song: item, album: item.albumSongs[0].album}
+    })
+    if (songData.id !== songId) {
+      status = true
     }
-    if (songIndex !== index) {
-      status = true;
-    }
-    onHandleSingleSong(index, status);
+    onHandleSetPlaylist(weeklySongs);
+    onHandleSingleSong(songId, status);
   };
 
   return (

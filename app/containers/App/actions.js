@@ -41,10 +41,10 @@ export function handleSongPlaying(playing) {
   };
 }
 
-export function handleSingleSong(index, status) {
+export function handleSingleSong(songId, status) {
   return {
     type: HANDLE_SINGLE_SONG,
-    index,
+    songId,
     status,
   };
 }

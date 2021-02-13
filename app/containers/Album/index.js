@@ -88,12 +88,13 @@ const Album = props => {
   }, [query]);
 
   const playAllSongsHandler = () => {
+    onHandleSingleSong(playlist[0].songId, !currentSong.playing);
     onHandleSongPlaying(!currentSong.playing);
   };
 
-  const singleSongHandler = index => {
-    const status = currentSong.songIndex === index ? !currentSong.playing : true;
-    onHandleSingleSong(index, status);
+  const singleSongHandler = songId => {
+    const status = currentSong.songData.id === songId ? !currentSong.playing : true;
+    onHandleSingleSong(songId, status);
   };
 
   return (
@@ -159,14 +160,14 @@ const Album = props => {
                       <div className="song-duration px-2">4:25</div>
                       <div className="song-action px-2">
                         <span
-                          onClick={() => singleSongHandler(index)}
+                          onClick={() => singleSongHandler(ele.song.id)}
                           className="cursor-pointer"
                         >
                           <FontAwesomeIcon
                             size="3x"
                             color={PLAY_ICON_BG_COLOR}
                             icon={
-                              currentSong.songIndex === index &&
+                              currentSong.songData.id === ele.song.id &&
                               currentSong.playing
                                 ? faPauseCircle
                                 : faPlayCircle

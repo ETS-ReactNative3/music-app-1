@@ -234,7 +234,7 @@ const CampaignSummary = (
                     </div>
                   </div>
                   {userDetails.credit -
-                  _calculatePriceForSelectedInfluencers(selectedInfluencers) >
+                  _calculatePriceForSelectedInfluencers(selectedInfluencers) >=
                   0 ? (
                     <div className="d-flex my-3 align-items-center justify-content-between">
                       <div>Credits left:</div>
@@ -269,7 +269,7 @@ const CampaignSummary = (
                 <ListGroup.Item className="pb-4 border-0 bg-transparent">
                   <hr className="blick-border"/>
                   {userDetails.credit -
-                  _calculatePriceForSelectedInfluencers(selectedInfluencers) >
+                  _calculatePriceForSelectedInfluencers(selectedInfluencers) >=
                   0 && (
                     <>
                       {formLoader ? (
