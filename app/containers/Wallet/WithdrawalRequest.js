@@ -184,11 +184,12 @@ const WithdrawalRequest = (
                     })}
                   </div>
                   <div className="form-group">
-                    <div style={styles.addWithdrawalContainer} onClick={() => setWithdrawalAccount('no')}>
+                    <div style={styles.addWithdrawalContainer}>
                       <label className="form-check-label">
                         <input
                           type="radio"
                           className="form-check-input"
+                          onChange={() => setWithdrawalAccount('no')}
                           checked={withdrawalAccount === 'no'}
                           name="optradio"/>Add Withdrawal Method
                       </label>

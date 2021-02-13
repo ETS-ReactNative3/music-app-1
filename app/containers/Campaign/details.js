@@ -44,7 +44,6 @@ const Details = (
   return (
     <>
       <PaperCard title="Campaign Details">
-
         <small className="d-flex align-items-center">
           <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="ml-1" style={{
           pointerEvents: 'none',
@@ -70,10 +69,7 @@ const Details = (
                 <div className="ml-3">
                   {selectedCampaign.song.title}
                   <small className="text-muted d-block">
-                    {selectedCampaign.song.description}
-                  </small>
-                  <small className="text-muted d-block">
-                    {moment(selectedCampaign.song.releaseDate).format(
+                    Created on: {moment(selectedCampaign.createdDate).format(
                       'DD MMMM YYYY',
                     )}
                   </small>

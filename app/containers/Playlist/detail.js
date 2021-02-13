@@ -5,7 +5,7 @@ import {createStructuredSelector} from 'reselect';
 import {useParams} from 'react-router-dom';
 import moment from 'moment';
 import PaperCard from '../../components/PaperCard';
-import {Col, Image, Row} from 'react-bootstrap';
+import {Col, Image, OverlayTrigger, Row, Tooltip} from 'react-bootstrap';
 import defaultImage from '../../images/album-3.jpg';
 import ShareBox from '../../components/ShareBox';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -121,8 +121,13 @@ function Detail(
                       {`0${index + 1}`.slice(-2)}
                     </div>
                     <div className="song-title px-2 col-md-5">
-                      <h5>{ele.song.title}</h5>
-                      <h6>{ele.song.description}</h6>
+                      <OverlayTrigger
+                        placement="top"
+                        delay={{show: 250, hide: 400}}
+                        overlay={<Tooltip id={`button-tooltip-${index}`}>{ele.song.title}</Tooltip>}
+                      >
+                        <h5>{ele.song.title}</h5>
+                      </OverlayTrigger>
                     </div>
                     <div className="song-duration px-2">4:25</div>
                     <div className="song-action px-2">

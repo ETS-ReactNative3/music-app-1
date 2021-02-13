@@ -5,7 +5,7 @@ import {createStructuredSelector} from 'reselect';
 import {faPlayCircle, faPauseCircle} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PaperCard from '../../components/PaperCard';
-import {Col, Image, Row} from 'react-bootstrap';
+import {Col, Image, Row, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import moment from 'moment';
 import {
   makeSelectRecommended,
@@ -146,16 +146,21 @@ const Album = props => {
                 <section className="py-5">
                   {albumInfo.albumSongs.map((ele, index) => (
                     <div
-                      className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                      className="row border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
                       id={`songNumber${ele.song.id}`}
                       key={index}
                     >
-                      <div className="song-number">
+                      <div className="song-number pr-3 col-md-1">
                         {`0${index + 1}`.slice(-2)}
                       </div>
-                      <div className="song-title px-2 min-w15">
-                        <h5>{ele.song.title}</h5>
-                        <h6>{ele.song.description}</h6>
+                      <div className="song-title px-2 col-md-5">
+                        <OverlayTrigger
+                          placement="top"
+                          delay={{show: 250, hide: 400}}
+                          overlay={<Tooltip id={`button-tooltip-${index}`}>{ele.song.title}</Tooltip>}
+                        >
+                          <h5>{ele.song.title}</h5>
+                        </OverlayTrigger>
                       </div>
                       <div className="song-duration px-2">4:25</div>
                       <div className="song-action px-2">

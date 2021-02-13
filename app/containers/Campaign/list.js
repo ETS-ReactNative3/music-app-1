@@ -40,10 +40,6 @@ const List = ({fetchCampaigns, campaigns}) => {
       text: 'Song name',
     },
     {
-      dataField: 'song.description',
-      text: 'Description',
-    },
-    {
       dataField: 'createdDate',
       text: 'Created Date',
       formatter: dateFormatter,

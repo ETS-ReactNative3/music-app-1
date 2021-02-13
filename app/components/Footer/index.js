@@ -13,6 +13,7 @@ import {
   makeSelectCurrentSong,
 } from '../../containers/App/selectors';
 import './index.scss';
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 const Footer = props => {
   const {
@@ -60,8 +61,14 @@ const Footer = props => {
           className="rounded"
         />
       </div>
-      <div className="col">
-        <h4>{currentSong.songData.title}</h4>
+      <div className="col-5 song-title">
+        <OverlayTrigger
+          placement="top"
+          delay={{show: 250, hide: 400}}
+          overlay={<Tooltip id={`song-title-tooltip`}>{currentSong.songData.title}</Tooltip>}
+        >
+          <h4>{currentSong.songData.title}</h4>
+        </OverlayTrigger>
         <h6>{currentSong.songData.artist}</h6>
       </div>
     </div>

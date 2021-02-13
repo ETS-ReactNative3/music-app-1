@@ -73,3 +73,9 @@
 .footer-extra-padding {
   padding-bottom: 70px;
 }
+
+.song-title h5, .song-title h4 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
