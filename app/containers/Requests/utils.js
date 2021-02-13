@@ -81,7 +81,7 @@ export const declineRequestColumn = [
   },
   {
     dataField: 'Expiry Date',
-    text: 'Created Date',
+    text: 'Date',
     style: {
       width: '15%',
     },
@@ -184,6 +184,16 @@ function statusFormatter(cell, row) {
     return (
       <span>
         Declined
+      </span>
+    );
+  }
+
+  if (
+    row.campaignStatusId === CampaignStatus.DISPUTE
+  ) {
+    return (
+      <span>
+        In-dispute
       </span>
     );
   }

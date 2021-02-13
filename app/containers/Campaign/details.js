@@ -101,6 +101,8 @@ const Details = (
                     history.push(
                       `/campaigns/${selectedCampaign.id}/influencer/${row.id}`,
                     );
+                  } else if(row.campaignStatusId === CampaignStatus.DISPUTE) {
+                    toast.error('Bliiink team will contact you.');
                   } else {
                     toast.warning('Influencer not completed requested.');
                   }

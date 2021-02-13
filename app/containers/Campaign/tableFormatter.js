@@ -116,5 +116,16 @@ function statusFormatter(cell, row) {
     );
   }
 
+  if (row.campaignStatusId === CampaignStatus.DISPUTE) {
+    return (
+        <span>
+        <div style={{ color: 'red' }}>
+          <FontAwesomeIcon icon={faCircle} />
+          Dispute
+        </div>
+      </span>
+    );
+  }
+
   return <span>{cell}</span>;
 }

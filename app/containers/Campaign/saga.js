@@ -106,7 +106,7 @@ function* declineCampaignSaga(action) {
       console.log(action);
     yield put(declineSubmittingAction(true));
     yield call(updateCampaignStatusApi, { id: campaignInfluencerId,
-      campaignStatusId: CampaignStatus.DECLINED, });
+      campaignStatusId: CampaignStatus.DISPUTE, });
     if (rating && rating > 0) yield call(addInfluencerRatingAPI, { campaignsId, influencerId, rating });
     if (feedback && feedback.length > 0) yield call(addInfluencerReviewAPI, {
       campaignsId,

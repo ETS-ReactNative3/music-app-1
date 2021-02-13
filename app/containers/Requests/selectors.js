@@ -54,6 +54,17 @@ const makeSelectDeclinedRequestList = () =>
         : [],
   );
 
+const makeSelectDisputedRequestList = () =>
+  createSelector(
+    selectRequestDomain,
+    substate =>
+      substate.requests
+        ? substate.requests.filter(
+        request =>
+          request.campaignStatusId === CampaignStatus.DISPUTE,
+        )
+        : [],
+  );
 
 const makeSelectApprovedRequestList = () =>
 createSelector(
@@ -72,5 +83,6 @@ export {
   makeSelectCompletedRequestList,
   makeSelectInProgressRequestList,
   makeSelectDeclinedRequestList,
-  makeSelectApprovedRequestList
+  makeSelectApprovedRequestList,
+  makeSelectDisputedRequestList
 };

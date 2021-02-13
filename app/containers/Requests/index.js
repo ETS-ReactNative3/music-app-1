@@ -21,7 +21,7 @@ import saga from './saga';
 import {
   makeSelectApprovedRequestList,
   makeSelectCompletedRequestList,
-  makeSelectDeclinedRequestList,
+  makeSelectDeclinedRequestList, makeSelectDisputedRequestList,
   makeSelectInProgressRequestList,
   makeSelectNewRequestList,
 } from './selectors';
@@ -36,6 +36,8 @@ import {
 import {getSocialChannelsRequest} from '../Influencer/actions';
 import {makeSelectSocialChannels} from '../Influencer/selectors';
 import {handleSingleSong, setPlaylist} from '../App/actions';
+import {CampaignStatus} from "./constants";
+import {toast} from "react-toastify";
 
 function RequestListing(
   {
@@ -52,6 +54,7 @@ function RequestListing(
     onHandleSingleSong,
     approvedRequestList,
     declinedRequestList,
+    disputedRequestList
   }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
@@ -77,8 +80,12 @@ function RequestListing(
       noDataIndication={() => (<div>No Requests available</div>)}
       rowEvents={{
         onClick: (e, row, rowIndex) => {
-          setSelectedRow(row);
-          setOpenModal(true);
+          if (row.campaignStatusId !== CampaignStatus.DISPUTE) {
+            setSelectedRow(row);
+            setOpenModal(true);
+          } else {
+            toast.error('Bliiink team will contact you.');
+          }
         },
       }}
       columns={columns}
@@ -133,6 +140,13 @@ function RequestListing(
         >
           {renderTable(declinedRequestList, declineRequestColumn)}
         </Tab>
+        <Tab
+          eventKey="dispute"
+          title="In-dispute"
+          className="tab-style table-cursor"
+        >
+          {renderTable(disputedRequestList, declineRequestColumn)}
+        </Tab>
       </Tabs>
       <Modal
         show={openModal}
@@ -175,7 +189,8 @@ const mapStateToProps = createStructuredSelector({
   completedRequestList: makeSelectCompletedRequestList(),
   socialChannels: makeSelectSocialChannels(),
   approvedRequestList: makeSelectApprovedRequestList(),
-  declinedRequestList: makeSelectDeclinedRequestList()
+  declinedRequestList: makeSelectDeclinedRequestList(),
+  disputedRequestList: makeSelectDisputedRequestList()
 });
 
 function mapDispatchToProps(dispatch) {

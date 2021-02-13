@@ -10,5 +10,6 @@ export const CampaignStatus = {
   'IN-PROGRESS': 3,
   ACCEPTED: 2,
   DECLINED: 6,
+  DISPUTE: 7,
   PEDNING: 1,
 };
