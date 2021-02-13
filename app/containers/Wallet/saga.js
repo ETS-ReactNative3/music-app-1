@@ -6,8 +6,9 @@ import {
   ADD_PAYMENT_METHOD,
   CREATE_PAYMENT_REQUEST,
   DELETE_PAYMENT_METHOD,
-  FETCH_PAYMENT_HISTORY,
-  GET_PAYMENT_METHODS
+  FETCH_PAYMENT_HISTORY, GET_EARNINGS,
+  GET_PAYMENT_METHODS, GET_WITHDRAWAL_REQUESTS,
+  SUBMIT_WITHDRAWAL_AMOUNT_REQUEST
 } from './constants';
 import {axiosInstance} from '../../utils/api';
 import {
@@ -19,9 +20,16 @@ import {
   getPaymentMethodsSuccessAction,
   getPaymentMethodsFailAction,
   deletePaymentMethodsSuccessAction,
-  deletePaymentMethodsFailAction, getPaymentMethodsAction,
+  deletePaymentMethodsFailAction,
+  getPaymentMethodsAction,
+  submitWithdrawalAmountSuccessAction,
+  submitWithdrawalAmountFailAction,
+  getWithdrawalRequestsSuccessAction,
+  getWithdrawalRequestsFailAction,
+  getEarningsSuccessAction, getEarningsFailAction,
 } from './actions';
 import {getUserDetailsSuccess} from "../App/actions";
+import history from "../../utils/history";
 
 function fetchPaymentHistoryApi() {
   return axiosInstance().get('order/list');
@@ -48,9 +56,22 @@ function getPaymentMethods() {
   return axiosInstance().get('/influencers/methods');
 }
 
+function getEarnings() {
+  return axiosInstance().get('/influencers/earnings');
+}
+
+function getWithdrawalRequests() {
+  return axiosInstance().get('/influencers/withdrawal/requests');
+}
+
 function deletePaymentMethod(id) {
   return axiosInstance().delete(`/influencers/method/${id}`);
 }
+
+function submitWithdrawal(data) {
+  return axiosInstance().post('/influencers/withdrawal/request', data);
+}
+
 
 function* createPaymentSession(action) {
   try {
@@ -97,6 +118,38 @@ function* removePaymentMethod(action) {
   }
 }
 
+function* submitWithdrawalAmount(action) {
+  try {
+    yield call(submitWithdrawal, action.data);
+    yield put(submitWithdrawalAmountSuccessAction());
+    toast.success('Withdrawal request sent successfully');
+    history.push('/wallet/history');
+  } catch (e) {
+    toast.error(e.message);
+    yield put(submitWithdrawalAmountFailAction(e.message));
+  }
+}
+
+function* fetchWithdrawalRequests() {
+  try {
+    const result = yield call(getWithdrawalRequests);
+    yield put(getWithdrawalRequestsSuccessAction(result.data));
+  } catch (e) {
+    toast.error(e.message);
+    yield put(getWithdrawalRequestsFailAction(e.message));
+  }
+}
+
+function* fetchEarnings() {
+  try {
+    const result = yield call(getEarnings);
+    yield put(getEarningsSuccessAction(result.data));
+  } catch (e) {
+    toast.error(e.message);
+    yield put(getEarningsFailAction(e.message));
+  }
+}
+
 // Individual exports for testing
 export default function* walletSaga() {
   yield takeLatest(FETCH_PAYMENT_HISTORY, fetchPaymentHistorySaga);
@@ -104,4 +157,7 @@ export default function* walletSaga() {
   yield takeLatest(ADD_PAYMENT_METHOD, addPaymentMethod);
   yield takeLatest(GET_PAYMENT_METHODS, fetchPaymentMethods);
   yield takeLatest(DELETE_PAYMENT_METHOD, removePaymentMethod);
+  yield takeLatest(SUBMIT_WITHDRAWAL_AMOUNT_REQUEST, submitWithdrawalAmount);
+  yield takeLatest(GET_WITHDRAWAL_REQUESTS, fetchWithdrawalRequests);
+  yield takeLatest(GET_EARNINGS, fetchEarnings);
 }

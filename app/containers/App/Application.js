@@ -10,7 +10,7 @@ import {Playlist, PlaylistDetail} from '../Playlist/Loadable';
 import {PlanDetails} from '../Plan/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
 import {EditAccount, MyAccount} from '../MyAccount/Loadable';
-import {OrderSuccess, Wallet, WalletWithdrawal} from '../Wallet/Loadable';
+import {OrderSuccess, Wallet, WalletWithdrawal, History} from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
@@ -130,7 +130,7 @@ function Application() {
           <OrderSuccess/>
         </PrivateRoute>
         <PrivateRoute exact path="/wallet/history">
-          <WalletHistory/>
+          <History/>
         </PrivateRoute>
         <PrivateRoute path="/tastemakers/:songId/campaign">
           <CampaignSummary/>

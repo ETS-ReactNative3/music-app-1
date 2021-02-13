@@ -9,21 +9,41 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import PaperCard from '../../components/PaperCard';
 import {useInjectReducer} from '../../utils/injectReducer';
 import {useInjectSaga} from '../../utils/injectSaga';
-import {fetchPaymentHistoryAction} from './actions';
+import {fetchPaymentHistoryAction, getEarningsAction, getWithdrawalRequestsAction} from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import {makeSelectPaymentHistory} from './selectors';
+import {makeSelectEarnings, makeSelectPaymentHistory, makeSelectWithdrawalRequests} from './selectors';
 import {Button} from 'react-bootstrap';
 import history from '../../utils/history';
 import {makeSelectInfluencerDetails} from "../App/selectors";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import WithdrawalRequests from "../../components/WithdrawalRequests/Loadable";
+import TastemakerEarnings from "../../components/TastemakerEarnings/Loadable";
 
-const WalletHistory = ({paymentHistory, fetchPaymentHistory, influencerProfile}) => {
+const WalletHistory = (
+  {
+    paymentHistory,
+    fetchPaymentHistory,
+    influencerProfile,
+    getWithdrawalRequests,
+    withdrawalRequests,
+    getEarnings,
+    earnings
+  }) => {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
 
   useEffect(() => {
     fetchPaymentHistory();
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(influencerProfile).length !== 0) {
+      getWithdrawalRequests();
+      getEarnings();
+    }
+  }, [influencerProfile]);
 
   // eslint-disable-next-line no-unused-vars
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
@@ -52,20 +72,42 @@ const WalletHistory = ({paymentHistory, fetchPaymentHistory, influencerProfile})
 
   return (
     <PaperCard title="Credit Purchase History">
-      {Object.keys(influencerProfile).length !== 0 &&
-      <Button variant="success" onClick={() => history.push('/wallet/withdrawal')}>Withdrawal Request</Button>
+      {Object.keys(influencerProfile).length !== 0 ?
+        <>
+          <Button variant="success" onClick={() => history.push('/wallet/withdrawal')}>Withdrawal Request</Button>
+          <div className="mt-4">
+            <Tabs defaultActiveKey="history" id="uncontrolled-tab-example">
+              <Tab eventKey="history" title="Purchase History">
+                <BootstrapTable
+                  striped
+                  bordered={false}
+                  bootstrap4
+                  pagination={paginationFactory()}
+                  keyField="id"
+                  data={paymentHistory}
+                  columns={columns}
+                />
+              </Tab>
+              <Tab eventKey="earnings" title="Earnings">
+                <TastemakerEarnings earnings={earnings}/>
+              </Tab>
+              <Tab eventKey="withdrawal" title="Withdrawal Requests">
+                <WithdrawalRequests withdrawalRequests={withdrawalRequests}/>
+              </Tab>
+            </Tabs>
+          </div>
+        </> : <div className="mt-4">
+          <BootstrapTable
+            striped
+            bordered={false}
+            bootstrap4
+            pagination={paginationFactory()}
+            keyField="id"
+            data={paymentHistory}
+            columns={columns}
+          />
+        </div>
       }
-      <div className="mt-4">
-        <BootstrapTable
-          striped
-          bordered={false}
-          bootstrap4
-          pagination={paginationFactory()}
-          keyField="id"
-          data={paymentHistory}
-          columns={columns}
-        />
-      </div>
     </PaperCard>
   );
 };
@@ -77,12 +119,16 @@ WalletHistory.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   paymentHistory: makeSelectPaymentHistory(),
-  influencerProfile: makeSelectInfluencerDetails()
+  influencerProfile: makeSelectInfluencerDetails(),
+  withdrawalRequests: makeSelectWithdrawalRequests(),
+  earnings: makeSelectEarnings()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchPaymentHistory: () => dispatch(fetchPaymentHistoryAction()),
+    getWithdrawalRequests: () => dispatch(getWithdrawalRequestsAction()),
+    getEarnings: () => dispatch(getEarningsAction())
   };
 }
 

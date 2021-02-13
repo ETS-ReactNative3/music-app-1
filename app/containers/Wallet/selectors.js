@@ -8,10 +8,6 @@ import {initialState} from './reducer';
 const selectWalletDomain = state => state.wallet || initialState;
 
 /**
- * Other specific selectors
- */
-
-/**
  * Default selector used by Wallet
  */
 
@@ -39,4 +35,31 @@ const makeSelectPaymentMethods = () =>
     substate => substate.paymentMethods,
   );
 
-export {selectWalletDomain, makeSelectPaymentHistory, makeSelectLoader, makeSelectPaymentMethods, makeSelectWallet};
+const makeSelectRequestButtonLoader = () =>
+  createSelector(
+    selectWalletDomain,
+    substate => substate.requestButtonLoader,
+  );
+
+const makeSelectWithdrawalRequests = () =>
+  createSelector(
+    selectWalletDomain,
+    substate => substate.withdrawalRequests,
+  );
+
+const makeSelectEarnings = () =>
+  createSelector(
+    selectWalletDomain,
+    substate => substate.earnings,
+  );
+
+export {
+  selectWalletDomain,
+  makeSelectPaymentHistory,
+  makeSelectLoader,
+  makeSelectPaymentMethods,
+  makeSelectWallet,
+  makeSelectRequestButtonLoader,
+  makeSelectWithdrawalRequests,
+  makeSelectEarnings
+};

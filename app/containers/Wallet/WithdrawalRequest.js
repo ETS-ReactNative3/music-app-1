@@ -12,13 +12,19 @@ import {makeSelectUserWallet} from '../App/selectors';
 import styles from './index.styles';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import {useForm} from "react-hook-form";
-import {addPaymentMethodAction, deletePaymentMethodsAction, getPaymentMethodsAction} from "./actions";
+import {
+  addPaymentMethodAction,
+  deletePaymentMethodsAction,
+  getPaymentMethodsAction,
+  submitWithdrawalAmountAction
+} from "./actions";
 import {useInjectReducer} from "../../utils/injectReducer";
 import {useInjectSaga} from "../../utils/injectSaga";
 import reducer from "./reducer";
 import saga from "./saga";
-import {makeSelectLoader, makeSelectPaymentMethods} from "./selectors";
+import {makeSelectLoader, makeSelectPaymentMethods, makeSelectRequestButtonLoader} from "./selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
+import WithdrawalAmountForm from "../../components/WithdrawalAmountForm/Loadable";
 
 const WithdrawalRequest = (
   {
@@ -27,7 +33,9 @@ const WithdrawalRequest = (
     getPaymentMethods,
     loader,
     paymentMethods,
-    removePaymentMethod
+    removePaymentMethod,
+    submitWithdrawAmount,
+    requestButtonLoader
   }) => {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
@@ -73,6 +81,12 @@ const WithdrawalRequest = (
   useEffect(() => {
     getPaymentMethods();
   }, []);
+
+  useEffect(() => {
+    if (paymentMethods.length > 0) {
+      setWithdrawalAccount(paymentMethods[0].id)
+    }
+  }, [paymentMethods]);
 
   const renderWithdrawalInformation = () => {
     switch (withdrawalTransfer.value) {
@@ -153,6 +167,10 @@ const WithdrawalRequest = (
     }
   }
 
+  const submitAmount = data => {
+    submitWithdrawAmount({influencerWithdrawalMethodsId: withdrawalAccount, ...data})
+  }
+
   return (
     <PaperCard title="Withdrawal">
       {loader ? <LoadingIndicator/> :
@@ -166,7 +184,7 @@ const WithdrawalRequest = (
                 <div className="card-body">
                   <div className="form-group">
                     <label htmlFor="beneficiary-name">1. Withdrawal method</label>
-                    {paymentMethods.map(item => {
+                    {paymentMethods.map((item, index) => {
                       return (
                         <div style={styles.withdrawalOptionContainer} key={item.id}
                              onClick={() => setWithdrawalAccount(item.id)}>
@@ -230,19 +248,12 @@ const WithdrawalRequest = (
               </div>
               <div className="card bg-dark mt-4">
                 <div className="card-body">
-                  <div className="form-group">
-                    <label htmlFor="amount">3. Amount</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Enter amount"
-                      max={userCredit}
-                      onChange={(e) => setAmount(e.target.value)}
-                      id="amount"/>
-                    <small>The withdrawal is not immediate. You'll
-                      receive an email once the Bliiink team validates your request.</small>
-                  </div>
-                  <button type="submit" className="btn btn-primary">Confirm request</button>
+                  <WithdrawalAmountForm
+                    userCredit={userCredit}
+                    setAmount={setAmount}
+                    submitAmount={submitAmount}
+                    requestButtonLoader={requestButtonLoader}
+                  />
                 </div>
               </div>
             </div>
@@ -289,7 +300,6 @@ const WithdrawalRequest = (
                           height={20}/>
                         </div>
                       </div>
-                      <Button variant="success" className="mt-3">Confirm request</Button>
                     </div>
                   </div>
                 </div>
@@ -309,7 +319,8 @@ WithdrawalRequest.propTypes = {
 const mapStateToProps = createStructuredSelector({
   userCredit: makeSelectUserWallet(),
   loader: makeSelectLoader(),
-  paymentMethods: makeSelectPaymentMethods()
+  paymentMethods: makeSelectPaymentMethods(),
+  requestButtonLoader: makeSelectRequestButtonLoader()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -317,6 +328,7 @@ function mapDispatchToProps(dispatch) {
     addWithdrawalMethod: (methodData) => dispatch(addPaymentMethodAction(methodData)),
     getPaymentMethods: () => dispatch(getPaymentMethodsAction()),
     removePaymentMethod: (id) => dispatch(deletePaymentMethodsAction(id)),
+    submitWithdrawAmount: (data) => dispatch(submitWithdrawalAmountAction(data)),
   };
 }
 

@@ -16,6 +16,10 @@ export const OrderSuccess = loadable(() => import('./success'), {
   fallback: <LoadingIndicator />,
 });
 
+export const History = loadable(() => import('./History'), {
+  fallback: <LoadingIndicator />,
+});
+
 export const WalletWithdrawal = loadable(() => import('./WithdrawalRequest'), {
   fallback: <LoadingIndicator />,
 });
