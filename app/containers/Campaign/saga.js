@@ -23,6 +23,7 @@ import {
   LAUNCH_CAMPAIGN,
   VERIFY_CAMPAIGN,
 } from './constants';
+import {resetSelectedInfluencer} from "../Tastemaker/actions";
 
 function launchCampaign(data) {
   return axiosInstance().post('campaigns', data);
@@ -56,6 +57,7 @@ export function* launchCampaignSaga(action) {
     yield put(setLoader(false));
     history.push('/');
     yield put(getUserDetails());
+    yield put(resetSelectedInfluencer());
     toast.success('Campaign Launched successfully');
   } catch (e) {
     toast.error(e.message);
