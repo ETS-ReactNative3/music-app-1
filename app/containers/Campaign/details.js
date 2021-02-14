@@ -80,6 +80,7 @@ const Details = (
           <Col className="table-cursor">
             <BootstrapTable
               striped
+              hover
               bordered={false}
               bootstrap4
               pagination={paginationFactory()}

@@ -27,12 +27,13 @@ import {getInfluencerRequests, updateInfluencerStatus} from './actions';
 import {PLAY_ICON_BG_COLOR} from "../../utils/constants";
 import {faFacebook, faInstagram, faTwitter, faYoutube} from "@fortawesome/free-brands-svg-icons";
 
-export function Requests({
-                           getRequests,
-                           influencerRequests,
-                           loader,
-                           updateInfluencerStatusAction,
-                         }) {
+export function Requests(
+  {
+    getRequests,
+    influencerRequests,
+    loader,
+    updateInfluencerStatusAction,
+  }) {
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approvalOpen, setApprovalOpen] = useState(false);
   const [influencer, setInfluencer] = useState(null);

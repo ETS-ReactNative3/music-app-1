@@ -50,6 +50,7 @@ const List = ({fetchCampaigns, campaigns}) => {
       <div className="mt-4 table-cursor">
         <BootstrapTable
           striped
+          hover
           bordered={false}
           bootstrap4
           pagination={paginationFactory()}

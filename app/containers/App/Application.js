@@ -10,11 +10,10 @@ import {Playlist, PlaylistDetail} from '../Playlist/Loadable';
 import {PlanDetails} from '../Plan/Loadable';
 import Tastemaker from '../Tastemaker/Loadable';
 import {EditAccount, MyAccount} from '../MyAccount/Loadable';
-import {OrderSuccess, Wallet, WalletWithdrawal, History} from '../Wallet/Loadable';
+import {OrderSuccess, Wallet, WalletWithdrawal, History, WithdrawalRequestList} from '../Wallet/Loadable';
 import AllActivites from '../AllActivities';
 import AllReviews from '../AllReviews';
 import CampaignSummary from '../Campaign/index';
-import WalletHistory from '../Wallet/History';
 
 import {
   InfluencerRequestForm,
@@ -149,6 +148,9 @@ function Application() {
         </PrivateRoute>
         <PrivateRoute path="/admin/tastemakers/requests" exact>
           <InfluencerRequests/>
+        </PrivateRoute>
+        <PrivateRoute path="/admin/tastemakers/withdrawal/requests" exact>
+          <WithdrawalRequestList/>
         </PrivateRoute>
       </Switch>
     </Dashboard>

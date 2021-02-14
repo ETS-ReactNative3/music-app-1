@@ -23,3 +23,7 @@ export const History = loadable(() => import('./History'), {
 export const WalletWithdrawal = loadable(() => import('./WithdrawalRequest'), {
   fallback: <LoadingIndicator />,
 });
+
+export const WithdrawalRequestList = loadable(() => import('./WithdrawalRequestList'), {
+  fallback: <LoadingIndicator />,
+});

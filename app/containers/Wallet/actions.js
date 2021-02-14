@@ -24,7 +24,11 @@ import {
   GET_WITHDRAWAL_REQUESTS_SUCCESS,
   GET_WITHDRAWAL_REQUESTS,
   GET_WITHDRAWAL_REQUESTS_FAIL,
-  GET_EARNINGS, GET_EARNINGS_SUCCESS, GET_EARNINGS_FAIL
+  GET_EARNINGS,
+  GET_EARNINGS_SUCCESS,
+  GET_EARNINGS_FAIL,
+  GET_ALL_WITHDRAWAL_REQUESTS,
+  GET_ALL_WITHDRAWAL_REQUESTS_SUCCESS, GET_ALL_WITHDRAWAL_REQUESTS_FAIL
 } from './constants';
 
 export function createPaymentRequestAction(id) {
@@ -178,6 +182,26 @@ export function getEarningsSuccessAction(data) {
 export function getEarningsFailAction(error) {
   return {
     type: GET_EARNINGS_FAIL,
+    error
+  };
+}
+
+export function getWithdrawalListRequestsAction() {
+  return {
+    type: GET_ALL_WITHDRAWAL_REQUESTS
+  };
+}
+
+export function getWithdrawalListRequestsSuccessAction(data) {
+  return {
+    type: GET_ALL_WITHDRAWAL_REQUESTS_SUCCESS,
+    data
+  };
+}
+
+export function getWithdrawalListRequestsFailAction(error) {
+  return {
+    type: GET_ALL_WITHDRAWAL_REQUESTS_FAIL,
     error
   };
 }
