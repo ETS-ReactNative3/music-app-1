@@ -67,7 +67,7 @@ function getEarnings() {
 }
 
 function getWithdrawalRequests() {
-  return axiosInstance().get('/influencers/withdrawal/myRequests');
+  return axiosInstance().get('/influencers/my/withdrawal');
 }
 
 function getWithdrawalRequestList() {
