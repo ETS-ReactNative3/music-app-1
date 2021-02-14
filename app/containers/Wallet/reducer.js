@@ -15,7 +15,8 @@ import {
   SAVE_PAYMENT_HISTORY,
   SUBMIT_WITHDRAWAL_AMOUNT_FAIL,
   SUBMIT_WITHDRAWAL_AMOUNT_REQUEST,
-  SUBMIT_WITHDRAWAL_AMOUNT_SUCCESS
+  SUBMIT_WITHDRAWAL_AMOUNT_SUCCESS,
+  GET_ALL_WITHDRAWAL_REQUESTS_SUCCESS
 } from './constants';
 
 export const initialState = {
@@ -25,7 +26,8 @@ export const initialState = {
   buttonLoader: false,
   requestButtonLoader: false,
   withdrawalRequests: [],
-  earnings: []
+  earnings: [],
+  withdrawalList: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -64,6 +66,9 @@ const walletReducer = (state = initialState, action) =>
         break;
       case GET_EARNINGS_SUCCESS:
         draft.earnings = action.data;
+        break;
+      case GET_ALL_WITHDRAWAL_REQUESTS_SUCCESS:
+        draft.withdrawalList = action.list;
         break;
     }
   });

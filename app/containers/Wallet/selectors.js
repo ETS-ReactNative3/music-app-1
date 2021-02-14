@@ -53,6 +53,12 @@ const makeSelectEarnings = () =>
     substate => substate.earnings,
   );
 
+const makeSelectWithdrawalList = () =>
+  createSelector(
+    selectWalletDomain,
+    substate => substate.withdrawalList,
+  );
+
 export {
   selectWalletDomain,
   makeSelectPaymentHistory,
@@ -61,5 +67,6 @@ export {
   makeSelectWallet,
   makeSelectRequestButtonLoader,
   makeSelectWithdrawalRequests,
-  makeSelectEarnings
+  makeSelectEarnings,
+  makeSelectWithdrawalList
 };

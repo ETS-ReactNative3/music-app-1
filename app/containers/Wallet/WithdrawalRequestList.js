@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
@@ -8,14 +8,166 @@ import {useInjectReducer} from "../../utils/injectReducer";
 import {useInjectSaga} from "../../utils/injectSaga";
 import reducer from "./reducer";
 import saga from "./saga";
+import {getWithdrawalListRequestsAction, payWithdrawalRequestAction} from "./actions";
+import format from "date-fns/format";
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import {makeSelectWithdrawalList} from "./selectors";
+import filterFactory, {textFilter} from "react-bootstrap-table2-filter";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
-const WithdrawalRequestList = () => {
+const WithdrawalRequestList = ({getWithdrawalList, withdrawalList, payRequest}) => {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
 
+  const [tastemaker, setTastemaker] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    getWithdrawalList();
+  }, [])
+
+  const columns = [
+    {
+      dataField: 'influencer.name',
+      text: 'Tastemaker Name',
+    },
+    {
+      dataField: 'amount',
+      text: 'Amount',
+    },
+    {
+      dataField: 'influencerWithdrawalStatus.name',
+      text: 'Status',
+      filter: textFilter()
+    },
+    {
+      dataField: 'createdDate',
+      text: 'Created Date',
+      formatter: dateFormatter,
+    },
+    {
+      dataField: 'actions',
+      text: 'Actions',
+      isDummyField: true,
+      csvExport: false,
+      formatter: actionsFormatter,
+    },
+  ];
+
+  function dateFormatter(cell, row, rowIndex, formatExtraData) {
+    return format(new Date(row.createdDate), 'MM/dd/yyyy HH:mm');
+  }
+
+  function actionsFormatter(cell, row, rowIndex, formatExtraData) {
+    return (
+      <div
+        style={{
+          textAlign: 'center',
+          cursor: 'pointer',
+          lineHeight: 'normal',
+        }}
+      >
+        <button
+          className="btn btn-danger"
+          onClick={() => handleClickOpen(row)}
+        >
+          <FontAwesomeIcon icon={faUser}/>
+        </button>
+      </div>
+    );
+  }
+
+  function handleClickOpen(row) {
+    setTastemaker(row);
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function handlePaidAction() {
+    payRequest({id: tastemaker.id});
+    setOpen(false);
+    setTastemaker(null);
+  }
+
   return (
     <PaperCard title="Withdrawal Requests">
-      asd
+      <BootstrapTable
+        striped
+        hover
+        bordered={false}
+        bootstrap4
+        pagination={paginationFactory()}
+        filter={filterFactory()}
+        keyField="id"
+        data={withdrawalList}
+        columns={columns}
+      />
+      <Modal
+        show={open}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Tastemaker details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {tastemaker &&
+          <div>
+            <div>
+              Name: {tastemaker.influencer.name}
+            </div>
+            <div>
+              Amount: {tastemaker.amount}
+            </div>
+            <div>
+              Status: {tastemaker.influencerWithdrawalStatus.name}
+            </div>
+            <div>
+              Withdrawal Method:
+            </div>
+            <div>
+              beneficiaryName: {tastemaker.influencerWithdrawalMethods.beneficiaryName}
+            </div>
+            {tastemaker.influencerWithdrawalMethods.accountNumber && <div>
+              Account Number: {tastemaker.influencerWithdrawalMethods.accountNumber}
+            </div>}
+            {tastemaker.influencerWithdrawalMethods.iban && <div>
+              IBAN: {tastemaker.influencerWithdrawalMethods.iban}
+            </div>}
+            {tastemaker.influencerWithdrawalMethods.paypalEmail && <div>
+              Paypal Email: {tastemaker.influencerWithdrawalMethods.paypalEmail}
+            </div>}
+            {tastemaker.influencerWithdrawalMethods.swift && <div>
+              Swift: {tastemaker.influencerWithdrawalMethods.swift}
+            </div>}
+            {tastemaker.influencerWithdrawalMethods.walletId && <div>
+              Wallet Id: {tastemaker.influencerWithdrawalMethods.walletId}
+            </div>}
+            {tastemaker.paidDate && <div>
+              Paid: {format(new Date(tastemaker.paidDate), 'MM/dd/yyyy HH:mm')}
+            </div>}
+          </div>
+          }
+        </Modal.Body>
+        <Modal.Footer>
+          {tastemaker && !tastemaker.paidDate &&
+          <Button variant="primary" onClick={handlePaidAction}>
+            Paid
+          </Button>
+          }
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </PaperCard>
   )
 }
@@ -24,10 +176,15 @@ WithdrawalRequestList.propTypes = {
   userCredit: PropTypes.any,
 };
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  withdrawalList: makeSelectWithdrawalList(),
+});
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    getWithdrawalList: () => dispatch(getWithdrawalListRequestsAction()),
+    payRequest: (data) => dispatch(payWithdrawalRequestAction(data)),
+  };
 }
 
 const withConnect = connect(

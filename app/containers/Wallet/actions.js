@@ -28,7 +28,10 @@ import {
   GET_EARNINGS_SUCCESS,
   GET_EARNINGS_FAIL,
   GET_ALL_WITHDRAWAL_REQUESTS,
-  GET_ALL_WITHDRAWAL_REQUESTS_SUCCESS, GET_ALL_WITHDRAWAL_REQUESTS_FAIL
+  GET_ALL_WITHDRAWAL_REQUESTS_SUCCESS,
+  GET_ALL_WITHDRAWAL_REQUESTS_FAIL,
+  PAY_WITHDRAWAL_REQUESTS,
+  PAY_WITHDRAWAL_REQUESTS_SUCCESS, PAY_WITHDRAWAL_REQUESTS_FAIL
 } from './constants';
 
 export function createPaymentRequestAction(id) {
@@ -192,16 +195,36 @@ export function getWithdrawalListRequestsAction() {
   };
 }
 
-export function getWithdrawalListRequestsSuccessAction(data) {
+export function getWithdrawalListRequestsSuccessAction(list) {
   return {
     type: GET_ALL_WITHDRAWAL_REQUESTS_SUCCESS,
-    data
+    list
   };
 }
 
 export function getWithdrawalListRequestsFailAction(error) {
   return {
     type: GET_ALL_WITHDRAWAL_REQUESTS_FAIL,
+    error
+  };
+}
+
+export function payWithdrawalRequestAction(data) {
+  return {
+    type: PAY_WITHDRAWAL_REQUESTS,
+    data
+  };
+}
+
+export function payWithdrawalRequestSuccessAction() {
+  return {
+    type: PAY_WITHDRAWAL_REQUESTS_SUCCESS,
+  };
+}
+
+export function payWithdrawalRequestFailAction(error) {
+  return {
+    type: PAY_WITHDRAWAL_REQUESTS_FAIL,
     error
   };
 }
