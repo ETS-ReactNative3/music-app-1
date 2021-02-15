@@ -24,6 +24,7 @@ import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
 import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
+import Library from '../Library';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -151,6 +152,9 @@ function Application() {
         </PrivateRoute>
         <PrivateRoute path="/admin/tastemakers/withdrawal/requests" exact>
           <WithdrawalRequestList/>
+        </PrivateRoute>
+        <PrivateRoute path="/library" exact>
+          <Library/>
         </PrivateRoute>
       </Switch>
     </Dashboard>
