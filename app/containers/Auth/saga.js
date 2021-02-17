@@ -25,7 +25,7 @@ import history from '../../utils/history';
 import {setRole} from '../App/actions';
 import request from '../../utils/request';
 
-const url = 'https://bliiink.ga';
+const url = 'https://staging.bliiink.ga';
 
 function loginApi(authParams) {
   return request(`${url}/auth/login`, {
