@@ -14,7 +14,7 @@ export function axiosInstance() {
 
   return axios.create({
     // baseURL: 'http://localhost:3006/',
-    baseURL: 'https://bliiink.ga/',
+    baseURL: 'https://staging.bliiink.ga/',
     headers,
   });
 }
