@@ -243,7 +243,7 @@ export function Tastemaker(
                             <Card.Title className="text-truncate cursor-pointer" onClick={() => {
                               handleOpen(item);
                             }}>
-                              {item.name}
+                              {item.influencer.name}
                             </Card.Title>
                             <Card.Text className=" music-card__desc">
                               {item.influencer.description}
