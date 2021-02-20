@@ -129,7 +129,7 @@ const Details = (
             }
           }}
         >
-          Verify this influencer
+          Accept
           {verifySubmitting && <Spinner animation="border" />}
         </Button>
         <Button
