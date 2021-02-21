@@ -28,14 +28,13 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
                   </div>
                   <div className="song-profile px-1">
                     <div className="song-img">
-                      <img src={ele.artwork} alt="" className="rounded"/>
+                      <img src={ele.albumSongs[0].album.artwork} alt="" className="rounded"/>
                     </div>
                   </div>
                   <div className="song-title px-1">
                     <h5>{ele.title}</h5>
-                    <h6>{ele.artist}</h6>
+                    <h6>{ele.user.name}</h6>
                   </div>
-                  <div className="song-duration px-1 ml-auto">4:25</div>
                   <div className="song-action px-1 ml-auto">
                   <span
                     className="cursor-pointer"

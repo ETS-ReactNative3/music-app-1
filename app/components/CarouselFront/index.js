@@ -7,6 +7,7 @@ import {HOVER_PLAY_ICON_COLOR} from '../../utils/constants';
 import {redirectOnAlbum} from '../../utils/redirect'
 import './index.scss';
 import LoadingIndicator from "../LoadingIndicator";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 const CarouselFront = props => {
   const {list, heading, clasess = '', loading} = props;
@@ -48,7 +49,13 @@ const CarouselFront = props => {
                 </div>
                 <div className="pt-4">
                   <h4>{ele.title}</h4>
-                  <h6>{ele.description}</h6>
+                  {ele.description.length > 45 ? <OverlayTrigger
+                      placement="top"
+                      delay={{show: 250, hide: 400}}
+                      overlay={<Tooltip id={`song-title-tooltip`}>{ele.description}</Tooltip>}
+                    ><h6>{ele.description.substring(0, 45)}...</h6></OverlayTrigger> :
+                    <h6>{ele.description}</h6>
+                  }
                 </div>
               </div>
             );
