@@ -33,16 +33,16 @@ const Footer = props => {
   }, [currentSong]);
 
   const handleClickPrevious = () => {
-    const songIndex = playlist.findIndex(item => item.songId === currentSong.songData.id)
+    const songIndex = playlist.findIndex(item => item.song.id === currentSong.songData.id)
     if (songIndex !== 0) {
-      onHandleSingleSong(playlist[songIndex - 1].songId, true);
+      onHandleSingleSong(playlist[songIndex - 1].song.id, true);
     }
   };
 
   const handleClickNext = () => {
-    const songIndex = playlist.findIndex(item => item.songId === currentSong.songData.id)
+    const songIndex = playlist.findIndex(item => item.song.id === currentSong.songData.id)
     if (songIndex < (playlist.length - 1)) {
-      onHandleSingleSong(playlist[songIndex + 1].songId, true);
+      onHandleSingleSong(playlist[songIndex + 1].song.id, true);
     }
   };
 
