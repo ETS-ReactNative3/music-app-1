@@ -63,7 +63,7 @@ function SongForm({genres, formSubmit, song, formLoader}) {
           </Form.Group>
           <Form.Group as={Col} controlId="formGridDescription">
             <label htmlFor="email">Description</label>
-            <input
+            <textarea
               name="description"
               placeholder="Enter song description"
               className={`form-control ${errors.description ? 'is-invalid' : ''}`}

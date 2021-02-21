@@ -67,16 +67,6 @@
   }
 }
 
-@media (min-width: 1200px) {
-  .song-title {
-    flex-basis: 280px;
-    max-width: 280px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-}
-
 .highLightSong {
   background-color: #041E3F;
 }

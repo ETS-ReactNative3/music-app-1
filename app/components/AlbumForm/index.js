@@ -36,7 +36,6 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
     resolver: yupResolver(validationSchema)
   });
 
-  console.log(getValues());
   const customStyles = {
     option: provided => ({
       ...provided,
@@ -89,7 +88,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
           </Form.Group>
           <Form.Group as={Col} controlId="formGridCaption">
             <label htmlFor="caption">Caption</label>
-            <input
+            <textarea
               name="caption"
               placeholder="Enter album caption"
               className={`form-control ${errors.caption ? 'is-invalid' : ''}`}
@@ -103,7 +102,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
         <Form.Row>
           <Form.Group as={Col} controlId="formGridDescription">
             <label htmlFor="email">Description</label>
-            <input
+            <textarea
               name="description"
               placeholder="Enter album description"
               className={`form-control ${errors.description ? 'is-invalid' : ''}`}
