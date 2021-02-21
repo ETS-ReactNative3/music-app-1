@@ -14,7 +14,7 @@ import {
   makeSelectCurrentSong,
   makeSelectRole,
 } from '../App/selectors';
-import {handleSongPlaying, handleSingleSong} from '../App/actions';
+import {handleSongPlaying, handleSingleSong, setPlaylist} from '../App/actions';
 import {
   createPlaylistandAddSong,
   getMyPlaylist,
@@ -73,7 +73,8 @@ const Album = props => {
     loader,
     role,
     getNewReleasesAction,
-    newReleasesLoading
+    newReleasesLoading,
+    setPlaylistAction
   } = props;
 
   useEffect(() => {
@@ -88,11 +89,13 @@ const Album = props => {
   }, [query]);
 
   const playAllSongsHandler = () => {
-    onHandleSingleSong(playlist[0].songId, !currentSong.playing);
+    setPlaylistAction(albumInfo.albumSongs)
+    onHandleSingleSong(playlist[0].song.id, !currentSong.playing);
     onHandleSongPlaying(!currentSong.playing);
   };
 
   const singleSongHandler = songId => {
+    setPlaylistAction(albumInfo.albumSongs)
     const status = currentSong.songData.id === songId ? !currentSong.playing : true;
     onHandleSingleSong(songId, status);
   };
@@ -241,6 +244,7 @@ export function mapDispatchToProps(dispatch) {
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
     getNewReleasesAction: () => dispatch(getNewReleases()),
+    setPlaylistAction: (songs) => dispatch(setPlaylist(songs))
   };
 }
 
