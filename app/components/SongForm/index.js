@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
+import {useForm, Controller} from 'react-hook-form';
 import {Form} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
+
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import './index.scss';
 
 function SongForm({genres, formSubmit, song, formLoader}) {
   const [audio, setAudio] = useState({audioFile: ""})
@@ -32,7 +36,7 @@ function SongForm({genres, formSubmit, song, formLoader}) {
 
   useEffect(() => {
     if (song) {
-      song.releaseDate = new Date(song.releaseDate).toISOString().split('T')[0]
+      song.releaseDate = new Date(song.releaseDate)
       reset(song);
     }
   }, [song]);
@@ -91,8 +95,29 @@ function SongForm({genres, formSubmit, song, formLoader}) {
           </Form.Group>
           <Form.Group as={Col} controlId="formGridGenre">
             <label htmlFor="releaseDate">Release Date</label>
-            <input name="releaseDate" type="date" ref={register}
-                   className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}/>
+            <Controller
+              dateFormat={'dd/MM/yyyy'}
+              name="releaseDate"
+              control={control}
+              render={({ onChange, value }) => (
+                <DatePicker
+                  popperPlacement="top-start"
+                  popperModifiers={{
+                    flip: {
+                      behavior: ["top-start"] // don't allow it to flip to be above
+                    },
+                    preventOverflow: {
+                      enabled: false // tell it not to try to stay within the view (this prevents the popper from covering the element you clicked)
+                    },
+
+                  }}
+                  className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}
+                  selected={value}
+                  style={{ flex: 1 }}
+                  onChange={onChange}
+                />
+              )}
+            />
             <div className="invalid-feedback">
               {errors.releaseDate && errors.releaseDate.message}
             </div>
