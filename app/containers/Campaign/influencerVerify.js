@@ -1,28 +1,28 @@
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
-import React, {memo} from 'react';
+import React, { memo } from 'react';
 import {
   faFacebook,
   faInstagram,
   faTwitter,
   faYoutube,
-  faBlog,
 } from '@fortawesome/free-brands-svg-icons';
+import { faBlog } from '@fortawesome/free-solid-svg-icons';
 import LoadingIndicator from 'components/LoadingIndicator';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Button, FormControl, Image, Spinner, Col, Row} from 'react-bootstrap';
-import {connect} from 'react-redux';
-import {Link, withRouter} from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import PaperCard from '../../components/PaperCard';
-import {toast} from 'react-toastify';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { toast } from 'react-toastify';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import defaultImage from '../../images/album-3.jpg';
-import {useInjectReducer} from '../../utils/injectReducer';
-import {useInjectSaga} from '../../utils/injectSaga';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
 import albumReducer from '../Album/reducer';
-import {CampaignStatus} from '../Requests/constants';
+import { CampaignStatus } from '../Requests/constants';
 import requestReducer from '../Requests/reducer';
 import requestSaga from '../Requests/saga';
 import {
@@ -40,6 +40,7 @@ import {
   makeSelectReviewSubmitting,
   makeSelectVerifySubmitting,
 } from './selectors';
+import './index.scss';
 
 const Details = (
   {
@@ -54,11 +55,11 @@ const Details = (
     verifySubmitting,
     declineSubmitting
   }) => {
-  useInjectReducer({key: 'campaign', reducer});
-  useInjectReducer({key: 'request', reducer: requestReducer});
-  useInjectSaga({key: 'campaign', saga});
-  useInjectSaga({key: 'request', saga: requestSaga});
-  useInjectReducer({key: 'album', reducer: albumReducer});
+  useInjectReducer({ key: 'campaign', reducer });
+  useInjectReducer({ key: 'request', reducer: requestReducer });
+  useInjectSaga({ key: 'campaign', saga });
+  useInjectSaga({ key: 'request', saga: requestSaga });
+  useInjectReducer({ key: 'album', reducer: albumReducer });
 
   const [rating, setRating] = React.useState(0);
   const [feedback, setFeedback] = React.useState('');
@@ -79,6 +80,8 @@ const Details = (
     }
   }, [match.params.influencerId && selectedCampaign]);
 
+
+  console.log(selectedInfluencer)
   React.useEffect(() => {
     fetchCampaigns();
     getSelectedCampaign(match.params.id);
@@ -88,7 +91,7 @@ const Details = (
     if (selectedInfluencer.campaignStatusId === CampaignStatus.DECLINED) {
       return (
         <>
-          <hr className="my-4 blick-border__danger"/>
+          <hr className="my-4 blick-border__danger" />
           <div className="text-danger">You Already declined this request!!</div>
         </>
       );
@@ -96,7 +99,7 @@ const Details = (
     if (selectedInfluencer.campaignStatusId === CampaignStatus.APPROVED) {
       return (
         <>
-          <hr className="my-4 blick-border"/>
+          <hr className="my-4 blick-border" />
           <div className="text-success">
             You already verified this request!!
           </div>
@@ -126,8 +129,8 @@ const Details = (
             }
           }}
         >
-          Verify this influencer
-          {verifySubmitting && <Spinner animation="border"/>}
+          Accept
+          {verifySubmitting && <Spinner animation="border" />}
         </Button>
         <Button
           variant="danger"
@@ -140,7 +143,7 @@ const Details = (
           }}
         >
           Decline
-          {declineSubmitting && <Spinner animation="border"/>}
+          {declineSubmitting && <Spinner animation="border" />}
 
         </Button>
       </div>
@@ -149,12 +152,12 @@ const Details = (
 
   return (
     <>
-      {loading ? <LoadingIndicator/> : <PaperCard title="Campaign Influencer Verification">
+      {loading ? <LoadingIndicator /> : <PaperCard title="Campaign Influencer Verification">
         <small className="d-flex align-items-center">
           <Link className="mr-1 text-warning" to="/campaigns">Campaigns</Link> {'>'} <Link className="mx-1 text-warning"
-                                                                                           to={`/campaigns/${selectedCampaign.id}`}>Campaigns
-          Details</Link> {'>'} <Link className="ml-1" style={{pointerEvents: 'none', opacity: 0.6, color: '#fff'}}
-                                     to={''}>Campaign Influencer Verification</Link>
+            to={`/campaigns/${selectedCampaign.id}`}>Campaigns
+          Details</Link> {'>'} <Link className="ml-1" style={{ pointerEvents: 'none', opacity: 0.6, color: '#fff' }}
+            to={''}>Campaign Influencer Verification</Link>
         </small>
         <Row className="mt-5">
           <Col md={12}>
@@ -167,7 +170,7 @@ const Details = (
                   transform: 'translate(-50%, -50%)',
                 }}
               >
-                <Spinner animation="border"/>
+                <Spinner animation="border" />
               </div>
             )}
             {selectedInfluencer && selectedInfluencer.influencer && (
@@ -190,7 +193,7 @@ const Details = (
                 <div className="ml-3">
                   {(selectedInfluencer.influencer.user &&
                     selectedInfluencer.influencer.user.name) ||
-                  ''}
+                    ''}
                   <small className="text-muted d-block">
                     {selectedInfluencer.influencer.description}
                   </small>
@@ -198,72 +201,171 @@ const Details = (
                     {selectedInfluencer.influencer.helpArtistDescription}
                   </small>
                   <small className="d-flex align-items-center">
-                    {selectedInfluencer.campaignInfluencerServices &&
+                    {/* {selectedInfluencer.campaignInfluencerServices &&
                     selectedInfluencer.campaignInfluencerServices.map(
                       service => {
+                        if (service.response)
                         switch (service.socialChannelsId) {
                           case 1:
                             return (
-                              <Link to={service.response}>
+                              <a target={'_blank'} href={(service.response.includes('https')  || service.response.includes('http') )? service.response : `https://${service.response}`}>
                                 <FontAwesomeIcon
                                   size="1x"
                                   icon={faFacebook}
                                   style={{marginLeft: 5}}
                                 />
-                              </Link>
+                              </a>
                             );
                           case 2:
                             return (
-                              <Link to={service.response}>
+                              <a target={'_blank'} href={(service.response.includes('https')  || service.response.includes('http') )? service.response : `https://${service.response}`}>
                                 <FontAwesomeIcon
                                   size="1x"
                                   icon={faTwitter}
                                   style={{marginLeft: 5}}
                                 />
-                              </Link>
+                              </a>
                             );
                           case 3:
                             return (
-                              <Link to={service.response}>
+                              <a target={'_blank'} href={(service.response.includes('https')  || service.response.includes('http') )? service.response : `https://${service.response}`}>
                                 <FontAwesomeIcon
                                   size="1x"
                                   icon={faInstagram}
                                   style={{marginLeft: 5}}
                                 />
-                              </Link>
+                              </a>
                             );
                           case 4:
                             return (
-                              <Link to={service.response}>
+                              <a target={'_blank'} href={(service.response.includes('https')  || service.response.includes('http') )? service.response : `https://${service.response}`}>
                                 <FontAwesomeIcon
                                   size="1x"
                                   icon={faYoutube}
                                   style={{marginLeft: 5}}
                                 />
-                              </Link>
+                              </a>
                             );
                           case 5:
                             return (
-                              <Link to={service.response}>
+                              <a target={'_blank'} href={(service.response.includes('https')  || service.response.includes('http') )? service.response : `https://${service.response}`}>
                                 <FontAwesomeIcon
                                   size="1x"
                                   icon={faBlog}
                                   style={{marginLeft: 5}}
                                 />
-                              </Link>
+                              </a>
                             );
                           default:
                             return <></>;
                         }
                       },
-                    )}
+                    )} */}
                   </small>
                 </div>
               </div>
             )}
           </Col>
         </Row>
-        <hr className="my-4 blick-border"/>
+        <hr className="my-4 blick-border" />
+        <Row>
+          <Col>
+            Links Submitted:
+            <div style={{ flexDirection: 'column' }}>
+              {selectedInfluencer.campaignInfluencerServices &&
+                selectedInfluencer.campaignInfluencerServices.map(
+                  service => {
+                    if (service.response)
+                      switch (service.socialChannelsId) {
+                        case 1:
+                          return (
+                            <div className="service_response_parent">
+                              <FontAwesomeIcon
+                                size="1x"
+                                icon={faFacebook}
+                                style={{ marginLeft: 5 }}
+                              />
+                          &nbsp;
+                          Facebook:
+                          &nbsp;
+                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
+                                {service.response}
+                              </a>
+                            </div>
+                          );
+                        case 2:
+                          return (
+                            <div className="service_response_parent">
+                              <FontAwesomeIcon
+                                size="1x"
+                                icon={faTwitter}
+                                style={{ marginLeft: 5 }}
+                              />
+                            &nbsp;
+                            Twitter:
+                            &nbsp;
+                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
+                                {service.response}
+                              </a>
+                            </div>
+                          );
+                        case 3:
+                          return (
+                            <div className="service_response_parent">
+                              <FontAwesomeIcon
+                                size="1x"
+                                icon={faInstagram}
+                                style={{ marginLeft: 5 }}
+                              />
+                            &nbsp;
+                            Instagram:
+                            &nbsp;
+                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
+                                {service.response}
+                              </a>
+                            </div>
+                          );
+                        case 4:
+                          return (
+                            <div className="service_response_parent">
+                              <FontAwesomeIcon
+                                size="1x"
+                                icon={faYoutube}
+                                style={{ marginLeft: 5 }}
+                              />
+                            &nbsp;
+                            Youtube:
+                            &nbsp;
+                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
+                                {service.response}
+                              </a>
+                            </div>
+                          );
+                        case 5:
+                          return (
+                            <div className="service_response_parent">
+                              <FontAwesomeIcon
+                                size="1x"
+                                icon={faBlog}
+                                style={{ marginLeft: 5 }}
+                              />
+                            &nbsp;
+                            Blog:
+                            &nbsp;
+                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
+                                {service.response}
+                              </a>
+                            </div>
+                          );
+                        default:
+                          return <></>;
+                      }
+                  },
+                )}
+            </div>
+          </Col>
+        </Row>
+        <hr className="my-4 blick-border" />
         <Row>
           <Col>
             Feedback
@@ -272,49 +374,49 @@ const Details = (
             </small>
           </Col>
         </Row>
-        <hr className="my-4 blick-border"/>
+        <hr className="my-4 blick-border" />
         <Row>
           <Col>
             {((selectedInfluencer.ratings &&
               selectedInfluencer.ratings.length > 0) || (selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED)) &&
-            <div>Review</div>}
+              <div>Review</div>}
             <small className="mb-2 d-block">
               {selectedInfluencer.ratings &&
-              selectedInfluencer.ratings.length > 0 ? (
-                <StarRatings
-                  rating={selectedInfluencer.ratings[0].rating}
-                  starRatedColor="yellow"
-                  numberOfStars={5}
-                  starDimension="15px"
-                  name="rating"
-                />
-              ) : selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED && (
-                <StarRatings
-                  rating={rating}
-                  starRatedColor="blue"
-                  changeRating={value => {
-                    setRating(value);
-                  }}
-                  numberOfStars={5}
-                  starDimension="30px"
-                  name="rating"
-                />
-              )}
+                selectedInfluencer.ratings.length > 0 ? (
+                  <StarRatings
+                    rating={selectedInfluencer.ratings[0].rating}
+                    starRatedColor="yellow"
+                    numberOfStars={5}
+                    starDimension="15px"
+                    name="rating"
+                  />
+                ) : selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED && (
+                  <StarRatings
+                    rating={rating}
+                    starRatedColor="blue"
+                    changeRating={value => {
+                      setRating(value);
+                    }}
+                    numberOfStars={5}
+                    starDimension="30px"
+                    name="rating"
+                  />
+                )}
             </small>
             {selectedInfluencer.reviews &&
-            selectedInfluencer.reviews.length > 0 ? (
-              <small className="text-muted d-block">
-                {selectedInfluencer.reviews[0].review}
-              </small>
-            ) : selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED && (
-              <FormControl
-                as="textarea"
-                className="bg-transparent text-white"
-                aria-label="With textarea"
-                placeholder="Enter feedback here"
-                onChange={value => setFeedback(value.target.value)}
-              />
-            )}
+              selectedInfluencer.reviews.length > 0 ? (
+                <small className="text-muted d-block">
+                  {selectedInfluencer.reviews[0].review}
+                </small>
+              ) : selectedInfluencer.campaignStatusId !== CampaignStatus.DECLINED && (
+                <FormControl
+                  as="textarea"
+                  className="bg-transparent text-white"
+                  aria-label="With textarea"
+                  placeholder="Enter feedback here"
+                  onChange={value => setFeedback(value.target.value)}
+                />
+              )}
           </Col>
         </Row>
         <Row>
@@ -354,10 +456,10 @@ function mapDispatchToProps(dispatch) {
         verifyCampaignAction(campaignsId, influencerId, rating, feedback),
       ),
     declineCampaign: (campaignsId,
-                      influencerId,
-                      campaignInfluencerId,
-                      rating,
-                      feedback) =>
+      influencerId,
+      campaignInfluencerId,
+      rating,
+      feedback) =>
       dispatch(declineCampaignAction(campaignsId,
         influencerId,
         campaignInfluencerId,
