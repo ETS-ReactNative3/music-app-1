@@ -51,7 +51,7 @@ const Footer = props => {
   };
 
   const footerText = (
-    <div className="row mr-3">
+    <div className="row mr-2">
       <div className="col-auto">
         <img
           src={currentSong.songData.artwork}
@@ -61,7 +61,7 @@ const Footer = props => {
           className="rounded"
         />
       </div>
-      <div className="col-5 song-title">
+      <div className="col-auto song-title">
         <OverlayTrigger
           placement="top"
           delay={{show: 250, hide: 400}}

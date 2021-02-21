@@ -37,7 +37,6 @@ const makeSelectGenres = () =>
   createSelector(
     selectSongDomain,
     substate => {
-      console.log('selector', substate);
       return substate.genres;
     },
   );

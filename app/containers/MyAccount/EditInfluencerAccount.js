@@ -234,7 +234,7 @@ const EditInfluencerAccount = ({
             <Form.Row>
               <Form.Group as={Col} controlId="formGridDiscription">
                 <label htmlFor="description">Description</label>
-                <input
+                <textarea
                   name="description"
                   placeholder="Description"
                   className={`form-control ${
