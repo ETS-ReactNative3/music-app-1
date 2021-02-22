@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {useForm, Controller} from 'react-hook-form';
-import {Form} from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Form } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
-
+import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
 
-function SongForm({genres, formSubmit, song, formLoader}) {
-  const [audio, setAudio] = useState({audioFile: ""})
+function SongForm({ genres, formSubmit, song, formLoader, moods }) {
+  const [audio, setAudio] = useState({ audioFile: "" })
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -30,13 +30,14 @@ function SongForm({genres, formSubmit, song, formLoader}) {
     }
   };
 
-  const {register, handleSubmit, errors, reset, control} = useForm({
+  const { register, handleSubmit, errors, reset, control } = useForm({
     resolver: yupResolver(validationSchema)
   });
 
   useEffect(() => {
     if (song) {
       song.releaseDate = new Date(song.releaseDate)
+      song.moods = song.songMoods.map(moods => moods.moods)
       reset(song);
     }
   }, [song]);
@@ -44,7 +45,22 @@ function SongForm({genres, formSubmit, song, formLoader}) {
   const onSubmit = data => {
     formSubmit(data);
   };
-
+  const customStyles = {
+    option: provided => ({
+      ...provided,
+      color: 'black',
+    }),
+    control: provided => ({
+      ...provided,
+      color: 'black',
+      backgroundColor: '#020f1f'
+    }),
+    singleValue: provided => ({
+      ...provided,
+      color: 'black',
+    }),
+    menu: provided => ({ ...provided, zIndex: 9999 }),
+  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -123,6 +139,25 @@ function SongForm({genres, formSubmit, song, formLoader}) {
             </div>
           </Form.Group>
         </Form.Row>
+        <Form.Row >
+          <Form.Group as={Col} controlId="formGridMood" style={{ flex: 0.5, marginRight: 10 }}>
+            <label htmlFor="email">Moods</label>
+            <Controller
+              name="moods"
+              styles={customStyles}
+              control={control}
+              isMulti
+              isClearable
+              getOptionLabel={option => option.title}
+              getOptionValue={option => option.id}
+              options={moods}
+              as={Select}
+            />
+            <div className="invalid-feedback">
+              {errors.moods && errors.moods.message}
+            </div>
+          </Form.Group>
+        </Form.Row>
         <Form.Row>
           <Form.Group as={Col} controlId="fileGridGenre">
             <label htmlFor="inputGroupFile02">Audio</label>
@@ -140,7 +175,7 @@ function SongForm({genres, formSubmit, song, formLoader}) {
                   ref={register}
                   onChange={handleAudioChange}
                   id="inputGroupFile02"
-                  aria-describedby="inputGroupFileAddon02"/>
+                  aria-describedby="inputGroupFileAddon02" />
                 <label className="custom-file-label" htmlFor="inputGroupFile02">Choose file</label>
               </div>
               <div className="invalid-feedback-block">
@@ -150,20 +185,20 @@ function SongForm({genres, formSubmit, song, formLoader}) {
             {audio.audioFile && (
               <div className="mt-3">
                 <audio controls>
-                  <source src={audio.audioFile}/>
+                  <source src={audio.audioFile} />
                 </audio>
               </div>
             )}
             {song && song.url && !audio.audioFile && (
               <div className="mt-3">
                 <audio controls>
-                  <source src={song.url}/>
+                  <source src={song.url} />
                 </audio>
               </div>
             )}
           </Form.Group>
         </Form.Row>
-        {formLoader ? <ButtonLoader/> :
+        {formLoader ? <ButtonLoader /> :
           <button className="btn btn-primary btn-block" type="submit">
             Submit
           </button>

@@ -7,6 +7,7 @@ import {
   getSongRequestSuccess,
   postSongRequestFail,
   postSongRequestSuccess,
+  saveMoodListAction,
   songRequest,
   songRequestFail,
   songRequestSuccess,
@@ -20,7 +21,7 @@ import {
   GET_SONG_REQUEST,
   GET_SONGS_REQUEST,
   POST_SONG_REQUEST, UPDATE_SONG_REQUEST,
-  UPLOAD_SONG_REQUEST,
+  UPLOAD_SONG_REQUEST, GET_MOOD_LIST
 } from './constants';
 import history from '../../utils/history';
 import {toast} from "react-toastify";
@@ -47,6 +48,11 @@ function postSong(data) {
 
 function fetchGenres() {
   return axiosInstance().get('/songs/genres');
+}
+
+
+function fetchMoods() {
+  return axiosInstance().get('/songs/moods');
 }
 
 function editSong(data) {
@@ -128,7 +134,8 @@ export function* updateSongSaga({data}) {
       title: data.title,
       description: data.description,
       genreId: data.genreId,
-      releaseDate: data.releaseDate
+      releaseDate: data.releaseDate,
+      moods: data.moods
     }
     if (data.audio.length !== 0) {
       const result = yield call(postSongApi, data);
@@ -156,6 +163,16 @@ export function* getGenresSaga() {
   }
 }
 
+
+export function* getMoodsSaga() {
+  try {
+    const result = yield call(fetchMoods);
+    yield put(saveMoodListAction(result.data));
+  } catch (e) {
+    // toast.error(e.message);
+  }
+}
+
 export default function* watchSong() {
   yield takeLatest(GET_SONGS_REQUEST, fetchSongs);
   yield takeLatest(UPLOAD_SONG_REQUEST, uploadSong);
@@ -164,4 +181,5 @@ export default function* watchSong() {
   yield takeLatest(POST_SONG_REQUEST, saveSongSaga);
   yield takeLatest(UPDATE_SONG_REQUEST, updateSongSaga);
   yield takeLatest(GET_GENRES, getGenresSaga);
+  yield takeLatest(GET_MOOD_LIST, getMoodsSaga);
 }

@@ -19,8 +19,9 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
       .required('Caption is required'),
     description: Yup.string()
       .required('Description is required'),
-    genreId: Yup.string()
-      .required('Genre is required'),
+    albumGenres:  Yup.array()
+    .required('Genre is required')
+    .nullable(),
     songs: Yup.array(Yup.object({ value: Yup.string() })).required('Songs are required'),
   });
 
@@ -35,6 +36,8 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
   const { register, handleSubmit, errors, reset, control, setValue, getValues } = useForm({
     resolver: yupResolver(validationSchema)
   });
+  
+  console.log(errors);
 
   const customStyles = {
     option: provided => ({
@@ -53,7 +56,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
   }
 
   useEffect(() => {
-    if (album && songList) {
+    if (album && songList && genres) {
       // To set songs
       const albumSongList = album.albumSongs.map(song => song.songId);
       const songs = albumSongList.map(s => {
@@ -62,9 +65,18 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
       // To set releaseDate
       album.releaseDate = new Date(album.releaseDate)
       album.copyRightDate = new Date(album.copyRightDate)
-      reset({ ...album, songs });
+
+      const tempFullGenre = [];
+      album.albumGenres.map(generToSearch => {
+        const index = genres.findIndex(
+          genre => genre.id === generToSearch.genreId,
+        );
+        if (index !== -1) tempFullGenre.push(genres[index]);
+        return true;
+      });
+      reset({ ...album, songs, albumGenres: tempFullGenre });
     }
-  }, [album, songList]);
+  }, [album, songList, genres]);
 
   const onSubmit = data => {
     formSubmit(data);
@@ -129,20 +141,19 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
         <Form.Row>
           <Form.Group as={Col} controlId="formGridGenre">
             <label htmlFor="email">Genre</label>
-            <select
-              name="genreId"
-              ref={register}
-              className={`form-control ${errors.genreId ? 'is-invalid' : ''}`}
-            >
-              <option value="" disabled selected>Select Album Genre</option>
-              {genres.map(genre => (
-                <option key={genre.id} value={genre.id}>
-                  {genre.title}
-                </option>
-              ))}
-            </select>
+            <Controller
+              name="albumGenres"
+              styles={customStyles}
+              control={control}
+              isMulti
+              isClearable
+              getOptionLabel={option => option.title}
+              getOptionValue={option => option.id}
+              options={genres}
+              as={Select}
+            />
             <div className="invalid-feedback">
-              {errors.genreId && errors.genreId.message}
+              {errors.albumGenres && errors.albumGenres.message}
             </div>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridGenre">
