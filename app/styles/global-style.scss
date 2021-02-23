@@ -333,10 +333,12 @@ img {
   }
   .carousel-front {
     .img-preview {
-      height: 160px;
+      height: 200px;
+      width: 200px;
 
       img {
         height: 100%;
+        width: 100%;
       }
     }
   }
