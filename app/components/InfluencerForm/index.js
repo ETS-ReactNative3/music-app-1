@@ -33,7 +33,6 @@ function InfluencerForm({ genres, formSubmit, formLoader }) {
       ...data,
       genres: data.genres.map(val => val.value),
     };
-    // console.log(formData)
     formSubmit(formData);
   };
 

@@ -43,7 +43,6 @@ const makeSelectSocialChannels = () =>
   createSelector(
     selectInfluencerDomain,
     substate => {
-      console.log(substate);
       return substate.socialChannels;
     },
   );
