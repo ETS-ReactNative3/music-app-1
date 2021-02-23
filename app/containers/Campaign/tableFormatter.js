@@ -14,25 +14,58 @@ export const columns = [
       width: '10%',
     },
     headerStyle: {
+      width: '10%',
       textAlign: 'left',
     },
   },
   {
     dataField: 'influencer.name',
     text: 'Influencer name',
+    style: {
+      width: '15%',
+      textAlign: 'left'
+    },
+    headerStyle: {
+      width: '15%',
+      textAlign: 'left'
+    },
   },
   {
     dataField: 'influencer.description',
     text: 'Description',
+    style: {
+      width: '50%',
+      textAlign: 'left'
+    },
+    headerStyle: {
+      width: '50%',
+      textAlign: 'left'
+    },
   },
   {
     dataField: 'amount',
     text: 'Amount',
+    style: {
+      width: '10%',
+      textAlign: 'left'
+    },
+    headerStyle: {
+      width: '10%',
+      textAlign: 'left'
+    }
   },
   {
     dataField: 'createdDate',
     text: 'Status',
     formatter: statusFormatter,
+    style: {
+      width: '15%',
+      textAlign: 'left'
+    },
+    headerStyle: {
+      width: '15%',
+      textAlign: 'left'
+    },
   },
 ];
 export function pictureFormatter(cell, row) {

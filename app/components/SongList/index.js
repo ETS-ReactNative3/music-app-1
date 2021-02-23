@@ -8,6 +8,7 @@ import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../ShareBox';
 import LoadingIndicator from "../LoadingIndicator";
+import {Link} from "react-router-dom";
 
 const SongList = ({list, heading, singleSongHandler, currentSong, classes, loading}) => {
   const {playing} = currentSong;
@@ -33,7 +34,9 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
                   </div>
                   <div className="song-title px-1">
                     <h5>{ele.title}</h5>
-                    <h6>{ele.user.name}</h6>
+                    <Link to={`/artist/${ele.user.id}`}>
+                      <h6>{ele.user.name}</h6>
+                    </Link>
                   </div>
                   <div className="song-action px-1 ml-auto">
                   <span

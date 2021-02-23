@@ -81,7 +81,6 @@ const Details = (
   }, [match.params.influencerId && selectedCampaign]);
 
 
-  console.log(selectedInfluencer)
   React.useEffect(() => {
     fetchCampaigns();
     getSelectedCampaign(match.params.id);

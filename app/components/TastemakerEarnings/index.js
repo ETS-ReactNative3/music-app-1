@@ -16,19 +16,51 @@ function TastemakerEarnings({earnings}) {
     {
       dataField: 'campaigns.song.user.name',
       text: 'Artist Name',
+      style: {
+        width: '20%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '20%',
+        textAlign: 'left'
+      },
     },
     {
       dataField: 'campaigns.song.title',
       text: 'Song Name',
+      style: {
+        width: '35%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '35%',
+        textAlign: 'left'
+      },
     },
     {
       dataField: 'amount',
       text: 'Amount',
+      style: {
+        width: '25%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '25%',
+        textAlign: 'left'
+      },
     },
     {
       dataField: 'createdDate',
       text: 'Created Date',
       formatter: dateFormatter,
+      style: {
+        width: '20%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '20%',
+        textAlign: 'left'
+      }
     },
   ];
 

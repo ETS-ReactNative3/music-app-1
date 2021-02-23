@@ -38,11 +38,17 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
       style: {
         width: '25%',
       },
+      headerStyle: {
+        width: '25%',
+      },
     },
     {
       dataField: 'caption',
       text: 'Caption',
       style: {
+        width: '25%',
+      },
+      headerStyle: {
         width: '25%',
       },
     },
@@ -52,12 +58,18 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
       style: {
         width: '20%',
       },
+      headerStyle: {
+        width: '20%',
+      },
     },
     {
       dataField: 'releaseDate',
       text: 'Release Date',
       formatter: dateFormatter,
       style: {
+        width: '15%',
+      },
+      headerStyle: {
         width: '15%',
       },
     },
@@ -69,6 +81,10 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
       formatter: actionsFormatter,
       style: {
         width: '15%',
+      },
+      headerStyle: {
+        width: '15%',
+        textAlign: 'center'
       },
     },
   ];
