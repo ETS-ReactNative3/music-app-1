@@ -97,6 +97,9 @@ export function Playlist(
       isDummyField: true,
       csvExport: false,
       formatter: actionsFormatter,
+      headerStyle: {
+        textAlign: 'center'
+      },
     },
   ];
 

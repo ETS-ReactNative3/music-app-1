@@ -1,28 +1,28 @@
-import React, {memo, useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {compose} from 'redux';
+import React, { memo, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import {createStructuredSelector} from 'reselect';
-import {useInjectSaga} from 'utils/injectSaga';
-import {useInjectReducer} from 'utils/injectReducer';
+import { createStructuredSelector } from 'reselect';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import Button from 'react-bootstrap/Button';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import format from 'date-fns/format';
 import PaperCard from '../../components/PaperCard';
 import saga from './saga';
 import reducer from './reducer';
-import {deleteSong, songRequest} from './actions';
-import {makeSelectSong} from './selectors';
+import { deleteSong, songRequest } from './actions';
+import { makeSelectSong } from './selectors';
 
-function SongList({getSongs, songs, deleteSongAction}) {
-  useInjectReducer({key: 'song', reducer});
-  useInjectSaga({key: 'song', saga});
+function SongList({ getSongs, songs, deleteSongAction }) {
+  useInjectReducer({ key: 'song', reducer });
+  useInjectSaga({ key: 'song', saga });
 
   const [songId, setSongId] = useState(0);
 
@@ -35,21 +35,52 @@ function SongList({getSongs, songs, deleteSongAction}) {
     {
       dataField: 'title',
       text: 'Title',
+      style: {
+        width: '30%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '30%'
+      }
     },
     {
       dataField: 'genre.title',
       text: 'Genre',
+      style: {
+        width: '15%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '15%',
+        textAlign: 'left'
+      }
     },
     {
       dataField: 'releaseDate',
       text: 'Release Date',
       formatter: dateFormatter,
+      style: {
+        width: '15%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '15%',
+        textAlign: 'left'
+      }
     },
     {
       dataField: 'promote',
       text: 'Promote Date',
       isDummyField: true,
       formatter: promoteFormatter,
+      style: {
+        width: '15%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '15%',
+        textAlign: 'left'
+      }
     },
     {
       dataField: 'actions',
@@ -57,6 +88,14 @@ function SongList({getSongs, songs, deleteSongAction}) {
       isDummyField: true,
       csvExport: false,
       formatter: actionsFormatter,
+      style: {
+        width: '25%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '25%',
+        textAlign: 'center'
+      }
     },
   ];
 
@@ -65,7 +104,7 @@ function SongList({getSongs, songs, deleteSongAction}) {
   }
 
   function promoteFormatter(cell, row, rowIndex, formatExtraData) {
-    if(row.albumSongs.length > 0) {
+    if (row.albumSongs.length > 0) {
       return (
         <Link to={`/tastemakers/${row.id}`}>
           <button className="btn btn-info mr-3">Promote</button>
@@ -85,14 +124,14 @@ function SongList({getSongs, songs, deleteSongAction}) {
       >
         <Link to={`/song/edit/${row.id}`}>
           <button className="btn btn-info mr-3">
-            <FontAwesomeIcon icon={faEdit}/>
+            <FontAwesomeIcon icon={faEdit} />
           </button>
         </Link>
         <button
           className="btn btn-danger"
           onClick={() => handleClickOpen(row.id)}
         >
-          <FontAwesomeIcon icon={faTrash}/>
+          <FontAwesomeIcon icon={faTrash} />
         </button>
       </div>
     );

@@ -49,14 +49,38 @@ export function Requests(
     {
       dataField: 'name',
       text: 'Name',
+      style: {
+        width: '20%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '20%',
+        textAlign: 'left'
+      },
     },
     {
       dataField: 'description',
       text: 'Description',
+      style: {
+        width: '50%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '50%',
+        textAlign: 'left'
+      }
     },
     {
       dataField: 'influencerStatus.title',
       text: 'Status',
+      style: {
+        width: '10%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '10%',
+        textAlign: 'left'
+      }
     },
     {
       dataField: 'actions',
@@ -64,6 +88,13 @@ export function Requests(
       isDummyField: true,
       csvExport: false,
       formatter: actionsFormatter,
+      style: {
+        width: '20%',
+      },
+      headerStyle: {
+        width: '20%',
+        textAlign: 'center',
+      },
     },
   ];
 
