@@ -18,8 +18,13 @@ const selectArtistDomain = state => state.artist || initialState;
 const makeSelectArtist = () =>
   createSelector(
     selectArtistDomain,
-    substate => substate,
+    substate => substate.artist,
   );
 
-export default makeSelectArtist;
-export { selectArtistDomain };
+  const makeSelectArtistFetching = () =>
+  createSelector(
+    selectArtistDomain,
+    substate => substate.fetching,
+  );
+
+export { makeSelectArtist, makeSelectArtistFetching };

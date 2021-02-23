@@ -48,7 +48,6 @@ const InfluencerAccountPopup = ({
     (userSelected && userSelected.influencer) || {},
   );
 
-  console.log(userSelected);
   const _field = (icon, label, link, credits, callBack, followers, selected) => (
 
     <div
