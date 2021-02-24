@@ -32,17 +32,34 @@ const List = ({fetchCampaigns, campaigns}) => {
         width: '10%',
       },
       headerStyle: {
+        width: '10%',
         textAlign: 'left',
       },
     },
     {
       dataField: 'song.title',
       text: 'Song name',
+      style: {
+        width: '50%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '50%',
+        textAlign: 'left'
+      },
     },
     {
       dataField: 'createdDate',
       text: 'Created Date',
       formatter: dateFormatter,
+      style: {
+        width: '25%',
+        textAlign: 'left'
+      },
+      headerStyle: {
+        width: '25%',
+        textAlign: 'left'
+      },
     },
   ];
   return (
