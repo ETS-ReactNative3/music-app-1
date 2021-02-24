@@ -107,8 +107,6 @@ function RequestForm(
     // resolver: yupResolver(validationSchema),
   });
 
-  console.log(errors, getValues());
-
   useEffect(() => {
     getGenreList();
     getSocialChannelList();
@@ -118,7 +116,6 @@ function RequestForm(
   }, []);
 
   useEffect(() => {
-    console.log('camer here')
     register('genres', {minLength: 1, min: 1, required: 'Field is required', validate: (value) =>  value !== undefined})
   }, [register]);
 

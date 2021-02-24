@@ -118,7 +118,6 @@ const EditInfluencerAccount = ({
 
   });
 
-  console.log(errors, getValues());
   const onSubmit = submitData => {
     const updatedInfluencerData = prepareDataForSubmit(submitData);
 

@@ -59,6 +59,7 @@ import { SOCIAL_MEDIA } from '../App/constants';
 import { getGenres } from '../Album/actions';
 import albumSaga from '../Album/saga';
 import albumReducer from '../Album/reducer';
+import { renderSocialMediaIcons } from '../../utils';
 
 export function Tastemaker(
   {
@@ -269,78 +270,13 @@ export function Tastemaker(
                           {item.influencer.influencerServices &&
                             item.influencer.influencerServices.map(
                               influencerService => {
-                                if (
-                                  influencerService.socialChannels.title ===
-                                  SOCIAL_MEDIA.FACEBOOK
-                                )
-                                  return (
-                                    <a target={'_blank'} href={(influencerService.link.includes('https')  || influencerService.link.includes('http') )? influencerService.link : `https://${influencerService.link}`} style={{ color: "white" }}>
-                                      <FontAwesomeIcon
-                                        size="1x"
-                                        icon={faFacebook}
-                                        className="mr-2 cursor-pointer"
-                                      />
-                                    </a>
-                                  );
 
-                                if (
-                                  influencerService.socialChannels.title ===
-                                  SOCIAL_MEDIA.TWITTER
-                                )
-                                  return (
-                                    <a target={'_blank'} href={(influencerService.link.includes('https')  || influencerService.link.includes('http') )? influencerService.link : `https://${influencerService.link}`} style={{ color: "white" }}>
-                                      <FontAwesomeIcon
-                                        size="1x"
-                                        icon={faTwitter}
-                                        className="mr-2 cursor-pointer"
-                                      />
-                                    </a>
-                                  );
-
-                                if (
-                                  influencerService.socialChannels.title ===
-                                  SOCIAL_MEDIA.YOUTUBE
-                                )
-                                  return (
-                                    <a target={'_blank'} href={(influencerService.link.includes('https')  || influencerService.link.includes('http') )? influencerService.link : `https://${influencerService.link}`} style={{ color: "white" }}>
-                                      <FontAwesomeIcon
-                                        size="1x"
-                                        icon={faYoutube}
-                                        className="mr-2 cursor-pointer"
-                                      />
-                                    </a>
-                                  );
-
-                                if (
-                                  influencerService.socialChannels.title ===
-                                  SOCIAL_MEDIA.INSTAGRAM
-                                )
-                                  return (
-                                    <a target={'_blank'} href={(influencerService.link.includes('https')  || influencerService.link.includes('http') )? influencerService.link : `https://${influencerService.link}`} style={{ color: "white" }}>
-                                      <FontAwesomeIcon
-                                        icon={faInstagram}
-                                        size="1x"
-                                        className="mr-2 cursor-pointer"
-                                        onClick={() => window.open(influencerService.link, '_blank')}
-                                      />
-                                    </a>
-                                  );
-
-                                if (
-                                  influencerService.socialChannels.title ===
-                                  SOCIAL_MEDIA.BLOG
-                                )
-                                  return (
-                                    <a target={'_blank'} href={(influencerService.link.includes('https')  || influencerService.link.includes('http') )? influencerService.link : `https://${influencerService.link}`} style={{ color: "white" }}>
-                                      <FontAwesomeIcon
-                                        icon={faBlog}
-                                        size="1x"
-                                        className="mr-2 cursor-pointer"
-                                        onClick={() => window.open(influencerService.link, '_blank')}
-                                      />
-                                    </a>
-                                  );
-                              },
+                                return (
+                                  <a target={'_blank'} href={(influencerService.link.includes('https') || influencerService.link.includes('http')) ? influencerService.link : `https://${influencerService.link}`} style={{ color: "white" }}>
+                                    {renderSocialMediaIcons(influencerService.socialChannels.title)}
+                                  </a>
+                                );
+                              }
                             )}
                         </Card.Text>
                         <Card.Text className="music-card__gener">
