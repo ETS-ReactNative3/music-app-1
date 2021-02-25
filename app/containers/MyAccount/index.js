@@ -39,6 +39,7 @@ import accountSaga from './saga';
 import { faBlog, faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
 import styles from './index.styles';
+import { renderSocialMediaIcons } from '../../utils';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -180,93 +181,16 @@ function MyAccount(
                     <div style={styles.linkContainer}>
                       {influencerProfile && influencerProfile.influencerServices &&
                         influencerProfile.influencerServices.map(service => {
-                          switch (service.socialChannels.title) {
-                            case 'facebook':
+                          
                               return (
                                 <a href={service.link} target="_blank" className="pr-2">
-                                  <FontAwesomeIcon
-                                    size="1x"
-                                    color={PLAY_ICON_BG_COLOR}
-                                    icon={faFacebook}
-                                    style={{ marginLeft: 5 }}
-                                  />
+                                  {renderSocialMediaIcons(service.socialChannels.title, '1x', {marginLeft: 5}, PLAY_ICON_BG_COLOR)}
                                   <span className="pl-2">{service.followers} followers</span>
                                 </a>
                               );
-                            case 'twitter':
-                              return (
-                                <a href={service.link} target="_blank" className="pr-2">
-                                  <FontAwesomeIcon
-                                    size="1x"
-                                    color={PLAY_ICON_BG_COLOR}
-                                    icon={faTwitter}
-                                    style={{ marginLeft: 5 }}
-                                  />
-                                  <span className="pl-2">{service.followers} followers</span>
-                                </a>
-                              );
-                            case 'instagram':
-                              return (
-                                <a href={service.link} target="_blank" className="pr-2">
-                                  <FontAwesomeIcon
-                                    size="1x"
-                                    color={PLAY_ICON_BG_COLOR}
-                                    icon={faInstagram}
-                                    style={{ marginLeft: 5 }}
-                                  />
-                                  <span className="pl-2">{service.followers} followers</span>
-                                </a>
-                              );
-                            case 'blog':
-                              return (
-                                <a href={service.link} target="_blank" className="pr-2">
-                                  <FontAwesomeIcon
-                                    size="1x"
-                                    color={PLAY_ICON_BG_COLOR}
-                                    icon={faBlog}
-                                    style={{ marginLeft: 5 }}
-                                  />
-                                  <span className="pl-2">{service.followers} followers</span>
-                                </a>
-                              );
-                            case 'youtube':
-                              return (
-                                <a href={service.link} target="_blank" className="pr-2">
-                                  <FontAwesomeIcon
-                                    size="1x"
-                                    color={PLAY_ICON_BG_COLOR}
-                                    icon={faYoutube}
-                                    style={{ marginLeft: 5 }}
-                                  />
-                                  <span className="pl-2">{service.followers} followers</span>
-                                </a>
-                              );
-                            case 'radio':
-                              return (
-                                <a href={service.link} target="_blank" className="pr-2">
-                                  <FontAwesomeIcon
-                                    size="1x"
-                                    color={PLAY_ICON_BG_COLOR}
-                                    icon={faBullhorn}
-                                    style={{ marginLeft: 5 }}
-                                  />
-                                  <span className="pl-2">{service.followers} followers</span>
-                                </a>
-                              );
-                            case 'tiktok':
-                              return (
-                                <a href={service.link} target="_blank" className="pr-2">
-                                  <FontAwesomeIcon
-                                    size="1x"
-                                    color={PLAY_ICON_BG_COLOR}
-                                    icon={faYoutube}
-                                    style={{ marginLeft: 5 }}
-                                  />
-                                  <span className="pl-2">{service.followers} followers</span>
-                                </a>
-                              );
+                            
                           }
-                        })}
+                        )}
                     </div>
                   </div>
                   <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">

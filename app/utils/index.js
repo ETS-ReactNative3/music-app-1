@@ -150,48 +150,55 @@ export const calculateExpiry = date => {
 };
 
 
-export const renderSocialMediaIcons = (name, size = '1x', style= {}) => {
+export const renderSocialMediaIcons = (name, size = '1x', style= {}, color= 'white') => {
   switch (name) {
     case 'facebook': return <FontAwesomeIcon
       size={size}
       icon={faFacebook}
       style={style}
+      color={color}
       className="mr-2 cursor-pointer"
     />
     case 'instagram': return <FontAwesomeIcon
       size={size}
       icon={faInstagram}
       style={style}
+      color={color}
       className="mr-2 cursor-pointer"
     />
     case 'twitter': return <FontAwesomeIcon
       size={size}
       icon={faTwitter}
       style={style}
+      color={color}
       className="mr-2 cursor-pointer"
     />
     case 'blog': return <FontAwesomeIcon
       size={size}
       icon={faBlog}
       style={style}
+      color={color}
       className="mr-2 cursor-pointer"
     />
     case 'youtube': return <FontAwesomeIcon
       size={size}
       icon={faYoutube}
       style={style}
+      color={color}
       className="mr-2 cursor-pointer"
     />
     case 'radio': return <FontAwesomeIcon
       size={size}
       icon={faMusic}
       style={style}
+      color={color}
       className="mr-2 cursor-pointer"
     />
     case 'tiktok': return <FontAwesomeIcon
       size={size}
       icon={faTiktok}
       style={style}
+      color={color}
       className="mr-2 cursor-pointer"
     />
   }

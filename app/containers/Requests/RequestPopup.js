@@ -50,66 +50,7 @@ const RequestPopup = (
   const [songPlayed, setSongPlayed] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    // facebook: (() => {
-    //   let validation = Yup.string();
-    //   if (
-    //     data.campaignInfluencerServices.findIndex(
-    //       service => service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
-    //     ) !== -1
-    //   ) {
-    //     validation = validation.required('this field is required');
-    //     validation = validation.url('Enter correct url');
-    //   }
-    //   return validation;
-    // })(),
-    // twitter: (() => {
-    //   let validation = Yup.string();
-    //   if (
-    //     data.campaignInfluencerServices.findIndex(
-    //       service => service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
-    //     ) !== -1
-    //   ) {
-    //     validation = validation.required('this field is required');
-    //     validation = validation.url('Enter correct url');
-    //   }
-    //   return validation;
-    // })(),
-    // instagram: (() => {
-    //   let validation = Yup.string();
-    //   if (
-    //     data.campaignInfluencerServices.findIndex(
-    //       service => service.socialChannelsId === SOCIAL_CHANNELS.INSTAGRAM,
-    //     ) !== -1
-    //   ) {
-    //     validation = validation.required('this field is required');
-    //     validation = validation.url('Enter correct url');
-    //   }
-    //   return validation;
-    // })(),
-    // blog: (() => {
-    //   let validation = Yup.string();
-    //   if (
-    //     data.campaignInfluencerServices.findIndex(
-    //       service => service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-    //     ) !== -1
-    //   ) {
-    //     validation = validation.required('this field is required');
-    //     validation = validation.url('Enter correct url');
-    //   }
-    //   return validation;
-    // })(),
-    // youtube: (() => {
-    //   let validation = Yup.string();
-    //   if (
-    //     data.campaignInfluencerServices.findIndex(
-    //       service => service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
-    //     ) !== -1
-    //   ) {
-    //     validation = validation.required('this field is required');
-    //     validation = validation.url('Enter correct url');
-    //   }
-    //   return validation;
-    // })(),
+    
   });
 
   const { register, handleSubmit, errors } = useForm({
@@ -128,7 +69,6 @@ const RequestPopup = (
   const listenToSong = song => {
     playSong(song);
     setSongPlayed(true);
-    // if (data.campaignStatusId === CampaignStatus.ACCEPTED || data.campaignStatusId === CampaignStatus.PEDNING) updateCampaignStatus(data.id, CampaignStatus['IN-PROGRESS']);
   };
 
   const prepareDataForSubmit = formData => {
@@ -366,100 +306,7 @@ const RequestPopup = (
                                   </Col>
                                 )
                             )}
-                            {/* 
-                            {data.campaignInfluencerServices.findIndex(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.INSTAGRAM,
-                            ) !== -1 && (
-                                <Col md={6}>
-                                  <FormLabel>Instagram</FormLabel>
-                                  <FormControl
-                                    ref={register}
-                                    className="bg-transparent text-white"
-                                    as="input"
-                                    name="instagram"
-                                    id="endereco"
-                                    type="text"
-                                    placeholder="Enter Instagram url"
-                                    required
-                                  />
-                                  {errors.instagram && errors.instagram.message && (
-                                    <small className="invalid-feedback" style={{ display: 'block' }}>
-                                      {errors.instagram && errors.instagram.message}
-                                    </small>
-                                  )}
-                                </Col>
-                              )}
-                            {data.campaignInfluencerServices.findIndex(
-                              service =>
-                                service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
-                            ) !== -1 && (
-                                <Col md={6}>
-                                  <FormLabel>Twitter</FormLabel>
-                                  <FormControl
-                                    ref={register}
-                                    className="bg-transparent text-white"
-                                    as="input"
-                                    name="twitter"
-                                    id="endereco"
-                                    type="text"
-                                    placeholder="Enter twitter url"
-                                    required
-                                  />
-                                  {errors.twitter && errors.twitter.message && (
-                                    <small className="invalid-feedback" style={{ display: 'block' }}>
-                                      {errors.twitter && errors.twitter.message}
-                                    </small>
-                                  )}
-                                </Col>
-                              )}
-                            {data.campaignInfluencerServices.findIndex(
-                              service =>
-                                service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                            ) !== -1 && (
-                                <Col md={6}>
-                                  <FormLabel>Blog</FormLabel>
-                                  <FormControl
-                                    ref={register}
-                                    className="bg-transparent text-white"
-                                    as="input"
-                                    name="blog"
-                                    id="endereco"
-                                    type="text"
-                                    placeholder="Enter Blog url"
-                                    required
-                                  />
-                                  {errors.blog && errors.blog.message && (
-                                    <small className="invalid-feedback" style={{ display: 'block' }}>
-                                      {errors.blog && errors.blog.message}
-                                    </small>
-                                  )}
-                                </Col>
-                              )}
-                            {data.campaignInfluencerServices.findIndex(
-                              service =>
-                                service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
-                            ) !== -1 && (
-                                <Col md={6}>
-                                  <FormLabel>Youtube</FormLabel>
-                                  <FormControl
-                                    ref={register}
-                                    className="bg-transparent text-white"
-                                    as="input"
-                                    name="youtube"
-                                    id="endereco"
-                                    type="text"
-                                    placeholder="Enter Youtube url"
-                                    required
-                                  />
-                                  {errors.youtube && errors.youtube.message && (
-                                    <small className="invalid-feedback" style={{ display: 'block' }}>
-                                      {errors.youtube && errors.youtube.message}
-                                    </small>
-                                  )}
-                                </Col>
-                              )} */}
+                            
                           </Row>
                         </form>
                       </div>
