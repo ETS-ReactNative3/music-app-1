@@ -32,7 +32,7 @@ import { CampaignStatus } from './constants';
 import { SOCIAL_CHANNELS } from '../App/constants';
 import defaultImage from '../../images/default-image.png';
 import { styles } from './index.styles';
-import { renderSocialMediaIcons } from '../../utils';
+import { capatilizeText, renderSocialMediaIcons } from '../../utils';
 
 const RequestPopup = (
   {
@@ -347,7 +347,7 @@ const RequestPopup = (
                               service =>
                                 (
                                   <Col md={6}>
-                                    <FormLabel><div style={{ textTransform: 'capitalize' }}>{service.socialChannels.title}</div></FormLabel>
+                                    <FormLabel>{capatilizeText(service.socialChannels.title)}</FormLabel>
                                     <FormControl
                                       ref={register({ required: 'Field is required', pattern:  {value :/http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-z0-9\-_]+)(.com|.net|.gov|.org|.in)(\/[^\s]*)?/, message: "Enter proper link"} })}
                                       className="bg-transparent text-white"
@@ -470,9 +470,8 @@ const RequestPopup = (
 
                             return <div style={{ display: 'flex', flexDirection: 'row' }}>
                               &nbsp;
-                              <div style={{ textTransform: 'capitalize' }}>{service.socialChannels.title}:
+                              {capatilizeText(service.socialChannels.title)}:
                                            &nbsp;
-                            </div>
                               <Link
                                 to={`${service.response
                                   }`}

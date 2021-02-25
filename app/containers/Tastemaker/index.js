@@ -59,7 +59,11 @@ import { SOCIAL_MEDIA } from '../App/constants';
 import { getGenres } from '../Album/actions';
 import albumSaga from '../Album/saga';
 import albumReducer from '../Album/reducer';
-import { renderSocialMediaIcons } from '../../utils';
+import { capatilizeText, renderSocialMediaIcons } from '../../utils';
+import { getSocialChannelsRequest } from '../Influencer/actions';
+import { makeSelectSocialChannels } from '../Influencer/selectors';
+import influencerSaga from '../Influencer/saga';
+import influencerReducer from '../Influencer/reducer';
 
 export function Tastemaker(
   {
@@ -72,31 +76,30 @@ export function Tastemaker(
     match,
     selectedSong,
     getGenreList,
-    getPlaylist
+    getPlaylist,
+    getSocialChannelList,
+    socialChannels
   }) {
   useInjectReducer({ key: 'tastemaker', reducer });
   useInjectSaga({ key: 'tastemaker', saga });
   useInjectReducer({ key: 'song', reducer: songReducer });
   useInjectSaga({ key: 'song', saga: songSaga });
   useInjectReducer({ key: 'app', reducer: appReducer });
+  useInjectSaga({ key: 'influencer', saga: influencerSaga });
+  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
 
   useInjectSaga({ key: 'album', saga: albumSaga });
   useInjectReducer({ key: 'album', reducer: albumReducer });
   useEffect(() => {
     getTasteMakersAction();
     getGenreList();
+    getSocialChannelList();
   }, []);
 
   const [openModal, setOpenModal] = React.useState(false);
   const [userSelected, setUserSelected] = React.useState({});
   const [searchText, setSearchText] = React.useState('');
-  const [filters, setFilters] = React.useState({
-    facebook: false,
-    youtube: false,
-    blog: false,
-    twitter: false,
-    instagram: false,
-  });
+  const [filters, setFilters] = React.useState([]);
 
   function handleClose() {
     setOpenModal(false);
@@ -134,74 +137,25 @@ export function Tastemaker(
                   <div className="h5">Campaign Mediums</div>
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-4 bg-transparent">
-                  <div className="custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="filterFb"
-                      onChange={() => {
-                        setFilters({ ...filters, facebook: !filters.facebook });
-                      }}
-                    />
-                    <label className="form-check-label" htmlFor="filterFb">
-                      Facebook
-                    </label>
-                  </div>
-                  <div className="custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="filterTwtr"
-                      onChange={() => {
-                        setFilters({ ...filters, twitter: !filters.twitter });
-                      }}
-                    />
-                    <label className="form-check-label" htmlFor="filterTwtr">
-                      Twitter
-                    </label>
-                  </div>
-                  <div className="custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="filterYt"
-                      onChange={() => {
-                        setFilters({ ...filters, youtube: !filters.youtube });
-                      }}
-                    />
-                    <label className="form-check-label" htmlFor="filterYt">
-                      Youtube
-                    </label>
-                  </div>
-                  <div className="custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="filterIg"
-                      onChange={() => {
-                        setFilters({
-                          ...filters,
-                          instagram: !filters.instagram,
-                        });
-                      }}
-                    />
-                    <label className="form-check-label" htmlFor="filterIg">
-                      Instagram
-                    </label>
-                  </div>
-                  <div className="custom-checkbox">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="exampleCheck1"
-                      onChange={() => {
-                        setFilters({ ...filters, blog: !filters.blog });
-                      }}
-                    />
-                    <label className="form-check-label" htmlFor="exampleCheck1">
-                      Blog
-                    </label>
-                  </div>
+                  {socialChannels && socialChannels.map(channel => {
+                    return <div className="custom-checkbox">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id={channel.id}
+                        onChange={() => {
+                          if (filters.includes(channel.title)) {
+                            setFilters([...filters.filter(filter => filter !== channel.id)])
+                          } else {
+                            setFilters([...filters, channel.id]);
+                          }
+                        }}
+                      />
+                      <label className="form-check-label" htmlFor={channel.id}>
+                        {capatilizeText(channel.title)}
+                      </label>
+                    </div>
+                  })}
                 </ListGroup.Item>
               </ListGroup>
             </Card>
@@ -414,7 +368,9 @@ Tastemaker.propTypes = {
   selectedInfluencers: PropTypes.array,
   removeInfluencer: PropTypes.func,
   formLoader: PropTypes.bool,
-  getGenreList: PropTypes.func
+  getGenreList: PropTypes.func,
+  socialChannels: PropTypes.array,
+  getSocialChannelList: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -422,7 +378,8 @@ const mapStateToProps = createStructuredSelector({
   selectedInfluencers: makeSelectSelectedInfluencers(),
   formLoader: makeSelectLoader(),
   selectedSong: makeSelectedSong(),
-  getPlaylist: makeSelectPlaylist()
+  getPlaylist: makeSelectPlaylist(),
+  socialChannels: makeSelectSocialChannels(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -432,6 +389,7 @@ function mapDispatchToProps(dispatch) {
     removeInfluencer: data => dispatch(removeInfluencerAction(data)),
     getSongAction: id => dispatch(getSongRequest(id)),
     getGenreList: () => dispatch(getGenres()),
+    getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
   };
 }
 

@@ -25,7 +25,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import InfluencerAccount from '../InfluencerAccount';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
-import { combineFollowers, formatFollowers, renderSocialMediaIcons } from '../../utils';
+import { capatilizeText, combineFollowers, formatFollowers, renderSocialMediaIcons } from '../../utils';
 import defaultImage from '../../images/album-3.jpg';
 import { useInjectReducer } from '../../utils/injectReducer';
 import reducer from '../../containers/Tastemaker/reducer';
@@ -36,6 +36,7 @@ import { createStructuredSelector } from 'reselect';
 import { isArray } from 'lodash';
 import { makeSelectGenres } from '../../containers/Album/selectors';
 import { toast } from 'react-toastify';
+import './index.scss';
 
 const InfluencerAccountPopup = ({
   openModal,
@@ -66,9 +67,8 @@ const InfluencerAccountPopup = ({
         <div onClick={() => {
           window.open(link, "_blank")
         }} >
-          <div>
-
-            <div style={{ textTransform: 'capitalize' }}>{renderSocialMediaIcons(icon, '1x', { marginRight: 5 })}{label}</div>
+          <div className="icon_text">
+            {renderSocialMediaIcons(icon, '1x', { marginRight: 5 })}{capatilizeText(label)}
           </div>
           <small className="text-muted">{`${followers} followers`}</small>
         </div>

@@ -196,3 +196,7 @@ export const renderSocialMediaIcons = (name, size = '1x', style= {}) => {
     />
   }
 }
+
+export const capatilizeText = (text) => {
+  return <div style={{ textTransform: 'capitalize' }}>{text}</div>
+}

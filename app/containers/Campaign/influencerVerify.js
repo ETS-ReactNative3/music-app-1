@@ -41,7 +41,7 @@ import {
   makeSelectVerifySubmitting,
 } from './selectors';
 import './index.scss';
-import { renderSocialMediaIcons } from '../../utils';
+import { capatilizeText, renderSocialMediaIcons } from '../../utils';
 
 const Details = (
   {
@@ -281,7 +281,7 @@ const Details = (
                             <div className="service_response_parent">
                               {renderSocialMediaIcons(service.socialChannels.title, '1x', {marginLeft: 5})}
                           &nbsp;
-                          <div style={{textTransform: 'capitalize'}}>{service.socialChannels.title}</div>:
+                          {capatilizeText(service.socialChannels.title)}:
                           &nbsp;
                               <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
                                 {service.response}
