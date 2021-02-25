@@ -43,6 +43,7 @@ import appReducer from '../App/reducer';
 import ButtonLoader from '../../components/ButtonLoader';
 import {SOCIAL_MEDIA} from '../App/constants';
 import LoadingIndicator from "../../components/LoadingIndicator";
+import { renderSocialMediaIcons } from '../../utils';
 
 const CampaignSummary = (
   {
@@ -95,33 +96,9 @@ const CampaignSummary = (
                 {selectedInfluencer &&
                 selectedInfluencer.influencer &&
                 selectedInfluencer.influencer.influencerServices.map(
-                  influencerService => {
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.FACEBOOK
-                    )
-                      return <FontAwesomeIcon icon={faFacebook} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.INSTAGRAM
-                    )
-                      return <FontAwesomeIcon icon={faInstagram} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.TWITTER
-                    )
-                      return <FontAwesomeIcon icon={faTwitter} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.BLOG
-                    )
-                      return <FontAwesomeIcon icon={faBlog} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.YOUTUBE
-                    )
-                      return <FontAwesomeIcon icon={faYoutube} className="mr-2"/>;
-                  },
+                  influencerService => 
+                    renderSocialMediaIcons(influencerService.socialChannels.title)
+                  ,
                 )}
               </span>
             </div>

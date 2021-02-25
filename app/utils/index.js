@@ -1,3 +1,7 @@
+import React from 'react';
+import { faFacebook, faInstagram, faTiktok, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faBlog, faGuitar, faMusic } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 
 export const combineFollowers = influencerProfile => {
@@ -144,3 +148,62 @@ export const calculateExpiry = date => {
     return `${Math.abs(date1)} days left`;
   }
 };
+
+
+export const renderSocialMediaIcons = (name, size = '1x', style= {}, color= 'white') => {
+  switch (name) {
+    case 'facebook': return <FontAwesomeIcon
+      size={size}
+      icon={faFacebook}
+      style={style}
+      color={color}
+      className="mr-2 cursor-pointer"
+    />
+    case 'instagram': return <FontAwesomeIcon
+      size={size}
+      icon={faInstagram}
+      style={style}
+      color={color}
+      className="mr-2 cursor-pointer"
+    />
+    case 'twitter': return <FontAwesomeIcon
+      size={size}
+      icon={faTwitter}
+      style={style}
+      color={color}
+      className="mr-2 cursor-pointer"
+    />
+    case 'blog': return <FontAwesomeIcon
+      size={size}
+      icon={faBlog}
+      style={style}
+      color={color}
+      className="mr-2 cursor-pointer"
+    />
+    case 'youtube': return <FontAwesomeIcon
+      size={size}
+      icon={faYoutube}
+      style={style}
+      color={color}
+      className="mr-2 cursor-pointer"
+    />
+    case 'radio': return <FontAwesomeIcon
+      size={size}
+      icon={faMusic}
+      style={style}
+      color={color}
+      className="mr-2 cursor-pointer"
+    />
+    case 'tiktok': return <FontAwesomeIcon
+      size={size}
+      icon={faTiktok}
+      style={style}
+      color={color}
+      className="mr-2 cursor-pointer"
+    />
+  }
+}
+
+export const capatilizeText = (text) => {
+  return <div style={{ textTransform: 'capitalize' }}>{text}</div>
+}
