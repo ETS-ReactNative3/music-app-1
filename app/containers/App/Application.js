@@ -25,7 +25,7 @@ import CampaignDetails from '../Campaign/details';
 import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
 import Artist from '../Artist/Loadable';
-import NewReleases from '../NewReleases';
+import {NewReleases} from '../NewReleases/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
