@@ -10,34 +10,36 @@ import {
   faTwitter,
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {isArray} from 'lodash';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
-import React, {memo, useEffect} from 'react';
-import {Badge, Button, Col, Image, Row} from 'react-bootstrap';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import React, { memo, useEffect } from 'react';
+import { Badge, Button, Col, Image, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import InfluencerAccount from '../../components/InfluencerAccount';
 import PaperCard from '../../components/PaperCard';
 import defaultImage from '../../images/album-3.jpg';
-import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import history from '../../utils/history';
-import {useInjectReducer} from '../../utils/injectReducer';
-import {useInjectSaga} from '../../utils/injectSaga';
-import {getGenres} from '../Album/actions';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { getGenres } from '../Album/actions';
 import reducer from '../Album/reducer';
 import saga from '../Album/saga';
-import {makeSelectGenres} from '../Album/selectors';
+import { makeSelectGenres } from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
 } from '../App/selectors';
 import accountReducer from './reducer';
 import accountSaga from './saga';
-import {faBlog} from "@fortawesome/free-solid-svg-icons";
+import { faBlog, faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
+import styles from './index.styles';
+import { renderSocialMediaIcons } from '../../utils';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -56,10 +58,10 @@ function MyAccount(
     getGenreList,
     navigation,
   }) {
-  useInjectSaga({key: 'album', saga});
-  useInjectReducer({key: 'album', reducer});
-  useInjectSaga({key: 'account', saga: accountSaga});
-  useInjectReducer({key: 'account', reducer: accountReducer});
+  useInjectSaga({ key: 'album', saga });
+  useInjectReducer({ key: 'album', reducer });
+  useInjectSaga({ key: 'account', saga: accountSaga });
+  useInjectReducer({ key: 'account', reducer: accountReducer });
 
   useEffect(() => {
     getGenreList();
@@ -100,9 +102,9 @@ function MyAccount(
                           {userDetails.roleId === 1 && !userDetails.influencerId && userDetails.role.title}
                         </p>
                         {userDetails.biography &&
-                        <p>
-                          <strong>Bio:</strong> {userDetails.biography}
-                        </p>
+                          <p>
+                            <strong>Bio:</strong> {userDetails.biography}
+                          </p>
                         }
                         <ul className="mb-0 list-inline text-light">
                           <li className="list-inline-item">
@@ -171,77 +173,24 @@ function MyAccount(
                   <div className="mb-3">
                     {influencerProfile.name}
                   </div>
-                  
+
                   <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
                     Social Channels
                   </h3>
                   <div className="mb-3">
-                    <div>
+                    <div style={styles.linkContainer}>
                       {influencerProfile && influencerProfile.influencerServices &&
-                      influencerProfile.influencerServices.map(service => {
-                        switch (service.socialChannels.title) {
-                          case 'facebook':
-                            return (
-                              <a href={service.link} target="_blank" className="pr-2">
-                                <FontAwesomeIcon
-                                  size="1x"
-                                  color={PLAY_ICON_BG_COLOR}
-                                  icon={faFacebook}
-                                  style={{marginLeft: 5}}
-                                />
-                                <span className="pl-2">{service.followers} followers</span>
-                              </a>
-                            );
-                          case 'twitter':
-                            return (
-                              <a href={service.link} target="_blank" className="pr-2">
-                                <FontAwesomeIcon
-                                  size="1x"
-                                  color={PLAY_ICON_BG_COLOR}
-                                  icon={faTwitter}
-                                  style={{marginLeft: 5}}
-                                />
-                                <span className="pl-2">{service.followers} followers</span>
-                              </a>
-                            );
-                          case 'instagram':
-                            return (
-                              <a href={service.link} target="_blank" className="pr-2">
-                                <FontAwesomeIcon
-                                  size="1x"
-                                  color={PLAY_ICON_BG_COLOR}
-                                  icon={faInstagram}
-                                  style={{marginLeft: 5}}
-                                />
-                                <span className="pl-2">{service.followers} followers</span>
-                              </a>
-                            );
-                          case 'blog':
-                            return (
-                              <a href={service.link} target="_blank" className="pr-2">
-                                <FontAwesomeIcon
-                                  size="1x"
-                                  color={PLAY_ICON_BG_COLOR}
-                                  icon={faBlog}
-                                  style={{marginLeft: 5}}
-                                />
-                                <span className="pl-2">{service.followers} followers</span>
-                              </a>
-                            );
-                          case 'youtube':
-                            return (
-                              <a href={service.link} target="_blank" className="pr-2">
-                                <FontAwesomeIcon
-                                  size="1x"
-                                  color={PLAY_ICON_BG_COLOR}
-                                  icon={faYoutube}
-                                  style={{marginLeft: 5}}
-                                />
-                                <span className="pl-2">{service.followers} followers</span>
-                              </a>
-                            );
-                        }
-                      })}
+                        influencerProfile.influencerServices.map(service => {
+                          
+                              return (
+                                <a href={service.link} target="_blank" className="pr-2">
+                                  {renderSocialMediaIcons(service.socialChannels.title, '1x', {marginLeft: 5}, PLAY_ICON_BG_COLOR)}
+                                  <span className="pl-2">{service.followers} followers</span>
+                                </a>
+                              );
+                            
+                          }
+                        )}
                     </div>
                   </div>
                   <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
