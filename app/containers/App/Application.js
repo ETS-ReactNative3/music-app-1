@@ -25,6 +25,7 @@ import CampaignDetails from '../Campaign/details';
 import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
 import Artist from '../Artist/Loadable';
+import NewReleases from '../NewReleases';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -155,6 +156,9 @@ function Application() {
         </PrivateRoute>
         <Route exact path="/artist/:id">
           <Artist/>
+        </Route>
+        <Route exact path="/newReleases">
+          <NewReleases/>
         </Route>
       </Switch>
     </Dashboard>

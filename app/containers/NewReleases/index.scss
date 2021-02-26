@@ -1,0 +1,11 @@
+.releaseItemContainer {
+    width: 200px;
+     margin: 10px;
+}
+
+.releaseList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
