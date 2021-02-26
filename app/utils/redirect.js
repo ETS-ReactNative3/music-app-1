@@ -3,7 +3,7 @@ import routes from './routes.json';
 
 const redirectOnAlbum = slug => {
   const URL = routes.ALBUM.replace(':slug', slug);
-  history.replace(URL);
+  history.push(URL);
 };
 
 export { redirectOnAlbum };
