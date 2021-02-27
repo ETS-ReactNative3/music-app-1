@@ -41,6 +41,15 @@ const makeSelectGenres = () =>
     },
   );
 
+
+const makeSelectMoods = () =>
+createSelector(
+  selectSongDomain,
+  substate => {
+    return substate.moods;
+  },
+);
+
 const makeSelectSongFormLoader = () =>
   createSelector(
     selectSongDomain,
@@ -53,5 +62,6 @@ export {
   makeSelectSong,
   makeSelectSongLoader,
   makeSelectGenres,
+  makeSelectMoods,
   makeSelectSongFormLoader,
 };

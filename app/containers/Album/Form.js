@@ -55,9 +55,9 @@ function Form(
 
   const onSubmit = values => {
     if (addAlbum) {
-      submitAlbum(values);
+      submitAlbum({...values, albumGenres: values.albumGenres.map(genre => genre.id)});
     } else {
-      editAlbum({...values, id});
+      editAlbum({...values, id, albumGenres: values.albumGenres.map(genre => genre.id)});
     }
   };
 
