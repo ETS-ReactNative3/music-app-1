@@ -44,7 +44,7 @@ export function Artist({artist, fetchArtist, artistFetching, followArtist, userD
                 <h1 className="display-4">{artist.name}</h1>
                 <hr className="my-4"/>
                 <button onClick={() => (userDetails) ? followArtist(artist) : history.push('/auth/login')}
-                   className="btn btn-primary btn-lg">Follow</button>
+                        className="btn btn-primary btn-lg">Follow</button>
               </div>
             </div>
           </div>

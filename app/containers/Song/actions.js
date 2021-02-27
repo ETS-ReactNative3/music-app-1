@@ -19,7 +19,7 @@ import {
   UPDATE_SONG_REQUEST_FAIL,
   GET_GENRES,
   GET_GENRES_SUCCESS,
-  GET_GENRES_FAIL,
+  GET_GENRES_FAIL, SAVE_MOOD_LIST, GET_MOOD_LIST
 } from './constants';
 
 export function songRequest() {
@@ -161,4 +161,17 @@ export function getGenresFail(error) {
     type: GET_GENRES_FAIL,
     error,
   };
+}
+
+export function getMoodListAction() {
+  return {
+    type: GET_MOOD_LIST
+  }
+}
+
+export function saveMoodListAction(moods) {
+  return {
+    type: SAVE_MOOD_LIST,
+    moods
+  }
 }
