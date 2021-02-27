@@ -1,5 +1,10 @@
 @import "~bootstrap/scss/bootstrap";
 
+h5 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .modal-content {
   background-color: #020f1f;
 }
@@ -60,7 +65,7 @@
   }
 }
 
-.table-hover tbody tr:hover {
+.table-hover tbody tr:hover, .song-row:hover {
   color: #1fdbae;
   background-color: rgba(var(--color--text), 14%) !important;
 }
