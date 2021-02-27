@@ -135,8 +135,9 @@ export function* updateSongSaga({data}) {
       description: data.description,
       genreId: data.genreId,
       releaseDate: data.releaseDate,
-      moods: data.moods
+      moods: data.moods.map(mood => mood.id)
     }
+
     if (data.audio.length !== 0) {
       const result = yield call(postSongApi, data);
       songData.songKey = result.data.songKey;

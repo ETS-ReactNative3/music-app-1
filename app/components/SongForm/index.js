@@ -37,7 +37,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
   useEffect(() => {
     if (song) {
       song.releaseDate = new Date(song.releaseDate)
-      song.moods = song.songMoods.map(moods => moods.moods)
+      song.moods = song.songMoods.map(moodItem => moodItem.moods)
       reset(song);
     }
   }, [song]);

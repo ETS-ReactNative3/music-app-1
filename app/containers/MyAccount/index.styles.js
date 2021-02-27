@@ -5,5 +5,11 @@ const styles = {
     flex: 1,
     flexDirection: 'column',
   },
+
+  linkContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
 };
 export default styles;

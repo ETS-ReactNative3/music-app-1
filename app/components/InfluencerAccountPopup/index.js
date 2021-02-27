@@ -25,7 +25,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import InfluencerAccount from '../InfluencerAccount';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
-import { combineFollowers, formatFollowers } from '../../utils';
+import { capatilizeText, combineFollowers, formatFollowers, renderSocialMediaIcons } from '../../utils';
 import defaultImage from '../../images/album-3.jpg';
 import { useInjectReducer } from '../../utils/injectReducer';
 import reducer from '../../containers/Tastemaker/reducer';
@@ -36,6 +36,7 @@ import { createStructuredSelector } from 'reselect';
 import { isArray } from 'lodash';
 import { makeSelectGenres } from '../../containers/Album/selectors';
 import { toast } from 'react-toastify';
+import './index.scss';
 
 const InfluencerAccountPopup = ({
   openModal,
@@ -48,7 +49,6 @@ const InfluencerAccountPopup = ({
     (userSelected && userSelected.influencer) || {},
   );
 
-  console.log(userSelected);
   const _field = (icon, label, link, credits, callBack, followers, selected) => (
 
     <div
@@ -67,14 +67,8 @@ const InfluencerAccountPopup = ({
         <div onClick={() => {
           window.open(link, "_blank")
         }} >
-          <div>
-            <FontAwesomeIcon
-              size="1x"
-              color="white"
-              icon={icon}
-              style={{ marginRight: 5 }}
-            />
-            {label}
+          <div className="icon_text">
+            {renderSocialMediaIcons(icon, '1x', { marginRight: 5 })}{capatilizeText(label)}
           </div>
           <small className="text-muted">{`${followers} followers`}</small>
         </div>
@@ -179,6 +173,7 @@ const InfluencerAccountPopup = ({
   const [campaignMedium, setCampaignMedium] = React.useState(0);
   const [price, setTotalPrice] = React.useState(0);
 
+  const [selectedMedium, setSelectedMedium] = React.useState([]);
   useInjectReducer({ key: 'influencer', reducer });
 
   const renderGenres = (genersToRender, genres) =>
@@ -249,257 +244,60 @@ const InfluencerAccountPopup = ({
                   {userSelected.influencer &&
                     userSelected.influencer.influencerServices.map(
                       influencerService => {
-                        if (
-                          influencerService.socialChannels.title ===
-                          SOCIAL_MEDIA.FACEBOOK
-                        )
-                          return _field(
-                            faFacebook,
-                            'Facebook',
-                            influencerService.link,
-                            influencerService.price,
-                            () => {
-                              selectFacebook(!facebook);
 
-                              if (!facebook) {
-                                setCampaignMedium(campaignMedium + 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price + influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.concat(
-                                      [influencerService],
-                                    ),
-                                  },
-                                });
-                              } else {
-                                setCampaignMedium(campaignMedium - 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price - influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.filter(
-                                      influencerService =>
-                                        influencerService.socialChannels
-                                          .title === SOCIAL_MEDIA.FACEBOOK,
-                                    ),
-                                  },
-                                });
-                              }
-                            },
-                            influencerService.followers,
-                            facebook,
-                          );
+                        return _field(
+                          influencerService.socialChannels.title,
+                          influencerService.socialChannels.title,
+                          influencerService.link,
+                          influencerService.price,
+                          () => {
 
-                        if (
-                          influencerService.socialChannels.title ===
-                          SOCIAL_MEDIA.INSTAGRAM
-                        )
-                          return _field(
-                            faInstagram,
-                            'Instagram',
-                            influencerService.link,
-                            influencerService.price,
-                            () => {
-                              selectInstagram(!instagram);
-                              if (!instagram) {
-                                setCampaignMedium(campaignMedium + 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price + influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.concat(
-                                      [influencerService],
-                                    ),
-                                  },
-                                });
-                              } else {
-                                setCampaignMedium(campaignMedium - 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price - influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.filter(
-                                      influencerService =>
-                                        influencerService.socialChannels
-                                          .title === SOCIAL_MEDIA.INSTAGRAM,
-                                    ),
-                                  },
-                                });
-                              }
-                            },
-                            influencerService.followers,
-                            instagram,
-                          );
+                            if (!selectedMedium.includes(influencerService.socialChannels.title)) {
+                            setSelectedMedium([...selectedMedium, influencerService.socialChannels.title])
+                              if (influencerService.price)
+                                setTotalPrice(
+                                  price + influencerService.price,
+                                );
+                              setInnerInfluencer({
+                                ...innerInfluencer,
+                                influencer: {
+                                  ...innerInfluencer.influencer,
+                                  influencerServices: innerInfluencer.influencer.influencerServices.concat(
+                                    [influencerService],
+                                  ),
+                                },
+                              });
+                            } else {
+                            setSelectedMedium([...selectedMedium.filter(medium => medium !==influencerService.socialChannels.title)])
 
-                        if (
-                          influencerService.socialChannels.title ===
-                          SOCIAL_MEDIA.TWITTER
-                        )
-                          return _field(
-                            faTwitter,
-                            'Twitter',
-                            influencerService.link,
-                            influencerService.price,
-                            () => {
-                              selectTwitter(!twitter);
-                              if (!twitter) {
-                                setCampaignMedium(campaignMedium + 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price + influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.concat(
-                                      [influencerService],
-                                    ),
-                                  },
-                                });
-                              } else {
-                                setCampaignMedium(campaignMedium - 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price - influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.filter(
-                                      influencerService =>
-                                        influencerService.socialChannels
-                                          .title === SOCIAL_MEDIA.TWITTER,
-                                    ),
-                                  },
-                                });
-                              }
-                            },
-                            influencerService.followers,
-                            twitter,
-                          );
+                              if (influencerService.price)
+                                setTotalPrice(
+                                  price - influencerService.price,
+                                );
+                              setInnerInfluencer({
+                                ...innerInfluencer,
+                                influencer: {
+                                  ...innerInfluencer.influencer,
+                                  influencerServices: innerInfluencer.influencer.influencerServices.filter(
+                                    influencerService =>
+                                      influencerService.socialChannels
+                                        .title === SOCIAL_MEDIA.FACEBOOK,
+                                  ),
+                                },
+                              });
+                            }
 
-                        if (
-                          influencerService.socialChannels.title ===
-                          SOCIAL_MEDIA.YOUTUBE
-                        )
-                          return _field(
-                            faYoutube,
-                            'Youtube',
-                            influencerService.link,
-                            influencerService.price,
-                            () => {
-                              selectYoutube(!youtube);
-                              if (!youtube) {
-                                setCampaignMedium(campaignMedium + 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price + influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.concat(
-                                      [influencerService],
-                                    ),
-                                  },
-                                });
-                              } else {
-                                setCampaignMedium(campaignMedium - 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price - influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.filter(
-                                      influencerService =>
-                                        influencerService.socialChannels
-                                          .title === SOCIAL_MEDIA.YOUTUBE,
-                                    ),
-                                  },
-                                });
-                              }
-                            },
-                            influencerService.followers,
-                            youtube,
-                          );
-
-                        if (
-                          influencerService.socialChannels.title ===
-                          SOCIAL_MEDIA.BLOG
-                        )
-                          return _field(
-                            faBlog,
-                            'Blog',
-                            influencerService.link,
-                            influencerService.price,
-                            () => {
-                              selectBlog(!blog);
-                              if (!blog) {
-                                setCampaignMedium(campaignMedium + 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price + influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.concat(
-                                      [influencerService],
-                                    ),
-                                  },
-                                });
-                              } else {
-                                setCampaignMedium(campaignMedium - 1);
-                                if (influencerService.price)
-                                  setTotalPrice(
-                                    price - influencerService.price,
-                                  );
-                                setInnerInfluencer({
-                                  ...innerInfluencer,
-                                  influencer: {
-                                    ...innerInfluencer.influencer,
-                                    influencerServices: innerInfluencer.influencer.influencerServices.filter(
-                                      influencerService =>
-                                        influencerService.socialChannels
-                                          .title === SOCIAL_MEDIA.BLOG,
-                                    ),
-                                  },
-                                });
-                              }
-                            },
-                            influencerService.followers,
-                            blog,
-                          );
+                           
+                          },
+                          influencerService.followers,
+                          selectedMedium.includes(influencerService.socialChannels.title),
+                        );
                       },
                     )}
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-4 border-0 bg-transparent">
                   <hr className="blick-border" />
-                  {campaignMedium} campaign mediums
+                  {selectedMedium.length} campaign mediums
                   <div className="my-3 d-flex align-items-center justify-content-between">
                     <div>
                       <img
@@ -517,7 +315,7 @@ const InfluencerAccountPopup = ({
                     variant="warning"
                     block
                     className="mt-4"
-                    disabled={campaignMedium === 0}
+                    disabled={selectedMedium.length === 0}
                     onClick={() => {
                       handleClose();
                       selectInfluencer({

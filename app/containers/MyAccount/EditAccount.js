@@ -111,7 +111,6 @@ const EditAccount = (
 
   React.useEffect(() => {
     const tempFullGenre = [];
-    console.log(influencerProfile);
     influencerProfile && Object.keys(influencerProfile).length > 0 &&
     influencerProfile.influencerGenres.map(generToSearch => {
       const index = genres.findIndex(

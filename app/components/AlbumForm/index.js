@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Form } from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {Controller, useForm} from 'react-hook-form';
+import {Form} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
 import Select from "react-select";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
 
-function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
-  const [image, setImage] = useState({ preview: "" })
+function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
+  const [image, setImage] = useState({preview: ""})
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required('Title is required'),
@@ -19,10 +19,10 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
       .required('Caption is required'),
     description: Yup.string()
       .required('Description is required'),
-    albumGenres:  Yup.array()
-    .required('Genre is required')
-    .nullable(),
-    songs: Yup.array(Yup.object({ value: Yup.string() })).required('Songs are required'),
+    albumGenres: Yup.array()
+      .required('Genre is required')
+      .nullable(),
+    songs: Yup.array(Yup.object({value: Yup.string()})).required('Songs are required'),
   });
 
   const handleChange = e => {
@@ -33,11 +33,9 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
     }
   };
 
-  const { register, handleSubmit, errors, reset, control, setValue, getValues } = useForm({
+  const {register, handleSubmit, errors, reset, control} = useForm({
     resolver: yupResolver(validationSchema)
   });
-  
-  console.log(errors);
 
   const customStyles = {
     option: provided => ({
@@ -52,7 +50,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
       ...provided,
       color: 'black'
     }),
-    menu: provided => ({ ...provided, zIndex: 9999 })
+    menu: provided => ({...provided, zIndex: 9999})
   }
 
   useEffect(() => {
@@ -74,7 +72,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
         if (index !== -1) tempFullGenre.push(genres[index]);
         return true;
       });
-      reset({ ...album, songs, albumGenres: tempFullGenre });
+      reset({...album, songs, albumGenres: tempFullGenre});
     }
   }, [album, songList, genres]);
 
@@ -180,7 +178,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
             <Controller
               name="releaseDate"
               control={control}
-              render={({ onChange, value }) => (
+              render={({onChange, value}) => (
                 <DatePicker
                   dateFormat={'dd/MM/yyyy'}
                   popperPlacement="top-start"
@@ -195,7 +193,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
                   }}
                   className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}
                   selected={value}
-                  style={{ flex: 1 }}
+                  style={{flex: 1}}
                   onChange={onChange}
                 />
               )}
@@ -210,7 +208,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
               dateFormat={'dd/MM/yyyy'}
               name="copyRightDate"
               control={control}
-              render={({ onChange, value }) => (
+              render={({onChange, value}) => (
                 <DatePicker
                   popperPlacement="top-start"
                   popperModifiers={{
@@ -224,7 +222,7 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
                   }}
                   className={`form-control ${errors.copyRightDate ? 'is-invalid' : ''}`}
                   selected={value}
-                  style={{ flex: 1 }}
+                  style={{flex: 1}}
                   onChange={onChange}
                 />
               )}
@@ -252,18 +250,19 @@ function AlbumForm({ genres, formSubmit, songList, album, formLoader }) {
                   className={`custom-file-input ${errors.albumImage ? 'is-invalid' : ''}`}
                   onChange={handleChange}
                   id="inputGroupFile01"
-                  aria-describedby="inputGroupFileAddon01" />
+                  aria-describedby="inputGroupFileAddon01"/>
                 <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
               </div>
             </div>
             <div className="invalid-feedback-block">
               {errors.albumImage && errors.albumImage.message}
             </div>
-            {album && album.artwork && !image.preview && <img className="img-thumbnail mt-3" src={album.artwork} alt={album.title} />}
-            {image.preview && <img className="img-thumbnail mt-3" src={image.preview} alt="uploadedImage" />}
+            {album && album.artwork && !image.preview &&
+            <img className="img-thumbnail mt-3" src={album.artwork} alt={album.title}/>}
+            {image.preview && <img className="img-thumbnail mt-3" src={image.preview} alt="uploadedImage"/>}
           </Form.Group>
         </Form.Row>
-        {formLoader ? <ButtonLoader /> :
+        {formLoader ? <ButtonLoader/> :
           <button className="btn btn-primary btn-block" type="submit">
             Submit
           </button>

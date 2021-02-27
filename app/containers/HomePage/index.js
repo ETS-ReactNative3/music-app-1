@@ -98,6 +98,7 @@ export function HomePage(props) {
         <CarouselFront
           list={newReleases}
           loading={newReleasesLoading}
+          viewAll="/newReleases"
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
           clasess="carousel-front py-5"
         />

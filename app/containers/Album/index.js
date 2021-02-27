@@ -2,10 +2,10 @@ import React, {memo, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {faPlayCircle, faPauseCircle} from '@fortawesome/free-solid-svg-icons';
+import {faPlay, faPause, faCircle} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PaperCard from '../../components/PaperCard';
-import {Col, Image, Row, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {Col, Image, Row} from 'react-bootstrap';
 import moment from 'moment';
 import {
   makeSelectRecommended,
@@ -29,8 +29,6 @@ import globalReducer from '../HomePage/reducer';
 import globalSaga from '../HomePage/saga';
 import {useInjectReducer} from '../../utils/injectReducer';
 import {useInjectSaga} from '../../utils/injectSaga';
-import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
-import './index.scss';
 import ShareBox from '../../components/ShareBox';
 import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
@@ -40,6 +38,7 @@ import {makeSelectAlbum, makeSelectAlbumLoader} from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import {getNewReleases} from "../HomePage/actions";
 import {makeSelectNewReleaseLoading, makeSelectNewReleases} from "../HomePage/selectors";
+import defaultImage from '../../images/default-image.png'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -106,85 +105,87 @@ const Album = props => {
         <LoadingIndicator/>
       ) : (
         <>
-          <PaperCard title={albumInfo.title}>
-            <Row>
-              <Col md={7} lg={8} xl={9}>
-                <div className="d-flex align-items-center">
+          <PaperCard>
+            <div className="row d-flex align-items-end">
+              <div className="col-3">
+                <Image
+                  width={230}
+                  height={230}
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = defaultImage;
+                  }}
+                  src={albumInfo.artwork}
+                  alt="album-image"
+                />
+              </div>
+              <div className="col-9 px-0">
+                <div className="py-2">
+                  <h6 className="py-2">ALBUM</h6>
+                  <h1>{albumInfo.title}</h1>
+                  <h6>{albumInfo.caption}</h6>
+                </div>
+                <div className="text-muted d-flex align-items-center">
                   <Image
-                    width={150}
-                    height={150}
+                    width={24}
+                    height={24}
                     onError={e => {
                       e.target.onerror = null;
                       e.target.src = defaultImage;
                     }}
-                    src={albumInfo.artwork}
-                    alt=""
+                    src={albumInfo.user.avatar}
+                    alt="album-image"
                     roundedCircle
                   />
-                  <div className="ml-3">
-                    <div className="d-flex align-items-center">
-                      {albumInfo.caption}
-                      <span className="ml-2">
-                        <ShareBox/>
-                      </span>
-                    </div>
-                    <small className="text-muted d-block">
-                      {moment(albumInfo.releaseDate).format('YYYY-MM-DD')}
-                    </small>
-                    <small className="text-muted d-block">
-                      Songs: {albumInfo.albumSongs.length}
-                    </small>
-                    <span
-                      onClick={playAllSongsHandler}
-                      className="mt-2 btn btn-warning btn-sm rounded-pill cursor-pointer"
-                    >
-                      {currentSong.playing ? 'Pause' : 'Play All'}
-                    </span>
-                  </div>
+                  <small className="px-1">{albumInfo.user.name}</small>
+                  <FontAwesomeIcon icon={faCircle} style={{fontSize: "5px"}}/>
+                  <small className="px-1">{moment(albumInfo.releaseDate).format('MMM YYYY')}</small>
+                  <FontAwesomeIcon icon={faCircle} style={{fontSize: "5px"}}/>
+                  <small className="px-1">{albumInfo.albumSongs.length} songs</small>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
+            <div className="row py-4">
+              <div className="col-12 d-flex align-items-center">
+                <span
+                  onClick={playAllSongsHandler}
+                  className="btn btn-warning rounded-pill cursor-pointer"
+                >
+                  {currentSong.playing ? 'Pause' : 'Play All'}
+                </span>
+                <ShareBox/>
+              </div>
+
+            </div>
             <Row>
               <Col md={12}>
-                <section className="py-5">
+                <section>
                   {albumInfo.albumSongs.map((ele, index) => (
                     <div
-                      className="row border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                      className="row song-row align-content-center py-3"
                       id={`songNumber${ele.song.id}`}
                       key={index}
                     >
-                      <div className="song-number pr-3 col-md-1">
-                        {`0${index + 1}`.slice(-2)}
-                      </div>
-                      <div className="song-title px-2 col-md-5">
-                        <OverlayTrigger
-                          placement="top"
-                          delay={{show: 250, hide: 400}}
-                          overlay={<Tooltip id={`button-tooltip-${index}`}>{ele.song.title}</Tooltip>}
-                        >
-                          <h5>{ele.song.title}</h5>
-                        </OverlayTrigger>
-                      </div>
-                      <div className="song-duration px-2">4:25</div>
-                      <div className="song-action px-2">
+                      <div className="col-10">
+                        <span className="song-number pr-3">{index + 1}</span>
                         <span
                           onClick={() => singleSongHandler(ele.song.id)}
-                          className="cursor-pointer"
+                          className="cursor-pointer px-3"
                         >
                           <FontAwesomeIcon
-                            size="3x"
-                            color={PLAY_ICON_BG_COLOR}
                             icon={
                               currentSong.songData.id === ele.song.id &&
                               currentSong.playing
-                                ? faPauseCircle
-                                : faPlayCircle
+                                ? faPause
+                                : faPlay
                             }
                           />
                         </span>
+                        <h5 className="song-title d-inline">{ele.song.title}</h5>
                       </div>
-                      {role && (
-                        <div className="dot-box ml-auto">
+                      <div className="col-2 d-flex justify-content-center align-items-center">
+                        <span className="song-duration px-4">4:25</span>
+                        {role && (
                           <SongsOptionsBox
                             songId={ele.song.id}
                             playlists={playlists}
@@ -196,8 +197,8 @@ const Album = props => {
                               addSongIntoPlaylistAction
                             }
                           />
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   ))}
                 </section>
