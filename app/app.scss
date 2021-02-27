@@ -64,8 +64,10 @@ h5 {
     color: #ffffff;
   }
 }
-
-.table-hover tbody tr:hover, .song-row:hover {
+a {
+  color: #b3b3b3;
+}
+.table-hover tbody tr:hover, .song-row:hover, .top-songs:hover {
   color: #1fdbae;
   background-color: rgba(var(--color--text), 14%) !important;
 }

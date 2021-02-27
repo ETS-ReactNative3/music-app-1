@@ -28,15 +28,15 @@ const NewReleases = ({getNewReleasesAction, newReleases, newReleasesLoading}) =>
 
   const renderReleaseItem = (item, index) => {
     return (
-      <div className="col-md-3 mb-4" key={index}>
+      <div className="col-lg-2 col-md-4 col-sm-4 mb-4" key={index}>
         <div
-          className="img-preview carousel-image-container rounded cursor-pointer"
+          className="img-preview image-container rounded cursor-pointer"
           onClick={e => {
             e.preventDefault();
             redirectOnAlbum(item.slug);
           }}
         >
-          <img src={item.artwork} alt="" className="rounded carousel-image"/>
+          <img src={item.artwork} alt="" className="rounded song-image"/>
           <div className="hover-box">
             <FontAwesomeIcon
               icon={faPlayCircle}
@@ -47,7 +47,7 @@ const NewReleases = ({getNewReleasesAction, newReleases, newReleasesLoading}) =>
           </div>
         </div>
         <div className="pt-4">
-          <h4>{item.title}</h4>
+          <h5>{item.title}</h5>
           {item.description.length > 45 ? <OverlayTrigger
               placement="top"
               delay={{show: 250, hide: 400}}
