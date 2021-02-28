@@ -24,7 +24,9 @@ import CampaignList from '../Campaign/list';
 import CampaignDetails from '../Campaign/details';
 import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
-import Library from '../Library';
+import {Library} from '../Library/Loadable';
+import Artist from '../Artist/Loadable';
+import {NewReleases} from '../NewReleases/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -156,6 +158,12 @@ function Application() {
         <PrivateRoute path="/library" exact>
           <Library/>
         </PrivateRoute>
+        <Route exact path="/artist/:id">
+          <Artist/>
+        </Route>
+        <Route exact path="/newReleases">
+          <NewReleases/>
+        </Route>
       </Switch>
     </Dashboard>
   );

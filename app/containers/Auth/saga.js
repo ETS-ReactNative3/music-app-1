@@ -24,11 +24,10 @@ import {
 import history from '../../utils/history';
 import {setRole} from '../App/actions';
 import request from '../../utils/request';
-
-const url = 'https://bliiink.ga';
+import {server} from "../../../config";
 
 function loginApi(authParams) {
-  return request(`${url}/auth/login`, {
+  return request(`${server.apiURL}auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -38,7 +37,7 @@ function loginApi(authParams) {
 }
 
 function registerApi(authParams) {
-  return request(`${url}/auth/register`, {
+  return request(`${server.apiURL}auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -48,7 +47,7 @@ function registerApi(authParams) {
 }
 
 function verificationApi(code) {
-  return request(`${url}/auth/verifyCode`, {
+  return request(`${server.apiURL}auth/verifyCode`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -58,7 +57,7 @@ function verificationApi(code) {
 }
 
 function forgotPasswordApi(email) {
-  return request(`${url}/auth/forgotPassword`, {
+  return request(`${server.apiURL}auth/forgotPassword`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -68,7 +67,7 @@ function forgotPasswordApi(email) {
 }
 
 function resetPasswordApi(data) {
-  return request(`${url}/auth/resetPassword`, {
+  return request(`${server.apiURL}auth/resetPassword`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',

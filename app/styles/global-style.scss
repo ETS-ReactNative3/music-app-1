@@ -331,15 +331,6 @@ img {
     transition: margin-left 0.3s ease-in-out;
     margin-left: 250px;
   }
-  .carousel-front {
-    .img-preview {
-      height: 160px;
-
-      img {
-        height: 100%;
-      }
-    }
-  }
 }
 
 
@@ -397,10 +388,6 @@ img {
   color: green;
   background-color: lightgray;
   margin: 5px;
-}
-
-.check .nav-tabs:focus {
-  color: none;
 }
 
 .input-url {

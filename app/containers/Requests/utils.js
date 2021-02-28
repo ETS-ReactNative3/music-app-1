@@ -15,6 +15,7 @@ export const newRequestColumns = [
       textAlign: 'left'
     },
     headerStyle: {
+      width: '10%',
       textAlign: 'left',
     },
   },
@@ -26,6 +27,7 @@ export const newRequestColumns = [
       textAlign: 'left',
     },
     headerStyle: {
+      width: '30%',
       textAlign: 'left',
     },
   },
@@ -35,12 +37,18 @@ export const newRequestColumns = [
     style: {
       width: '15%',
     },
+    headerStyle: {
+      width: '15%',
+    },
     formatter: statusFormatter,
   },
   {
     dataField: 'Expiry Date',
     text: 'Expiry Date',
     style: {
+      width: '15%',
+    },
+    headerStyle: {
       width: '15%',
     },
     formatter: expiryDateFormatter,
@@ -57,6 +65,7 @@ export const declineRequestColumn = [
       textAlign: 'left'
     },
     headerStyle: {
+      width: '10%',
       textAlign: 'left',
     },
   },
@@ -68,6 +77,7 @@ export const declineRequestColumn = [
       textAlign: 'left',
     },
     headerStyle: {
+      width: '30%',
       textAlign: 'left',
     },
   },
@@ -77,12 +87,18 @@ export const declineRequestColumn = [
     style: {
       width: '15%',
     },
+    headerStyle: {
+      width: '15%',
+    },
     formatter: statusFormatter,
   },
   {
     dataField: 'Expiry Date',
     text: 'Date',
     style: {
+      width: '15%',
+    },
+    headerStyle: {
       width: '15%',
     },
     formatter: dateFormatter,

@@ -1,13 +1,14 @@
 import React from 'react';
 import {
-  faPlayCircle,
-  faPauseCircle,
+  faPause, faPlay
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../ShareBox';
 import LoadingIndicator from "../LoadingIndicator";
+import {Link} from "react-router-dom";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 const SongList = ({list, heading, singleSongHandler, currentSong, classes, loading}) => {
   const {playing} = currentSong;
@@ -20,7 +21,7 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
             return (
               <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12" key={index}>
                 <div
-                  className="d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                  className="top-songs d-flex border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
                   key={index}
                 >
                   <div className="song-number px-1 mw-65">
@@ -28,31 +29,36 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
                   </div>
                   <div className="song-profile px-1">
                     <div className="song-img">
-                      <img src={ele.artwork} alt="" className="rounded"/>
+                      <img src={ele.albumSongs[0].album.artwork} alt="" className="rounded"/>
                     </div>
                   </div>
                   <div className="song-title px-1">
-                    <h5>{ele.title}</h5>
-                    <h6>{ele.artist}</h6>
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{show: 250, hide: 400}}
+                      overlay={<Tooltip id={`song-title-tooltip`}>{ele.title}</Tooltip>}
+                    >
+                      <h5>{ele.title}</h5>
+                    </OverlayTrigger>
+                    <Link to={`/artist/${ele.user.id}`}>
+                      <small>{ele.user.name}</small>
+                    </Link>
                   </div>
-                  <div className="song-duration px-1 ml-auto">4:25</div>
-                  <div className="song-action px-1 ml-auto">
+                  <div className="song-action px-2">
                   <span
                     className="cursor-pointer"
                     onClick={() => singleSongHandler(ele.id)}
                   >
                     <FontAwesomeIcon
-                      size="2x"
-                      color={PLAY_ICON_BG_COLOR}
                       icon={
                         currentSong.songData.id === ele.id && playing
-                          ? faPauseCircle
-                          : faPlayCircle
+                          ? faPause
+                          : faPlay
                       }
                     />
                   </span>
                   </div>
-                  <div className="ml-auto d-flex align-self-center">
+                  <div className="d-flex align-self-center">
                     <ShareBox/>
                   </div>
                 </div>

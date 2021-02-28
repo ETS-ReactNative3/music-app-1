@@ -6,6 +6,9 @@ import * as Yup from "yup";
 import Select from "react-select";
 import {yupResolver} from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import './index.scss';
 
 function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
   const [image, setImage] = useState({preview: ""})
@@ -16,8 +19,9 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
       .required('Caption is required'),
     description: Yup.string()
       .required('Description is required'),
-    genreId: Yup.string()
-      .required('Genre is required'),
+    albumGenres: Yup.array()
+      .required('Genre is required')
+      .nullable(),
     songs: Yup.array(Yup.object({value: Yup.string()})).required('Songs are required'),
   });
 
@@ -29,7 +33,7 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
     }
   };
 
-  const {register, handleSubmit, errors, reset, control, setValue} = useForm({
+  const {register, handleSubmit, errors, reset, control} = useForm({
     resolver: yupResolver(validationSchema)
   });
 
@@ -50,18 +54,27 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
   }
 
   useEffect(() => {
-    if (album && songList) {
+    if (album && songList && genres) {
       // To set songs
       const albumSongList = album.albumSongs.map(song => song.songId);
       const songs = albumSongList.map(s => {
         return songList.find(i => i.id === s)
       })
       // To set releaseDate
-      album.releaseDate = new Date(album.releaseDate).toISOString().split('T')[0]
-      album.copyRightDate = new Date(album.copyRightDate).toISOString().split('T')[0]
-      reset({...album, songs});
+      album.releaseDate = new Date(album.releaseDate)
+      album.copyRightDate = new Date(album.copyRightDate)
+
+      const tempFullGenre = [];
+      album.albumGenres.map(generToSearch => {
+        const index = genres.findIndex(
+          genre => genre.id === generToSearch.genreId,
+        );
+        if (index !== -1) tempFullGenre.push(genres[index]);
+        return true;
+      });
+      reset({...album, songs, albumGenres: tempFullGenre});
     }
-  }, [album, songList]);
+  }, [album, songList, genres]);
 
   const onSubmit = data => {
     formSubmit(data);
@@ -85,7 +98,7 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
           </Form.Group>
           <Form.Group as={Col} controlId="formGridCaption">
             <label htmlFor="caption">Caption</label>
-            <input
+            <textarea
               name="caption"
               placeholder="Enter album caption"
               className={`form-control ${errors.caption ? 'is-invalid' : ''}`}
@@ -99,7 +112,7 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
         <Form.Row>
           <Form.Group as={Col} controlId="formGridDescription">
             <label htmlFor="email">Description</label>
-            <input
+            <textarea
               name="description"
               placeholder="Enter album description"
               className={`form-control ${errors.description ? 'is-invalid' : ''}`}
@@ -126,20 +139,19 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
         <Form.Row>
           <Form.Group as={Col} controlId="formGridGenre">
             <label htmlFor="email">Genre</label>
-            <select
-              name="genreId"
-              ref={register}
-              className={`form-control ${errors.genreId ? 'is-invalid' : ''}`}
-            >
-              <option value="" disabled selected>Select Album Genre</option>
-              {genres.map(genre => (
-                <option key={genre.id} value={genre.id}>
-                  {genre.title}
-                </option>
-              ))}
-            </select>
+            <Controller
+              name="albumGenres"
+              styles={customStyles}
+              control={control}
+              isMulti
+              isClearable
+              getOptionLabel={option => option.title}
+              getOptionValue={option => option.id}
+              options={genres}
+              as={Select}
+            />
             <div className="invalid-feedback">
-              {errors.genreId && errors.genreId.message}
+              {errors.albumGenres && errors.albumGenres.message}
             </div>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridGenre">
@@ -163,20 +175,63 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
         <Form.Row>
           <Form.Group as={Col} controlId="formGridGenre">
             <label htmlFor="releaseDate">Release Date</label>
-            <input name="releaseDate" type="date" ref={register}
-                   className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}/>
+            <Controller
+              name="releaseDate"
+              control={control}
+              render={({onChange, value}) => (
+                <DatePicker
+                  dateFormat={'dd/MM/yyyy'}
+                  popperPlacement="top-start"
+                  popperModifiers={{
+                    flip: {
+                      behavior: ["top-start"] // don't allow it to flip to be above
+                    },
+                    preventOverflow: {
+                      enabled: false // tell it not to try to stay within the view (this prevents the popper from covering the element you clicked)
+                    },
+
+                  }}
+                  className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}
+                  selected={value}
+                  style={{flex: 1}}
+                  onChange={onChange}
+                />
+              )}
+            />
             <div className="invalid-feedback">
               {errors.releaseDate && errors.releaseDate.message}
             </div>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridGenre">
             <label htmlFor="copyrightDate">Copyright Date</label>
-            <input name="copyRightDate" type="date" ref={register}
-                   className={`form-control ${errors.copyrightDate ? 'is-invalid' : ''}`}/>
+            <Controller
+              dateFormat={'dd/MM/yyyy'}
+              name="copyRightDate"
+              control={control}
+              render={({onChange, value}) => (
+                <DatePicker
+                  popperPlacement="top-start"
+                  popperModifiers={{
+                    flip: {
+                      behavior: ["top-start"] // don't allow it to flip to be above
+                    },
+                    preventOverflow: {
+                      enabled: false // tell it not to try to stay within the view (this prevents the popper from covering the element you clicked)
+                    },
+
+                  }}
+                  className={`form-control ${errors.copyRightDate ? 'is-invalid' : ''}`}
+                  selected={value}
+                  style={{flex: 1}}
+                  onChange={onChange}
+                />
+              )}
+            />
             <div className="invalid-feedback">
               {errors.copyRightDate && errors.copyRightDate.message}
             </div>
           </Form.Group>
+
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} controlId="fileGridGenre">
@@ -202,7 +257,8 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
             <div className="invalid-feedback-block">
               {errors.albumImage && errors.albumImage.message}
             </div>
-            {album && album.artwork && !image.preview && <img className="img-thumbnail mt-3" src={album.artwork} alt={album.title}/>}
+            {album && album.artwork && !image.preview &&
+            <img className="img-thumbnail mt-3" src={album.artwork} alt={album.title}/>}
             {image.preview && <img className="img-thumbnail mt-3" src={image.preview} alt="uploadedImage"/>}
           </Form.Group>
         </Form.Row>

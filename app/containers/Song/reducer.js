@@ -21,7 +21,7 @@ import {
   UPDATE_SONG_REQUEST_FAIL,
   UPDATE_SONG_REQUEST,
   UPDATE_SONG_REQUEST_SUCCESS,
-  GET_GENRES_SUCCESS,
+  GET_GENRES_SUCCESS, SAVE_MOOD_LIST
 } from './constants';
 
 export const initialState = {
@@ -77,6 +77,9 @@ const songReducer = (state = initialState, action) =>
         break;
       case GET_GENRES_SUCCESS:
         draft.genres = action.genres;
+        break;
+      case SAVE_MOOD_LIST:
+        draft.moods = action.moods;
         break;
     }
   });

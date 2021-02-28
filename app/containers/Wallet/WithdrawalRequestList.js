@@ -34,20 +34,44 @@ const WithdrawalRequestList = ({getWithdrawalList, withdrawalList, payRequest}) 
     {
       dataField: 'influencer.name',
       text: 'Tastemaker Name',
+      headerStyle: {
+        width: '20%'
+      },
+      style: {
+        width: '20%'
+      }
     },
     {
       dataField: 'amount',
       text: 'Amount',
+      headerStyle: {
+        width: '10%'
+      },
+      style: {
+        width: '10%'
+      }
     },
     {
       dataField: 'influencerWithdrawalStatus.name',
       text: 'Status',
-      filter: textFilter()
+      filter: textFilter(),
+      headerStyle: {
+        width: '20%'
+      },
+      style: {
+        width: '20%'
+      }
     },
     {
       dataField: 'createdDate',
       text: 'Created Date',
       formatter: dateFormatter,
+      headerStyle: {
+        width: '20%'
+      },
+      style: {
+        width: '20%'
+      }
     },
     {
       dataField: 'actions',
@@ -55,6 +79,12 @@ const WithdrawalRequestList = ({getWithdrawalList, withdrawalList, payRequest}) 
       isDummyField: true,
       csvExport: false,
       formatter: actionsFormatter,
+      headerStyle: {
+        width: '20%'
+      },
+      style: {
+        width: '20%'
+      }
     },
   ];
 

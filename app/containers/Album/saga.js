@@ -93,9 +93,6 @@ export function* albumSaga(action) {
   try {
     const result = yield call(getAlbumInfo, action.slug);
     yield put(loadAlbumSuccess(result.data));
-    if (result.data && result.data.albumSongs.length > 0) {
-      yield put(setPlaylist(result.data.albumSongs));
-    }
   } catch (e) {
     toast.error(e.message);
     yield put(loadAlbumFail(e.message));

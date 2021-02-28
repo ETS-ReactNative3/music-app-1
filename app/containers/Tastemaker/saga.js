@@ -15,13 +15,11 @@ import { SOCIAL_CHANNELS } from '../App/constants';
 function getTasteMakersApi(data) {
   let url = 'influencers/list';
   if (data.searchText) { url = url + `?text=${data.searchText}` } else { url = url + `?text=`; }
-
-    if (data.filters && data.filters.facebook) url = url + `&services=${SOCIAL_CHANNELS.FACEBOOK}`;
-    if (data.filters && data.filters.instagram) url = url + `&services=${SOCIAL_CHANNELS.INSTAGRAM}`;
-    if (data.filters && data.filters.twitter) url = url + `&services=${SOCIAL_CHANNELS.TWITTER}`;
-    if (data.filters && data.filters.blog) url = url + `&services=${SOCIAL_CHANNELS.BLOG}`;
-    if (data.filters && data.filters.youtube) url = url + `&services=${SOCIAL_CHANNELS.YOUTUBE}`;
-  if (data.filters && data.filters.genre) url = url + '&genre=' + data.filters.genre.join(',')
+if (data.filters)
+  data.filters.map(filter => {
+    url = url + `&services=${filter}`
+  })
+  
   return axiosInstance().get(url);
 }
 

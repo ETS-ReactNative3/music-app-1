@@ -8,6 +8,6 @@ import React from 'react';
 import loadable from 'utils/loadable';
 import LoadingIndicator from 'components/LoadingIndicator';
 
-export const InfluencerVerify = loadable(() => import('./influencerVerify.js'), {
+export const Library = loadable(() => import('./index.js'), {
   fallback: <LoadingIndicator />,
 });

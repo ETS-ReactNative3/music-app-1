@@ -54,19 +54,54 @@ const WalletHistory = (
     {
       dataField: 'amount',
       text: 'Amount',
+      style: {
+        width: '20%'
+      },
+      headerStyle: {
+        width: '20%'
+      }
     },
     {
       dataField: 'currency',
       text: 'Currency',
+      style: {
+        width: '20%',
+        textAlign: 'center'
+      },
+      headerStyle: {
+        width: '20%',
+        textAlign: 'center'
+
+      }
     },
     {
       dataField: 'orderStatus.title',
       text: 'Status',
+      style: {
+        width: '30%',
+        textAlign: 'center'
+
+      },
+      headerStyle: {
+        width: '30%',
+        textAlign: 'center'
+
+      }
     },
     {
       dataField: 'updatedAt',
       text: 'Purchased Date',
       formatter: dateFormatter,
+      style: {
+        width: '30%',
+        textAlign: 'center'
+
+      },
+      headerStyle: {
+        width: '30%',
+        textAlign: 'center'
+
+      }
     },
   ];
 

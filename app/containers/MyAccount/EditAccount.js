@@ -111,7 +111,6 @@ const EditAccount = (
 
   React.useEffect(() => {
     const tempFullGenre = [];
-    console.log(influencerProfile);
     influencerProfile && Object.keys(influencerProfile).length > 0 &&
     influencerProfile.influencerGenres.map(generToSearch => {
       const index = genres.findIndex(
@@ -189,9 +188,8 @@ const EditAccount = (
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridDiscription">
                   <label htmlFor="biography">Biography</label>
-                  <input
+                  <textarea
                     name="biography"
-                    //   type="number"
                     placeholder="Biography"
                     className={`form-control ${
                       errors.biography ? 'is-invalid' : ''
@@ -328,10 +326,9 @@ const EditAccount = (
                 </Form.Row>
                 <Form.Row>
                   <Form.Group as={Col} controlId="formGridDiscription">
-                    <label htmlFor="recordLabelManager">Recodrd label manager</label>
+                    <label htmlFor="recordLabelManager">Record label manager</label>
                     <input
                       name="recordLabelManager"
-                      //   type="number"
                       placeholder="Record Label manager"
                       className={`form-control ${
                         errors.recordLabelManager ? 'is-invalid' : ''

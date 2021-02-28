@@ -33,16 +33,16 @@ const Footer = props => {
   }, [currentSong]);
 
   const handleClickPrevious = () => {
-    const songIndex = playlist.findIndex(item => item.songId === currentSong.songData.id)
+    const songIndex = playlist.findIndex(item => item.song.id === currentSong.songData.id)
     if (songIndex !== 0) {
-      onHandleSingleSong(playlist[songIndex - 1].songId, true);
+      onHandleSingleSong(playlist[songIndex - 1].song.id, true);
     }
   };
 
   const handleClickNext = () => {
-    const songIndex = playlist.findIndex(item => item.songId === currentSong.songData.id)
+    const songIndex = playlist.findIndex(item => item.song.id === currentSong.songData.id)
     if (songIndex < (playlist.length - 1)) {
-      onHandleSingleSong(playlist[songIndex + 1].songId, true);
+      onHandleSingleSong(playlist[songIndex + 1].song.id, true);
     }
   };
 
@@ -51,7 +51,7 @@ const Footer = props => {
   };
 
   const footerText = (
-    <div className="row mr-3">
+    <div className="row mr-2">
       <div className="col-auto">
         <img
           src={currentSong.songData.artwork}
@@ -61,7 +61,7 @@ const Footer = props => {
           className="rounded"
         />
       </div>
-      <div className="col-5 song-title">
+      <div className="col-auto song-title">
         <OverlayTrigger
           placement="top"
           delay={{show: 250, hide: 400}}
