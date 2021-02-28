@@ -23,6 +23,7 @@ import messages from '../HomePage/messages';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import {useHistory, useParams} from 'react-router-dom';
 import {makeSelectUserDetails} from '../App/selectors';
+import PaperCard from "../../components/PaperCard";
 
 export function Artist({artist, fetchArtist, artistFetching, followArtist, userDetails}) {
   useInjectReducer({key: 'artist', reducer});
@@ -41,22 +42,24 @@ export function Artist({artist, fetchArtist, artistFetching, followArtist, userD
           <div className="container h-100">
             <div className="row h-100 justify-content-center align-items-center">
               <div className="col-12">
-                <h1 className="display-4">{artist.name}</h1>
-                <hr className="my-4"/>
+                <h1 className="display-4 my-4">{artist.name}</h1>
                 <button onClick={() => (userDetails) ? followArtist(artist) : history.push('/auth/login')}
-                        className="btn btn-primary btn-lg">Follow</button>
+                        className="btn btn-success btn-lg">Follow
+                </button>
               </div>
             </div>
           </div>
         </section>
-        <section className="artist-data">
-          <CarouselFront
-            loading={artistFetching}
-            list={artist.albums}
-            heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
-            clasess="carousel-front py-5"
-          />
-        </section>
+        <PaperCard>
+          <section className="artist-data">
+            <CarouselFront
+              loading={artistFetching}
+              list={artist.albums}
+              heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
+              clasess="carousel-front py-5"
+            />
+          </section>
+        </PaperCard>
       </> : <LoadingIndicator/>}
     </div>
   );

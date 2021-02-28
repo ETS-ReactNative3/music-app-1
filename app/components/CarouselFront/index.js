@@ -53,7 +53,7 @@ const CarouselFront = props => {
                 <div className="pt-4">
                   <h4>{ele.title}</h4>
                   {ele.description.length > 45 ? <OverlayTrigger
-                      placement="top"
+                      placement="bottom"
                       delay={{show: 250, hide: 400}}
                       overlay={<Tooltip id={`song-title-tooltip`}>{ele.description}</Tooltip>}
                     ><h6>{ele.description.substring(0, 45)}...</h6></OverlayTrigger> :

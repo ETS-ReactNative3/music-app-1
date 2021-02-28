@@ -149,7 +149,7 @@ const Album = props => {
               <div className="col-12 d-flex align-items-center">
                 <span
                   onClick={playAllSongsHandler}
-                  className="btn btn-success rounded-pill cursor-pointer"
+                  className="btn btn-success rounded-pill cursor-pointer px-4"
                 >
                   {currentSong.playing ? 'Pause' : 'Play All'}
                 </span>
