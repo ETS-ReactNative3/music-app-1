@@ -214,7 +214,7 @@ const InfluencerAccountPopup = ({
                 roundedCircle
               />
               <div className="ml-3">
-                {userSelected.name}
+                {userSelected.influencer.name || userSelected.name}
                 <small className="text-muted d-block">
                   {followers > 1000
                     ? `${formatFollowers(followers / 1000)}k`

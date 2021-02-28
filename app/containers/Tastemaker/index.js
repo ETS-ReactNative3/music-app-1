@@ -144,7 +144,7 @@ export function Tastemaker(
                         className="form-check-input"
                         id={channel.id}
                         onChange={() => {
-                          if (filters.includes(channel.title)) {
+                          if (filters.includes(channel.id)) {
                             setFilters([...filters.filter(filter => filter !== channel.id)])
                           } else {
                             setFilters([...filters, channel.id]);
