@@ -27,7 +27,7 @@ function* fetchFollowedAlbumsSaga() {
 
 function* fetchFollowedArtistSaga() {
   try {
-    const result = yield call(fetchFollowedAlbumsAPI);
+    const result = yield call(fetchFollowedArtistAPI);
     // yield put(putCampaignAction(result.data));
   } catch (e) {
     toast.error(e.message);

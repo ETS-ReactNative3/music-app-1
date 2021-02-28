@@ -18,21 +18,15 @@ const makeSelectFollowedAlbums = () =>
   );
 
 
-const makeSelectVerifySubmitting = () =>
+const makeSelectFollowedArtist = () =>
   createSelector(
     selectLibraryDomain,
     substate => substate.followedArtist,
   );
 
-  const makeSelectDeclineSubmitting = () =>
-  createSelector(
-    selectLibraryDomain,
-    substate => substate.followedPlaylist,
-  );
 
 
 export {
   makeSelectFollowedAlbums,
-  makeSelectVerifySubmitting,
-  makeSelectDeclineSubmitting
+  makeSelectFollowedArtist,
 };

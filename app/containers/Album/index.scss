@@ -1,0 +1,13 @@
+.heart_icon {
+    margin-left: 20px;
+    &:hover {
+        color: #28a745;
+    }
+}
+
+.followed_heart_icon {
+    margin-left: 20px;
+    &:hover {
+        color: #71f18f;
+    }
+}

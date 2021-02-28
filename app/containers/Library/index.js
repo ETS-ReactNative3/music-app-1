@@ -6,24 +6,27 @@ import { createStructuredSelector } from 'reselect';
 import PaperCard from '../../components/PaperCard';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
-import { fetchFollowedAlbumsAction } from './actions';
+import { fetchFollowedAlbumsAction, fetchFollowedArtistAction } from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import { makeSelectFollowedAlbums } from './selectors';
+import { makeSelectFollowedAlbums, makeSelectFollowedArtist } from './selectors';
 import PropTypes from 'prop-types';
 import defaultImage from '../../images/album-3.jpg';
+import { redirectOnAlbum } from '../../utils/redirect';
 
-const Library = ({ getFollowedAlbums, followedAlbums }) => {
+const Library = ({ getFollowedAlbums, followedAlbums, getFollowedArtist, followedArtists }) => {
 
     useInjectReducer({ key: 'library', reducer });
     useInjectSaga({ key: 'library', saga })
     React.useEffect(() => {
         getFollowedAlbums();
+        getFollowedArtist();
     }, [])
 
-    const renderItem = (name, image, description) => {
+    // type can be album or artist
+    const renderItem = (name, image, description, type, albumSlug) => {
         return (
-            <div className="card bg-dark" style={{ width: 250 }}>
+            <div onClick={() => redirectOnAlbum(albumSlug)} className="card bg-dark" style={{ width: 250 }}>
                 <Image
                     width={250}
                     height={150}
@@ -53,22 +56,18 @@ const Library = ({ getFollowedAlbums, followedAlbums }) => {
                 <Tab eventKey="albums" title="Albums" className="tab-style table-cursor">
                     {/* {renderTable(newRequestList, newRequestColumns)} */}
                     <div style={{ margin: 20 }}>
-                        {followedAlbums.map(album => renderItem(album.album.title, album.album.artwork, album.album.description))}
+                        {followedAlbums.map(album => renderItem(album.album.title, album.album.artwork, album.album.description, 'album', album.album.slug))}
                     </div>
                 </Tab>
-                <Tab
-                    eventKey="playlist"
-                    title="PlayList"
-                    className="tab-style table-cursor"
-                >
-                    {/* {renderTable(inProgressRequestList, newRequestColumns)} */}
-                </Tab>
+                
                 <Tab
                     eventKey="artist"
                     title="Artist"
                     className="tab-style table-cursor"
                 >
-                    {/* {renderTable(completedRequestList, newRequestColumns)} */}
+                    {/* <div style={{ margin: 20 }}>
+                        {followedAlbums.map(album => renderItem(album.album.title, album.album.artwork, album.album.description))}
+                    </div> */}
                 </Tab>
 
             </Tabs>
@@ -78,15 +77,20 @@ const Library = ({ getFollowedAlbums, followedAlbums }) => {
 
 Library.propTypes = {
     getFollowedAlbums: PropTypes.func,
-    followedAlbums: PropTypes.array
+    followedAlbums: PropTypes.array,
+    getFollowedArtist: PropTypes.func,
+    followedArtists: PropTypes.array,
+
 }
 const mapStateToProps = createStructuredSelector({
-    followedAlbums: makeSelectFollowedAlbums()
+    followedAlbums: makeSelectFollowedAlbums(),
+    followedArtists: makeSelectFollowedArtist()
 });
 
 function mapDispatchToProps(dispatch) {
     return {
         getFollowedAlbums: () => dispatch(fetchFollowedAlbumsAction()),
+        getFollowedArtist: () => dispatch(fetchFollowedArtistAction())
     };
 }
 

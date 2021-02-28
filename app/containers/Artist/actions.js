@@ -26,9 +26,9 @@ export function saveArtistAction(artist) {
   };
 }
 
-export function followArtistAction (artist) {
+export function followArtistAction (artistId, follow, id) {
   return {
     type: FOLLOW_ARTIST,
-    artist
+    artistId, follow, id
   }
 }
