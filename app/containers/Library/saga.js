@@ -4,7 +4,7 @@
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import { axiosInstance } from '../../utils/api';
-import { saveFollowedAlbumsAction } from './actions';
+import { saveFollowedAlbumsAction, saveFollowedArtistAction } from './actions';
 import { FETCH_FOLLOWED_ALBUMS, FETCH_FOLLOWED_ARTIST } from './constants';
 
 
@@ -13,7 +13,7 @@ function fetchFollowedAlbumsAPI() {
 }
 
 function fetchFollowedArtistAPI() {
-  return axiosInstance().get('artist/followed');
+  return axiosInstance().get('/users/myArtists');
 }
 
 function* fetchFollowedAlbumsSaga() {
@@ -28,7 +28,7 @@ function* fetchFollowedAlbumsSaga() {
 function* fetchFollowedArtistSaga() {
   try {
     const result = yield call(fetchFollowedArtistAPI);
-    // yield put(putCampaignAction(result.data));
+    yield put(saveFollowedArtistAction(result.data));
   } catch (e) {
     toast.error(e.message);
   }

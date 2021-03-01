@@ -195,15 +195,16 @@ export function* getGenresSaga() {
 }
 
 export function* followAlbumSaga(action) {
-  const {albumId, like, albumSlug} = action;
+  const { albumId, like, albumSlug } = action;
   try {
     console.log(action);
-    yield call(followAlbumApi, {albumId, like});
+    yield call(followAlbumApi, { albumId, like });
     if (like) toast.success('Album added to your library');
     else toast.success('Album removed from your library');
-    yield put(loadAlbum(albumSlug));
+    const token = yield localStorage.getItem('token');
+    const result = yield call(token ? getAlbumInfoForLoggedIn : getAlbumInfo, albumSlug);
+    yield put(loadAlbumSuccess(result.data));
   } catch (e) {
-    console.log(e);
     if (like) toast.error('Error in saving album');
     else toast.error('Error in unlike album');
   }

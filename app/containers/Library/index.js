@@ -13,20 +13,23 @@ import { makeSelectFollowedAlbums, makeSelectFollowedArtist } from './selectors'
 import PropTypes from 'prop-types';
 import defaultImage from '../../images/album-3.jpg';
 import { redirectOnAlbum } from '../../utils/redirect';
+import { useHistory } from 'react-router-dom';
+import './index.scss';
 
 const Library = ({ getFollowedAlbums, followedAlbums, getFollowedArtist, followedArtists }) => {
 
     useInjectReducer({ key: 'library', reducer });
     useInjectSaga({ key: 'library', saga })
+    const history = useHistory();
     React.useEffect(() => {
         getFollowedAlbums();
         getFollowedArtist();
     }, [])
 
     // type can be album or artist
-    const renderItem = (name, image, description, type, albumSlug) => {
+    const renderItem = (name, image, description, type, slug) => {
         return (
-            <div onClick={() => redirectOnAlbum(albumSlug)} className="card bg-dark" style={{ width: 250 }}>
+            <div onClick={() => type === 'album' ? redirectOnAlbum(slug) : history.push(`artist/${slug}`)} className="card bg-dark card_style">
                 <Image
                     width={250}
                     height={150}
@@ -39,9 +42,7 @@ const Library = ({ getFollowedAlbums, followedAlbums, getFollowedArtist, followe
                 />
                 <div className="card-body">
                     <div className="card-title h5">{name}</div>
-                    <p className="card-text">
-                        {description}
-                    </p>
+                    <div className="description-text">{description}</div>
                 </div>
             </div>
         )
@@ -54,20 +55,21 @@ const Library = ({ getFollowedAlbums, followedAlbums, getFollowedArtist, followe
                 className="mt-4"
             >
                 <Tab eventKey="albums" title="Albums" className="tab-style table-cursor">
-                    {/* {renderTable(newRequestList, newRequestColumns)} */}
-                    <div style={{ margin: 20 }}>
+                    <div className="card_container">
                         {followedAlbums.map(album => renderItem(album.album.title, album.album.artwork, album.album.description, 'album', album.album.slug))}
+                        {followedAlbums.length === 0 && <h4>No albums in library.</h4>}
                     </div>
                 </Tab>
-                
+
                 <Tab
                     eventKey="artist"
                     title="Artist"
                     className="tab-style table-cursor"
                 >
-                    {/* <div style={{ margin: 20 }}>
-                        {followedAlbums.map(album => renderItem(album.album.title, album.album.artwork, album.album.description))}
-                    </div> */}
+                    <div className="card_container">
+                        {followedArtists.map(artist => renderItem(artist.artist.name, artist.artist.avatar, artist.artist.biography, 'artist', artist.artistId))}
+                        {followedArtists.length === 0 && <h4>No artists in library.</h4>}
+                    </div>
                 </Tab>
 
             </Tabs>

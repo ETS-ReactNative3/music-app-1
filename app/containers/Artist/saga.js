@@ -37,7 +37,11 @@ function* followArtistSaga(action) {
     yield call(followArtist, {artistId, follow});
     if (follow) toast.success("Artist added to your library")
     else toast.success("Artist removed from your library")
-    yield put(fetchArtistAction(id))
+
+    const token = yield localStorage.getItem('token');
+    const response = yield call(token ? fetchArtistProfile : fetchPublicArtistProfile, id)
+
+    yield put(saveArtistAction(response.data))
   } catch (e) {
     toast.error(e);
   }

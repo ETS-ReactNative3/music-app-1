@@ -167,7 +167,7 @@ export function* createPlaylistAddSong({data}) {
 export function* followPlayListSaga(action) {
   const {playlistId, follow} = action;
   try {
-    yield call(followPlayList, {id: playlistId});
+    yield call(followPlayList, {playlistId});
     if (follow) toast.success('Playlist added to your playlists');
     else toast.success('Playlist removed from your playlists');
     yield put(getPlaylist(playlistId))
