@@ -18,6 +18,13 @@ const makeSelectFollowedAlbums = () =>
   );
 
 
+const makeSelectLibraryLoading = () =>
+createSelector(
+  selectLibraryDomain,
+  substate => substate.loading,
+);
+
+
 const makeSelectFollowedArtist = () =>
   createSelector(
     selectLibraryDomain,
@@ -29,4 +36,5 @@ const makeSelectFollowedArtist = () =>
 export {
   makeSelectFollowedAlbums,
   makeSelectFollowedArtist,
+  makeSelectLibraryLoading
 };
