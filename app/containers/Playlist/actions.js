@@ -210,9 +210,9 @@ export function createPlaylistandAddSongFail(error) {
   };
 }
 
-export const followPlayListAction = (playlistId) => {
+export const followPlayListAction = (playlistId, like) => {
   return {
     type: FOLLOW_PLAYLIST,
-    playlistId
+    playlistId, like
   }
 }

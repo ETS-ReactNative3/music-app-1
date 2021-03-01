@@ -108,7 +108,7 @@ function Detail(
                 {currentSong.playing ? 'Pause' : 'Play All'}
               </span>
               <ShareBox />
-              <div onClick={() => followPlaylist(playlist.id)}>
+              <div onClick={() => followPlaylist(playlist.id, !playlist.likedPlaylist)}>
                 {playlist.likedPlaylist ?
                   <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='2x' />
                   :
@@ -173,7 +173,7 @@ function mapDispatchToProps(dispatch) {
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
     deleteSongAction: (id, songId) => dispatch(deleteSong(id, songId)),
-    followPlaylist: id => dispatch(followPlayListAction(id))
+    followPlaylist: (id, like) => dispatch(followPlayListAction(id, like))
   };
 }
 
