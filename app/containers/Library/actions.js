@@ -4,7 +4,7 @@
  *
  */
 
-import { FETCH_FOLLOWED_ALBUMS, FETCH_FOLLOWED_ARTIST, SAVE_FOLLOWED_ALBUMS, SAVE_FOLLOWED_ARTIST, SAVE_FOLLOWED_PLAYLIST } from "./constants"
+import { FETCH_FOLLOWED_ALBUMS, FETCH_FOLLOWED_ARTIST, SAVE_FOLLOWED_ALBUMS, SAVE_FOLLOWED_ARTIST } from "./constants"
 
 export const fetchFollowedAlbumsAction = () => {
   return {
@@ -29,18 +29,5 @@ export const saveFollowedArtistAction = (followedArtist) => {
   return {
     type: SAVE_FOLLOWED_ARTIST,
     followedArtist
-  }
-}
-
-export const fetchFollowedPlaylistAction = () => {
-  return {
-    type: FETCH_FOLLOWED_PLAYLIST
-  }
-}
-
-export const saveFollowedPlaylistAction = (followedPlaylist) => {
-  return {
-    type: SAVE_FOLLOWED_PLAYLIST,
-    followedPlaylist
   }
 }

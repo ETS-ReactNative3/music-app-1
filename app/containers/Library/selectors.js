@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
 /**
- * Direct selector to the tastemaker state domain
+ * Direct selector to the library state domain
  */
 
 const selectLibraryDomain = state => state.library || initialState;
