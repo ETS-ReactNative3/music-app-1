@@ -30,7 +30,8 @@ import {
   UPDATE_PLAYLIST_REQUEST,
   UPDATE_PLAYLIST_FAIL,
   UPDATE_PLAYLIST_SUCCESS,
-  TOGGLE_UPDATE_PLAYLIST_POPUP
+  TOGGLE_UPDATE_PLAYLIST_POPUP,
+  FOLLOW_PLAYLIST
 } from './constants';
 
 export function createPlaylist(data) {
@@ -207,4 +208,11 @@ export function createPlaylistandAddSongFail(error) {
     type: CREATE_PLAYLIST_AND_ADD_SONG_FAIL,
     error,
   };
+}
+
+export const followPlayListAction = (playlistId, like) => {
+  return {
+    type: FOLLOW_PLAYLIST,
+    playlistId, like
+  }
 }

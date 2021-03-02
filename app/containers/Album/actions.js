@@ -29,6 +29,7 @@ import {
   GET_GENRES,
   GET_GENRES_SUCCESS,
   GET_GENRES_FAIL,
+  FOLLOW_ALBUM,
 } from './constants';
 
 export function loadAlbum(slug) {
@@ -191,4 +192,11 @@ export function getGenresFail(error) {
     type: GET_GENRES_FAIL,
     error,
   };
+}
+
+export function followAlbumAction(albumId, like, albumSlug) {
+  return {
+    type: FOLLOW_ALBUM,
+    albumId, like, albumSlug
+  }
 }

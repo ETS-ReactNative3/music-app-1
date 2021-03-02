@@ -43,8 +43,8 @@ export function Artist({artist, fetchArtist, artistFetching, followArtist, userD
             <div className="row h-100 justify-content-center align-items-center">
               <div className="col-12">
                 <h1 className="display-4 my-4">{artist.name}</h1>
-                <button onClick={() => (userDetails) ? followArtist(artist) : history.push('/auth/login')}
-                        className="btn btn-success btn-lg">Follow
+                <button onClick={() => (userDetails) ? followArtist(artist.id, !artist.followedArtist, id) : history.push('/auth/login')}
+                        className="btn btn-success btn-lg">{artist.followedArtist ? 'UnFollow' : 'Follow'}
                 </button>
               </div>
             </div>
@@ -82,7 +82,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     fetchArtist: (id) => dispatch(fetchArtistAction(id)),
-    followArtist: (artist) => dispatch(followArtistAction(artist)),
+    followArtist: (artistId, follow, id) => dispatch(followArtistAction(artistId, follow, id)),
   };
 }
 

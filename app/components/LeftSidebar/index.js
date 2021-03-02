@@ -1,5 +1,6 @@
 import {faFulcrum, faGetPocket} from '@fortawesome/free-brands-svg-icons';
 import {
+  faFolderOpen,
   faHeadphonesAlt,
   faMusic,
   faPlusSquare,
@@ -71,6 +72,12 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Campaigns</p>
                     </Link>
                   </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/library" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faFolderOpen} className="mr-2"/>
+                      <p className="d-inline-block m-0">Your library</p>
+                    </Link>
+                  </li>
                 </>
               ) : (
                 <>
@@ -91,6 +98,12 @@ function LeftSideBar({role, isInfluencer}) {
                   ) : (
                     <></>
                   )}
+                  <li className="nav-item rounded-lg">
+                    <Link to="/library" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faFolderOpen} className="mr-2"/>
+                      <p className="d-inline-block m-0">Your library</p>
+                    </Link>
+                  </li>
                 </>
               )}
               {role === 'administrator' && (
