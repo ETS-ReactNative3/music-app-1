@@ -14,14 +14,15 @@ import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import { deleteSong, followPlayListAction, getPlaylist } from './actions';
-import { makeSelectLoader, makeSelectPlaylist } from './selectors';
+import { deleteSong, followPlayListAction, getPlaylist, getPopularPlaylistAction } from './actions';
+import { makeSelectLoader, makeSelectPlaylist, makeSelectPopularPlaylist, makeSelectPopularPlaylistLoading } from './selectors';
 import { handleSingleSong, handleSongPlaying, setSongs } from '../App/actions';
 import { makeSelectCurrentSong } from '../App/selectors';
 import PlaylistOptions from '../../components/PlaylistOptions';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartFilled } from '@fortawesome/free-solid-svg-icons';
+import CarouselFront from '../../components/CarouselFront';
 import './index.scss';
 
 function Detail(
@@ -34,7 +35,10 @@ function Detail(
     currentSong,
     setSongsAction,
     deleteSongAction,
-    followPlaylist
+    followPlaylist,
+    popularPlaylistLoading,
+    popularPlaylist,
+    getPopularPlaylist
   }) {
   useInjectReducer({ key: 'playlist', reducer });
   useInjectSaga({ key: 'playlist', saga });
@@ -42,6 +46,7 @@ function Detail(
 
   useEffect(() => {
     getPlaylistAction(id);
+    getPopularPlaylist();
   }, [id]);
 
   const playAllSongsHandler = () => {
@@ -153,6 +158,17 @@ function Detail(
               </section>
             </Col>
           </Row>
+          <Row>
+            <Col md={12}>
+              <CarouselFront
+              type={'playlist'}
+                list={popularPlaylist}
+                loading={popularPlaylistLoading}
+                heading="Recommended For You"
+                clasess="carousel-front py-5"
+              />
+            </Col>
+          </Row>
         </PaperCard>
       )}
     </>
@@ -163,6 +179,9 @@ const mapStateToProps = createStructuredSelector({
   playlist: makeSelectPlaylist(),
   loader: makeSelectLoader(),
   currentSong: makeSelectCurrentSong(),
+
+  popularPlaylist: makeSelectPopularPlaylist(),
+  popularPlaylistLoading: makeSelectPopularPlaylistLoading()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -173,7 +192,9 @@ function mapDispatchToProps(dispatch) {
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
     deleteSongAction: (id, songId) => dispatch(deleteSong(id, songId)),
-    followPlaylist: (id, like) => dispatch(followPlayListAction(id, like))
+    followPlaylist: (id, like) => dispatch(followPlayListAction(id, like)),
+    getPopularPlaylist: () => dispatch(getPopularPlaylistAction()),
+
   };
 }
 

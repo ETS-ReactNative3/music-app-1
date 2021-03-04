@@ -20,3 +20,4 @@ export const GET_TOP_SONGS_FAIL = 'boilerplate/Home/GET_TOP_SONGS_FAIL';
 export const GET_NEW_RELEASES = 'boilerplate/Home/GET_NEW_RELEASES_SONGS';
 export const GET_NEW_RELEASES_SUCCESS = 'boilerplate/Home/GET_NEW_RELEASES_SUCCESS';
 export const GET_NEW_RELEASES_FAIL = 'boilerplate/Home/GET_NEW_RELEASES_FAIL';
+

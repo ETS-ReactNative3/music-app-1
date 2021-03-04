@@ -24,7 +24,7 @@ import {
   GET_NEW_RELEASES_SUCCESS,
   GET_TOP_SONGS,
   GET_TOP_SONGS_FAIL,
-  GET_TOP_SONGS_SUCCESS
+  GET_TOP_SONGS_SUCCESS,
 } from './constants';
 
 
@@ -87,3 +87,4 @@ export function getNewReleasesFail(error) {
     error
   };
 }
+
