@@ -18,6 +18,7 @@ import saga from './saga';
 import reducer from './reducer';
 import { deleteAlbum, getMyAlbumsRequest } from './actions';
 import { makeSelectMyAlbums } from './selectors';
+import { map } from 'lodash';
 
 function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
   const [albumId, setAlbumId] = useState(0);
@@ -55,6 +56,7 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
     {
       dataField: 'genre.title',
       text: 'Genre',
+      formatter: genreFormatter,
       style: {
         width: '20%',
       },
@@ -88,6 +90,10 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
       },
     },
   ];
+
+  function genreFormatter(cell, row, rowIndex, formatExtraData) {
+    return map(row.albumGenres, 'genre.title').join(', ')
+  }
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
     return format(new Date(row.releaseDate), 'MM/dd/yyyy');
