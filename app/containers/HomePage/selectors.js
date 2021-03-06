@@ -42,7 +42,6 @@ const makeSelectTopSongs = () =>
     selectHome,
     homeState => homeState.topSongs,
   );
-
 export {
   selectHome,
   makeSelectNewReleaseLoading,
@@ -50,5 +49,5 @@ export {
   makeSelectFeaturedAlbumLoading,
   makeSelectFeaturedAlbum,
   makeSelectTopSongsLoading,
-  makeSelectTopSongs
+  makeSelectTopSongs,
 };

@@ -197,7 +197,6 @@ export function* getGenresSaga() {
 export function* followAlbumSaga(action) {
   const { albumId, like, albumSlug } = action;
   try {
-    console.log(action);
     yield call(followAlbumApi, { albumId, like });
     if (like) toast.success('Album added to your library');
     else toast.success('Album removed from your library');

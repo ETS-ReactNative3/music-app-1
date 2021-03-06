@@ -285,6 +285,7 @@ const mapStateToProps = createStructuredSelector({
   popupState: makeSelectPlaylistPopUpState(),
   updatePopupState: makeSelectUpdateModalStatus(),
   playlists: makeSelectPlaylists(),
+
 });
 
 function mapDispatchToProps(dispatch) {
