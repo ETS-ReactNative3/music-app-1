@@ -34,7 +34,7 @@ const CarouselFront = props => {
           pagination={false}
         >
           {list.slice(0, 10).map((ele, index) => {
-s            return (
+           return (
               <div className="carousel-container" key={index}>
                 <div
                   className="img-preview carousel-image-container rounded cursor-pointer"
