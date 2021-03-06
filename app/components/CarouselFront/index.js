@@ -34,7 +34,7 @@ const CarouselFront = props => {
           pagination={false}
         >
           {list.slice(0, 10).map((ele, index) => {
-            return (
+s            return (
               <div className="carousel-container" key={index}>
                 <div
                   className="img-preview carousel-image-container rounded cursor-pointer"
@@ -44,7 +44,7 @@ const CarouselFront = props => {
                     else if (type === 'playlist') history.push(`/playlist/${ele.id}`)
                   }}
                 >
-                  <img src={ele.artwork} alt="" className="rounded carousel-image" onerror={e => {
+                  <img src={type === 'album' ? ele.artwork : ele.playlistSongs[0].song.albumSongs[0].album.artwork} alt="" className="rounded carousel-image" onerror={e => {
                     e.target.onerror = null;
                     e.target.src = defaultImage;
                   }} />
