@@ -79,7 +79,7 @@ export function HomePage(props) {
           loading={featuredAlbumLoading}
           list={featuredAlbum}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
-          clasess="carousel-front py-5"
+          classes="carousel-front py-5"
         />
         {/*<LatestPosts*/}
         {/*  list={posts}*/}
@@ -92,14 +92,14 @@ export function HomePage(props) {
           singleSongHandler={handleWeeklySong}
           currentSong={currentSong}
           loading={topSongsLoading}
-          clasess="py-5"
+          classes="py-5"
         />
         <CarouselFront
           list={newReleases}
           loading={newReleasesLoading}
           viewAll="/newReleases"
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
-          clasess="carousel-front py-5"
+          classes="carousel-front py-5"
         />
         {/*<CarouselFront*/}
         {/*  list={recommended}*/}

@@ -77,8 +77,8 @@ function Detail(
                   e.target.onerror = null;
                   e.target.src = defaultImage;
                 }}
-                src={playlist.playlistSongs[0].song.artwork ? playlist.playlistSongs[0].song.artwork : defaultImage}
-                alt=""
+                src={playlist.playlistSongs[0].song.albumSongs[0].album.artwork ? playlist.playlistSongs[0].song.albumSongs[0].album.artwork : defaultImage}
+                alt="playlist image"
               /> :
                 <Image
                   width={230}
@@ -165,7 +165,7 @@ function Detail(
                 list={popularPlaylist}
                 loading={popularPlaylistLoading}
                 heading="Recommended For You"
-                clasess="carousel-front py-5"
+                classes="carousel-front py-5"
               />
             </Col>
           </Row>

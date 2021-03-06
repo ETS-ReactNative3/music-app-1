@@ -72,7 +72,7 @@ export function Artist({artist, fetchArtist, artistFetching, followArtist, userD
               loading={artistFetching}
               list={artist.albums}
               heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
-              clasess="carousel-front py-5"
+              classes="carousel-front py-5"
             />
           </section>
         </PaperCard>

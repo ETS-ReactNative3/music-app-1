@@ -3,7 +3,6 @@ import {
   faPause, faPlay
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
 import './index.scss';
 import ShareBox from '../ShareBox';
 import LoadingIndicator from "../LoadingIndicator";

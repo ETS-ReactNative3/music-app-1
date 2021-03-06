@@ -226,7 +226,7 @@ const history = useHistory();
                     list={newReleases}
                     loading={newReleasesLoading}
                     heading="Recommended For You"
-                    clasess="carousel-front py-5"
+                    classes="carousel-front py-5"
                   />
                 </Col>
               </Row>
