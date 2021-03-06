@@ -24,6 +24,8 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import {useHistory, useParams} from 'react-router-dom';
 import {makeSelectUserDetails} from '../App/selectors';
 import PaperCard from "../../components/PaperCard";
+import defaultImage from "../../images/user.svg";
+import {Image} from "react-bootstrap";
 
 export function Artist({artist, fetchArtist, artistFetching, followArtist, userDetails}) {
   useInjectReducer({key: 'artist', reducer});
@@ -41,10 +43,24 @@ export function Artist({artist, fetchArtist, artistFetching, followArtist, userD
         <section className="banner" style={{backgroundImage: `url(${artist.coverPhoto})`}}>
           <div className="container h-100">
             <div className="row h-100 justify-content-center align-items-center">
-              <div className="col-12">
-                <h1 className="display-4 my-4">{artist.name}</h1>
+              <div className="col-3">
+                <Image
+                  width={250}
+                  height={250}
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = defaultImage;
+                  }}
+                  src={artist.avatar}
+                  alt="user avatar"
+                  roundedCircle
+                />
+              </div>
+              <div className="col-9">
+                <h1 className="display-4 mt-4 mb-3">{artist.name}</h1>
+                {artist.followerCount > 0 && <h5 className="mb-3">{artist.followerCount} followers</h5>}
                 <button onClick={() => (userDetails) ? followArtist(artist.id, !artist.followedArtist, id) : history.push('/auth/login')}
-                        className="btn btn-success btn-lg">{artist.followedArtist ? 'UnFollow' : 'Follow'}
+                        className="btn btn-outline-success">{artist.followedArtist ? 'UnFollow' : 'Follow'}
                 </button>
               </div>
             </div>

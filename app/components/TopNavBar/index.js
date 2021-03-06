@@ -9,7 +9,10 @@ import './index.scss';
 import {Link, useHistory} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlanSvg from '../../images/svg/plan_icon.svg';
+import AvatarSvg from '../../images/user.svg';
 import Button from 'react-bootstrap/Button';
+import defaultImage from "../../images/default-image.png";
+import {Image} from "react-bootstrap";
 
 const AsyncTypeahead = withAsync(Typeahead);
 
@@ -113,9 +116,23 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
           {userDetails ? (
             <Dropdown>
               <Dropdown.Toggle as="a" id="dropdown-basic">
-                <span className="badge badge-pill badge-dark p-2">
+                <div className="badge-pill badge  badge-dark ">
+                  <span className="avatar rounded-circle">
+                    <Image
+                      width={22}
+                      roundedCircle
+                      onError={e => {
+                        e.target.onerror = null;
+                        e.target.src = AvatarSvg;
+                      }}
+                      src={userDetails.avatar}
+                      alt="avatar-image"
+                    />
+                  </span>
+                <span className="p-2">
                   {userDetails.name}
                 </span>
+                </div>
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item as={Link} to="/myaccount">

@@ -103,17 +103,17 @@ function Detail(
             <div className="col-12 d-flex align-items-center">
               <span
                 onClick={playAllSongsHandler}
-                className="btn btn-success rounded-pill cursor-pointer"
+                className="btn btn-success rounded-pill cursor-pointer px-4"
               >
                 {currentSong.playing ? 'Pause' : 'Play All'}
               </span>
               <ShareBox />
               <div onClick={() => followPlaylist(playlist.id, !playlist.likedPlaylist)}>
                 {playlist.likedPlaylist ?
-                  <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='2x' />
+                  <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='lg' />
                   :
                   <div className="heart_icon">
-                    <FontAwesomeIcon icon={faHeart} size='2x' />
+                    <FontAwesomeIcon icon={faHeart} size='lg' />
                   </div>}
               </div>
             </div>

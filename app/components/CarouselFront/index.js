@@ -5,9 +5,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {HOVER_PLAY_ICON_COLOR} from '../../utils/constants';
 import {redirectOnAlbum} from '../../utils/redirect'
 import './index.scss';
-import LoadingIndicator from "../LoadingIndicator";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import CarouselLoader from "./carouselLoader";
 
 const CarouselFront = props => {
   const {list, heading, clasess = '', loading, viewAll} = props;
@@ -24,7 +24,7 @@ const CarouselFront = props => {
       {viewAll && <Link to={viewAll}>
         <span className="float-right pr-4">SEE ALL</span>
       </Link>}
-      {loading ? <LoadingIndicator/> :
+      {loading ? <CarouselLoader/> :
         <Carousel
           breakPoints={breakPoints}
           itemPadding={[0, 15]}
@@ -44,7 +44,7 @@ const CarouselFront = props => {
                   <div className="hover-box">
                     <FontAwesomeIcon
                       icon={faPlayCircle}
-                      className="test"
+                      className="playHoverButton"
                       size="3x"
                       color={HOVER_PLAY_ICON_COLOR}
                     />

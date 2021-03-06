@@ -165,10 +165,10 @@ const history = useHistory();
                   <ShareBox />
                   <div onClick={() => (userDetails && Object.keys(userDetails).length > 0) ? followAlbum(albumInfo.id, !albumInfo.albumLiked, slug) : history.push('/auth/login')}>
                     {albumInfo.albumLiked ?
-                      <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='2x' />
+                      <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='lg' />
                       :
                       <div className="heart_icon">
-                        <FontAwesomeIcon icon={faHeart} size='2x' />
+                        <FontAwesomeIcon icon={faHeart} size='lg' />
                       </div>}
                   </div>
                 </div>

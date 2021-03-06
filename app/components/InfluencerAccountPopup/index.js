@@ -210,17 +210,11 @@ const InfluencerAccountPopup = ({
                   e.target.src = defaultImage;
                 }}
                 src={userSelected.avatar}
-                alt=""
+                alt="user avatar"
                 roundedCircle
               />
               <div className="ml-3">
                 {userSelected.influencer.name || userSelected.name}
-                <small className="text-muted d-block">
-                  {followers > 1000
-                    ? `${formatFollowers(followers / 1000)}k`
-                    : followers}{' '}
-                  followers
-                </small>
               </div>
             </div>
             <h6>Service Information</h6>
@@ -287,7 +281,7 @@ const InfluencerAccountPopup = ({
                               });
                             }
 
-                           
+
                           },
                           influencerService.followers,
                           selectedMedium.includes(influencerService.socialChannels.title),

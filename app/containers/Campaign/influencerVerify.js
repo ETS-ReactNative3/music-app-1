@@ -1,15 +1,7 @@
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import React, { memo } from 'react';
-import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
-import { faBlog } from '@fortawesome/free-solid-svg-icons';
 import LoadingIndicator from 'components/LoadingIndicator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -18,7 +10,7 @@ import PaperCard from '../../components/PaperCard';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import defaultImage from '../../images/album-3.jpg';
+import defaultImage from '../../images/user.svg';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import albumReducer from '../Album/reducer';
@@ -276,7 +268,7 @@ const Details = (
                 selectedInfluencer.campaignInfluencerServices.map(
                   service => {
                     if (service.response)
-                      
+
                           return (
                             <div className="service_response_parent">
                               {renderSocialMediaIcons(service.socialChannels.title, '1x', {marginLeft: 5})}
@@ -288,7 +280,7 @@ const Details = (
                               </a>
                             </div>
                           );
-                        
+
                   },
                 )}
             </div>
