@@ -1,30 +1,29 @@
-import React, { memo, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { compose } from 'redux';
+import React, {memo, useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {compose} from 'redux';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
+import {createStructuredSelector} from 'reselect';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
 import Button from 'react-bootstrap/Button';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import format from 'date-fns/format';
 import PaperCard from '../../components/PaperCard';
 import saga from './saga';
 import reducer from './reducer';
-import { deleteAlbum, getMyAlbumsRequest } from './actions';
-import { makeSelectMyAlbums } from './selectors';
-import { map } from 'lodash';
+import {deleteAlbum, getMyAlbumsRequest} from './actions';
+import {makeSelectMyAlbums} from './selectors';
 
-function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
+function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
   const [albumId, setAlbumId] = useState(0);
 
-  useInjectReducer({ key: 'album', reducer });
-  useInjectSaga({ key: 'album', saga });
+  useInjectReducer({key: 'album', reducer});
+  useInjectSaga({key: 'album', saga});
 
   useEffect(() => {
     getMyAlbums();
@@ -92,7 +91,7 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
   ];
 
   function genreFormatter(cell, row, rowIndex, formatExtraData) {
-    return map(row.albumGenres, 'genre.title').join(', ')
+    return row.albumGenres.map(e => e.genre.title).join(', ')
   }
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
@@ -110,14 +109,14 @@ function AlbumList({ getMyAlbums, myAlbums, deleteAlbumCall }) {
       >
         <Link to={`/album/edit/${row.id}`}>
           <button className="btn btn-info mr-3">
-            <FontAwesomeIcon icon={faEdit} />
+            <FontAwesomeIcon icon={faEdit}/>
           </button>
         </Link>
         <button
           className="btn btn-danger"
           onClick={() => handleClickOpen(row.id)}
         >
-          <FontAwesomeIcon icon={faTrash} />
+          <FontAwesomeIcon icon={faTrash}/>
         </button>
       </div>
     );
