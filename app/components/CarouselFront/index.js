@@ -1,8 +1,6 @@
 import React from 'react';
 import Carousel from 'react-elastic-carousel';
-import {faPlayCircle} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {HOVER_PLAY_ICON_COLOR} from '../../utils/constants';
+import PlayButton from '../../images/play-button.svg'
 import {redirectOnAlbum} from '../../utils/redirect'
 import './index.scss';
 import {useHistory} from 'react-router-dom';
@@ -37,7 +35,7 @@ const CarouselFront = props => {
             return (
               <div className="carousel-container" key={index}>
                 <div
-                  className="img-preview carousel-image-container rounded cursor-pointer"
+                  className="hoverEffect carousel-image-container rounded cursor-pointer"
                   onClick={e => {
                     e.preventDefault();
                     if (type === 'album') redirectOnAlbum(ele.slug);
@@ -47,13 +45,8 @@ const CarouselFront = props => {
                   <img
                     src={type === 'album' ? ele.artwork : ele.playlistSongs[0].song.albumSongs[0].album.artwork}
                     alt="album image" className="rounded carousel-image"/>
-                  <div className="hover-box">
-                    <FontAwesomeIcon
-                      icon={faPlayCircle}
-                      className="playHoverButton"
-                      size="3x"
-                      color={HOVER_PLAY_ICON_COLOR}
-                    />
+                  <div className="overlay">
+                    <img src={PlayButton} alt="Play button" className="playButton"/>
                   </div>
                 </div>
                 <div className="pt-4">
