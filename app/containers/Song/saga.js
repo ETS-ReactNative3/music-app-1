@@ -115,7 +115,8 @@ export function* saveSongSaga({data}) {
     const songData = {
       ...data,
       songKey: result.data.songKey,
-      url: result.data.location
+      url: result.data.location,
+      duration: result.data.duration
     }
     yield call(postSong, songData);
     yield put(postSongRequestSuccess());
@@ -142,6 +143,7 @@ export function* updateSongSaga({data}) {
       const result = yield call(postSongApi, data);
       songData.songKey = result.data.songKey;
       songData.url = result.data.location;
+      songData.duration = result.data.duration;
     }
 
     yield call(editSong, songData);
