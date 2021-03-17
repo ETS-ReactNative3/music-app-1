@@ -11,10 +11,10 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import { blockUserAction, fetchUsersAction } from './actions';
 import adminUsersReducer from './reducer';
 import adminUsersSaga from './saga';
-import { makeSelectAdminUsers } from './selectors';
+import { makeSelectAdminUsers, makeSelectAdminUsersCount } from './selectors';
 
 
-const AdminUsers = ({ users, fetchUsers, blockUser }) => {
+const AdminUsers = ({ users, fetchUsers, blockUser, usersCount }) => {
 
     useInjectReducer({ key: 'adminUsers', reducer: adminUsersReducer })
     useInjectSaga({ key: 'adminUsers', saga: adminUsersSaga })
@@ -23,12 +23,12 @@ const AdminUsers = ({ users, fetchUsers, blockUser }) => {
     const handleTableChange = (type, { page, sizePerPage }) => {
         setTimeout(() => {
             setCurrentPage(page);
-            fetchUsers(page, 10);
+            fetchUsers(page-1, 10);
         }, 100);
     }
 
     React.useEffect(() => {
-        fetchUsers(1, 10);
+        fetchUsers(0, 10);
     }, [])
 
 
@@ -110,13 +110,13 @@ const AdminUsers = ({ users, fetchUsers, blockUser }) => {
 
                 {row.block ? <button
                     className="btn btn-success"
-                    onClick={() => { blockUser(row.id, currentPage, 10) }}
+                    onClick={() => { blockUser(row.id, currentPage, 10, row.block) }}
                 >
                     <FontAwesomeIcon icon={faCheck} />
                 </button> :
                     <button
                         className="btn btn-danger"
-                        onClick={() => { blockUser(row.id, currentPage, 10) }}
+                        onClick={() => { blockUser(row.id, currentPage, 10,row.block) }}
                     >
                         <FontAwesomeIcon icon={faBan} />
                     </button>}
@@ -131,7 +131,7 @@ const AdminUsers = ({ users, fetchUsers, blockUser }) => {
             data={users}
             page={currentPage}
             sizePerPage={10}
-            totalSize={100}
+            totalSize={usersCount}
             columns={columns}
             onTableChange={handleTableChange}
         />
@@ -142,18 +142,20 @@ const AdminUsers = ({ users, fetchUsers, blockUser }) => {
 AdminUsers.propTypes = {
     users: PropTypes.array,
     fetchUsers: PropTypes.func,
-    blockUser: PropTypes.func
+    blockUser: PropTypes.func,
+    usersCount: PropTypes.array
 };
 
 const mapStateToProps = createStructuredSelector({
-    users: makeSelectAdminUsers()
+    users: makeSelectAdminUsers(),
+    usersCount: makeSelectAdminUsersCount()
 
 });
 
 function mapDispatchToProps(dispatch) {
     return {
         fetchUsers: (page, limit) => dispatch(fetchUsersAction(page, limit)),
-        blockUser: (userId, page, limit) => dispatch(blockUserAction(userId, page, limit))
+        blockUser: (userId, page, limit, block) => dispatch(blockUserAction(userId, page, limit,block))
     };
 }
 

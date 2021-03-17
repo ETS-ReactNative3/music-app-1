@@ -8,12 +8,13 @@
  */
 
 import produce from 'immer';
-import { SAVE_USERS } from './constant';
+import { SAVE_USERS, SAVE_USERS_COUNT } from './constant';
 
 // The initial state of the App
 export const initialState = {
   loading: false,
-  users: []
+  users: [],
+  userCount: 0
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -22,6 +23,10 @@ const adminUsersReducer = (state = initialState, action) =>
     switch (action.type) {
       case SAVE_USERS:
         draft.users = action.users;
+        break;
+      case SAVE_USERS_COUNT:
+        draft.userCount = action.userCount;
+        break;
     }
   });
 

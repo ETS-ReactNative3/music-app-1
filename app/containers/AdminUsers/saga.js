@@ -1,15 +1,15 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/api";
-import { saveUsersAction } from "./actions";
+import { saveUsersAction, saveUsersCountAction } from "./actions";
 import { BLOCK_USER, FETCH_USERS } from "./constant";
 
 function fetchUsersApi(page, limit) {
     return axiosInstance().get(`/admin/all-users?page=${page}&limit=${limit}`)
 }
 
-function blockUserApi(userId) {
-    return axiosInstance().get(`/admin/block-user/${userId}`);
+function blockUserApi(userId, block) {
+    return axiosInstance().post(`/admin/block-user/${userId}`);
 }
 
 function* fetchUsersSaga(action) {
@@ -19,7 +19,8 @@ function* fetchUsersSaga(action) {
         const response = yield call(fetchUsersApi, page, limit);
         if (response) {
             console.log(response.data);
-            yield put(saveUsersAction(response.data));
+            yield put(saveUsersAction(response.data.users));
+            yield put(saveUsersCountAction(response.data.usersCount));
         }
     } catch (e) {
         console.log(e)
@@ -30,13 +31,13 @@ function* fetchUsersSaga(action) {
 
 function* blockUserSaga(action) {
     try {
-        const {userId, page, limit } = action;
-        yield call(blockUserApi, userId);
+        const {userId, page, limit, block } = action;
+        yield call(blockUserApi, userId, block);
         toast.success('User blocked');
         const response = yield call(fetchUsersApi, page, limit);
         if (response) {
-            console.log(response.data);
-            yield put(saveUsersAction(response.data));
+            yield put(saveUsersAction(response.data.users));
+            yield put(saveUsersCountAction(response.data.usersCount));
         }
     } catch(e) {
         toast.error('Failed to block user');

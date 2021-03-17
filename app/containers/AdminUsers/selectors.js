@@ -12,6 +12,14 @@ const makeSelectAdminUsers = () =>
     globalState => globalState && globalState.users || [],
   );
 
+
+const makeSelectAdminUsersCount = () =>
+createSelector(
+  selectAdminUsersState,
+  globalState => globalState && globalState.userCount || [],
+);
+
 export {
-  makeSelectAdminUsers
+  makeSelectAdminUsers,
+  makeSelectAdminUsersCount
 };
