@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {server} from "../../config";
 
-export function axiosInstance() {
+export function axiosTrackingInstance() {
   const accessToken = localStorage.getItem('token');
   let headers = {
     'Content-Type': 'application/json',
@@ -14,8 +14,8 @@ export function axiosInstance() {
   }
 
   return axios.create({
-    baseURL: 'http://localhost:3006/',
-    // baseURL: server.apiURL,
+    // baseURL: 'http://localhost:3006/',
+    baseURL: server.apiURL,
     headers,
   });
 }

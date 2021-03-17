@@ -7,7 +7,7 @@ import {
   UPDATE_USER_DETAILS,
   UPDATE_INFLUENCER_DETAILS,
   UPDATE_PROCESSING,
-  UPDATE_INFLUENCER_PROCESSING,
+  UPDATE_INFLUENCER_PROCESSING, UPDATE_REGULAR_USER_DETAILS,
 } from './constants';
 
 export function requestInfluencer(data) {
@@ -49,6 +49,14 @@ export function updateUserDetailsAction(data, isProfilePhotoUpdated, isCoverPhot
     data,
     isProfilePhotoUpdated,
     isCoverPhotoUpdated
+  };
+}
+
+export function updateRegularUser(data, isProfilePhotoUpdated) {
+  return {
+    type: UPDATE_REGULAR_USER_DETAILS,
+    data,
+    isProfilePhotoUpdated
   };
 }
 

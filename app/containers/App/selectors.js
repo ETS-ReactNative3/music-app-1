@@ -122,6 +122,12 @@ const makeSelectLoader = () =>
     substate => substate.loader,
   );
 
+const makeSelectSongPlayDuration = () =>
+  createSelector(
+    selectGlobal,
+    substate => substate.songPlayDuration,
+  );
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -143,4 +149,5 @@ export {
   makeSelectInfluencerDetails,
   makeSelectLoader,
   makeSelectUserWallet,
+  makeSelectSongPlayDuration
 };

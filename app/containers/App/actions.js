@@ -25,6 +25,8 @@ import {
   GET_USER_DETAILS,
   GET_USER_DETAILS_SUCCESS,
   GET_USER_DETAILS_ERROR,
+  UPDATE_SONG_PLAY_DURATION,
+  TRACK_SONG,
 } from './constants';
 
 export function setPlaylist(songs) {
@@ -47,6 +49,12 @@ export function handleSingleSong(songId, status) {
     songId,
     status,
   };
+}
+
+export function updateSongPlayDuration() {
+  return {
+    type: UPDATE_SONG_PLAY_DURATION
+  }
 }
 
 export function setRole(role) {
@@ -94,4 +102,11 @@ export function getUserDetailsFail(error) {
     type: GET_USER_DETAILS_ERROR,
     error,
   };
+}
+
+export function trackSong(songData) {
+  return {
+    type: TRACK_SONG,
+    songData,
+  }
 }
