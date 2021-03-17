@@ -4,13 +4,6 @@
  *
  */
 
-import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { memo, useEffect } from 'react';
@@ -21,7 +14,7 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import InfluencerAccount from '../../components/InfluencerAccount';
 import PaperCard from '../../components/PaperCard';
-import defaultImage from '../../images/album-3.jpg';
+import defaultImage from '../../images/user.svg';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import history from '../../utils/history';
 import { useInjectReducer } from '../../utils/injectReducer';
@@ -181,14 +174,14 @@ function MyAccount(
                     <div style={styles.linkContainer}>
                       {influencerProfile && influencerProfile.influencerServices &&
                         influencerProfile.influencerServices.map(service => {
-                          
+
                               return (
                                 <a href={service.link} target="_blank" className="pr-2">
                                   {renderSocialMediaIcons(service.socialChannels.title, '1x', {marginLeft: 5}, PLAY_ICON_BG_COLOR)}
                                   <span className="pl-2">{service.followers} followers</span>
                                 </a>
                               );
-                            
+
                           }
                         )}
                     </div>

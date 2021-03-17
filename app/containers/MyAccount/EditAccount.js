@@ -21,7 +21,7 @@ import {
 import {getSocialChannelsRequest} from '../Influencer/actions';
 import influencerReducer from '../Influencer/reducer';
 import influencerSaga from '../Influencer/saga';
-import {updateUserDetailsAction} from './actions';
+import {updateRegularUser, updateUserDetailsAction} from './actions';
 import EditInfluencerAccount from './EditInfluencerAccount';
 import styles from './index.styles';
 import accountReducer from './reducer';
@@ -38,6 +38,7 @@ const EditAccount = (
     updateUserDetails,
     updateProcessing,
     getGenreList,
+    regularUserUpdate
   }) => {
   useInjectReducer({key: 'influencer', reducer: influencerReducer});
   useInjectSaga({key: 'influencer', saga: influencerSaga});
@@ -60,9 +61,6 @@ const EditAccount = (
 
     if (files && files[0]) {
       const reader = new FileReader();
-
-      //   reader.onloadstart = () => this.setState({loading: true});
-
       reader.onload = event1 => {
         setData(event1.target.result);
       };
@@ -100,13 +98,23 @@ const EditAccount = (
   });
 
   const onSubmit = submitData => {
-    const updatedUserDetails = {
-      ...userDetails,
-      ...submitData,
-      profilePhoto: data,
-      coverPhotoLocal: coverPhoto
-    };
-    updateUserDetails(updatedUserDetails, Object.keys(data).length > 0, Object.keys(coverPhoto).length > 0);
+    if (userDetails.roleId === 1) {
+      regularUserUpdate({...submitData, profilePhoto: data}, Object.keys(data).length > 0)
+    } else {
+      updateUserDetails({
+        ...submitData,
+        profilePhoto: data,
+        coverPhotoLocal: coverPhoto
+      }, Object.keys(data).length > 0, Object.keys(coverPhoto).length > 0);
+    }
+
+    // const updatedUserDetails = {
+    //   ...userDetails,
+    //   ...submitData,
+    //   profilePhoto: data,
+    //   coverPhotoLocal: coverPhoto
+    // };
+    // updateUserDetails(updatedUserDetails, Object.keys(data).length > 0, Object.keys(coverPhoto).length > 0);
   };
 
   React.useEffect(() => {
@@ -120,6 +128,7 @@ const EditAccount = (
       return true;
     });
     reset({
+      ...userDetails.artistInformation,
       ...userDetails,
       ...prepareData(influencerProfile),
       genres: tempFullGenre,
@@ -173,7 +182,6 @@ const EditAccount = (
                   <label htmlFor="phone">Phone</label>
                   <input
                     name="phone"
-                    //   type="number"
                     placeholder="Phone"
                     className={`form-control ${
                       errors.description ? 'is-invalid' : ''
@@ -182,22 +190,6 @@ const EditAccount = (
                   />
                   <div className="invalid-feedback">
                     {errors.phone && errors.phone.message}
-                  </div>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridDiscription">
-                  <label htmlFor="biography">Biography</label>
-                  <textarea
-                    name="biography"
-                    placeholder="Biography"
-                    className={`form-control ${
-                      errors.biography ? 'is-invalid' : ''
-                    }`}
-                    ref={register}
-                  />
-                  <div className="invalid-feedback">
-                    {errors.biography && errors.biography.message}
                   </div>
                 </Form.Group>
               </Form.Row>
@@ -229,6 +221,22 @@ const EditAccount = (
                 </Form.Group>
               </Form.Row>
               {userDetails.roleId === 2 && <>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDiscription">
+                    <label htmlFor="biography">Biography</label>
+                    <textarea
+                      name="biography"
+                      placeholder="Biography"
+                      className={`form-control ${
+                        errors.biography ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.biography && errors.biography.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
                 <Form.Row>
                   <Form.Group as={Col} controlId="formGridDiscription">
                     <label htmlFor="publicPhone">Public Phone</label>
@@ -278,7 +286,6 @@ const EditAccount = (
                     <label htmlFor="publicEmail">Public Email</label>
                     <input
                       name="publicEmail"
-                      //   type="number"
                       placeholder="Public Email"
                       className={`form-control ${
                         errors.publicEmail ? 'is-invalid' : ''
@@ -295,7 +302,6 @@ const EditAccount = (
                     <label htmlFor="managementEmail">Management Email</label>
                     <input
                       name="managementEmail"
-                      //   type="number"
                       placeholder="Management Email"
                       className={`form-control ${
                         errors.managementEmail ? 'is-invalid' : ''
@@ -312,7 +318,6 @@ const EditAccount = (
                     <label htmlFor="bookingEmail">Booking Email</label>
                     <input
                       name="bookingEmail"
-                      //   type="number"
                       placeholder="Booking Email"
                       className={`form-control ${
                         errors.bookingEmail ? 'is-invalid' : ''
@@ -341,11 +346,74 @@ const EditAccount = (
                   </Form.Group>
                 </Form.Row>
                 <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDescription">
+                    <label htmlFor="facebook">Facebook</label>
+                    <input
+                      name="facebook"
+                      placeholder="Facebook"
+                      className={`form-control ${
+                        errors.facebook ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.facebook && errors.facebook.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDescription">
+                    <label htmlFor="twitter">Twitter</label>
+                    <input
+                      name="twitter"
+                      placeholder="Twitter"
+                      className={`form-control ${
+                        errors.twitter ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.twitter && errors.twitter.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDescription">
+                    <label htmlFor="instagram">Instagram</label>
+                    <input
+                      name="instagram"
+                      placeholder="Instagram"
+                      className={`form-control ${
+                        errors.instagram ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.instagram && errors.instagram.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridDescription">
+                    <label htmlFor="youtube">Youtube</label>
+                    <input
+                      name="youtube"
+                      placeholder="Youtube"
+                      className={`form-control ${
+                        errors.youtube ? 'is-invalid' : ''
+                      }`}
+                      ref={register}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.youtube && errors.youtube.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
                   <Form.Group as={Col} controlId="formGridDiscription">
                     <label htmlFor="location">Location</label>
                     <input
                       name="location"
-                      //   type="number"
                       placeholder="Location"
                       className={`form-control ${
                         errors.location ? 'is-invalid' : ''
@@ -400,6 +468,7 @@ function mapDispatchToProps(dispatch) {
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
     updateUserDetails: (data, isProfilePhotoUpdated, isCoverPhotoUpdated) =>
       dispatch(updateUserDetailsAction(data, isProfilePhotoUpdated, isCoverPhotoUpdated)),
+    regularUserUpdate: (data, isProfilePhotoUpdated) => dispatch(updateRegularUser(data, isProfilePhotoUpdated))
   };
 }
 
