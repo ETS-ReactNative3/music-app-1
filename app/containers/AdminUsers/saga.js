@@ -18,12 +18,10 @@ function* fetchUsersSaga(action) {
         const { page, limit } = action;
         const response = yield call(fetchUsersApi, page, limit);
         if (response) {
-            console.log(response.data);
             yield put(saveUsersAction(response.data.users));
             yield put(saveUsersCountAction(response.data.usersCount));
         }
     } catch (e) {
-        console.log(e)
         toast.error(e.message)
     }
 }

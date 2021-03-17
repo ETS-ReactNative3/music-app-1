@@ -4,7 +4,7 @@
 
 import { createSelector } from 'reselect';
 
-const selectAdminUsersState = state => {console.log(state); return state.adminUsers};
+const selectAdminUsersState = state => state.adminUsers;
 
 const makeSelectAdminUsers = () =>
   createSelector(
