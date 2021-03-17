@@ -19,7 +19,7 @@ import {
   SET_LOADER,
   GET_USER_DETAILS_SUCCESS,
   GET_USER_DETAILS,
-  GET_USER_DETAILS_ERROR,
+  GET_USER_DETAILS_ERROR, UPDATE_SONG_PLAY_DURATION,
 } from './constants';
 
 // The initial state of the App
@@ -47,8 +47,9 @@ export const initialState = {
       artist: '',
       artwork: ''
     },
-    playing: false,
+    playing: false
   },
+  songPlayDuration: 0,
   role: '',
   genres: [],
   loader: false,
@@ -68,9 +69,13 @@ const appReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.currentSong.playing = action.playing;
         break;
+      case UPDATE_SONG_PLAY_DURATION:
+        draft.songPlayDuration = draft.songPlayDuration + 1;
+        break;
       case HANDLE_SINGLE_SONG:
         draft.loading = false;
         draft.currentSong.playing = action.status;
+        draft.songPlayDuration = 0;
         const song = state.currentPlaylist.find(item => item.song.id === action.songId)
         if (song) {
           const albumImage = song.album ? song.album.artwork : song.song.albumSongs[0].album.artwork
