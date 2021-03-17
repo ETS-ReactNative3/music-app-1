@@ -3,7 +3,7 @@ import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, { PaginationListStandalone, PaginationProvider } from 'react-bootstrap-table2-paginator';
 
-export const RemotePagination = ({ data, page, sizePerPage, onTableChange, totalSize, columns }) => (
+export const RemotePagination = ({ data,rowEvents, page, sizePerPage, onTableChange, totalSize, columns }) => (
     <div>
         <PaginationProvider
             pagination={
@@ -34,6 +34,7 @@ export const RemotePagination = ({ data, page, sizePerPage, onTableChange, total
                             bootstrap4
                             keyField="id"
                             data={data}
+                            rowEvents={rowEvents}
                             noDataIndication={() => (<div>No Data available</div>)}
                             remote
                             columns={columns}

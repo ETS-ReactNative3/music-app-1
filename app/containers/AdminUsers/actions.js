@@ -1,4 +1,4 @@
-import { BLOCK_USER, FETCH_USERS, SAVE_USERS, SAVE_USERS_COUNT } from "./constant"
+import { BLOCK_USER, FETCH_USERS, SAVE_USERS, SAVE_USERS_COUNT, ADD_CREDITS } from "./constant"
 
 export const fetchUsersAction = (page, limit = 10) => {
     return {
@@ -26,5 +26,12 @@ export const blockUserAction = (userId, page, limit,block) => {
     return {
         type: BLOCK_USER,
         userId, page, limit,block
+    }
+}
+
+export const addCreditsAction = (userId, credits, page, limit) => {
+    return {
+        type: ADD_CREDITS,
+        userId, credits,page, limit
     }
 }
