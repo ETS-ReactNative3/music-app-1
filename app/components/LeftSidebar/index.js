@@ -86,7 +86,7 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Browse music</p>
                     </Link>
                   </li>
-                  
+
                 </>
               ) : (
                 <>
@@ -143,20 +143,20 @@ function LeftSideBar({role, isInfluencer}) {
                   </li>
                   <li className="nav-item rounded-lg">
                     <Link
-                      to="/admin/albums"
-                      className="nav-link mb-1"
-                    >
-                      <FontAwesomeIcon icon={faHeadphonesAlt} className="mr-2"/>
-                      <p className="d-inline-block m-0">Albums</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item rounded-lg">
-                    <Link
                       to="/admin/users"
                       className="nav-link mb-1"
                     >
                       <FontAwesomeIcon icon={faUser} className="mr-2"/>
                       <p className="d-inline-block m-0">Users</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link
+                      to="/admin/albums"
+                      className="nav-link mb-1"
+                    >
+                      <FontAwesomeIcon icon={faHeadphonesAlt} className="mr-2"/>
+                      <p className="d-inline-block m-0">Albums</p>
                     </Link>
                   </li>
                 </>

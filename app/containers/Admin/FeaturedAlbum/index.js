@@ -11,8 +11,9 @@ import { useInjectSaga } from '../../../utils/injectSaga';
 import adminSaga from '../saga';
 import { connect } from 'react-redux';
 import { pictureFormatter } from '../../Requests/utils';
+import PaperCard from '../../../components/PaperCard';
 
-const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured , albumsCount}) => {
+const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured, albumsCount }) => {
 
     React.useEffect(() => {
         fetchAlbums(0, 10);
@@ -68,7 +69,7 @@ const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured , album
                 width: '15%',
             },
         },
-        
+
         {
             dataField: 'actions',
             text: 'Actions',
@@ -98,6 +99,7 @@ const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured , album
         return <span>Non-featured</span>;
     }
 
+
     function actionsFormatter(cell, row, rowIndex, formatExtraData) {
         return (
             <div
@@ -110,17 +112,20 @@ const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured , album
 
                 {row.featured ? <button
                     className="btn btn-danger"
-                    onClick={() => { }}
+                    onClick={() => {
+                    }}
                 >
-                    Remove  Featured
-                </button> :
+                    Remove Featured
+          </button> :
                     <button
                         className="btn btn-success"
-                        onClick={() => { makeAlbumFeatured(row.id, currentPage, 10, row.featured) }}
+                        onClick={() => {
+                            makeAlbumFeatured(row.id, currentPage, 10, row.featured)
+                        }}
                     >
-                     Make Featured
-                    </button>}
-                    
+                        Make Featured
+          </button>}
+
             </div>
         );
     }
@@ -133,17 +138,17 @@ const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured , album
     }
 
     return (
-        <RemotePagination
-            data={featuredAlbums || []}
-            page={currentPage}
-            sizePerPage={10}
-            totalSize={albumsCount}
-            columns={columns}
-            onTableChange={handleTableChange}
-            rowEvents={{
-
-            }}
-        />
+        <PaperCard title="Albums">
+            <RemotePagination
+                data={featuredAlbums || []}
+                page={currentPage}
+                sizePerPage={10}
+                totalSize={albumsCount}
+                columns={columns}
+                onTableChange={handleTableChange}
+                rowEvents={{}}
+            />
+        </PaperCard>
     )
 }
 
@@ -159,7 +164,8 @@ const mapStateToProps = createStructuredSelector({
 
     featuredAlbums: makeSelectFeaturedAlbums(),
     albumsCount: makeSelectAdminAlbumsCount()
-});
+
+})
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -167,6 +173,7 @@ function mapDispatchToProps(dispatch) {
         makeAlbumFeatured: (albumId, page, limit, featured) => dispatch(makeAlbumFeaturedAction(albumId, page, limit, featured))
     };
 }
+
 const withConnect = connect(mapStateToProps, mapDispatchToProps)
 
 export default compose(

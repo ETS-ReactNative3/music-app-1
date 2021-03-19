@@ -18,8 +18,8 @@ import UserAddCredit from "./UserAddCredit";
 
 const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
 
-  useInjectReducer({key: 'adminUsers', reducer: adminUsersReducer})
-  useInjectSaga({key: 'adminUsers', saga: adminUsersSaga})
+  useInjectReducer({key: 'admin', reducer: adminUsersReducer})
+  useInjectSaga({key: 'admin', saga: adminUsersSaga})
   const [currentPage, setCurrentPage] = useState(1);
   const [openCreditModal, setOpenCreditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
