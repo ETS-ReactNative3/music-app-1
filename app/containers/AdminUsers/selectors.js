@@ -21,5 +21,5 @@ createSelector(
 
 export {
   makeSelectAdminUsers,
-  makeSelectAdminUsersCount
+  makeSelectAdminUsersCount,
 };

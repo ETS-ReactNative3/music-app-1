@@ -1,7 +1,7 @@
 import {faBan, faCheck} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
@@ -13,13 +13,16 @@ import adminUsersReducer from './reducer';
 import adminUsersSaga from './saga';
 import {makeSelectAdminUsers, makeSelectAdminUsersCount} from './selectors';
 import PaperCard from "../../components/PaperCard";
+import UserAddCredit from "./UserAddCredit";
 
 
 const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
 
   useInjectReducer({key: 'adminUsers', reducer: adminUsersReducer})
   useInjectSaga({key: 'adminUsers', saga: adminUsersSaga})
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [openCreditModal, setOpenCreditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState({});
 
   const handleTableChange = (type, {page, sizePerPage}) => {
     setTimeout(() => {
@@ -78,6 +81,16 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
       },
     },
     {
+      dataField: 'credit',
+      text: 'Credits',
+      style: {
+        width: '10%',
+      },
+      headerStyle: {
+        width: '10%',
+      },
+    },
+    {
       dataField: 'actions',
       text: 'Actions',
       isDummyField: true,
@@ -130,6 +143,15 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
           >
             <FontAwesomeIcon icon={faBan}/>
           </button>}
+        <button
+          className="btn btn-success"
+          onClick={() => {
+            setSelectedUser(row);
+            setOpenCreditModal(true)
+          }}
+        >
+          Add Credits
+        </button>
       </div>
     );
   }
@@ -144,6 +166,9 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
         columns={columns}
         onTableChange={handleTableChange}
       />
+      {openCreditModal && <UserAddCredit openModal={openCreditModal} handleClose={() => {
+        setOpenCreditModal(false)
+      }} id={selectedUser ? selectedUser.id : ''} page={currentPage} limit={10}/>}
     </PaperCard>
   )
 }
