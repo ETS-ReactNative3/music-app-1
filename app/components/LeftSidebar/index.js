@@ -1,6 +1,7 @@
 import {faFulcrum, faGetPocket} from '@fortawesome/free-brands-svg-icons';
 import {
   faFolderOpen,
+  faGlobe,
   faHeadphonesAlt,
   faMusic,
   faPlusSquare,
@@ -79,6 +80,13 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Your library</p>
                     </Link>
                   </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/browse" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
+                      <p className="d-inline-block m-0">Browse music</p>
+                    </Link>
+                  </li>
+                  
                 </>
               ) : (
                 <>
@@ -103,6 +111,12 @@ function LeftSideBar({role, isInfluencer}) {
                     <Link to="/library" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faFolderOpen} className="mr-2"/>
                       <p className="d-inline-block m-0">Your library</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/browse" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
+                      <p className="d-inline-block m-0">Browse music</p>
                     </Link>
                   </li>
                 </>
