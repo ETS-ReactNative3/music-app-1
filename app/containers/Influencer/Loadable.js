@@ -19,3 +19,7 @@ export const Influencer = loadable(() => import('./index'), {
 export const InfluencerRequests = loadable(() => import('./requests'), {
   fallback: <LoadingIndicator />,
 });
+
+export const InfluencerResponsiveness = loadable(() => import('./InfluencerResponsiveness'), {
+  fallback: <LoadingIndicator />,
+});

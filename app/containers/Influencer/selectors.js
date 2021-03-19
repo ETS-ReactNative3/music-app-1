@@ -59,6 +59,12 @@ const makeSelectRequests = () =>
     substate => substate.influencers,
   );
 
+const makeSelectInfluencerStats = () =>
+  createSelector(
+    selectInfluencerDomain,
+      substate => substate.influencerStats
+  )
+
 export {
   makeSelectInfluencer,
   makeSelectFormLoader,
@@ -67,4 +73,5 @@ export {
   makeSelectProfile,
   makeSelectLoader,
   makeSelectRequests,
+  makeSelectInfluencerStats
 };

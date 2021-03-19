@@ -10,6 +10,7 @@ import {
   GET_INFLUENCER_PROFILE,
   GET_INFLUENCER_REQUESTS,
   UPDATE_INFLUENCER_STATUS_REQUEST,
+  FETCH_INFLUENCER_STATS,
 } from './constants';
 import { axiosInstance } from '../../utils/api';
 import {
@@ -26,6 +27,7 @@ import {
   updateInfluencerStatusSuccess,
   updateInfluencerStatusFail,
   getInfluencerRequests,
+  saveInfluencerStatsAction,
 } from './actions';
 import history from '../../utils/history';
 
@@ -51,6 +53,10 @@ function getInfluencers() {
 
 function updateStatus(data) {
   return axiosInstance().put('/influencers/status', data);
+}
+
+function fetchInfluencerStatsApi(id) {
+  return axiosInstance().get(`/influencers/stat/${id}`)
 }
 
 export function* becomeAnInfluencerSaga({ data }) {
@@ -121,6 +127,19 @@ export function* updateInfluencerStatus({ data }) {
   }
 }
 
+function* fetchInfluencerStatsSaga(action) {
+  try {
+    const {id} = action;
+
+    const response = yield call(fetchInfluencerStatsApi, id);
+    if (response) {
+      yield put(saveInfluencerStatsAction(JSON.stringify(response.data)))
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export default function* influencerSaga() {
   yield takeLatest(BECOME_AN_INFLUENCER, becomeAnInfluencerSaga);
   yield takeLatest(GET_SOCIAL_CHANNELS, getSocialChannels);
@@ -128,4 +147,5 @@ export default function* influencerSaga() {
   yield takeLatest(GET_INFLUENCER_PROFILE, getInfluencerProfile);
   yield takeLatest(GET_INFLUENCER_REQUESTS, getInfluencerRequestsSaga);
   yield takeLatest(UPDATE_INFLUENCER_STATUS_REQUEST, updateInfluencerStatus);
+  yield takeLatest(FETCH_INFLUENCER_STATS, fetchInfluencerStatsSaga)
 }

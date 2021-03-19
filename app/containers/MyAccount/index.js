@@ -33,6 +33,7 @@ import { faBlog, faBullhorn } from "@fortawesome/free-solid-svg-icons";
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
 import styles from './index.styles';
 import { renderSocialMediaIcons } from '../../utils';
+import { InfluencerResponsiveness } from '../Influencer/Loadable';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -203,11 +204,12 @@ function MyAccount(
             </Col>
             <>
               <Col md={5} lg={4} xl={3}>
-                <InfluencerAccount
+                {/* <InfluencerAccount
                   navigation={navigation}
                   userId={userDetails.influencerId}
                   showActivites={true}
-                />
+                /> */}
+                <InfluencerResponsiveness id={influencerProfile.id}/>
               </Col>
             </>
           </Row>

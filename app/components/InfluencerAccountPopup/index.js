@@ -37,6 +37,7 @@ import { isArray } from 'lodash';
 import { makeSelectGenres } from '../../containers/Album/selectors';
 import { toast } from 'react-toastify';
 import './index.scss';
+import { InfluencerResponsiveness } from '../../containers/Influencer/Loadable';
 
 const InfluencerAccountPopup = ({
   openModal,
@@ -59,7 +60,7 @@ const InfluencerAccountPopup = ({
           cursor: 'pointer'
         }}
 
-        trigger="hover" placement="left" overlay={
+        trigger={["hover", "focus"]} placement="left" overlay={
           <Tooltip>
             Click to open
       </Tooltip>
@@ -224,9 +225,11 @@ const InfluencerAccountPopup = ({
             <hr className="blick-border" />
             {renderGenres(userSelected.influencer.influencerGenres, genres)}
             <hr className="blick-border" />
-            <InfluencerAccount navigation={{}} userId={userSelected.influencer.id}
+            {/* <InfluencerAccount navigation={{}} userId={userSelected.influencer.id}
               showActivites={false}
-            />
+            /> */}
+
+            <InfluencerResponsiveness id={userSelected.influencer.id}/>
           </Col>
           <Col md={6} xl={5}>
             <Card className="mb-4 bg-transparent blick-border">
