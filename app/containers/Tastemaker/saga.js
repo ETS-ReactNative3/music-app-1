@@ -14,7 +14,11 @@ import { SOCIAL_CHANNELS } from '../App/constants';
 
 function getTasteMakersApi(data) {
   let url = 'influencers/list';
+  
   if (data.searchText) { url = url + `?text=${data.searchText}` } else { url = url + `?text=`; }
+  if (data.genresFilter) {
+    url = url + `&genres=${data.genresFilter.map((genre, index) => `genre[${index}]=${genre.id}`).join('&')}`
+  }
 if (data.filters)
   data.filters.map(filter => {
     url = url + `&services=${filter}`

@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Multiselect } from 'multiselect-react-dropdown';
 import {
   faFacebook,
   faTwitter,
@@ -64,6 +65,7 @@ import { getSocialChannelsRequest } from '../Influencer/actions';
 import { makeSelectSocialChannels } from '../Influencer/selectors';
 import influencerSaga from '../Influencer/saga';
 import influencerReducer from '../Influencer/reducer';
+import { makeSelectGenres } from '../Album/selectors';
 
 export function Tastemaker(
   {
@@ -78,7 +80,8 @@ export function Tastemaker(
     getGenreList,
     getPlaylist,
     getSocialChannelList,
-    socialChannels
+    socialChannels,
+    genres
   }) {
   useInjectReducer({ key: 'tastemaker', reducer });
   useInjectSaga({ key: 'tastemaker', saga });
@@ -100,6 +103,7 @@ export function Tastemaker(
   const [userSelected, setUserSelected] = React.useState({});
   const [searchText, setSearchText] = React.useState('');
   const [filters, setFilters] = React.useState([]);
+  const [genresFilter, setGenresFilter] = React.useState([]);
 
   function handleClose() {
     setOpenModal(false);
@@ -112,11 +116,11 @@ export function Tastemaker(
 
   const getSearchResults = text => {
     setSearchText(text);
-    getTasteMakersAction(text, filters);
+    getTasteMakersAction(text, filters, genresFilter);
   };
 
   React.useEffect(() => {
-    getTasteMakersAction(searchText, filters);
+    getTasteMakersAction(searchText, filters, genresFilter);
   }, [filters]);
   const inputRef = React.createRef();
 
@@ -161,8 +165,8 @@ export function Tastemaker(
             </Card>
           </Col>
           <Col md={7} lg={8} xl={9}>
-            <div className="search-input input-group mb-4">
-              <input
+            <div className="search-input input-group mb-4" style={{display: 'flex', flexDirection: 'row'}}>
+              <div style={{flex: 1}}><input
                 className="text-white form-control-lg bg-transparent form-control blick-border border-left-0 border-top-0 border-right-0"
                 type="text"
                 ref={inputRef}
@@ -172,20 +176,51 @@ export function Tastemaker(
                 }}
                 placeholder="Search here...."
               />
-              {searchText.length > 0 && (
-                <div className="input-group-append">
-                  <span className="input-group-text">
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      className="cursor-pointer"
-                      onClick={() => {
-                        getSearchResults('');
-                        inputRef.target.value = '';
-                      }}
-                    />
-                  </span>
-                </div>
-              )}
+                {searchText.length > 0 && (
+                  <div className="input-group-append">
+                    <span className="input-group-text">
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        className="cursor-pointer"
+                        onClick={() => {
+                          getSearchResults('');
+                          inputRef.target.value = '';
+                        }}
+                      />
+                    </span>
+                  </div>
+                )}
+              </div>
+              <Multiselect
+                displayValue="title"
+                style={{
+                  flex: 1,
+                  chips: { background: 'green' },
+                  optionContainer: {
+                    color: 'black',
+                  },
+                  searchBox: {
+                    color: 'white',
+                  },
+                  inputField: {
+                    // To change input field position or margin
+                    color: 'white',
+                  },
+                }}
+                options={genres} // Options to display in the dropdown
+                selectedValues={genresFilter}
+                onSelect={(selectedList, selectedItem) => {
+                  getTasteMakersAction(searchText, filters, selectedList);
+                  setGenresFilter(selectedList);
+
+                }}
+                onRemove={(selectedList, selectedItem) => {
+                  getTasteMakersAction(searchText, filters, selectedList);
+                  setGenresFilter(selectedList);
+
+                }}
+                
+              />
             </div>
             <Row className="mt-5">
               {(!formLoader &&
@@ -248,28 +283,28 @@ export function Tastemaker(
                             selectedInfluencers.findIndex(
                               influencer => influencer.id === item.id,
                             ) === -1 ? (
-                              <Button
-                                onClick={() => {
-                                  handleOpen(item);
-                                }}
-                                variant="warning"
-                              >
-                                Add
-                              </Button>
-                            ) : (
-                              <div className="d-flex align-items-center justify-content-between">
-                                <div className="text-success">
-                                  <FontAwesomeIcon size="1x" icon={faCheck} />
+                            <Button
+                              onClick={() => {
+                                handleOpen(item);
+                              }}
+                              variant="warning"
+                            >
+                              Add
+                            </Button>
+                          ) : (
+                            <div className="d-flex align-items-center justify-content-between">
+                              <div className="text-success">
+                                <FontAwesomeIcon size="1x" icon={faCheck} />
                                 Added
                               </div>
-                                <Button
-                                  variant="danger"
-                                  onClick={() => removeInfluencer(item)}
-                                >
-                                  Remove
+                              <Button
+                                variant="danger"
+                                onClick={() => removeInfluencer(item)}
+                              >
+                                Remove
                               </Button>
-                              </div>
-                            )}
+                            </div>
+                          )}
                         </Card.Text>
                       </Card.Body>
                     </Card>
@@ -370,7 +405,8 @@ Tastemaker.propTypes = {
   formLoader: PropTypes.bool,
   getGenreList: PropTypes.func,
   socialChannels: PropTypes.array,
-  getSocialChannelList: PropTypes.func
+  getSocialChannelList: PropTypes.func,
+  genres: PropTypes.array
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -380,12 +416,13 @@ const mapStateToProps = createStructuredSelector({
   selectedSong: makeSelectedSong(),
   getPlaylist: makeSelectPlaylist(),
   socialChannels: makeSelectSocialChannels(),
+  genres: makeSelectGenres()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    getTasteMakersAction: (searchText, filters) =>
-      dispatch(getTasteMakersRequest({ filters, searchText })),
+    getTasteMakersAction: (searchText, filters, genresFilter) =>
+      dispatch(getTasteMakersRequest({ filters, searchText, genresFilter })),
     removeInfluencer: data => dispatch(removeInfluencerAction(data)),
     getSongAction: id => dispatch(getSongRequest(id)),
     getGenreList: () => dispatch(getGenres()),
