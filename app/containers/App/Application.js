@@ -27,7 +27,8 @@ import {InfluencerVerify} from '../Campaign/Loadable';
 import {Library} from '../Library/Loadable';
 import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
-import { Browse } from '../Browse/Loadable';
+import {UserList} from '../AdminUsers/Loadable';
+import {Browse} from '../Browse/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -44,6 +45,18 @@ function useAuth() {
   return isAuthorized;
 }
 
+function getRole() {
+  const accessToken = localStorage.getItem('token');
+  if (accessToken) {
+    const decoded = jwtDecode(accessToken);
+    if (decoded.role === 'administrator') {
+      return true
+    }
+  }
+
+  return false
+}
+
 function PrivateRoute({children, ...rest}) {
   const auth = useAuth();
 
@@ -51,7 +64,7 @@ function PrivateRoute({children, ...rest}) {
     <Route
       {...rest}
       render={() =>
-        auth ? (
+        (auth || (rest.admin && getRole())) ? (
           children
         ) : (
           <Redirect
@@ -156,6 +169,9 @@ function Application() {
         <PrivateRoute path="/admin/tastemakers/withdrawal/requests" exact>
           <WithdrawalRequestList/>
         </PrivateRoute>
+        <PrivateRoute exact path="/admin/users" admin={true}>
+          <UserList/>
+        </PrivateRoute>
         <PrivateRoute path="/library" exact>
           <Library/>
         </PrivateRoute>
@@ -165,7 +181,6 @@ function Application() {
         <Route exact path="/newReleases">
           <NewReleases/>
         </Route>
-
         <Route exact path="/browse">
           <Browse/>
         </Route>
