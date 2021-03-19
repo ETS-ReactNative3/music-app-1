@@ -179,6 +179,22 @@ const EditAccount = (
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridDiscription">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    name="email"
+                    placeholder="E-mail address"
+                    className={`form-control ${
+                      errors.email ? 'is-invalid' : ''
+                    }`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.email && errors.email.message}
+                  </div>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridDiscription">
                   <label htmlFor="phone">Phone</label>
                   <input
                     name="phone"
