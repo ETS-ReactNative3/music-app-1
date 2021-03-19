@@ -1,0 +1,12 @@
+.add_credit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: '50%';
+}
+
+.credit_error {
+    display: flex;
+    flex-direction: column;
+}
