@@ -27,6 +27,7 @@ import {InfluencerVerify} from '../Campaign/Loadable';
 import {Library} from '../Library/Loadable';
 import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
+import { Browse } from '../Browse/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -163,6 +164,10 @@ function Application() {
         </Route>
         <Route exact path="/newReleases">
           <NewReleases/>
+        </Route>
+
+        <Route exact path="/browse">
+          <Browse/>
         </Route>
       </Switch>
     </Dashboard>
