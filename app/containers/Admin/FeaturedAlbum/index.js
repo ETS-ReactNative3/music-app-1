@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { RemotePagination } from '../../../components/RemotePagination';
 import { fetchAlbumAction, makeAlbumFeaturedAction } from '../action';
-import { makeSelectFeaturedAlbums } from '../selectors';
+import { makeSelectAdminAlbumsCount, makeSelectFeaturedAlbums } from '../selectors';
 import PropTypes from 'prop-types';
 import { useInjectReducer } from '../../../utils/injectReducer';
 import adminReducer from '../reducer';
@@ -12,7 +12,7 @@ import adminSaga from '../saga';
 import { connect } from 'react-redux';
 import { pictureFormatter } from '../../Requests/utils';
 
-const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured }) => {
+const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured , albumsCount}) => {
 
     React.useEffect(() => {
         fetchAlbums(0, 10);
@@ -137,7 +137,7 @@ const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured }) => {
             data={featuredAlbums || []}
             page={currentPage}
             sizePerPage={10}
-            totalSize={100}
+            totalSize={albumsCount}
             columns={columns}
             onTableChange={handleTableChange}
             rowEvents={{
@@ -150,13 +150,15 @@ const FeaturedAlbums = ({ fetchAlbums, featuredAlbums, makeAlbumFeatured }) => {
 FeaturedAlbums.propTypes = {
     fetchAlbums: PropTypes.func,
     featuredAlbums: PropTypes.array,
-    makeAlbumFeatured: PropTypes.func
+    makeAlbumFeatured: PropTypes.func,
+    albumsCount: PropTypes.number
 
 }
 
 const mapStateToProps = createStructuredSelector({
 
-    featuredAlbums: makeSelectFeaturedAlbums()
+    featuredAlbums: makeSelectFeaturedAlbums(),
+    albumsCount: makeSelectAdminAlbumsCount()
 });
 
 function mapDispatchToProps(dispatch) {

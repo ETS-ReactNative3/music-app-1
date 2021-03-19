@@ -27,8 +27,7 @@ import { InfluencerVerify } from '../Campaign/Loadable';
 import { Library } from '../Library/Loadable';
 import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
-import { FeaturedAlbums } from '../Admin/Loadable';
-import {UserList} from '../AdminUsers/Loadable';
+import { FeaturedAlbums, UserList } from '../Admin/Loadable';
 import {Browse} from '../Browse/Loadable';
 
 

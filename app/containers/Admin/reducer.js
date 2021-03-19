@@ -4,11 +4,15 @@
  *
  */
 import produce from 'immer';
-import {SAVE_ALBUMS} from "./contant";
+import { saveUsersCountAction } from './action';
+import { SAVE_ALBUMS, SAVE_ALBUMS_COUNT, SAVE_USERS, SAVE_USERS_COUNT } from "./contant";
 
 export const initialState = {
   loading: false,
   featuredAlbums: [],
+  users: [],
+  userCount: 0,
+  albumCount: 0,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -18,7 +22,15 @@ const adminReducer = (state = initialState, action) =>
       case SAVE_ALBUMS:
         draft.featuredAlbums = action.albums;
         break;
-      
+      case SAVE_USERS:
+        draft.users = action.users;
+        break;
+      case SAVE_USERS_COUNT:
+        draft.userCount = action.userCount;
+        break;
+      case SAVE_ALBUMS_COUNT:
+        draft.albumCount = action.albumCount;
+        break;
     }
   });
 

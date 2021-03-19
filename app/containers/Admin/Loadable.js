@@ -8,7 +8,11 @@
  import loadable from 'utils/loadable';
  import LoadingIndicator from 'components/LoadingIndicator';
  
- export const FeaturedAlbums = loadable(() => import('./FeaturedAlbum/index.js'), {
+ export const UserList = loadable(() => import('./Users/index.js'), {
+  fallback: <LoadingIndicator />,
+});
+
+export const FeaturedAlbums = loadable(() => import('./FeaturedAlbum/index.js'), {
    fallback: <LoadingIndicator />,
  });
  
