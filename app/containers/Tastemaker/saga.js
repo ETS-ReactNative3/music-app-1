@@ -1,25 +1,34 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-import { call, put, takeLatest } from '@redux-saga/core/effects';
-import { toast } from 'react-toastify';
-import { GET_TASTEMAKERS_REQUEST } from './constants';
-import { axiosInstance } from '../../utils/api';
+import {call, put, takeLatest} from '@redux-saga/core/effects';
+import {toast} from 'react-toastify';
+import {GET_TASTEMAKERS_REQUEST} from './constants';
+import {axiosInstance} from '../../utils/api';
 import {
   getTasteMakersRequestFail,
   getTasteMakersRequestSuccess,
 } from './actions';
-import { setLoader } from '../App/actions';
-import { SOCIAL_CHANNELS } from '../App/constants';
+import {setLoader} from '../App/actions';
 
 function getTasteMakersApi(data) {
   let url = 'influencers/list';
-  if (data.searchText) { url = url + `?text=${data.searchText}` } else { url = url + `?text=`; }
-if (data.filters)
-  data.filters.map(filter => {
-    url = url + `&services=${filter}`
-  })
-  
+
+  if (data.searchText) {
+    url = url + `?text=${data.searchText}`
+  } else {
+    url = url + `?text=`;
+  }
+
+  if (data.genresFilter) {
+    url = url + `&${data.genresFilter.map((genre, index) => `genre[${index}]=${genre.id}`).join('&')}`
+  }
+
+  if (data.filters)
+    data.filters.map(filter => {
+      url = url + `&services=${filter}`
+    })
+
   return axiosInstance().get(url);
 }
 
