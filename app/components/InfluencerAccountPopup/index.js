@@ -1,50 +1,47 @@
-import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { memo } from 'react';
+import React, {memo, useEffect} from 'react';
 import {
   Button,
   Image,
   Modal,
-  Form,
-  InputGroup,
-  Spinner,
   Row,
   Col,
   Card,
   ListGroup,
-  Container, Badge, OverlayTrigger, Tooltip, Popover
+  Container, Badge, OverlayTrigger, Tooltip,
 } from 'react-bootstrap';
-import { faBlog } from '@fortawesome/free-solid-svg-icons';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import InfluencerAccount from '../InfluencerAccount';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
-import { capatilizeText, combineFollowers, formatFollowers, renderSocialMediaIcons } from '../../utils';
+import {capatilizeText, combineFollowers, renderSocialMediaIcons} from '../../utils';
 import defaultImage from '../../images/album-3.jpg';
-import { useInjectReducer } from '../../utils/injectReducer';
+import {useInjectReducer} from '../../utils/injectReducer';
+import {useInjectSaga} from "../../utils/injectSaga";
 import reducer from '../../containers/Tastemaker/reducer';
-import { selectInfluencerAction } from '../../containers/Tastemaker/actions';
-import { SOCIAL_MEDIA } from '../../containers/App/constants';
-import { getGenres } from '../../containers/Album/actions';
-import { createStructuredSelector } from 'reselect';
-import { isArray } from 'lodash';
-import { makeSelectGenres } from '../../containers/Album/selectors';
-import { toast } from 'react-toastify';
+import {selectInfluencerAction} from '../../containers/Tastemaker/actions';
+import {SOCIAL_MEDIA} from '../../containers/App/constants';
+import {createStructuredSelector} from 'reselect';
+import {isArray} from 'lodash';
+import {makeSelectGenres} from '../../containers/Album/selectors';
 import './index.scss';
+import saga from "../../containers/Influencer/saga";
+import influencerReducer from "../../containers/Influencer/reducer";
+import {fetchInfluencerStatsAction} from "../../containers/Influencer/actions";
+import {makeSelectInfluencerStats, makeSelectInfluencerStatsLoader} from "../../containers/Influencer/selectors";
+import LoadingIndicator from "../LoadingIndicator";
+import TasteMakerStats from "../TasteMakerStats/Loadable";
 
-const InfluencerAccountPopup = ({
-  openModal,
-  handleClose,
-  userSelected,
-  selectInfluencer,
-  genres
-}) => {
+const InfluencerAccountPopup = (
+  {
+    openModal,
+    handleClose,
+    userSelected,
+    selectInfluencer,
+    genres,
+    getInfluencerStats,
+    influencerStatsLoader,
+    influencerStats,
+  }) => {
   const followers = combineFollowers(
     (userSelected && userSelected.influencer) || {},
   );
@@ -59,16 +56,16 @@ const InfluencerAccountPopup = ({
           cursor: 'pointer'
         }}
 
-        trigger="hover" placement="left" overlay={
-          <Tooltip>
-            Click to open
-      </Tooltip>
-        }>
+        trigger={["hover", "focus"]} placement="left" overlay={
+        <Tooltip>
+          Click to open
+        </Tooltip>
+      }>
         <div onClick={() => {
           window.open(link, "_blank")
-        }} >
+        }}>
           <div className="icon_text">
-            {renderSocialMediaIcons(icon, '1x', { marginRight: 5 })}{capatilizeText(label)}
+            {renderSocialMediaIcons(icon, '1x', {marginRight: 5})}{capatilizeText(label)}
           </div>
           <small className="text-muted">{`${followers} followers`}</small>
         </div>
@@ -95,75 +92,10 @@ const InfluencerAccountPopup = ({
         </div>
       )}
     </div>
-
-    // <div
-    //   style={{
-    //     display: 'flex',
-    //     width: '50%',
-    //     marginTop: 10,
-    //     flexDirection: 'column',
-    //   }}
-    // >
-    //   <div
-    //     style={{
-    //       display: 'flex',
-    //       flexDirection: 'row',
-    //       justifyContent: 'space-between',
-    //     }}
-    //   >
-    //     <div style={{ display: 'flex', flexDirection: 'column' }}>
-    //       <div
-    //         style={{
-    //           display: 'flex',
-    //           flexDirection: 'row',
-    //           alignItems: 'center',
-    //           justifyContent: 'flex-start',
-    //         }}
-    //       >
-    //         <FontAwesomeIcon
-    //           size="1x"
-    //           color="white"
-    //           icon={icon}
-    //           style={{ marginRight: 5 }}
-    //         />
-    //         <div style={{ fontSize: 18 }}>{label}</div>
-    //       </div>
-    //       <div style={{ color: 'grey' }}>{`${followers} followers`}</div>
-    //     </div>
-    //     {credits !== '' && (
-    //       <div
-    //         style={{
-    //           display: 'flex',
-    //           flexDirection: 'row',
-    //           alignItems: 'center',
-    //           marginTop: 5,
-    //         }}
-    //       >
-    //         <img
-    //           src={PlanSvgColor}
-    //           alt="PlanSvg"
-    //           width={20}
-    //           height={20}
-    //           style={{ marginLeft: 10, marginRight: 5 }}
-    //         />
-    //         <div style={{ fontSize: 14, color: 'white' }}>
-    //           {` ${credits}   `}
-    //         </div>
-    //         {/* <CheckBox color={colors.primaryColor} onPress={callBack} selected={selected} /> */}
-    //         <input
-    //           type="checkbox"
-    //           style={{ marginLeft: 10, marginRight: 10 }}
-    //           defaultChecked={selected}
-    //           onChange={callBack}
-    //         />
-    //       </div>
-    //     )}
-    //   </div>
-    // </div>
   );
   const [innerInfluencer, setInnerInfluencer] = React.useState({
     ...userSelected,
-    influencer: { ...userSelected.influencer, influencerServices: [] },
+    influencer: {...userSelected.influencer, influencerServices: []},
   });
   const [facebook, selectFacebook] = React.useState(false);
   const [twitter, selectTwitter] = React.useState(false);
@@ -174,7 +106,13 @@ const InfluencerAccountPopup = ({
   const [price, setTotalPrice] = React.useState(0);
 
   const [selectedMedium, setSelectedMedium] = React.useState([]);
-  useInjectReducer({ key: 'influencer', reducer });
+  useInjectReducer({key: 'tastemaker', reducer});
+  useInjectReducer({key: 'influencer', reducer: influencerReducer});
+  useInjectSaga({key: 'influencer', saga});
+
+  useEffect(() => {
+    getInfluencerStats(userSelected.influencer.id)
+  }, [userSelected]);
 
   const renderGenres = (genersToRender, genres) =>
     genersToRender &&
@@ -194,7 +132,7 @@ const InfluencerAccountPopup = ({
       size="lg"
     >
       <Modal.Header closeButton>
-        <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
+        <div style={{display: 'flex', justifyContent: 'center', flex: 1}}>
           <div>Influencer Account</div>
         </div>
       </Modal.Header>
@@ -221,12 +159,14 @@ const InfluencerAccountPopup = ({
             <p>
               {userSelected.influencer.helpArtistDescription}
             </p>
-            <hr className="blick-border" />
+            <hr className="blick-border"/>
             {renderGenres(userSelected.influencer.influencerGenres, genres)}
-            <hr className="blick-border" />
-            <InfluencerAccount navigation={{}} userId={userSelected.influencer.id}
+            <hr className="blick-border"/>
+            {/* <InfluencerAccount navigation={{}} userId={userSelected.influencer.id}
               showActivites={false}
-            />
+            /> */}
+
+            {influencerStatsLoader ? <LoadingIndicator/> : <TasteMakerStats stats={influencerStats}/>}
           </Col>
           <Col md={6} xl={5}>
             <Card className="mb-4 bg-transparent blick-border">
@@ -236,61 +176,61 @@ const InfluencerAccountPopup = ({
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-0 border-0 bg-transparent">
                   {userSelected.influencer &&
-                    userSelected.influencer.influencerServices.map(
-                      influencerService => {
+                  userSelected.influencer.influencerServices.map(
+                    influencerService => {
 
-                        return _field(
-                          influencerService.socialChannels.title,
-                          influencerService.socialChannels.title,
-                          influencerService.link,
-                          influencerService.price,
-                          () => {
+                      return _field(
+                        influencerService.socialChannels.title,
+                        influencerService.socialChannels.title,
+                        influencerService.link,
+                        influencerService.price,
+                        () => {
 
-                            if (!selectedMedium.includes(influencerService.socialChannels.title)) {
+                          if (!selectedMedium.includes(influencerService.socialChannels.title)) {
                             setSelectedMedium([...selectedMedium, influencerService.socialChannels.title])
-                              if (influencerService.price)
-                                setTotalPrice(
-                                  price + influencerService.price,
-                                );
-                              setInnerInfluencer({
-                                ...innerInfluencer,
-                                influencer: {
-                                  ...innerInfluencer.influencer,
-                                  influencerServices: innerInfluencer.influencer.influencerServices.concat(
-                                    [influencerService],
-                                  ),
-                                },
-                              });
-                            } else {
-                            setSelectedMedium([...selectedMedium.filter(medium => medium !==influencerService.socialChannels.title)])
+                            if (influencerService.price)
+                              setTotalPrice(
+                                price + influencerService.price,
+                              );
+                            setInnerInfluencer({
+                              ...innerInfluencer,
+                              influencer: {
+                                ...innerInfluencer.influencer,
+                                influencerServices: innerInfluencer.influencer.influencerServices.concat(
+                                  [influencerService],
+                                ),
+                              },
+                            });
+                          } else {
+                            setSelectedMedium([...selectedMedium.filter(medium => medium !== influencerService.socialChannels.title)])
 
-                              if (influencerService.price)
-                                setTotalPrice(
-                                  price - influencerService.price,
-                                );
-                              setInnerInfluencer({
-                                ...innerInfluencer,
-                                influencer: {
-                                  ...innerInfluencer.influencer,
-                                  influencerServices: innerInfluencer.influencer.influencerServices.filter(
-                                    influencerService =>
-                                      influencerService.socialChannels
-                                        .title === SOCIAL_MEDIA.FACEBOOK,
-                                  ),
-                                },
-                              });
-                            }
+                            if (influencerService.price)
+                              setTotalPrice(
+                                price - influencerService.price,
+                              );
+                            setInnerInfluencer({
+                              ...innerInfluencer,
+                              influencer: {
+                                ...innerInfluencer.influencer,
+                                influencerServices: innerInfluencer.influencer.influencerServices.filter(
+                                  influencerService =>
+                                    influencerService.socialChannels
+                                      .title === SOCIAL_MEDIA.FACEBOOK,
+                                ),
+                              },
+                            });
+                          }
 
 
-                          },
-                          influencerService.followers,
-                          selectedMedium.includes(influencerService.socialChannels.title),
-                        );
-                      },
-                    )}
+                        },
+                        influencerService.followers,
+                        selectedMedium.includes(influencerService.socialChannels.title),
+                      );
+                    },
+                  )}
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-4 border-0 bg-transparent">
-                  <hr className="blick-border" />
+                  <hr className="blick-border"/>
                   {selectedMedium.length} campaign mediums
                   <div className="my-3 d-flex align-items-center justify-content-between">
                     <div>
@@ -299,7 +239,7 @@ const InfluencerAccountPopup = ({
                         alt="PlanSvg"
                         width={15}
                         height={15}
-                        style={{ marginRight: 5 }}
+                        style={{marginRight: 5}}
                       />
                       price
                     </div>
@@ -314,7 +254,7 @@ const InfluencerAccountPopup = ({
                       handleClose();
                       selectInfluencer({
                         ...innerInfluencer,
-                        influencer: { ...innerInfluencer.influencer, price },
+                        influencer: {...innerInfluencer.influencer, price},
                       });
                     }}
                   >
@@ -335,15 +275,19 @@ InfluencerAccountPopup.propTypes = {
   handleClose: PropTypes.func,
   userSelected: PropTypes.any,
   selectInfluencer: PropTypes.func,
+  getInfluencerStats: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   genres: makeSelectGenres(),
+  influencerStats: makeSelectInfluencerStats(),
+  influencerStatsLoader: makeSelectInfluencerStatsLoader(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     selectInfluencer: data => dispatch(selectInfluencerAction(data)),
+    getInfluencerStats: (id) => dispatch(fetchInfluencerStatsAction(id))
   };
 }
 

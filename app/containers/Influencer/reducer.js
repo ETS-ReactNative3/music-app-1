@@ -20,6 +20,8 @@ import {
   GET_INFLUENCER_REQUESTS,
   GET_INFLUENCER_REQUESTS_SUCCESS,
   GET_INFLUENCER_REQUESTS_FAIL,
+  FETCH_INFLUENCER_STATS_SUCCESS,
+  FETCH_INFLUENCER_STATS,
 } from './constants';
 
 export const initialState = {
@@ -30,6 +32,8 @@ export const initialState = {
   genres: [],
   profile: null,
   influencers: null,
+  influencerStats: null,
+  influencerStatsLoader: null
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -73,6 +77,14 @@ const influencerReducer = (state = initialState, action) =>
       case GET_INFLUENCER_REQUESTS_SUCCESS:
         draft.influencers = action.requests;
         draft.loading = false;
+        break;
+      case FETCH_INFLUENCER_STATS:
+        draft.influencerStats = null;
+        draft.influencerStatsLoader = true;
+        break;
+      case FETCH_INFLUENCER_STATS_SUCCESS:
+        draft.influencerStats = action.influencerStats;
+        draft.influencerStatsLoader = false;
         break;
     }
   });

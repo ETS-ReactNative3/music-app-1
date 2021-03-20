@@ -49,7 +49,6 @@ import {
 import {getSongRequest} from '../Song/actions';
 import songReducer from '../Song/reducer';
 import songSaga from '../Song/saga';
-import {SOCIAL_MEDIA} from '../App/constants';
 import {getGenres} from '../Album/actions';
 import albumSaga from '../Album/saga';
 import albumReducer from '../Album/reducer';
