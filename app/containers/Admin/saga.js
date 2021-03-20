@@ -9,16 +9,18 @@ function fetchAlbumAPI(page, limit) {
 }
 
 function makeAlbumFeaturedAPI(albumId, featured) {
-    return axiosInstance().put(`admin/feature-album/${albumId}`)
+    return axiosInstance().put(`admin/feature-album/`, {
+      id: albumId,
+      featured
+    })
 }
-
 
 function fetchUsersApi(page, limit) {
     return axiosInstance().get(`/admin/all-users?page=${page}&limit=${limit}`)
 }
 
 function blockUserApi(userId, block) {
-    return axiosInstance().post(`/admin/block-user/`, {
+    return axiosInstance().put(`/admin/block-user/`, {
         id: userId,
         block
     });
@@ -46,7 +48,7 @@ function* fetchAlbumSaga(action) {
 function* makeAlbumFeaturedSaga(action) {
     try {
         const { albumId, page, limit, featured } = action;
-        yield call(makeAlbumFeaturedAPI, albumId, !featured)
+        yield call(makeAlbumFeaturedAPI, albumId, featured)
         yield put(fetchAlbumAction(page - 1, limit));
     } catch (e) {
         toast.error('Failed in album transition')
