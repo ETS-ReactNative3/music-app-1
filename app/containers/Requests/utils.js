@@ -128,6 +128,17 @@ export function pictureFormatter(cell, row) {
     );
   }
 
+  if (row && row.artwork) {
+    return (
+      <span>
+        <Image
+          src={row.artwork}
+          style={{width: 40, height: 40, borderRadius: 20}}
+        />
+      </span>
+    );
+  }
+
   return (
     <Image
       src={defaultImage}

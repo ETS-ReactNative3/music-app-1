@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import './index.scss';
-import { addCreditsAction } from './actions';
+import { addCreditsAction } from '../action';
 
 const UserAddCredit = ({ openModal, handleClose, addCredit, id,page, limit }) => {
 

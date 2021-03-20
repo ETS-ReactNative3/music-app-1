@@ -5,21 +5,21 @@ import React, {memo, useState} from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
-import {RemotePagination} from '../../components/RemotePagination';
-import {useInjectReducer} from '../../utils/injectReducer';
-import {useInjectSaga} from '../../utils/injectSaga';
-import {blockUserAction, fetchUsersAction} from './actions';
-import adminUsersReducer from './reducer';
-import adminUsersSaga from './saga';
-import {makeSelectAdminUsers, makeSelectAdminUsersCount} from './selectors';
-import PaperCard from "../../components/PaperCard";
+import {RemotePagination} from '../../../components/RemotePagination';
+import {useInjectReducer} from '../../../utils/injectReducer';
+import {useInjectSaga} from '../../../utils/injectSaga';
+import {blockUserAction, fetchUsersAction} from '../action';
+import adminUsersReducer from '../reducer';
+import adminUsersSaga from '../saga';
+import {makeSelectAdminUsers, makeSelectAdminUsersCount} from '../selectors';
+import PaperCard from "../../../components/PaperCard";
 import UserAddCredit from "./UserAddCredit";
 
 
 const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
 
-  useInjectReducer({key: 'adminUsers', reducer: adminUsersReducer})
-  useInjectSaga({key: 'adminUsers', saga: adminUsersSaga})
+  useInjectReducer({key: 'admin', reducer: adminUsersReducer})
+  useInjectSaga({key: 'admin', saga: adminUsersSaga})
   const [currentPage, setCurrentPage] = useState(1);
   const [openCreditModal, setOpenCreditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
@@ -53,10 +53,10 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
       dataField: 'email',
       text: 'Email',
       style: {
-        width: '30%',
+        width: '25%',
       },
       headerStyle: {
-        width: '30%',
+        width: '25%',
       },
     },
     {
@@ -150,7 +150,7 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
             setOpenCreditModal(true)
           }}
         >
-          Add Credits
+          Change Credits
         </button>
       </div>
     );
