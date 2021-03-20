@@ -27,7 +27,7 @@ import {
   updateInfluencerStatusSuccess,
   updateInfluencerStatusFail,
   getInfluencerRequests,
-  saveInfluencerStatsAction,
+  fetchInfluencerStatsSuccessAction,
 } from './actions';
 import history from '../../utils/history';
 
@@ -127,16 +127,14 @@ export function* updateInfluencerStatus({ data }) {
   }
 }
 
-function* fetchInfluencerStatsSaga(action) {
+function* fetchInfluencerStatsSaga({id}) {
   try {
-    const {id} = action;
-
     const response = yield call(fetchInfluencerStatsApi, id);
     if (response) {
-      yield put(saveInfluencerStatsAction(JSON.stringify(response.data)))
+      yield put(fetchInfluencerStatsSuccessAction(response.data))
     }
   } catch (e) {
-    console.error(e);
+    toast.error(e.message);
   }
 }
 

@@ -24,7 +24,7 @@ import {
   UPDATE_INFLUENCER_STATUS_SUCCESS,
   UPDATE_INFLUENCER_STATUS_FAIL,
   FETCH_INFLUENCER_STATS,
-  SAVE_INFLUENCER_STATS,
+  SAVE_INFLUENCER_STATS, FETCH_INFLUENCER_STATS_SUCCESS,
 } from './constants';
 
 export function becomeAnInfluencer(data) {
@@ -154,9 +154,9 @@ export function fetchInfluencerStatsAction(id) {
   }
 }
 
-export function saveInfluencerStatsAction(influencerStats) {
+export function fetchInfluencerStatsSuccessAction(influencerStats) {
   return {
-    type: SAVE_INFLUENCER_STATS,
+    type: FETCH_INFLUENCER_STATS_SUCCESS,
     influencerStats
   }
-} 
+}

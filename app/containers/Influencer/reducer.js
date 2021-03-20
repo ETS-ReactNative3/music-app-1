@@ -20,7 +20,8 @@ import {
   GET_INFLUENCER_REQUESTS,
   GET_INFLUENCER_REQUESTS_SUCCESS,
   GET_INFLUENCER_REQUESTS_FAIL,
-  SAVE_INFLUENCER_STATS,
+  FETCH_INFLUENCER_STATS_SUCCESS,
+  FETCH_INFLUENCER_STATS,
 } from './constants';
 
 export const initialState = {
@@ -31,7 +32,8 @@ export const initialState = {
   genres: [],
   profile: null,
   influencers: null,
-  influencerStats: null
+  influencerStats: null,
+  influencerStatsLoader: null
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -76,8 +78,13 @@ const influencerReducer = (state = initialState, action) =>
         draft.influencers = action.requests;
         draft.loading = false;
         break;
-      case SAVE_INFLUENCER_STATS:
-        draft.influencerStats = JSON.parse(action.influencerStats);
+      case FETCH_INFLUENCER_STATS:
+        draft.influencerStats = null;
+        draft.influencerStatsLoader = true;
+        break;
+      case FETCH_INFLUENCER_STATS_SUCCESS:
+        draft.influencerStats = action.influencerStats;
+        draft.influencerStatsLoader = false;
         break;
     }
   });
