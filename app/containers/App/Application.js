@@ -26,10 +26,9 @@ import {InfluencerVerify} from '../Campaign/Loadable';
 import {Library} from '../Library/Loadable';
 import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
-import { FeaturedAlbums, UserList } from '../Admin/Loadable';
+import {FeaturedAlbums, UserList} from '../Admin/Loadable';
 import {Browse} from '../Browse/Loadable';
-
-
+import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -164,10 +163,10 @@ function Application() {
         <PrivateRoute path="/requests" exact>
           <RequestListing/>
         </PrivateRoute>
-        <PrivateRoute path="/admin/tastemakers/requests" exact>
+        <PrivateRoute path="/admin/tastemakers/requests" exact admin={true}>
           <InfluencerRequests/>
         </PrivateRoute>
-        <PrivateRoute path="/admin/tastemakers/withdrawal/requests" exact>
+        <PrivateRoute path="/admin/tastemakers/withdrawal/requests" exact admin={true}>
           <WithdrawalRequestList/>
         </PrivateRoute>
         <PrivateRoute exact path="/admin/users" admin={true}>
@@ -185,9 +184,15 @@ function Application() {
         <Route exact path="/browse">
           <Browse/>
         </Route>
-        <Route exact path="/admin/albums">
+        <PrivateRoute exact path="/admin/albums" admin={true}>
           <FeaturedAlbums/>
-        </Route>
+        </PrivateRoute>
+        <PrivateRoute exact path="/subscription-plans">
+          <SubscriptionPlans/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/subscription/success">
+          <SubscriptionSuccess/>
+        </PrivateRoute>
       </Switch>
     </Dashboard>
   );
