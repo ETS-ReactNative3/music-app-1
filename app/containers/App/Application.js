@@ -187,7 +187,7 @@ function Application() {
         <PrivateRoute exact path="/admin/albums" admin={true}>
           <FeaturedAlbums/>
         </PrivateRoute>
-        <PrivateRoute exact path="/subscription-plan">
+        <PrivateRoute exact path="/subscription-plans">
           <SubscriptionPlans/>
         </PrivateRoute>
         <PrivateRoute exact path="/subscription/success">

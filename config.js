@@ -1,6 +1,6 @@
 let config = module.exports = {};
 
 config.server = {
-  apiURL: 'http://localhost:3006/',
+  apiURL: 'https://staging.bliiink.ga/',
   trackingApiURL: 'http://localhost:3007/',
 };
