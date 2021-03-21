@@ -172,7 +172,7 @@ export function* getMoodsSaga() {
     const result = yield call(fetchMoods);
     yield put(saveMoodListAction(result.data));
   } catch (e) {
-    // toast.error(e.message);
+    toast.error(e.message);
   }
 }
 
