@@ -31,7 +31,11 @@ import {
   UPDATE_PLAYLIST_FAIL,
   UPDATE_PLAYLIST_SUCCESS,
   TOGGLE_UPDATE_PLAYLIST_POPUP,
-  FOLLOW_PLAYLIST
+  FOLLOW_PLAYLIST,
+
+  GET_POPULAR_PLAYLIST,
+  GET_POPULAR_PLAYLIST_SUCCESS,
+  GET_POPULAR_PLAYLIST_FAIL
 } from './constants';
 
 export function createPlaylist(data) {
@@ -215,4 +219,26 @@ export const followPlayListAction = (playlistId, like) => {
     type: FOLLOW_PLAYLIST,
     playlistId, like
   }
+}
+
+
+
+export function getPopularPlaylistAction() {
+  return {
+    type: GET_POPULAR_PLAYLIST
+  };
+}
+
+export function getPopularPlaylistSuccessAction(popularPlaylist) {
+  return {
+    type: GET_POPULAR_PLAYLIST_SUCCESS,
+    popularPlaylist
+  };
+}
+
+export function getPopularPlaylistErrorAction(error) {
+  return {
+    type: GET_POPULAR_PLAYLIST_FAIL,
+    error
+  };
 }

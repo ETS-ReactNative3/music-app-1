@@ -107,6 +107,17 @@ const history = useHistory();
     onHandleSingleSong(songId, status);
   };
 
+  function displayTime(seconds) {
+    const format = val => `0${Math.floor(val)}`.slice(-2)
+    const hours = seconds / 3600
+    const minutes = (seconds % 3600) / 60
+    if (hours >= 1) {
+      return [hours, minutes, seconds % 60].map(format).join(':')
+    }
+
+    return [minutes, seconds % 60].map(format).join(':')
+  }
+
   return (
     <>
       {loader || !albumInfo ? (
@@ -165,10 +176,10 @@ const history = useHistory();
                   <ShareBox />
                   <div onClick={() => (userDetails && Object.keys(userDetails).length > 0) ? followAlbum(albumInfo.id, !albumInfo.albumLiked, slug) : history.push('/auth/login')}>
                     {albumInfo.albumLiked ?
-                      <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='2x' />
+                      <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='lg' />
                       :
                       <div className="heart_icon">
-                        <FontAwesomeIcon icon={faHeart} size='2x' />
+                        <FontAwesomeIcon icon={faHeart} size='lg' />
                       </div>}
                   </div>
                 </div>
@@ -200,7 +211,7 @@ const history = useHistory();
                           <h5 className="song-title d-inline">{ele.song.title}</h5>
                         </div>
                         <div className="col-2 d-flex justify-content-center align-items-center">
-                          <span className="song-duration px-4">4:25</span>
+                          <span className="song-duration px-4">{ele.song.duration ? displayTime(ele.song.duration) : '00:00'}</span>
                           {role && (
                             <SongsOptionsBox
                               songId={ele.song.id}
@@ -226,7 +237,7 @@ const history = useHistory();
                     list={newReleases}
                     loading={newReleasesLoading}
                     heading="Recommended For You"
-                    clasess="carousel-front py-5"
+                    classes="carousel-front py-5"
                   />
                 </Col>
               </Row>

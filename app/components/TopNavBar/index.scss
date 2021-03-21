@@ -42,3 +42,15 @@
     }
   }
 }
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.badge-dark {
+  background-color: #000000;
+  cursor: pointer;
+  &:hover {
+    background-color: #343a40
+  }
+}

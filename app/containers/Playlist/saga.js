@@ -12,7 +12,8 @@ import {
   GET_MY_PLAYLISTS_REQUEST,
   DELETE_SONG_PLAYLIST_REQUEST,
   UPDATE_PLAYLIST_REQUEST,
-  FOLLOW_PLAYLIST
+  FOLLOW_PLAYLIST,
+  GET_POPULAR_PLAYLIST
 } from './constants';
 import {axiosInstance} from '../../utils/api';
 import {
@@ -34,6 +35,9 @@ import {
   togglePlaylistPopup,
 
   getPlaylist, updatePlaylistSuccess, updatePlaylistFail, toggleUpdatePlaylistPopup,
+
+  getPopularPlaylistSuccessAction,
+  getPopularPlaylistErrorAction
 } from './actions';
 
 function postPlaylist(data) {
@@ -68,6 +72,9 @@ function followPlayList(data) {
   return axiosInstance().post('playlists/like', data);
 }
 
+function fetchPopularPlaylist() {
+  return axiosInstance().get('/playlists/popular');
+}
 export function* createPlaylistSaga({data}) {
   try {
     yield call(postPlaylist, data);
@@ -176,6 +183,15 @@ export function* followPlayListSaga(action) {
   }
 }
 
+function* getPopularPlaylistSaga() {
+  try {
+    const result = yield call(fetchPopularPlaylist);
+    yield put(getPopularPlaylistSuccessAction(result.data));
+  } catch (error) {
+    toast.error(error.message);
+    yield put(getPopularPlaylistErrorAction(error));
+  }
+}
 export default function* playlistSaga() {
   yield takeLatest(CREATE_PLAYLIST_REQUEST, createPlaylistSaga);
   yield takeLatest(UPDATE_PLAYLIST_REQUEST, updatePlaylistSaga);
@@ -186,4 +202,6 @@ export default function* playlistSaga() {
   yield takeLatest(CREATE_PLAYLIST_AND_ADD_SONG, createPlaylistAddSong);
   yield takeLatest(DELETE_SONG_PLAYLIST_REQUEST, deleteSongFromPlaylist);
   yield takeLatest(FOLLOW_PLAYLIST, followPlayListSaga);
+  yield takeLatest(GET_POPULAR_PLAYLIST, getPopularPlaylistSaga);
+
 }

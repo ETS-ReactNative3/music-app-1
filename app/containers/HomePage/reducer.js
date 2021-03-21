@@ -17,7 +17,7 @@ import {
   GET_TOP_SONGS,
   GET_FEATURED_ALBUMS_FAIL,
   GET_FEATURED_ALBUMS_SUCCESS,
-  GET_FEATURED_ALBUMS
+  GET_FEATURED_ALBUMS,
 } from './constants';
 
 // The initial state of the App
@@ -28,7 +28,7 @@ export const initialState = {
   featuredAlbum: [],
   topSongsLoading: true,
   topSongs: [],
-  error: null
+  error: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -65,6 +65,7 @@ const homeReducer = (state = initialState, action) =>
       case GET_TOP_SONGS_FAIL:
         draft.topSongsLoading = false;
         break;
+      
     }
   });
 

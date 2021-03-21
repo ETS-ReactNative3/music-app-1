@@ -9,14 +9,13 @@ import reducer from '../HomePage/reducer';
 import {useInjectSaga} from '../../utils/injectSaga';
 import homePageData from '../HomePage/saga';
 import {makeSelectNewReleaseLoading, makeSelectNewReleases} from '../HomePage/selectors';
-import {HOVER_PLAY_ICON_COLOR} from '../../utils/constants';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {faPlayCircle} from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
+import '../../components/CarouselFront/index.scss'
 import PaperCard from '../../components/PaperCard';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import {redirectOnAlbum} from '../../utils/redirect';
+import PlayButton from '../../images/play-button.svg'
 
 const NewReleases = ({getNewReleasesAction, newReleases, newReleasesLoading}) => {
 
@@ -30,20 +29,15 @@ const NewReleases = ({getNewReleasesAction, newReleases, newReleasesLoading}) =>
     return (
       <div className="col-lg-2 col-md-4 col-sm-4 mb-4" key={index}>
         <div
-          className="img-preview image-container rounded cursor-pointer"
+          className="hoverEffect carousel-image-container rounded cursor-pointer"
           onClick={e => {
             e.preventDefault();
             redirectOnAlbum(item.slug);
           }}
         >
-          <img src={item.artwork} alt="" className="rounded song-image"/>
-          <div className="hover-box">
-            <FontAwesomeIcon
-              icon={faPlayCircle}
-              className="test"
-              size="3x"
-              color={HOVER_PLAY_ICON_COLOR}
-            />
+          <img src={item.artwork} alt="" className="rounded carousel-image"/>
+          <div className="overlay">
+            <img src={PlayButton} alt="Play button" className="playButton"/>
           </div>
         </div>
         <div className="pt-4">

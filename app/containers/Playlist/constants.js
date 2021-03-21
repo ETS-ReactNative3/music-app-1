@@ -48,3 +48,7 @@ export const CREATE_PLAYLIST_AND_ADD_SONG_FAIL =
   'app/Playlist/CREATE_PLAYLIST_AND_ADD_SONG_FAIL';
 
   export const FOLLOW_PLAYLIST = 'app/playlist/FOLLOW_PLAYLIST';
+
+  export const GET_POPULAR_PLAYLIST = 'boilerplate/Home/GET_POPULAR_PLAYLIST';
+export const GET_POPULAR_PLAYLIST_SUCCESS = 'boilerplate/Home/GET_POPULAR_PLAYLIST_SUCCESS';
+export const GET_POPULAR_PLAYLIST_FAIL = 'boilerplate/Home/GET_POPULAR_PLAYLIST_FAIL';

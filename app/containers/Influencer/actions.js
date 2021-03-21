@@ -23,6 +23,8 @@ import {
   UPDATE_INFLUENCER_STATUS_REQUEST,
   UPDATE_INFLUENCER_STATUS_SUCCESS,
   UPDATE_INFLUENCER_STATUS_FAIL,
+  FETCH_INFLUENCER_STATS,
+  SAVE_INFLUENCER_STATS, FETCH_INFLUENCER_STATS_SUCCESS,
 } from './constants';
 
 export function becomeAnInfluencer(data) {
@@ -143,4 +145,18 @@ export function updateInfluencerStatusFail(error) {
     type: UPDATE_INFLUENCER_STATUS_FAIL,
     error,
   };
+}
+
+export function fetchInfluencerStatsAction(id) {
+  return {
+    type: FETCH_INFLUENCER_STATS,
+    id
+  }
+}
+
+export function fetchInfluencerStatsSuccessAction(influencerStats) {
+  return {
+    type: FETCH_INFLUENCER_STATS_SUCCESS,
+    influencerStats
+  }
 }

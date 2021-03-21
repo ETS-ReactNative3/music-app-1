@@ -1,9 +1,11 @@
 import {faFulcrum, faGetPocket} from '@fortawesome/free-brands-svg-icons';
 import {
   faFolderOpen,
+  faGlobe,
   faHeadphonesAlt,
   faMusic,
   faPlusSquare,
+  faUser,
   faWallet,
   faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
@@ -78,6 +80,13 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Your library</p>
                     </Link>
                   </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/browse" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
+                      <p className="d-inline-block m-0">Browse music</p>
+                    </Link>
+                  </li>
+
                 </>
               ) : (
                 <>
@@ -104,6 +113,12 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Your library</p>
                     </Link>
                   </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/browse" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
+                      <p className="d-inline-block m-0">Browse music</p>
+                    </Link>
+                  </li>
                 </>
               )}
               {role === 'administrator' && (
@@ -124,6 +139,24 @@ function LeftSideBar({role, isInfluencer}) {
                     >
                       <FontAwesomeIcon icon={faFulcrum} className="mr-2"/>
                       <p className="d-inline-block m-0">Withdrawal Requests</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link
+                      to="/admin/users"
+                      className="nav-link mb-1"
+                    >
+                      <FontAwesomeIcon icon={faUser} className="mr-2"/>
+                      <p className="d-inline-block m-0">Users</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link
+                      to="/admin/albums"
+                      className="nav-link mb-1"
+                    >
+                      <FontAwesomeIcon icon={faHeadphonesAlt} className="mr-2"/>
+                      <p className="d-inline-block m-0">Albums</p>
                     </Link>
                   </li>
                 </>

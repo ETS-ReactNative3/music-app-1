@@ -45,11 +45,29 @@ const makeSelectUpdateModalStatus = () =>
     substate => substate.updateModalState,
   );
 
+
+  const makeSelectPopularPlaylist = () =>
+  createSelector(
+    selectPlaylistDomain,
+    substate => substate.popularPlaylist,
+  );
+
+
+const makeSelectPopularPlaylistLoading = () =>
+createSelector(
+  selectPlaylistDomain,
+  substate => substate.popularPlaylistLoading,
+);
+
+
 export {
   selectPlaylistDomain,
   makeSelectPlaylistPopUpState,
   makeSelectPlaylists,
   makeSelectPlaylist,
   makeSelectLoader,
-  makeSelectUpdateModalStatus
+  makeSelectUpdateModalStatus,
+
+  makeSelectPopularPlaylist,
+  makeSelectPopularPlaylistLoading
 };
