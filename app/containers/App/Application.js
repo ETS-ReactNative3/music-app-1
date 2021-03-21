@@ -26,7 +26,7 @@ import {InfluencerVerify} from '../Campaign/Loadable';
 import {Library} from '../Library/Loadable';
 import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
-import { FeaturedAlbums, UserList } from '../Admin/Loadable';
+import { DisputedCampaigns, FeaturedAlbums, UserList } from '../Admin/Loadable';
 import {Browse} from '../Browse/Loadable';
 
 
@@ -187,6 +187,9 @@ function Application() {
         </Route>
         <Route exact path="/admin/albums">
           <FeaturedAlbums/>
+        </Route>
+        <Route exact path="/admin/campaigns/disputed">
+          <DisputedCampaigns/>
         </Route>
       </Switch>
     </Dashboard>

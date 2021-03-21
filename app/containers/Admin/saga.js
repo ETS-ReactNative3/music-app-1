@@ -1,8 +1,8 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../utils/api";
-import { fetchAlbumAction, saveAlbumAction, saveAlbumsCountAction, saveUsersAction, saveUsersCountAction } from "./action";
-import { ADD_CREDITS, BLOCK_USER, FETCH_ALBUMS, FETCH_USERS, MAKE_ALBUM_FEATURED } from "./contant";
+import { fetchAlbumAction, onErrorDisputedCampaignsAction, saveAlbumAction, saveAlbumsCountAction, saveDisputedCampaignAction, saveUsersAction, saveUsersCountAction } from "./action";
+import { ADD_CREDITS, BLOCK_USER, FETCH_ALBUMS, FETCH_DISPUTED_CAMPAIGNS, FETCH_USERS, MAKE_ALBUM_FEATURED } from "./contant";
 
 function fetchAlbumAPI(page, limit) {
     return axiosInstance().get(`admin/published-albums?page=${page}&limit=${limit}`)
@@ -19,8 +19,8 @@ function fetchUsersApi(page, limit) {
     return axiosInstance().get(`/admin/all-users?page=${page}&limit=${limit}`)
 }
 
-function fetchDisputedCampaign(page, limit) {
-    return axiosInstance().get(`admin/disputed-campaigns`)
+function fetchDisputedCampaignAPI(page, limit) {
+    return axiosInstance().get(`admin/campaigns/disputed`)
 }
 
 function blockUserApi(userId, block) {
@@ -64,7 +64,7 @@ function* fetchUsersSaga(action) {
     try {
         const { page, limit } = action;
         const response = yield call(fetchUsersApi, page, limit);
-        yield call(fetchDisputedCampaign)
+        yield call(fetchDisputedCampaignAPI)
         if (response) {
             yield put(saveUsersAction(response.data.users));
             yield put(saveUsersCountAction(response.data.usersCount));
@@ -104,11 +104,26 @@ function* addCreditsSaga(action) {
     }
 }
 
+function* fetchDisputedCampaignsSaga(action) {
+
+    try {
+        const {page, limit} = action;
+        const response = yield call(fetchDisputedCampaignAPI,page, limit);
+        if (response) {
+            yield put(saveDisputedCampaignAction(response.data));
+        }
+    } catch (e) {
+
+        yield put(onErrorDisputedCampaignsAction())
+        toast.error(e);
+    }
+}
 
 export default function* adminSaga() {
     yield takeLatest(FETCH_ALBUMS, fetchAlbumSaga)
     yield takeLatest(MAKE_ALBUM_FEATURED, makeAlbumFeaturedSaga)
     yield takeLatest(FETCH_USERS, fetchUsersSaga);
     yield takeLatest(BLOCK_USER, blockUserSaga);
-    yield takeLatest(ADD_CREDITS, addCreditsSaga)
+    yield takeLatest(ADD_CREDITS, addCreditsSaga);
+    yield takeLatest(FETCH_DISPUTED_CAMPAIGNS, fetchDisputedCampaignsSaga)
 }

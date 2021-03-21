@@ -1,4 +1,4 @@
-import { FETCH_ALBUMS, MAKE_ALBUM_FEATURED, SAVE_ALBUMS, BLOCK_USER, FETCH_USERS, SAVE_USERS, SAVE_USERS_COUNT, ADD_CREDITS, SAVE_ALBUMS_COUNT } from "./contant"
+import { FETCH_ALBUMS, MAKE_ALBUM_FEATURED, SAVE_ALBUMS, BLOCK_USER, FETCH_USERS, SAVE_USERS, SAVE_USERS_COUNT, ADD_CREDITS, SAVE_ALBUMS_COUNT, FETCH_DISPUTED_CAMPAIGNS, SAVE_DISPUTED_CAMPAIGNS, ON_ERROR_DISPUTED_CAMPAIGNS } from "./contant"
 
 export const fetchAlbumAction = (page, limit) => {
     return {
@@ -62,5 +62,26 @@ export const addCreditsAction = (userId, credits, page, limit) => {
     return {
         type: ADD_CREDITS,
         userId, credits,page, limit
+    }
+}
+
+export const fetchDisputedCampaignAction =(page, limit) => {
+    
+    return {
+        type: FETCH_DISPUTED_CAMPAIGNS,
+        page, limit
+    }
+}
+
+export const saveDisputedCampaignAction =(disputedCampaigns) => {
+    return {
+        type: SAVE_DISPUTED_CAMPAIGNS,
+        disputedCampaigns
+    }
+}
+
+export const onErrorDisputedCampaignsAction = () => {
+    return {
+        type: ON_ERROR_DISPUTED_CAMPAIGNS,
     }
 }

@@ -16,10 +16,10 @@ const makeSelectAdminUsers = () =>
 
 
 const makeSelectAdminAlbumsCount = () =>
-createSelector(
-    adminState,
-    globalState => globalState && globalState.albumCount || 0,
-);
+    createSelector(
+        adminState,
+        globalState => globalState && globalState.albumCount || 0,
+    );
 
 
 const makeSelectAdminUsersCount = () =>
@@ -28,9 +28,23 @@ const makeSelectAdminUsersCount = () =>
         globalState => globalState && globalState.userCount,
     );
 
+
+const makeSelectedDisputedCampaigns = () =>
+    createSelector(
+        adminState,
+        globalState => globalState && globalState.disputedCampaigns || [],
+    );
+
+const makeSelectLoading = () =>
+    createSelector(
+        adminState,
+        state => state && state.loading || false
+    )
 export {
     makeSelectFeaturedAlbums,
     makeSelectAdminUsers,
     makeSelectAdminUsersCount,
-    makeSelectAdminAlbumsCount
+    makeSelectAdminAlbumsCount,
+    makeSelectedDisputedCampaigns,
+    makeSelectLoading
 }
