@@ -27,7 +27,7 @@ import PaperCard from "../../components/PaperCard";
 import { Col, Container, Dropdown, Modal, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import ArtistPopup from './artistPopup';
+import ArtistPopup from '../../components/ArtistPopup/artistPopup';
 import defaultImage from "../../images/user.svg";
 import {Image} from "react-bootstrap";
 
@@ -99,10 +99,11 @@ export function Artist({ artist, fetchArtist, artistFetching, followArtist, user
         </PaperCard>
       </> : <LoadingIndicator />}
 
-      <ArtistPopup
+      {showMoreInfo && <ArtistPopup
+      artist={artist}
         showMoreInfo={showMoreInfo}
         handleClose={() => setShowMoreInfo(false)}
-      />
+      />}
     </div>
   );
 }
