@@ -19,6 +19,10 @@ function fetchUsersApi(page, limit) {
     return axiosInstance().get(`/admin/all-users?page=${page}&limit=${limit}`)
 }
 
+function fetchDisputedCampaign(page, limit) {
+    return axiosInstance().get(`admin/disputed-campaigns`)
+}
+
 function blockUserApi(userId, block) {
     return axiosInstance().put(`/admin/block-user/`, {
         id: userId,
@@ -60,6 +64,7 @@ function* fetchUsersSaga(action) {
     try {
         const { page, limit } = action;
         const response = yield call(fetchUsersApi, page, limit);
+        yield call(fetchDisputedCampaign)
         if (response) {
             yield put(saveUsersAction(response.data.users));
             yield put(saveUsersCountAction(response.data.usersCount));
