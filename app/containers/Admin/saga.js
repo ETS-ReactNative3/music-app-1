@@ -64,7 +64,6 @@ function* fetchUsersSaga(action) {
     try {
         const { page, limit } = action;
         const response = yield call(fetchUsersApi, page, limit);
-        yield call(fetchDisputedCampaignAPI)
         if (response) {
             yield put(saveUsersAction(response.data.users));
             yield put(saveUsersCountAction(response.data.usersCount));
