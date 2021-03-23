@@ -24,6 +24,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartFilled } from '@fortawesome/free-solid-svg-icons';
 import CarouselFront from '../../components/CarouselFront';
 import './index.scss';
+import { convertSecondsToTime } from '../../utils';
 
 function Detail(
   {
@@ -150,7 +151,7 @@ function Detail(
                       <h5 className="song-title d-inline">{ele.song.title}</h5>
                     </div>
                     <div className="col-2 d-flex justify-content-center align-items-center">
-                      <span className="song-duration px-4">4:25</span>
+                      <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
                       <PlaylistOptions remove={() => removeSong(ele.song.id)} />
                     </div>
                   </div>
