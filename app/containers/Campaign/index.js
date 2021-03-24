@@ -88,7 +88,7 @@ const CampaignSummary = (
               </div>
             </div>
             <div style={styles.influencerBodyStyle}>
-              {selectedInfluencer.name}
+              {selectedInfluencer.influencer.name}
               <p className="d-block">
                 {selectedInfluencer.influencer.description}
               </p>
