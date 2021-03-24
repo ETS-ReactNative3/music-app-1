@@ -150,7 +150,7 @@ export const calculateExpiry = date => {
 };
 
 
-export const renderSocialMediaIcons = (name, size = '1x', style= {}, color= 'white') => {
+export const renderSocialMediaIcons = (name, size = '1x', style = {}, color = 'white') => {
   switch (name) {
     case 'facebook': return <FontAwesomeIcon
       size={size}
@@ -206,4 +206,22 @@ export const renderSocialMediaIcons = (name, size = '1x', style= {}, color= 'whi
 
 export const capatilizeText = (text) => {
   return <div style={{ textTransform: 'capitalize' }}>{text}</div>
+}
+
+/**
+ * 
+ * Function to covnert seconds to time (displayable)
+ * @param  seconds 
+ * @returns 
+ */
+export const convertSecondsToTime = (seconds) => {
+  const format = val => `0${Math.floor(val)}`.slice(-2)
+  const hours = seconds / 3600
+  const minutes = (seconds % 3600) / 60
+  if (hours >= 1) {
+    return [hours, minutes, seconds % 60].map(format).join(':')
+  }
+
+  return [minutes, seconds % 60].map(format).join(':')
+
 }

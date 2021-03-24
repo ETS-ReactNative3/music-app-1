@@ -45,6 +45,7 @@ import { faHeart as faHeartFilled } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import {useHistory} from 'react-router-dom';
+import { convertSecondsToTime } from '../../utils';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -107,17 +108,7 @@ const history = useHistory();
     onHandleSingleSong(songId, status);
   };
 
-  function displayTime(seconds) {
-    const format = val => `0${Math.floor(val)}`.slice(-2)
-    const hours = seconds / 3600
-    const minutes = (seconds % 3600) / 60
-    if (hours >= 1) {
-      return [hours, minutes, seconds % 60].map(format).join(':')
-    }
-
-    return [minutes, seconds % 60].map(format).join(':')
-  }
-
+  
   return (
     <>
       {loader || !albumInfo ? (
@@ -211,7 +202,7 @@ const history = useHistory();
                           <h5 className="song-title d-inline">{ele.song.title}</h5>
                         </div>
                         <div className="col-2 d-flex justify-content-center align-items-center">
-                          <span className="song-duration px-4">{ele.song.duration ? displayTime(ele.song.duration) : '00:00'}</span>
+                          <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
                           {role && (
                             <SongsOptionsBox
                               songId={ele.song.id}
