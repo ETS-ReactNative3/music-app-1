@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { FETCH_BROWSE_DATA, ON_ERROR_BROWSE_DATA, SAVE_BROWSE_DATA } from './constants';
+import { FETCH_BROWSE_DATA, ON_ERROR_BROWSE_DATA, SAVE_BROWSE_DATA, FETCH_ALBUMS, SAVE_ALBUMS } from './constants';
 
 
 export const initialState = {
@@ -12,7 +12,8 @@ export const initialState = {
     browseData: {
         genres: [],
         moods: []
-    }
+    },
+    albums: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -31,6 +32,17 @@ const browseReducer = (state = initialState, action) =>
                 break;
             case ON_ERROR_BROWSE_DATA:
                 draft.loading = false;
+                break;
+
+            case FETCH_ALBUMS:
+                if (action.page === 0) {
+                    draft.loading = true;
+                    draft.albums = [];
+                }
+                break;
+            case SAVE_ALBUMS:
+                draft.loading = false;
+                draft.albums = draft.albums.concat(action.albums);
                 break;
         }
     });
