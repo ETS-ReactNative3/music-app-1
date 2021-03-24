@@ -35,7 +35,21 @@ const BrowseAlbums = ({ fetchAlbums, albums, loading }) => {
         <>
             {(item && !loading) ? <div>
                 <h1>{item.title}</h1>
-                
+                <div className="browse_container">
+                    {albums && albums.map(album => {
+                        const albumObj = item.browseType === 'genre' ? album.album : album 
+                        return <Card key={albumObj.title} className="browse_card" >
+                            <Card.Img variant="top" src={albumObj.artwrok || ''} style={{ width: '14rem', height: '8rem' }} onError={e => {
+                                e.target.onerror = null;
+                                e.target.src = defaultImage;
+                            }} />
+                            <Card.ImgOverlay>
+                                <div className="card_title">{albumObj.title}</div>
+                            </Card.ImgOverlay>
+                        </Card>
+                    })}
+                </div>
+
             </div> : <LoadingIndicator />}
         </>
     )

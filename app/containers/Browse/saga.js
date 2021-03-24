@@ -32,7 +32,6 @@ function* fetchBrowseDataSaga() {
 function* fetchAlbumsSaga(action) {
     try {
         const {browseType, page, limit, id} = action;
-        console.log(action)
         if (browseType === 'genre') {
             const response = yield call(fetchAlbumsGenres, page, limit, id)
             if (response) {
