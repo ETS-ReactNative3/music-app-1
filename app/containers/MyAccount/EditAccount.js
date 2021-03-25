@@ -273,14 +273,14 @@ const EditAccount = (
                 <Form.Row>
                   <Form.Group as={Col} controlId="formGridDiscription">
                     <div style={styles.imageContainer}>
-                      {(userDetails && userDetails.coverPhoto) || Object.keys(coverPhoto).length !== 0 ?
+                      {(userDetails && userDetails.artistInformation.coverPhoto) || Object.keys(coverPhoto).length !== 0 ?
                         <Image
                           width={120}
                           height={120}
                           src={
                             Object.keys(coverPhoto).length === 0
-                              ? userDetails
-                              ? userDetails.coverPhoto
+                              ? userDetails.artistInformation
+                              ? userDetails.artistInformation.coverPhoto
                               : ''
                               : coverPhoto
                           }

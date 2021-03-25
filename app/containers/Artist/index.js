@@ -46,7 +46,7 @@ export function Artist({ artist, fetchArtist, artistFetching, followArtist, user
   return (
     <div>
       {!(artistFetching || Object.keys(artist).length === 0) ? <>
-        <section className="banner" style={{ backgroundImage: `url(${artist.coverPhoto})` }}>
+        <section className="banner" style={{ backgroundImage: `url(${artist.artistInformation.coverPhoto})` }}>
           <div className="container h-100">
             <div className="row h-100 justify-content-center align-items-center">
               <div className="col-3">
