@@ -4,11 +4,12 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION, ERROR_ARTIST, FETCH_ARTIST, SAVE_ARTIST } from './constants';
+import { DEFAULT_ACTION, ERROR_ARTIST, FETCH_ARTIST, SAVE_ARTIST, SAVE_SUPPORT_DATA } from './constants';
 
 export const initialState = {
   artist: {},
-  fetching: false
+  fetching: false,
+  supportData: {}
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -28,6 +29,10 @@ const artistReducer = (state = initialState, action) =>
       case ERROR_ARTIST:
         draft.fetching = false;
         draft.artist = {};
+        break;
+
+      case SAVE_SUPPORT_DATA:
+        draft.supportData = action.supportData;
         break;
     }
   });

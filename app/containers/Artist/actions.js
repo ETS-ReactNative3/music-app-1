@@ -4,7 +4,7 @@
  *
  */
 
-import { DEFAULT_ACTION, FETCH_ARTIST, FOLLOW_ARTIST, SAVE_ARTIST } from './constants';
+import { DEFAULT_ACTION, FETCH_ARTIST, FETCH_SUPPORT_DATA, FOLLOW_ARTIST, SAVE_ARTIST, SAVE_SUPPORT_DATA, SUPPORT_ARTIST } from './constants';
 
 export function defaultAction() {
   return {
@@ -30,5 +30,27 @@ export function followArtistAction (artistId, follow, id) {
   return {
     type: FOLLOW_ARTIST,
     artistId, follow, id
+  }
+}
+
+export const supportArtistAction = (artistId) => {
+  return {
+    type: SUPPORT_ARTIST,
+    artistId
+  }
+}
+
+export const fetchSupportDataAction = (artistId) => {
+  return {
+    type: FETCH_SUPPORT_DATA,
+    artistId
+  }
+}
+
+
+export const saveSupportDataAction = (supportData) => {
+  return {
+    type: SAVE_SUPPORT_DATA,
+    supportData
   }
 }
