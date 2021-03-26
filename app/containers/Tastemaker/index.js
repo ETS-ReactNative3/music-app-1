@@ -30,7 +30,7 @@ import {
 import {debounce} from 'lodash';
 import {Link, withRouter} from 'react-router-dom';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
-import defaultImage from '../../images/album-3.jpg';
+import defaultImage from '../../images/user.svg';
 
 import reducer from './reducer';
 import saga from './saga';
