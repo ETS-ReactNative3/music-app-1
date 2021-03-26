@@ -24,11 +24,11 @@ import CampaignDetails from '../Campaign/details';
 import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
 import {Library} from '../Library/Loadable';
-import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
 import {FeaturedAlbums, UserList} from '../Admin/Loadable';
 import {Browse} from '../Browse/Loadable';
 import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
+import { ArtistProfile, SupportedArtist } from '../Artist/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -176,7 +176,7 @@ function Application() {
           <Library/>
         </PrivateRoute>
         <Route exact path="/artist/:id">
-          <Artist/>
+          <ArtistProfile/>
         </Route>
         <Route exact path="/newReleases">
           <NewReleases/>
@@ -193,6 +193,9 @@ function Application() {
         <PrivateRoute exact path="/subscription/success">
           <SubscriptionSuccess/>
         </PrivateRoute>
+        <Route exact path="/user/supportedArtist">
+          <SupportedArtist/>
+        </Route>
       </Switch>
     </Dashboard>
   );

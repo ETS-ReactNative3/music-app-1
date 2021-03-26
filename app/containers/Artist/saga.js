@@ -3,8 +3,8 @@ import {call, put, takeLatest} from "redux-saga/effects";
 // import { take, call, put, select } from 'redux-saga/effects';
 
 import {axiosInstance} from "../../utils/api";
-import {saveArtistAction, saveSupportedArtistAction} from "./actions";
-import {FETCH_ARTIST, FETCH_SUPPORT_DATA, FOLLOW_ARTIST, SUPPORT_ARTIST} from "./constants";
+import {onErrorSupportedArtistAction, saveArtistAction, saveSupportedArtistAction} from "./actions";
+import {FETCH_ARTIST, FETCH_SUPPORTED_ARTIST, FOLLOW_ARTIST, SUPPORT_ARTIST} from "./constants";
 
 // Individual exports for testing
 function fetchArtistProfile(id) {
@@ -73,6 +73,7 @@ function* fetchSupportedArtistSaga() {
       yield put(saveSupportedArtistAction(response.data))
     }
   } catch (e) {
+    yield put(onErrorSupportedArtistAction())
     toast.error(e)
   }
 }
@@ -81,5 +82,5 @@ export default function* artistSaga() {
   yield takeLatest(FETCH_ARTIST, fetchArtistSaga);
   yield takeLatest(FOLLOW_ARTIST, followArtistSaga);
   yield takeLatest(SUPPORT_ARTIST, supoortArtistSaga);
-  yield takeLatest(FETCH_SUPPORT_DATA, fetchSupportedArtistSaga);
+  yield takeLatest(FETCH_SUPPORTED_ARTIST, fetchSupportedArtistSaga);
 }

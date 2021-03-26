@@ -4,7 +4,7 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION, ERROR_ARTIST, FETCH_ARTIST, SAVE_ARTIST, SAVE_SUPPORT_DATA } from './constants';
+import { DEFAULT_ACTION, ERROR_ARTIST, FETCH_ARTIST, SAVE_ARTIST, FETCH_SUPPORTED_ARTIST, SAVE_SUPORTED_ARTIST } from './constants';
 
 export const initialState = {
   artist: {},
@@ -31,8 +31,12 @@ const artistReducer = (state = initialState, action) =>
         draft.artist = {};
         break;
 
-      case SAVE_SUPPORT_DATA:
+      case FETCH_SUPPORTED_ARTIST:
+        draft.fetching = true;
+        break;
+      case SAVE_SUPORTED_ARTIST:
         draft.supportedArtist = action.supportedArtist;
+        draft.fetching = false;
         break;
     }
   });
