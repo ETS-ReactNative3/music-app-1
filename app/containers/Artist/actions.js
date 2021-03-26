@@ -40,17 +40,16 @@ export const supportArtistAction = (artistId) => {
   }
 }
 
-export const fetchSupportDataAction = (artistId) => {
+export const fetchSupportedArtistAction = () => {
   return {
     type: FETCH_SUPPORT_DATA,
-    artistId
   }
 }
 
 
-export const saveSupportDataAction = (supportData) => {
+export const saveSupportedArtistAction = (supportedArtist) => {
   return {
     type: SAVE_SUPPORT_DATA,
-    supportData
+    supportedArtist
   }
 }

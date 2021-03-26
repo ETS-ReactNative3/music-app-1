@@ -3,7 +3,7 @@ import {call, put, takeLatest} from "redux-saga/effects";
 // import { take, call, put, select } from 'redux-saga/effects';
 
 import {axiosInstance} from "../../utils/api";
-import {saveArtistAction, fetchArtistAction, saveSupportDataAction} from "./actions";
+import {saveArtistAction, saveSupportedArtistAction} from "./actions";
 import {FETCH_ARTIST, FETCH_SUPPORT_DATA, FOLLOW_ARTIST, SUPPORT_ARTIST} from "./constants";
 
 // Individual exports for testing
@@ -20,11 +20,11 @@ function followArtist(data) {
 }
 
 function supportArtistAPI(artistId) {
-
+  return axiosInstance().post('/users/supportArtist', {artistId})
 }
 
-function fetchSupportDataAPI(artistId) {
-  
+function fetchSupportArtistAPI() {
+    return axiosInstance().get('/users/supportedArtists')
 }
 
 function* fetchArtistSaga(action) {
@@ -66,12 +66,11 @@ function* supoortArtistSaga(action) {
   }
 }
 
-function* fetchSupportDataSaga(action) {
+function* fetchSupportedArtistSaga() {
   try {
-    const {artistId}=action;
-    const response = yield call(fetchSupportDataAPI, artistId);
+    const response = yield call(fetchSupportArtistAPI);
     if (response) {
-      yield put(saveSupportDataAction(response.data))
+      yield put(saveSupportedArtistAction(response.data))
     }
   } catch (e) {
     toast.error(e)
@@ -82,5 +81,5 @@ export default function* artistSaga() {
   yield takeLatest(FETCH_ARTIST, fetchArtistSaga);
   yield takeLatest(FOLLOW_ARTIST, followArtistSaga);
   yield takeLatest(SUPPORT_ARTIST, supoortArtistSaga);
-  yield takeLatest(FETCH_SUPPORT_DATA, fetchSupportDataSaga);
+  yield takeLatest(FETCH_SUPPORT_DATA, fetchSupportedArtistSaga);
 }

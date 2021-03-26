@@ -9,7 +9,7 @@ import { DEFAULT_ACTION, ERROR_ARTIST, FETCH_ARTIST, SAVE_ARTIST, SAVE_SUPPORT_D
 export const initialState = {
   artist: {},
   fetching: false,
-  supportData: {}
+  supportedArtist: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -32,7 +32,7 @@ const artistReducer = (state = initialState, action) =>
         break;
 
       case SAVE_SUPPORT_DATA:
-        draft.supportData = action.supportData;
+        draft.supportedArtist = action.supportedArtist;
         break;
     }
   });

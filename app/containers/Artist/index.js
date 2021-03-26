@@ -15,7 +15,7 @@ import {useInjectReducer} from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import './index.scss'
-import {fetchArtistAction, followArtistAction} from './actions';
+import {fetchArtistAction, fetchSupportedArtistAction, followArtistAction, supportArtistAction} from './actions';
 import {makeSelectArtist, makeSelectArtistFetching} from './selectors';
 import CarouselFront from '../../components/CarouselFront';
 import {FormattedMessage} from 'react-intl';
@@ -31,7 +31,7 @@ import ArtistPopup from '../../components/ArtistPopup/artistPopup';
 import defaultImage from "../../images/user.svg";
 import {Image} from "react-bootstrap";
 
-export function Artist({artist, fetchArtist, artistFetching, followArtist, userDetails}) {
+export function Artist({artist, fetchArtist, artistFetching, followArtist, userDetails, supportArtist}) {
   useInjectReducer({key: 'artist', reducer});
   useInjectSaga({key: 'artist', saga});
   const {id} = useParams();
@@ -68,6 +68,11 @@ export function Artist({artist, fetchArtist, artistFetching, followArtist, userD
                 <button
                   onClick={() => (userDetails) ? followArtist(artist.id, !artist.followedArtist, id) : history.push('/auth/login')}
                   className="btn btn-outline-success">{artist.followedArtist ? 'UnFollow' : 'Follow'}
+                </button>
+
+                <button
+                  onClick={() => supportArtist(artist.id)}
+                  className="btn btn-outline-success ml-3">Support
                 </button>
 
                 <Dropdown className="social-album-share d-inline pl-4">
@@ -116,18 +121,21 @@ Artist.propTypes = {
   artistFetching: PropTypes.bool,
   followArtist: PropTypes.func,
   userDetails: PropTypes.any,
+  supportArtist: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   artist: makeSelectArtist(),
   artistFetching: makeSelectArtistFetching(),
-  userDetails: makeSelectUserDetails()
+  userDetails: makeSelectUserDetails(),
+
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchArtist: (id) => dispatch(fetchArtistAction(id)),
     followArtist: (artistId, follow, id) => dispatch(followArtistAction(artistId, follow, id)),
+    supportArtist: (artistId) => dispatch(supportArtistAction(artistId))
   };
 }
 
