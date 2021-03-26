@@ -33,7 +33,7 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import ShareBox from '../../components/ShareBox';
 import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
-import { useLocation, useParams } from 'react-router-dom';
+import {Link, useLocation, useParams} from 'react-router-dom';
 import { followAlbumAction, loadAlbum } from './actions';
 import { makeSelectAlbum, makeSelectAlbumLoader } from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
@@ -108,7 +108,7 @@ const history = useHistory();
     onHandleSingleSong(songId, status);
   };
 
-  
+
   return (
     <>
       {loader || !albumInfo ? (
@@ -136,18 +136,20 @@ const history = useHistory();
                     <h6>{albumInfo.caption}</h6>
                   </div>
                   <div className="text-muted d-flex align-items-center">
-                    <Image
-                      width={24}
-                      height={24}
-                      onError={e => {
-                        e.target.onerror = null;
-                        e.target.src = defaultImage;
-                      }}
-                      src={albumInfo.user.avatar}
-                      alt="album-image"
-                      roundedCircle
-                    />
-                    <small className="px-1">{albumInfo.user.name}</small>
+                    <Link to={`/artist/${albumInfo.user.id}`}>
+                      <Image
+                        width={24}
+                        height={24}
+                        onError={e => {
+                          e.target.onerror = null;
+                          e.target.src = defaultImage;
+                        }}
+                        src={albumInfo.user.avatar}
+                        alt="album-image"
+                        roundedCircle
+                      />
+                      <small className="px-1">{albumInfo.user.name}</small>
+                    </Link>
                     <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
                     <small className="px-1">{moment(albumInfo.releaseDate).format('MMM YYYY')}</small>
                     <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />

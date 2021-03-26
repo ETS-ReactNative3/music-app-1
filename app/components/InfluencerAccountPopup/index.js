@@ -14,7 +14,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import {capatilizeText, combineFollowers, renderSocialMediaIcons} from '../../utils';
-import defaultImage from '../../images/album-3.jpg';
+import defaultImage from '../../images/user.svg';
 import {useInjectReducer} from '../../utils/injectReducer';
 import {useInjectSaga} from "../../utils/injectSaga";
 import reducer from '../../containers/Tastemaker/reducer';

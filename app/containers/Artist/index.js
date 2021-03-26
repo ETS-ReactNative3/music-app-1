@@ -4,37 +4,37 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
 
-import { useInjectSaga } from '../../utils/injectSaga';
-import { useInjectReducer } from '../../utils/injectReducer';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {useInjectReducer} from '../../utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 import './index.scss'
-import { fetchArtistAction, followArtistAction } from './actions';
-import { makeSelectArtist, makeSelectArtistFetching } from './selectors';
+import {fetchArtistAction, followArtistAction} from './actions';
+import {makeSelectArtist, makeSelectArtistFetching} from './selectors';
 import CarouselFront from '../../components/CarouselFront';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import messages from '../HomePage/messages';
 import LoadingIndicator from '../../components/LoadingIndicator';
-import { useHistory, useParams } from 'react-router-dom';
-import { makeSelectUserDetails } from '../App/selectors';
+import {useHistory, useParams} from 'react-router-dom';
+import {makeSelectUserDetails} from '../App/selectors';
 import PaperCard from "../../components/PaperCard";
-import { Col, Container, Dropdown, Modal, Row } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import {Col, Container, Dropdown, Modal, Row} from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEllipsisH} from '@fortawesome/free-solid-svg-icons';
 import ArtistPopup from '../../components/ArtistPopup/artistPopup';
 import defaultImage from "../../images/user.svg";
 import {Image} from "react-bootstrap";
 
-export function Artist({ artist, fetchArtist, artistFetching, followArtist, userDetails }) {
-  useInjectReducer({ key: 'artist', reducer });
-  useInjectSaga({ key: 'artist', saga });
-  const { id } = useParams();
+export function Artist({artist, fetchArtist, artistFetching, followArtist, userDetails}) {
+  useInjectReducer({key: 'artist', reducer});
+  useInjectSaga({key: 'artist', saga});
+  const {id} = useParams();
 
   const [showMoreInfo, setShowMoreInfo] = React.useState(false);
 
@@ -46,7 +46,7 @@ export function Artist({ artist, fetchArtist, artistFetching, followArtist, user
   return (
     <div>
       {!(artistFetching || Object.keys(artist).length === 0) ? <>
-        <section className="banner" style={{ backgroundImage: `url(${artist.coverPhoto})` }}>
+        <section className="banner" style={{backgroundImage: artist.artistInformation ? `url(${artist.artistInformation.coverPhoto})` : 'none'}}>
           <div className="container h-100">
             <div className="row h-100 justify-content-center align-items-center">
               <div className="col-3">
@@ -65,8 +65,9 @@ export function Artist({ artist, fetchArtist, artistFetching, followArtist, user
               <div className="col-9">
                 <h1 className="display-4 mt-4 mb-3">{artist.name}</h1>
                 {artist.followerCount > 0 && <h5 className="mb-3">{artist.followerCount} followers</h5>}
-                <button onClick={() => (userDetails) ? followArtist(artist.id, !artist.followedArtist, id) : history.push('/auth/login')}
-                        className="btn btn-outline-success">{artist.followedArtist ? 'UnFollow' : 'Follow'}
+                <button
+                  onClick={() => (userDetails) ? followArtist(artist.id, !artist.followedArtist, id) : history.push('/auth/login')}
+                  className="btn btn-outline-success">{artist.followedArtist ? 'UnFollow' : 'Follow'}
                 </button>
 
                 <Dropdown className="social-album-share d-inline pl-4">
@@ -97,10 +98,11 @@ export function Artist({ artist, fetchArtist, artistFetching, followArtist, user
             />
           </section>
         </PaperCard>
-      </> : <LoadingIndicator />}
+        </> : <LoadingIndicator/>
+      }
 
       {showMoreInfo && <ArtistPopup
-      artist={artist}
+        artist={artist}
         showMoreInfo={showMoreInfo}
         handleClose={() => setShowMoreInfo(false)}
       />}
