@@ -2,14 +2,12 @@ import produce from "immer";
 import {HANDLE_SONG_PLAYING} from "./constants";
 import {loadState} from "../../localstorage";
 
-export let initialState
+export let initialState = {
+  songCount: 0
+}
 const persistedTodosString = loadState()
-if (persistedTodosString) {
+if (persistedTodosString && Object.keys(persistedTodosString).length !== 0) {
   initialState = persistedTodosString.metaInformation
-} else {
-  initialState = {
-    songCount: 0
-  }
 }
 
 const metaInformationReducer = (state = initialState, action) =>

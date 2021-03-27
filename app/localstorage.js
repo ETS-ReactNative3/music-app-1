@@ -1,7 +1,6 @@
 export const loadState = () => {
   try {
     const serialState = localStorage.getItem('appState');
-    console.log()
     if (serialState === null) {
       return undefined;
     }
