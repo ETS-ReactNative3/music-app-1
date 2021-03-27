@@ -24,11 +24,11 @@ import CampaignDetails from '../Campaign/details';
 import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
 import {Library} from '../Library/Loadable';
-import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
-import { DisputedCampaigns, FeaturedAlbums, UserList } from '../Admin/Loadable';
-import {Browse} from '../Browse/Loadable';
-
+import {DisputedCampaigns, FeaturedAlbums, UserList} from '../Admin/Loadable';
+import {Browse, BrowseAlbums} from '../Browse/Loadable';
+import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
+import {ArtistProfile, SupportedArtist} from '../Artist/Loadable';
 
 
 function useAuth() {
@@ -164,10 +164,10 @@ function Application() {
         <PrivateRoute path="/requests" exact>
           <RequestListing/>
         </PrivateRoute>
-        <PrivateRoute path="/admin/tastemakers/requests" exact>
+        <PrivateRoute path="/admin/tastemakers/requests" exact admin={true}>
           <InfluencerRequests/>
         </PrivateRoute>
-        <PrivateRoute path="/admin/tastemakers/withdrawal/requests" exact>
+        <PrivateRoute path="/admin/tastemakers/withdrawal/requests" exact admin={true}>
           <WithdrawalRequestList/>
         </PrivateRoute>
         <PrivateRoute exact path="/admin/users" admin={true}>
@@ -177,7 +177,7 @@ function Application() {
           <Library/>
         </PrivateRoute>
         <Route exact path="/artist/:id">
-          <Artist/>
+          <ArtistProfile/>
         </Route>
         <Route exact path="/newReleases">
           <NewReleases/>
@@ -185,8 +185,20 @@ function Application() {
         <Route exact path="/browse">
           <Browse/>
         </Route>
-        <Route exact path="/admin/albums">
+        <PrivateRoute exact path="/admin/albums" admin={true}>
           <FeaturedAlbums/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/subscription-plans">
+          <SubscriptionPlans/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/subscription/success">
+          <SubscriptionSuccess/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/user/supportedArtist">
+          <SupportedArtist/>
+        </PrivateRoute>
+        <Route exact path="/browse/:genre">
+          <BrowseAlbums/>
         </Route>
         <Route exact path="/admin/campaigns/disputed">
           <DisputedCampaigns/>

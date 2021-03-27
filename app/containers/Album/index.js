@@ -33,7 +33,7 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import ShareBox from '../../components/ShareBox';
 import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
-import { useLocation, useParams } from 'react-router-dom';
+import {Link, useLocation, useParams} from 'react-router-dom';
 import { followAlbumAction, loadAlbum } from './actions';
 import { makeSelectAlbum, makeSelectAlbumLoader } from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
@@ -45,6 +45,7 @@ import { faHeart as faHeartFilled } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import {useHistory} from 'react-router-dom';
+import { convertSecondsToTime } from '../../utils';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -107,16 +108,6 @@ const history = useHistory();
     onHandleSingleSong(songId, status);
   };
 
-  function displayTime(seconds) {
-    const format = val => `0${Math.floor(val)}`.slice(-2)
-    const hours = seconds / 3600
-    const minutes = (seconds % 3600) / 60
-    if (hours >= 1) {
-      return [hours, minutes, seconds % 60].map(format).join(':')
-    }
-
-    return [minutes, seconds % 60].map(format).join(':')
-  }
 
   return (
     <>
@@ -145,18 +136,20 @@ const history = useHistory();
                     <h6>{albumInfo.caption}</h6>
                   </div>
                   <div className="text-muted d-flex align-items-center">
-                    <Image
-                      width={24}
-                      height={24}
-                      onError={e => {
-                        e.target.onerror = null;
-                        e.target.src = defaultImage;
-                      }}
-                      src={albumInfo.user.avatar}
-                      alt="album-image"
-                      roundedCircle
-                    />
-                    <small className="px-1">{albumInfo.user.name}</small>
+                    <Link to={`/artist/${albumInfo.user.id}`}>
+                      <Image
+                        width={24}
+                        height={24}
+                        onError={e => {
+                          e.target.onerror = null;
+                          e.target.src = defaultImage;
+                        }}
+                        src={albumInfo.user.avatar}
+                        alt="album-image"
+                        roundedCircle
+                      />
+                      <small className="px-1">{albumInfo.user.name}</small>
+                    </Link>
                     <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
                     <small className="px-1">{moment(albumInfo.releaseDate).format('MMM YYYY')}</small>
                     <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
@@ -211,7 +204,7 @@ const history = useHistory();
                           <h5 className="song-title d-inline">{ele.song.title}</h5>
                         </div>
                         <div className="col-2 d-flex justify-content-center align-items-center">
-                          <span className="song-duration px-4">{ele.song.duration ? displayTime(ele.song.duration) : '00:00'}</span>
+                          <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
                           {role && (
                             <SongsOptionsBox
                               songId={ele.song.id}

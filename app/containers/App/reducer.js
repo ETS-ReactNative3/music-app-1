@@ -11,15 +11,16 @@ import produce from 'immer';
 import {GET_INFLUENCER_PROFILE_SUCCESS} from '../Influencer/constants';
 import {
   SET_PLAYLIST,
-  HANDLE_SONG_PLAYING,
-  HANDLE_SINGLE_SONG,
   SET_ROLE,
   GET_GENRES_SUCCESS,
   SET_SONGS,
   SET_LOADER,
   GET_USER_DETAILS_SUCCESS,
   GET_USER_DETAILS,
-  GET_USER_DETAILS_ERROR, UPDATE_SONG_PLAY_DURATION,
+  GET_USER_DETAILS_ERROR,
+  UPDATE_SONG_PLAY_DURATION,
+  SUCCESS_HANDLE_SONG_PLAYING,
+  SUCCESS_HANDLE_SINGLE_SONG,
 } from './constants';
 
 // The initial state of the App
@@ -65,14 +66,14 @@ const appReducer = (state = initialState, action) =>
         draft.currentPlaylist = action.songs;
         draft.currentSong.playing = false;
         break;
-      case HANDLE_SONG_PLAYING:
+      case SUCCESS_HANDLE_SONG_PLAYING:
         draft.loading = false;
         draft.currentSong.playing = action.playing;
         break;
       case UPDATE_SONG_PLAY_DURATION:
         draft.songPlayDuration = draft.songPlayDuration + 1;
         break;
-      case HANDLE_SINGLE_SONG:
+      case SUCCESS_HANDLE_SINGLE_SONG:
         draft.loading = false;
         draft.currentSong.playing = action.status;
         draft.songPlayDuration = 0;

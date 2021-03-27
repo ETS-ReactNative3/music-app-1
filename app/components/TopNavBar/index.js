@@ -3,7 +3,6 @@ import {faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
 import {redirectOnAlbum} from '../../utils/redirect';
-
 import request from '../../utils/request';
 import './index.scss';
 import {Link, useHistory} from 'react-router-dom';
@@ -11,8 +10,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import PlanSvg from '../../images/svg/plan_icon.svg';
 import AvatarSvg from '../../images/user.svg';
 import Button from 'react-bootstrap/Button';
-import defaultImage from "../../images/default-image.png";
 import {Image} from "react-bootstrap";
+import {server} from "../../../config";
 
 const AsyncTypeahead = withAsync(Typeahead);
 
@@ -21,7 +20,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
   const headerRef = useRef('');
-  const SEARCH_URI = 'https://bliiink.ga/albums/search/album/';
+  const SEARCH_URI = `${server.apiURL}albums/search/album/`;
   const history = useHistory();
 
   const handleSearch = query => {
@@ -112,6 +111,13 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             )}
           />
         </div>
+        {userDetails &&
+        <div className="pl-5">
+          <Link to="/subscription-plans">
+            <Button variant="success">Subscription Plans</Button>
+          </Link>
+        </div>
+        }
         <div className="pl-5">
           {userDetails ? (
             <Dropdown>
@@ -129,7 +135,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                       alt="avatar-image"
                     />
                   </span>
-                <span className="p-2">
+                  <span className="p-2">
                   {userDetails.name}
                 </span>
                 </div>

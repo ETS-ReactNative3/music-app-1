@@ -56,7 +56,6 @@ function updateAvatar(data) {
 }
 
 function updateCoverPhoto(data) {
-  console.log(data)
   const base64 = data; // Place your base64 url here.
   return fetch(base64)
     .then(res => res.blob())

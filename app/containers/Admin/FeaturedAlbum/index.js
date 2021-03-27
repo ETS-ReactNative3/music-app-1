@@ -15,11 +15,11 @@ import PaperCard from '../../../components/PaperCard';
 
 const FeaturedAlbums = ({fetchAlbums, featuredAlbums, makeAlbumFeatured, albumsCount}) => {
 
+  useInjectReducer({key: 'admin', reducer: adminReducer})
+  useInjectSaga({key: 'admin', saga: adminSaga})
   useEffect(() => {
     fetchAlbums(0, 10);
   }, []);
-  useInjectReducer({key: 'admin', reducer: adminReducer})
-  useInjectSaga({key: 'admin', saga: adminSaga})
 
   const [currentPage, setCurrentPage] = React.useState(1);
   const columns = [
