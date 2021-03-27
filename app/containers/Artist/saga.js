@@ -61,6 +61,11 @@ function* supoortArtistSaga(action) {
     const {artistId} = action;
     yield call(supportArtistAPI, artistId)
     toast.success('Artist Supported');
+
+    const token = yield localStorage.getItem('token');
+    const response = yield call(token ? fetchArtistProfile : fetchPublicArtistProfile, artistId)
+
+    yield put(saveArtistAction(response.data))
   } catch(e) {
     toast.error(e);
   }

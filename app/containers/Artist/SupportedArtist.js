@@ -13,6 +13,8 @@ import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
+import defaultImage from '../../images/album-1.jpg';
+import { Image } from 'react-bootstrap';
 
 const SupportedArtist = ({ fetchSupportedArtist, fetching, supportedArtistData }) => {
 
@@ -22,10 +24,43 @@ const SupportedArtist = ({ fetchSupportedArtist, fetching, supportedArtistData }
         fetchSupportedArtist();
     }, [])
 
+     function pictureFormatter(cell, row) {
+        
+      
+        if (row && row.artist && row.artist.artwork) {
+          return (
+            <span>
+              <Image
+                src={row.artist.artwork}
+                style={{width: 40, height: 40, borderRadius: 20}}
+              />
+            </span>
+          );
+        }
+      
+        return (
+          <Image
+            src={defaultImage}
+            style={{width: 40, height: 40, borderRadius: 20}}
+          />
+        )
+      }
     const columns = [
         {
-          dataField: 'name',
-          text: 'Beneficiary Name',
+            dataField: '',
+            text: '#',
+            formatter: pictureFormatter,
+            style: {
+              width: '10%',
+            },
+            headerStyle: {
+              width: '10%',
+              textAlign: 'left',
+            },
+          },
+        {
+          dataField: 'artist.name',
+          text: 'Artist Name',
           style: {
             width: '30%',
             textAlign: 'left'
@@ -35,43 +70,7 @@ const SupportedArtist = ({ fetchSupportedArtist, fetching, supportedArtistData }
             textAlign: 'left'
           }
         },
-        // {
-        //   dataField: 'amount',
-        //   text: 'Amount',
-        //   style: {
-        //     width: '20%',
-        //     textAlign: 'left'
-        //   },
-        //   headerStyle: {
-        //     width: '20%',
-        //     textAlign: 'left'
-        //   }
-        // },
-        // {
-        //   dataField: 'influencerWithdrawalStatus.name',
-        //   text: 'Status',
-        //   style: {
-        //     width: '25%',
-        //     textAlign: 'left'
-        //   },
-        //   headerStyle: {
-        //     width: '25%',
-        //     textAlign: 'left'
-        //   }
-        // },
-        // {
-        //   dataField: 'createdDate',
-        //   text: 'Created Date',
-        //   formatter: dateFormatter,
-        //   style: {
-        //     width: '25%',
-        //     textAlign: 'left'
-        //   },
-        //   headerStyle: {
-        //     width: '25%',
-        //     textAlign: 'left'
-        //   },
-        // },
+        
       ];
     return (
         <>

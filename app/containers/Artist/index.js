@@ -70,15 +70,15 @@ export function Artist({ artist, fetchArtist, artistFetching, followArtist, user
                   className="btn btn-outline-success">{artist.followedArtist ? 'UnFollow' : 'Follow'}
                 </button>
 
-                {!artist.maxSupportReached && artist.supported ?
+                {(userDetails && userDetails.roleId === 1 &&userDetails.subscription) &&(artist.supported ?
                   <div className="text-success">
                     <FontAwesomeIcon size="1x" icon={faCheck} />
                                 Supported
                               </div>
-                  : <button
+                  : !artist.maxSupportReached && <button
                     onClick={() => supportArtist(artist.id)}
                     className="btn btn-outline-success ml-3">Support
-                </button>}
+                </button>)}
 
                 <Dropdown className="social-album-share d-inline pl-4">
                   <Dropdown.Toggle id="dropdown-basic" as="span" s>
