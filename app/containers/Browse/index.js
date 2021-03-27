@@ -14,6 +14,7 @@ import browseReducer from './reducer';
 import browseSaga from './saga';
 import { makeSelectBrowseData, makeSelectBrowseDataLoading } from './selectors';
 import defaultImage from '../../images/album-4.jpg'
+import { useHistory } from 'react-router-dom';
 
 
 const Browse = ({ browseData, fetchBrowseData, browseDataLoading }) => {
@@ -23,13 +24,26 @@ const Browse = ({ browseData, fetchBrowseData, browseDataLoading }) => {
     React.useEffect(() => {
         fetchBrowseData();
     }, []);
+
+    const history = useHistory()
     return (
         <>
             {browseDataLoading ? <LoadingIndicator /> :
                 <PaperCard title={'Browse Categories'}>
                     <div className="browse_container">
-                        {browseData && browseData.genres.concat(browseData.moods).map(data => {
-                            return <Card key={data.title} className="browse_card">
+                        {browseData && browseData.genres.map(data => {
+                            return <Card key={data.title} className="browse_card" onClick={() => history.push(`/browse/${data.title}`, {data: {...data, browseType: 'genre' }})}>
+                                <Card.Img variant="top" src={data.image || ''} style={{ width: '14rem', height: '8rem' }} onError={e => {
+                                   e.target.onerror = null;
+                                    e.target.src = defaultImage;
+                                }} />
+                                <Card.ImgOverlay>
+                                    <div className="card_title">{data.title}</div>
+                                </Card.ImgOverlay>
+                            </Card>
+                        })}
+                         {browseData && browseData.moods.map(data => {
+                            return <Card key={data.title} className="browse_card" onClick={() => history.push(`/browse/${data.title}`, {data: {...data, browseType: 'mood' }})}>
                                 <Card.Img variant="top" src={data.image || ''} style={{ width: '14rem', height: '8rem' }} onError={e => {
                                    e.target.onerror = null;
                                     e.target.src = defaultImage;

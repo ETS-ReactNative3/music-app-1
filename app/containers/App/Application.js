@@ -27,7 +27,7 @@ import {Library} from '../Library/Loadable';
 import Artist from '../Artist/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
 import {FeaturedAlbums, UserList} from '../Admin/Loadable';
-import {Browse} from '../Browse/Loadable';
+import {Browse, BrowseAlbums} from '../Browse/Loadable';
 import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
 
 function useAuth() {
@@ -193,6 +193,9 @@ function Application() {
         <PrivateRoute exact path="/subscription/success">
           <SubscriptionSuccess/>
         </PrivateRoute>
+        <Route exact path="/browse/:genre">
+          <BrowseAlbums/>
+        </Route>
       </Switch>
     </Dashboard>
   );
