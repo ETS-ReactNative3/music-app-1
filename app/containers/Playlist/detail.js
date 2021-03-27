@@ -190,8 +190,7 @@ function mapDispatchToProps(dispatch) {
     getPlaylistAction: id => dispatch(getPlaylist(id)),
     onHandleSongPlaying: status => dispatch(handleSongPlaying(status)),
     setSongsAction: songs => dispatch(setSongs(songs)),
-    onHandleSingleSong: (index, status) =>
-      dispatch(handleSingleSong(index, status)),
+    onHandleSingleSong: (index, status) => dispatch(handleSingleSong(index, status)),
     deleteSongAction: (id, songId) => dispatch(deleteSong(id, songId)),
     followPlaylist: (id, like) => dispatch(followPlayListAction(id, like)),
     getPopularPlaylist: () => dispatch(getPopularPlaylistAction()),
