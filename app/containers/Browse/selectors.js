@@ -14,7 +14,14 @@ const makeSelectBrowseDataLoading = () =>
         state => state && state.loading || false
     )
 
+    const makeSelectAlbums = () =>
+    createSelector(
+        browseState,
+        state => state && state.albums || []
+    )
+
 export {
     makeSelectBrowseData,
-    makeSelectBrowseDataLoading
+    makeSelectBrowseDataLoading,
+    makeSelectAlbums
 }

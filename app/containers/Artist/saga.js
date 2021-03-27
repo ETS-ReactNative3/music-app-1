@@ -24,7 +24,7 @@ function supportArtistAPI(artistId) {
 }
 
 function fetchSupportArtistAPI() {
-    return axiosInstance().get('/users/supportedArtists')
+  return axiosInstance().get('/users/supportedArtists')
 }
 
 function* fetchArtistSaga(action) {
@@ -55,7 +55,7 @@ function* followArtistSaga(action) {
   }
 }
 
-function* supoortArtistSaga(action) {
+function* supportArtistSaga(action) {
   try {
 
     const {artistId} = action;
@@ -66,7 +66,7 @@ function* supoortArtistSaga(action) {
     const response = yield call(token ? fetchArtistProfile : fetchPublicArtistProfile, artistId)
 
     yield put(saveArtistAction(response.data))
-  } catch(e) {
+  } catch (e) {
     toast.error(e);
   }
 }
@@ -86,6 +86,6 @@ function* fetchSupportedArtistSaga() {
 export default function* artistSaga() {
   yield takeLatest(FETCH_ARTIST, fetchArtistSaga);
   yield takeLatest(FOLLOW_ARTIST, followArtistSaga);
-  yield takeLatest(SUPPORT_ARTIST, supoortArtistSaga);
+  yield takeLatest(SUPPORT_ARTIST, supportArtistSaga);
   yield takeLatest(FETCH_SUPPORTED_ARTIST, fetchSupportedArtistSaga);
 }
