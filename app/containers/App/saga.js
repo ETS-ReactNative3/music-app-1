@@ -68,16 +68,18 @@ export function* handlePlaySongAction(data) {
     if (songCount > 7) {
       toast.success("Login to listen to more music")
       history.push('/auth/login');
+      return
     }
   }
 
   // If user is logged in but not subscribed
   const userDetails = yield select(makeSelectUserDetails())
-  if (!userDetails.subscription) {
+  if (userDetails && !userDetails.subscription) {
     let songCount = yield select(makeSelectSongCount());
     if (songCount > 7) {
       toast.success("Please subscribe to listen to more music")
       history.push('/subscription-plans');
+      return
     }
   }
 

@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
 const selectGlobal = state => state.global || initialState;
-const selectMetaInformation = state => state.metaInformation;
+const selectMetaInformation = state => state.metaInformation || {songCount: 0};
 
 const selectRouter = state => state.router;
 
