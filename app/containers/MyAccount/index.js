@@ -4,24 +4,24 @@
  *
  */
 
-import {isArray} from 'lodash';
+import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
-import React, {memo, useEffect} from 'react';
-import {Badge, Button, Col, Image, Row} from 'react-bootstrap';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import React, { memo, useEffect } from 'react';
+import { Badge, Button, Col, Image, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import PaperCard from '../../components/PaperCard';
 import defaultImage from '../../images/user.svg';
-import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import history from '../../utils/history';
-import {useInjectReducer} from '../../utils/injectReducer';
-import {useInjectSaga} from '../../utils/injectSaga';
-import {getGenres} from '../Album/actions';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { getGenres } from '../Album/actions';
 import reducer from '../Album/reducer';
 import saga from '../Album/saga';
-import {makeSelectGenres} from '../Album/selectors';
+import { makeSelectGenres } from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
@@ -30,19 +30,19 @@ import accountReducer from './reducer';
 import accountSaga from './saga';
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
 import styles from './index.styles';
-import {renderSocialMediaIcons} from '../../utils';
+import { renderSocialMediaIcons } from '../../utils';
 import TasteMakerStats from "../../components/TasteMakerStats/Loadable";
 import influencerReducer from "../Influencer/reducer";
 import influencerSaga from "../Influencer/saga";
-import {fetchInfluencerStatsAction} from "../Influencer/actions";
-import {makeSelectInfluencerStats, makeSelectInfluencerStatsLoader} from "../Influencer/selectors";
+import { fetchInfluencerStatsAction } from "../Influencer/actions";
+import { makeSelectInfluencerStats, makeSelectInfluencerStatsLoader } from "../Influencer/selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
   isArray(genersToRender) &&
   (genersToRender || []).map(internalGener => (
-    <Badge variant="success" className="p-2 mr-3">
+    <Badge key={internalGener.id} variant="success" className="p-2 mr-3">
       {(genres.find(gener => gener.id === internalGener.genreId) || {}).title}
     </Badge>
   ));
@@ -58,12 +58,12 @@ function MyAccount(
     influencerStats,
     navigation,
   }) {
-  useInjectSaga({key: 'album', saga});
-  useInjectReducer({key: 'album', reducer});
-  useInjectSaga({key: 'account', saga: accountSaga});
-  useInjectReducer({key: 'account', reducer: accountReducer});
-  useInjectSaga({key: 'influencer', saga: influencerSaga});
-  useInjectReducer({key: 'influencer', reducer: influencerReducer});
+  useInjectSaga({ key: 'album', saga });
+  useInjectReducer({ key: 'album', reducer });
+  useInjectSaga({ key: 'account', saga: accountSaga });
+  useInjectReducer({ key: 'account', reducer: accountReducer });
+  useInjectSaga({ key: 'influencer', saga: influencerSaga });
+  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
 
   useEffect(() => {
     getGenreList();
@@ -110,9 +110,9 @@ function MyAccount(
                           {userDetails.roleId === 1 && !userDetails.influencerId && userDetails.role.title}
                         </p>
                         {userDetails.biography &&
-                        <p>
-                          <strong>Bio:</strong> {userDetails.biography}
-                        </p>
+                          <p>
+                            <strong>Bio:</strong> {userDetails.biography}
+                          </p>
                         }
                         <ul className="mb-0 list-inline text-light">
                           <li className="list-inline-item">
@@ -127,6 +127,12 @@ function MyAccount(
                             <p className="mb-0 font-13 text-white-50">Bliiink Credits</p>
                           </li>
                         </ul>
+                        {(userDetails && userDetails.subscription) && <>
+                        <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0 mt-2">Subscription Info:- </h3>
+                          <div className="mb-3">
+                            {userDetails.subscription.title} ({userDetails.subscription.duration} days)
+                        </div>
+                        </>}
                       </div>
                     </div>
                   </div>
@@ -188,17 +194,17 @@ function MyAccount(
                   <div className="mb-3">
                     <div style={styles.linkContainer}>
                       {influencerProfile && influencerProfile.influencerServices &&
-                      influencerProfile.influencerServices.map(service => {
+                        influencerProfile.influencerServices.map(service => {
 
                           return (
-                            <a href={service.link} target="_blank" className="pr-2">
-                              {renderSocialMediaIcons(service.socialChannels.title, '1x', {marginLeft: 5}, PLAY_ICON_BG_COLOR)}
+                            <a key={service.id} href={service.link} target="_blank" className="pr-2">
+                              {renderSocialMediaIcons(service.socialChannels.title, '1x', { marginLeft: 5 }, PLAY_ICON_BG_COLOR)}
                               <span className="pl-2">{service.followers} followers</span>
                             </a>
                           );
 
                         }
-                      )}
+                        )}
                     </div>
                   </div>
                   <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
@@ -218,7 +224,7 @@ function MyAccount(
             </Col>
             <>
               <Col md={5} lg={4} xl={3}>
-                {influencerStatsLoader ? <LoadingIndicator/> : <TasteMakerStats stats={influencerStats}/>}
+                {influencerStatsLoader ? <LoadingIndicator /> : <TasteMakerStats stats={influencerStats} />}
               </Col>
             </>
           </Row>
