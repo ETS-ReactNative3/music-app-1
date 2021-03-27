@@ -141,7 +141,11 @@ function MyAccount(
                       <button type="button" className="btn btn-success" onClick={() => history.push('/myaccount/edit')}>
                         Edit Profile
                       </button>
+                      <button type="button" className="btn btn-success" onClick={() => history.push('/user/supportedArtist')}>
+                        Supported Artist
+                      </button>
                     </div>
+                    
                   </div>
                 </div>
               </div>
