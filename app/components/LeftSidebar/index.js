@@ -159,6 +159,15 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Albums</p>
                     </Link>
                   </li>
+                  <li className="nav-item rounded-lg">
+                    <Link
+                      to="/admin/campaigns/disputed"
+                      className="nav-link mb-1"
+                    >
+                      <FontAwesomeIcon icon={faWallet} className="mr-2"/>
+                      <p className="d-inline-block m-0">Disputed campaigns</p>
+                    </Link>
+                  </li>
                 </>
               )}
             </ul>

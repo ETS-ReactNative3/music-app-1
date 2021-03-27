@@ -16,3 +16,6 @@ export const FeaturedAlbums = loadable(() => import('./FeaturedAlbum/index.js'),
    fallback: <LoadingIndicator />,
  });
  
+ export const DisputedCampaigns = loadable(() => import('./DisputedCampaign/index.js'), {
+  fallback: <LoadingIndicator />,
+});

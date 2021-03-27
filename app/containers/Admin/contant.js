@@ -7,3 +7,6 @@ export const SAVE_USERS_COUNT = 'app/admin/SAVE_USERS_COUNT';
 export const SAVE_ALBUMS_COUNT = 'app/admin/SAVE_ALBUMS_COUNT';
 export const BLOCK_USER = 'app/admin/BLOCK_USER';
 export const ADD_CREDITS = 'app/admin/ADD_CREDITS';
+export const FETCH_DISPUTED_CAMPAIGNS = 'app/admin/FETCH_DISPUTED_CAMPAIGNS';
+export const SAVE_DISPUTED_CAMPAIGNS = 'app/admin/SAVE_DISPUTED_CAMPAIGNS';
+export const ON_ERROR_DISPUTED_CAMPAIGNS = 'app/admin/ON_ERROR_DISPUTED_CAMPAIGNS';

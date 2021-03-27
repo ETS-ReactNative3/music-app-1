@@ -25,10 +25,11 @@ import TransferRequest from '../Wallet/TransferRequest';
 import {InfluencerVerify} from '../Campaign/Loadable';
 import {Library} from '../Library/Loadable';
 import {NewReleases} from '../NewReleases/Loadable';
-import {FeaturedAlbums, UserList} from '../Admin/Loadable';
+import {DisputedCampaigns, FeaturedAlbums, UserList} from '../Admin/Loadable';
 import {Browse, BrowseAlbums} from '../Browse/Loadable';
 import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
-import { ArtistProfile, SupportedArtist } from '../Artist/Loadable';
+import {ArtistProfile, SupportedArtist} from '../Artist/Loadable';
+
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -198,6 +199,9 @@ function Application() {
         </PrivateRoute>
         <Route exact path="/browse/:genre">
           <BrowseAlbums/>
+        </Route>
+        <Route exact path="/admin/campaigns/disputed">
+          <DisputedCampaigns/>
         </Route>
       </Switch>
     </Dashboard>
