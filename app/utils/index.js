@@ -225,3 +225,15 @@ export const convertSecondsToTime = (seconds) => {
   return [minutes, seconds % 60].map(format).join(':')
 
 }
+
+
+export const getValue = (object, p) => {
+  try {
+    return p.reduce(
+      (xs, x) => (xs && xs[x] ? xs[x] : null),
+      object,
+    );
+  } catch (e) {
+    return '';
+  }
+};
