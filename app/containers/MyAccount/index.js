@@ -30,7 +30,7 @@ import accountReducer from './reducer';
 import accountSaga from './saga';
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
 import styles from './index.styles';
-import { renderSocialMediaIcons } from '../../utils';
+import { getValue, renderSocialMediaIcons } from '../../utils';
 import TasteMakerStats from "../../components/TasteMakerStats/Loadable";
 import influencerReducer from "../Influencer/reducer";
 import influencerSaga from "../Influencer/saga";
@@ -75,6 +75,13 @@ function MyAccount(
     }
   }, [userDetails]);
 
+  const renderSocialMedias = (artistInfo, title) => {
+    return <div>{(artistInfo[title] && <a href={artistInfo[title]} target="_blank" className="pr-2">
+      {renderSocialMediaIcons(title, '2x', { marginLeft: 5 }, PLAY_ICON_BG_COLOR)}
+    </a>)}
+    </div>
+
+  }
   const isInfluencer =
     (userDetails && userDetails.influencerId !== null) || false;
   return (
@@ -128,7 +135,7 @@ function MyAccount(
                           </li>
                         </ul>
                         {(userDetails && userDetails.subscription) && <>
-                        <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0 mt-2">Subscription Info:- </h3>
+                          <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0 mt-2">Subscription Info:- </h3>
                           <div className="mb-3">
                             {userDetails.subscription.title} ({userDetails.subscription.duration} days)
                         </div>
@@ -141,11 +148,11 @@ function MyAccount(
                       <button type="button" className="btn btn-success" onClick={() => history.push('/myaccount/edit')}>
                         Edit Profile
                       </button>
-                      <button type="button" className="btn btn-success" onClick={() => history.push('/user/supportedArtist')}>
+                      {userDetails.roleId === 1 && <button type="button" className="btn btn-success" onClick={() => history.push('/user/supportedArtist')}>
                         Supported Artist
-                      </button>
+                      </button>}
                     </div>
-                    
+
                   </div>
                 </div>
               </div>
@@ -232,7 +239,36 @@ function MyAccount(
               </Col>
             </>
           </Row>
-        )}
+        ) || <Row className="mt-5">
+            <Col md={7} lg={8} xl={9}>
+              <div className="card bg-dark">
+                <div className="card-body profile-user-box">
+
+
+                  <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                    Social Media
+              </h3>
+                  <div className="mb-3">
+                    <div style={styles.linkContainer}>
+                      {getValue(userDetails, ['artistInformation', 'facebook']) && renderSocialMedias(userDetails.artistInformation, 'facebook')}
+                      {getValue(userDetails, ['artistInformation', 'twitter']) && renderSocialMedias(userDetails.artistInformation, 'twitter')}
+                      {getValue(userDetails, ['artistInformation', 'instagram']) && renderSocialMedias(userDetails.artistInformation, 'instagram')}
+                      {getValue(userDetails, ['artistInformation', 'youtube']) && renderSocialMedias(userDetails.artistInformation, 'youtube')}
+
+
+
+                    </div>
+                    {getValue(userDetails, ['artistInformation', 'location']) && <><h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                      Location
+                  </h3>
+                    <div className="mb-3">
+                      {getValue(userDetails, ['artistInformation', 'location'])}
+                    </div>
+                    </>}
+                  </div>
+                </div>
+              </div>
+            </Col></Row>}
       </PaperCard>
     </>
   );

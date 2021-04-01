@@ -32,7 +32,8 @@ import { CampaignStatus } from './constants';
 import { SOCIAL_CHANNELS } from '../App/constants';
 import defaultImage from '../../images/default-image.png';
 import { styles } from './index.styles';
-import { capatilizeText, renderSocialMediaIcons } from '../../utils';
+import { capatilizeText, getValue, renderSocialMediaIcons } from '../../utils';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 
 const RequestPopup = (
   {
@@ -50,7 +51,7 @@ const RequestPopup = (
   const [songPlayed, setSongPlayed] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    
+
   });
 
   const { register, handleSubmit, errors } = useForm({
@@ -61,7 +62,7 @@ const RequestPopup = (
 
   const onSubmit = localData => {
     submitSocialLinksRequest(
-    prepareDataForSubmit(localData));
+      prepareDataForSubmit(localData));
     updateCampaignStatus(data.id, CampaignStatus.COMPLETED);
     handleClose();
   };
@@ -78,13 +79,13 @@ const RequestPopup = (
     if (formData.data) {
       Object.keys(formData.data).map(key => {
         submitData.links.push({
-              socialChannelsId: socialChannels.find(x => x.title === key).id,
-              campaignInfluencersId: data.id,
-              response: formData.data[key],
-            });
+          socialChannelsId: socialChannels.find(x => x.title === key).id,
+          campaignInfluencersId: data.id,
+          response: formData.data[key],
+        });
       })
     }
-    
+
 
     return submitData;
   };
@@ -94,6 +95,13 @@ const RequestPopup = (
     ? data.campaignInfluencerServices && data.campaignInfluencerServices.length > 0 && data.campaignInfluencerServices[0].response !== undefined && data.campaignInfluencerServices[0].response !== '' && data.campaignInfluencerServices[0].response !== null ? true : false : true;
 
 
+  const renderSocialMedias = (artistInfo, title) => {
+    return <div>{(artistInfo[title] && <a href={artistInfo[title]} target="_blank" className="pr-2">
+      {renderSocialMediaIcons(title, '1x', { marginLeft: 5 }, PLAY_ICON_BG_COLOR)}
+    </a>)}
+    </div>
+
+  }
   return (
     <>
       <Container fluid>
@@ -113,7 +121,7 @@ const RequestPopup = (
                   roundedCircle
                 />
                 <div className="ml-3">
-                  {data.campaigns.song.title}
+                  <a href={`/artist/${data.campaigns.song.userId}`}>{data.campaigns.song.title}</a>
                   <small className="text-muted d-block">
                     {data.campaigns.song.description}
                   </small>
@@ -122,6 +130,18 @@ const RequestPopup = (
                       'DD MMMM YYYY',
                     )}
                   </small>
+                  <small className=" d-block">
+                    {getValue(data, [ 'campaigns', 'song', 'user', 'artistInformation', 'location']) && <div>Location: {data.campaigns.song.user.artistInformation.location}</div>}
+                  </small>
+                  <div style={styles.linkContainer}>
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'facebook']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'facebook')}
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'twitter']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'twitter')}
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'instagram']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'instagram')}
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'youtube']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'youtube')}
+
+
+
+                  </div>
                 </div>
               </div>
             </Col>
@@ -142,45 +162,45 @@ const RequestPopup = (
           data.campaignStatusId === CampaignStatus.COMPLETED ||
           data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
         ) ? <>
-            <hr className="blick-border" />
-            <Row className="my-4">
-              <Col>
-                <fieldset disabled={!songPlayed}>
+          <hr className="blick-border" />
+          <Row className="my-4">
+            <Col>
+              <fieldset disabled={!songPlayed}>
 
-                  <div>Action:</div>
-                  <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <input type="radio" name="site_name"
-                      value={1}
-                      checked={feedbackOption === 1}
-                      disabled={!songPlayed}
-                      onChange={() => {
-                        if (!songPlayed) return true;
-                        setFeedbackOption(1)
-                      }} />
-                    <div style={{ marginLeft: 10 }} onClick={() => {
+                <div>Action:</div>
+                <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                  <input type="radio" name="site_name"
+                    value={1}
+                    checked={feedbackOption === 1}
+                    disabled={!songPlayed}
+                    onChange={() => {
                       if (!songPlayed) return true;
                       setFeedbackOption(1)
-                    }}>Want to share to social media and provide feedback as well
+                    }} />
+                  <div style={{ marginLeft: 10 }} onClick={() => {
+                    if (!songPlayed) return true;
+                    setFeedbackOption(1)
+                  }}>Want to share to social media and provide feedback as well
                   </div>
-                  </tr>
-                  <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <input type="radio" name="address"
-                      value={2}
-                      disabled={!songPlayed}
-                      checked={feedbackOption === 2}
-                      onChange={() => {
-                        if (!songPlayed) return true;
-                        setFeedbackOption(2)
-                      }} />
-                    <div style={{ marginLeft: 10 }} onClick={() => {
+                </tr>
+                <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                  <input type="radio" name="address"
+                    value={2}
+                    disabled={!songPlayed}
+                    checked={feedbackOption === 2}
+                    onChange={() => {
                       if (!songPlayed) return true;
                       setFeedbackOption(2)
-                    }}>Want to provide feedback only
+                    }} />
+                  <div style={{ marginLeft: 10 }} onClick={() => {
+                    if (!songPlayed) return true;
+                    setFeedbackOption(2)
+                  }}>Want to provide feedback only
                   </div>
-                  </tr>
-                </fieldset>
-              </Col>
-            </Row></> : <></>}
+                </tr>
+              </fieldset>
+            </Col>
+          </Row></> : <></>}
         <hr className="blick-border" />
         {(feedbackOption === 1 || feedbackOption === 2) && <Row className="my-4">
           <Col>
@@ -285,28 +305,28 @@ const RequestPopup = (
                           <Row>
                             {data.campaignInfluencerServices.map(
                               service =>
-                                (
-                                  <Col md={6}>
-                                    <FormLabel>{capatilizeText(service.socialChannels.title)}</FormLabel>
-                                    <FormControl
-                                      ref={register({ required: 'Field is required', pattern:  {value :/http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-z0-9\-_]+)(.com|.net|.gov|.org|.in)(\/[^\s]*)?/, message: "Enter proper link"} })}
-                                      className="bg-transparent text-white"
-                                      as="input"
-                                      name={'data.' + service.socialChannels.title}
-                                      id="endereco"
-                                      type="text"
-                                      placeholder={`Enter ${service.socialChannels.title} url`}
+                              (
+                                <Col md={6}>
+                                  <FormLabel>{capatilizeText(service.socialChannels.title)}</FormLabel>
+                                  <FormControl
+                                    ref={register({ required: 'Field is required', pattern: { value: /http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-z0-9\-_]+)(.com|.net|.gov|.org|.in)(\/[^\s]*)?/, message: "Enter proper link" } })}
+                                    className="bg-transparent text-white"
+                                    as="input"
+                                    name={'data.' + service.socialChannels.title}
+                                    id="endereco"
+                                    type="text"
+                                    placeholder={`Enter ${service.socialChannels.title} url`}
 
-                                    />
-                                    {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message && (
-                                      <small className="invalid-feedback" style={{ display: 'block' }}>
-                                        {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message}
-                                      </small>
-                                    )}
-                                  </Col>
-                                )
+                                  />
+                                  {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message && (
+                                    <small className="invalid-feedback" style={{ display: 'block' }}>
+                                      {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message}
+                                    </small>
+                                  )}
+                                </Col>
+                              )
                             )}
-                            
+
                           </Row>
                         </form>
                       </div>
