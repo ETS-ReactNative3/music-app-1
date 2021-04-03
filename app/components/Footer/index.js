@@ -39,11 +39,14 @@ const Footer = props => {
   }, [currentSong]);
 
   useEffect(() => {
-    if (songPlayDuration === 5 && userDetails) {
-      // handleTrackSongData({
-      //   songId: currentSong.songData.id,
-      //   userId: userDetails.id
-      // })
+    if (songPlayDuration === 30 && userDetails) {
+      handleTrackSongData({
+        songId: currentSong.songData.id,
+        userId: userDetails.id,
+        metaData: {
+          artistId: currentSong.songData.artistId
+        }
+      })
     }
   }, [songPlayDuration, userDetails]);
 

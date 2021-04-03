@@ -85,6 +85,7 @@ const appReducer = (state = initialState, action) =>
             src: song.song.url,
             title: song.song.title,
             artist: song.song.user.name,
+            artistId: song.song.user.id,
             artwork: albumImage,
           }
         }

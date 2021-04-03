@@ -15,7 +15,7 @@ export function axiosTrackingInstance() {
 
   return axios.create({
     // baseURL: 'http://localhost:3006/',
-    baseURL: server.apiURL,
+    baseURL: server.trackingApiURL,
     headers,
   });
 }
