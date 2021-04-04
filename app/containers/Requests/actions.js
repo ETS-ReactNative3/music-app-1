@@ -32,12 +32,16 @@ export function submitFeedbackRequestAction(
   campaignId,
   influencerId,
   feedback,
+  declined,
+  artistId
 ) {
   return {
     type: SUBMIT_REQUEST_FEEDBACK,
     campaignId,
     influencerId,
     feedback,
+    declined,
+    artistId
   };
 }
 

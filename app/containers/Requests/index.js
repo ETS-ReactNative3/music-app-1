@@ -198,8 +198,8 @@ function mapDispatchToProps(dispatch) {
     fetchRequests: () => dispatch(fetchRequestsAction()),
     updateCampaignStatus: (campaignId, statusId) =>
       dispatch(updateCampaignStatusAction(campaignId, statusId)),
-    submitFeedbackRequest: (campaignId, influencerId, feedback) =>
-      dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
+    submitFeedbackRequest: (campaignId, influencerId, feedback, decline, artistId) =>
+      dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback, decline, artistId)),
     submitSocialLinksRequest: data => dispatch(submitSocialLinksAction(data)),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
     setPlaylistAction: songs => dispatch(setPlaylist(songs)),
