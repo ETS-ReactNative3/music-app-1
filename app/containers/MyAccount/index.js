@@ -37,6 +37,7 @@ import influencerSaga from "../Influencer/saga";
 import { fetchInfluencerStatsAction } from "../Influencer/actions";
 import { makeSelectInfluencerStats, makeSelectInfluencerStatsLoader } from "../Influencer/selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
+import PatronInfo from '../../components/PatronInfo';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -65,15 +66,15 @@ function MyAccount(
   useInjectSaga({ key: 'influencer', saga: influencerSaga });
   useInjectReducer({ key: 'influencer', reducer: influencerReducer });
 
-  useEffect(() => {
-    getGenreList();
-  }, []);
+  // useEffect(() => {
+  //   getGenreList();
+  // }, []);
 
-  useEffect(() => {
-    if (userDetails && userDetails.influencerId !== null) {
-      getInfluencerStats(userDetails.influencerId)
-    }
-  }, [userDetails]);
+  // useEffect(() => {
+  //   if (userDetails && userDetails.influencerId !== null) {
+  //     getInfluencerStats(userDetails.influencerId)
+  //   }
+  // }, [userDetails]);
 
   const renderSocialMedias = (artistInfo, title) => {
     return <div>{(artistInfo[title] && <a href={artistInfo[title]} target="_blank" className="pr-2">
@@ -93,7 +94,7 @@ function MyAccount(
               <div className="card-body profile-user-box">
                 <div className="row">
                   <div className="col-sm-8">
-                    <div className="media">
+                    {/* <div className="media">
                       <span className="float-left m-2 mr-4">
                         <Image
                           width={120}
@@ -141,7 +142,7 @@ function MyAccount(
                         </div>
                         </>}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="col-sm-4">
                     <div className="text-center mt-sm-0 mt-3 text-sm-right">
@@ -159,6 +160,7 @@ function MyAccount(
             </div>
           </div>
         </div>
+        <PatronInfo />
         {userDetails.roleId === 1 && userDetails.influencerId === null && (
           <div className="row mt-3">
             <div className="col-sm-12">
