@@ -28,7 +28,7 @@ function fetchInfluencerInformation() {
 }
 
 function postSongTrackingData(songData) {
-  return axiosTrackingInstance().post('/songs', songData);
+  return axiosTrackingInstance().post('/records', songData);
 }
 
 export function* prepareApp() {
