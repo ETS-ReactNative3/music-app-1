@@ -86,7 +86,12 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Browse music</p>
                     </Link>
                   </li>
-
+                  <li className="nav-item rounded-lg">
+                    <Link to="/earnings" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
+                      <p className="d-inline-block m-0">Earnings</p>
+                    </Link>
+                  </li>
                 </>
               ) : (
                 <>
