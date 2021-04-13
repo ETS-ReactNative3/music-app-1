@@ -114,14 +114,17 @@ function Detail(
                 {currentSong.playing ? 'Pause' : 'Play All'}
               </span>
               <ShareBox />
+              {!playlist.myPlaylist &&
               <div onClick={() => followPlaylist(playlist.id, !playlist.likedPlaylist)}>
                 {playlist.likedPlaylist ?
-                  <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='lg' />
+                  <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR}
+                                   size='lg'/>
                   :
                   <div className="heart_icon">
-                    <FontAwesomeIcon icon={faHeart} size='lg' />
+                    <FontAwesomeIcon icon={faHeart} size='lg'/>
                   </div>}
               </div>
+              }
             </div>
           </div>
           <Row>
