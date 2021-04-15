@@ -13,12 +13,13 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import { fetchTeamsAction } from './actions';
 import teamReducer from './reducer';
 import teamSaga from './saga';
-import {makeSelectProgress, makeSelectTeams} from './selectors';
+import { makeSelectProgress, makeSelectTeams } from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
+import { format } from 'date-fns';
 
-const Team = ({ fetchTeam , teams, progress}) => {
+const Team = ({ fetchTeam, teams, progress }) => {
 
     useInjectReducer({ key: 'team', reducer: teamReducer });
     useInjectSaga({ key: 'team', saga: teamSaga });
@@ -28,7 +29,18 @@ const Team = ({ fetchTeam , teams, progress}) => {
     const columns = [
         {
             dataField: 'name',
-            text: 'Tastemaker Name',
+            text: 'Team Name',
+            headerStyle: {
+                width: '20%'
+            },
+            style: {
+                width: '20%'
+            }
+        },
+        {
+            dataField: 'lastUpdatedAt',
+            text: 'Last Updated',
+            formatter: dateFormatter,
             headerStyle: {
                 width: '20%'
             },
@@ -38,24 +50,35 @@ const Team = ({ fetchTeam , teams, progress}) => {
         },
     ];
 
+
+    function dateFormatter(cell, row, rowIndex, formatExtraData) {
+        return format(new Date(row.updatedAt), 'dd/MM/yyyy HH:mm');
+    }
+
+
     const history = useHistory()
     return (
         <>
-        {progress ? <LoadingIndicator/> :
-            <PaperCard title="Team's">
-                <Button variant="success" onClick={() => history.push('/team/add')}>Add Team</Button>
-                <BootstrapTable
-                    striped
-                    hover
-                    bordered={false}
-                    bootstrap4
-                    pagination={paginationFactory()}
-                    filter={filterFactory()}
-                    keyField="id"
-                    data={[]}
-                    columns={columns}
-                />
-            </PaperCard>}
+            {progress ? <LoadingIndicator /> :
+                <PaperCard title="Team's">
+                    <Button variant="success" onClick={() => history.push('/team/add')}>Add Team</Button>
+                    <BootstrapTable
+                        striped
+                        hover
+                        bordered={false}
+                        bootstrap4
+                        pagination={paginationFactory()}
+                        filter={filterFactory()}
+                        keyField="id"
+                        data={teams || []}
+                        columns={columns}
+                        rowEvents={{
+                            onClick: (e, row) => {
+                              history.push(`/team/${row.id}/setting`);
+                            },
+                          }}
+                    />
+                </PaperCard>}
         </>
     )
 }

@@ -26,11 +26,11 @@ const AddTeam = ({ userDetails, progress, addTeam }) => {
     return (
         <PaperCard title="Create Team">
             <Form.Row className="mt-5">
-                <Form.Group as={Col}>
-                    <h4>Team Details</h4>
+                <Form.Group  className="flex-lg-row mr-3">
+                    <h4>Team Settings</h4>
                     <h6>Create a new team to collabrate with others on projects</h6>
                 </Form.Group>
-                <Form.Group as={Col}>
+                <Form.Group className="flex-fill">
                     <Card style={{ color: 'black', padding: 10 }}>
                         <div>Team owner</div>
                         <div className="d-flex align-items-center my-3">

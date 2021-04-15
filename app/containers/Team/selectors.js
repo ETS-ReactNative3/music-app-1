@@ -11,7 +11,7 @@ const selectTeamDomain = state => state.team || initialState;
 const makeSelectTeams = () =>
   createSelector(
     selectTeamDomain,
-    substate => substate.team,
+    substate => substate.teams,
   );
 
 
@@ -21,7 +21,30 @@ createSelector(
   substate => substate.progress,
 );
 
+
+const makeSelectTeamDetails = () =>
+createSelector(
+  selectTeamDomain,
+  substate => substate.teamDetails,
+);
+
+
+const makeSelectSaveTeamNameProgress = () =>
+createSelector(
+  selectTeamDomain,
+  substate => substate.saveTeamNameProgress,
+);
+
+const makeSelectSaveTeamMemberProgress = () =>
+createSelector(
+  selectTeamDomain,
+  substate => substate.saveTeamMemberProgress,
+);
+
 export {
   makeSelectProgress,
   makeSelectTeams,
+  makeSelectTeamDetails,
+  makeSelectSaveTeamNameProgress,
+  makeSelectSaveTeamMemberProgress
 };

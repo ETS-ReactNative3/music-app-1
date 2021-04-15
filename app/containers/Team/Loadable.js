@@ -15,3 +15,7 @@ export const Team = loadable(() => import('./index'), {
 export const AddTeam = loadable(() => import('./AddTeam'), {
   fallback: <LoadingIndicator />,
 });
+
+export const TeamSetting = loadable(() => import('./TeamSetting'), {
+  fallback: <LoadingIndicator />,
+});
