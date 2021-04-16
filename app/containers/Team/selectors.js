@@ -41,10 +41,26 @@ createSelector(
   substate => substate.saveTeamMemberProgress,
 );
 
+
+const makeSelectPendingInvites = () =>
+createSelector(
+  selectTeamDomain,
+  substate => substate.pendingInvites,
+);
+
+
+const makeSelectTeamMembers = () =>
+createSelector(
+  selectTeamDomain,
+  substate => substate.teamMembers,
+);
+
 export {
   makeSelectProgress,
   makeSelectTeams,
   makeSelectTeamDetails,
   makeSelectSaveTeamNameProgress,
-  makeSelectSaveTeamMemberProgress
+  makeSelectSaveTeamMemberProgress,
+  makeSelectPendingInvites,
+  makeSelectTeamMembers
 };

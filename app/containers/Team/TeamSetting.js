@@ -12,13 +12,14 @@ import { useInjectReducer } from '../../utils/injectReducer';
 import teamReducer from './reducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import teamSaga from './saga';
-import { addTeamAction, fetchTeamDetailsAction , saveTeamMemberAction} from './actions';
-import { makeSelectProgress, makeSelectSaveTeamMemberProgress, makeSelectSaveTeamNameProgress, makeSelectTeamDetails } from './selectors';
+import { addTeamAction, fetchTeamDetailsAction, saveTeamMemberAction } from './actions';
+import { makeSelectPendingInvites, makeSelectProgress, makeSelectSaveTeamMemberProgress, makeSelectSaveTeamNameProgress, makeSelectTeamDetails, makeSelectTeamMembers } from './selectors';
 import { useParams } from 'react-router';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { validateEmail } from '../../utils';
+import { toast } from 'react-toastify';
 
-const TeamSetting = ({ userDetails, progress, fetchTeamDetails, teamDetails, saveTeamNameProgress, saveTeamMemberProgress, saveTeamMember }) => {
+const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, teamDetails, teamMembers, saveTeamNameProgress, saveTeamMemberProgress, saveTeamMember }) => {
 
     useInjectReducer({ key: 'team', reducer: teamReducer });
     useInjectSaga({ key: 'team', saga: teamSaga });
@@ -29,7 +30,9 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, teamDetails, sav
     }, [id])
 
     const [teamName, setTeamName] = React.useState(teamDetails && teamDetails.name || '');
-    const [show, setShow] = React.useState({show: false, message: ''});
+    const [show, setShow] = React.useState({ show: false, message: '' });
+    const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+    const [teamToDelete, setTeamToDelete] = React.useState('');
 
     const [teamMember, setTeamMember] = React.useState('');
 
@@ -84,7 +87,7 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, teamDetails, sav
                                 />
                                 {saveTeamNameProgress ? <ButtonLoader /> : <Button variant="success" className="d-flex align-self-end mt-2" onClick={() => {
                                     if (teamName && teamName.length > 0) addTeam(teamName)
-                                    else setShow({show: true, message: 'Please enter name'})
+                                    else setShow({ show: true, message: 'Please enter name' })
                                 }}>Save</Button>}
                             </Card>
                         </Form.Group>
@@ -111,10 +114,56 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, teamDetails, sav
                                 />
                                 {saveTeamMemberProgress ? <ButtonLoader /> : <Button variant="success" className="d-flex align-self-end mt-2" onClick={() => {
                                     if (teamMember && teamMember.length > 0) {
-                                        if (validateEmail(teamMember)) { saveTeamMember(id, teamMember)}
-                                        else setShow({show: true, message: 'Enter valid email'})
-                                    } else { setShow({show: true, message: 'Pleaes enter email'})}
-                                }}>Save</Button>}
+                                        if (validateEmail(teamMember)) { setTeamMember(''); saveTeamMember(id, teamMember) }
+                                        else setShow({ show: true, message: 'Enter valid email' })
+                                    } else { setShow({ show: true, message: 'Pleaes enter email' }) }
+                                }}>Add</Button>}
+                            </Card>
+                        </Form.Group>
+                    </Form.Row>
+
+                    <Form.Row className="mt-5">
+                        <Form.Group className="w-25">
+                            <h4>Pending Team Invitations</h4>
+                            <h6>These people have been invited to your team and have been sent an invitation mail. They may join the team by accepting the email invitation.</h6>
+                        </Form.Group>
+                        <Form.Group className="w-75">
+                            <Card style={{ color: 'black', padding: 10 }}>
+                                {pendingInvites && pendingInvites.map(invite => {
+                                    return <div className="d-flex flex-row justify-content-between mx-3 my-2 border-bottom border-dark">
+                                        <div>{invite.email}</div>
+                                        <Button variant="light">Cancel</Button>
+                                    </div>
+                                })}
+                            </Card>
+                        </Form.Group>
+                    </Form.Row>
+
+                    <Form.Row className="mt-5">
+                        <Form.Group className="w-25">
+                            <h4>Team Members</h4>
+                        </Form.Group>
+                        <Form.Group className="w-75">
+                            <Card style={{ color: 'black', padding: 10 }}>
+                                {teamMembers && teamMembers.map(member => {
+                                    return <div className="d-flex flex-row justify-content-between mx-3 my-2 border-bottom border-dark">
+                                        <div>{member.email}</div>
+                                        <Button variant="light">Cancel</Button>
+                                    </div>
+                                })}
+                            </Card>
+                        </Form.Group>
+                    </Form.Row>
+                    <Form.Row className="mt-5">
+                        <Form.Group className="w-25">
+                            <h4>Delete Team</h4>
+                            <h6>Permanently delete this team</h6>
+                        </Form.Group>
+                        <Form.Group className="w-75">
+                            <Card style={{ color: 'black', padding: 10 }}>
+                                <div>Once a team is deleted, all its resources are also deleted.</div>
+
+                                <Button variant='danger' onClick={() => setShowDeleteModal(true)} className="d-flex flex-row align-self-start mx-1 my-4">Delete</Button>
                             </Card>
                         </Form.Group>
                     </Form.Row>
@@ -127,9 +176,43 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, teamDetails, sav
 
                         <Modal.Body>
                             {show.message}
-        </Modal.Body>
+                        </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" onClick={() => setShow({show: false, message: ''})}>
+                            <Button variant="secondary" onClick={() => setShow({ show: false, message: '' })}>
+                                Close
+          </Button>
+                        </Modal.Footer>
+                    </Modal>
+
+                    <Modal
+                        show={showDeleteModal}
+                        onHide={() => setShowDeleteModal(false)}
+                        backdrop="static"
+                        keyboard={false}
+                    >
+
+                        <Modal.Body>
+                            <div>
+                                <div>Please enter Team name to confirm.</div>
+                                <input
+                                    name="name"
+                                    placeholder="Enter Name"
+                                    className={`form-control`}
+                                    value={teamToDelete}
+                                    onChange={(e) => setTeamToDelete(e.target.value)}
+                                />
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            
+                            <Button variant="danger" onClick={() => {if (teamToDelete === teamDetails.name) {
+                                setShowDeleteModal(false)
+                            }else {
+                                toast.error("Entered name doesn't match")
+                            }}}>
+                                Confirm delete
+          </Button>
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
                                 Close
           </Button>
                         </Modal.Footer>
@@ -148,7 +231,9 @@ TeamSetting.propTypes = {
     teamDetails: PropTypes.any,
     saveTeamNameProgress: PropTypes.bool,
     saveTeamMemberProgress: PropTypes.bool,
-    saveTeamMember: PropTypes.func
+    saveTeamMember: PropTypes.func,
+    pendingInvites: PropTypes.array,
+    teamMembers: PropTypes.array
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -156,13 +241,15 @@ const mapStateToProps = createStructuredSelector({
     progress: makeSelectProgress(),
     saveTeamNameProgress: makeSelectSaveTeamNameProgress(),
     saveTeamMemberProgress: makeSelectSaveTeamMemberProgress(),
-    teamDetails: makeSelectTeamDetails()
+    teamDetails: makeSelectTeamDetails(),
+    pendingInvites: makeSelectPendingInvites(),
+    teamMembers: makeSelectTeamMembers()
 });
 
 function mapDispatchToProps(dispatch) {
     return {
         fetchTeamDetails: (id) => dispatch(fetchTeamDetailsAction(id)),
-        saveTeamMember: (teamId, email) => dispatch(saveTeamMemberAction(teamId, email))
+        saveTeamMember: (teamId, email) => dispatch(saveTeamMemberAction(teamId, email)),
     };
 }
 

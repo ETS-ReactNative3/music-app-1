@@ -4,7 +4,8 @@
  *
  */
 import produce from 'immer';
-import { SHOW_PROGRESS, SAVE_TEAMS, FETCH_TEAMS, ADD_TEAM, SAVE_TEAM_DETAILS, FETCH_TEAM_DETAILS, SAVE_TEAM_NAME, SAVE_TEAM_NAME_ERROR, SAVE_TEAM_NAME_SUCCESS, SAVE_TEAM_MEMBER, SAVE_TEAM_MEMBER_SUCCESS, SAVE_TEAM_MEMBER_ERROR } from './constants';
+import { SHOW_PROGRESS, SAVE_TEAMS, FETCH_TEAMS, ADD_TEAM, SAVE_TEAM_DETAILS, FETCH_TEAM_DETAILS, SAVE_TEAM_NAME, SAVE_TEAM_NAME_ERROR, SAVE_TEAM_NAME_SUCCESS, SAVE_TEAM_MEMBER, SAVE_TEAM_MEMBER_SUCCESS, SAVE_TEAM_MEMBER_ERROR,
+  SAVE_PENDING_INVITES, SAVE_TEAM_MEMBERS } from './constants';
 
 
 export const initialState = {
@@ -14,7 +15,10 @@ export const initialState = {
 
   saveTeamNameProgress: false,
 
-  saveTeamMemberProgress: false
+  saveTeamMemberProgress: false,
+
+  pendingInvites: [],
+  teamMembers: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -57,6 +61,14 @@ const teamReducer = (state = initialState, action) =>
       case SAVE_TEAM_MEMBER_ERROR:
         draft.saveTeamMemberProgress = false;
         break;
+
+        case SAVE_PENDING_INVITES:
+          draft.pendingInvites = action.invites;
+          break;
+
+          case SAVE_TEAM_MEMBERS:
+            draft.teamMembers = action.members;
+            break;
     }
   });
 

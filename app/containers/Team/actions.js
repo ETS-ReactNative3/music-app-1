@@ -1,4 +1,8 @@
-import { ADD_TEAM, FETCH_TEAMS, SHOW_PROGRESS,SAVE_TEAMS, FETCH_TEAM_DETAILS, SAVE_TEAM_DETAILS, SAVE_TEAM_NAME, SAVE_TEAM_NAME_ERROR, SAVE_TEAM_NAME_SUCCESS, SAVE_TEAM_MEMBER, SAVE_TEAM_MEMBER_ERROR, SAVE_TEAM_MEMBER_SUCCESS } from "./constants"
+import { ADD_TEAM, FETCH_TEAMS, SHOW_PROGRESS,SAVE_TEAMS, FETCH_TEAM_DETAILS, SAVE_TEAM_DETAILS, SAVE_TEAM_NAME, SAVE_TEAM_NAME_ERROR, SAVE_TEAM_NAME_SUCCESS, SAVE_TEAM_MEMBER, SAVE_TEAM_MEMBER_ERROR, SAVE_TEAM_MEMBER_SUCCESS, SAVE_PENDING_INVITES,
+    FETCH_PENDING_INVITES,
+    CANCEL_PENDING_REQUEST,
+    FETCH_TEAM_MEMBERS,
+    SAVE_TEAM_MEMBERS} from "./constants"
 
 export const fetchTeamsAction = () => {
     return {
@@ -76,5 +80,39 @@ export const saveTeamMemberErrorAction = () => {
 export const saveTeamMemberSuccessAction = () => {
     return {
         type: SAVE_TEAM_MEMBER_SUCCESS,
+    }
+}
+
+export const fetchPendingInvitesAction = (teamId) => {
+    return {
+        type: FETCH_PENDING_INVITES,
+        teamId
+    }
+}
+
+export const savePendingInvitesAction = (invites) => {
+    return {
+        type: SAVE_PENDING_INVITES,
+        invites
+    }
+}
+
+export const cancelPendingRequestAction = (email) => {
+    return {
+        type: CANCEL_PENDING_REQUEST,
+        email
+    }
+}
+
+export const fetchTeamMembersAction = () => {
+    return {
+        type: FETCH_TEAM_MEMBERS,
+    }
+}
+
+export const saveTeamMembersAction = (members) => {
+    return {
+        type: SAVE_TEAM_MEMBERS,
+        members
     }
 }
