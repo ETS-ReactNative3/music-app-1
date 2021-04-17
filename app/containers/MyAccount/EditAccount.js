@@ -484,7 +484,8 @@ function mapDispatchToProps(dispatch) {
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
     updateUserDetails: (data, isProfilePhotoUpdated, isCoverPhotoUpdated) =>
       dispatch(updateUserDetailsAction(data, isProfilePhotoUpdated, isCoverPhotoUpdated)),
-    regularUserUpdate: (data, isProfilePhotoUpdated) => dispatch(updateRegularUser(data, isProfilePhotoUpdated))
+    regularUserUpdate: (data, isProfilePhotoUpdated) => dispatch(updateRegularUser(data, isProfilePhotoUpdated)),
+    fetchLocation: () => dispatch(fetchLocationAction())
   };
 }
 
