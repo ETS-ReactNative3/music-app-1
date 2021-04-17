@@ -2,7 +2,9 @@ import { ADD_TEAM, FETCH_TEAMS, SHOW_PROGRESS,SAVE_TEAMS, FETCH_TEAM_DETAILS, SA
     FETCH_PENDING_INVITES,
     CANCEL_PENDING_REQUEST,
     FETCH_TEAM_MEMBERS,
-    SAVE_TEAM_MEMBERS} from "./constants"
+    SAVE_TEAM_MEMBERS,
+    FETCH_MY_TEAM_REQUESTS,
+SAVE_MY_TEAM_REQUESTS} from "./constants"
 
 export const fetchTeamsAction = () => {
     return {
@@ -104,9 +106,10 @@ export const cancelPendingRequestAction = (email) => {
     }
 }
 
-export const fetchTeamMembersAction = () => {
+export const fetchTeamMembersAction = (teamId) => {
     return {
         type: FETCH_TEAM_MEMBERS,
+        teamId
     }
 }
 
@@ -114,5 +117,18 @@ export const saveTeamMembersAction = (members) => {
     return {
         type: SAVE_TEAM_MEMBERS,
         members
+    }
+}
+
+export const fetchMyTeamRequestAction = () => {
+    return {
+        type: FETCH_MY_TEAM_REQUESTS,
+    }
+}
+
+export const saveMyTeamRequestAction = (requests) => {
+    return {
+        type: SAVE_MY_TEAM_REQUESTS,
+        requests
     }
 }

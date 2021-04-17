@@ -62,6 +62,7 @@ const Team = ({ fetchTeam, teams, progress }) => {
             {progress ? <LoadingIndicator /> :
                 <PaperCard title="Team's">
                     <Button variant="success" onClick={() => history.push('/team/add')}>Add Team</Button>
+                    <Button variant="success" onClick={() => history.push('/team/request')}>Team Request</Button>
                     <BootstrapTable
                         striped
                         hover

@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { axiosInstance } from '../../utils/api';
 import history from '../../utils/history';
-import { saveTeamsAction, showProgressAction, saveTeamDetailsAction,fetchTeamMembersAction, saveTeamNameSuccessAction, saveTeamMemberSuccessAction, saveTeamMemberErrorAction, savePendingInvitesAction, fetchPendingInvitesAction, saveTeamMembersAction } from './actions';
-import { ADD_TEAM, CANCEL_PENDING_REQUEST, FETCH_PENDING_INVITES, FETCH_TEAMS, FETCH_TEAM_DETAILS, FETCH_TEAM_MEMBERS, SAVE_TEAM_MEMBER, SAVE_TEAM_NAME } from './constants';
+import { saveTeamsAction, showProgressAction, saveTeamDetailsAction,fetchTeamMembersAction, saveTeamNameSuccessAction, saveTeamMemberSuccessAction, saveTeamMemberErrorAction, savePendingInvitesAction, fetchPendingInvitesAction, saveTeamMembersAction, saveMyTeamRequestAction } from './actions';
+import { ADD_TEAM, CANCEL_PENDING_REQUEST, FETCH_MY_TEAM_REQUESTS, FETCH_PENDING_INVITES, FETCH_TEAMS, FETCH_TEAM_DETAILS, FETCH_TEAM_MEMBERS, SAVE_TEAM_MEMBER, SAVE_TEAM_NAME } from './constants';
 
 
 
@@ -33,8 +33,12 @@ function fetchInvitesAPI(teamId) {
   return axiosInstance().get(`team/pending/${teamId}`)
 }
 
-function fetchTeamMembersAPI() {
-  return axiosInstance().get(`team/members`)
+function fetchTeamMembersAPI(teamId) {
+  return axiosInstance().get(`team/members/${teamId}`)
+}
+
+function fetchMyTeamRequest() {
+  return axiosInstance().get(`team/requests`)
 }
 
 function* fetchTeamsSaga() {
@@ -67,7 +71,7 @@ function* fetchTeamDetailsSaga(action) {
     yield put(saveTeamDetailsAction(result.data))
 
     yield put(fetchPendingInvitesAction(id))
-    yield put(fetchTeamMembersAction())
+    yield put(fetchTeamMembersAction(id))
     yield put(showProgressAction(false))
   } catch (e) {
     toast.error('Failed to fetch details');
@@ -119,12 +123,24 @@ function* cancelPendingRequestSaga(action) {
   }
 }
 
-function* fetchTeamMembersSaga() {
+function* fetchTeamMembersSaga(action) {
   try {
-    const result = yield call(fetchTeamMembersAPI);
+    const {teamId} = action;
+    const result = yield call(fetchTeamMembersAPI, teamId);
     yield put(saveTeamMembersAction(result.data))
   } catch (e) {
     toast.error('Failed to fetch team members');
+  }
+}
+
+function* fetchMyTeamRequestSaga() {
+  try {
+    const result = yield call(fetchMyTeamRequest);
+    yield put(saveMyTeamRequestAction(result.data))
+    yield put(showProgressAction(false));
+  } catch (e) {
+    toast.error('Failed to fetch request')
+    yield put(showProgressAction(false));
   }
 }
 
@@ -137,5 +153,6 @@ export default function* teamSaga() {
   yield takeLatest(SAVE_TEAM_MEMBER, saveTeamMemberSaga);
   yield takeLatest(FETCH_PENDING_INVITES, fetchPendingInvitesSaga);
   yield takeLatest(CANCEL_PENDING_REQUEST, cancelPendingRequestSaga);
-  yield takeLatest(FETCH_TEAM_MEMBERS, fetchTeamMembersSaga)
+  yield takeLatest(FETCH_TEAM_MEMBERS, fetchTeamMembersSaga),
+  yield takeLatest(FETCH_MY_TEAM_REQUESTS, fetchMyTeamRequestSaga)
 }

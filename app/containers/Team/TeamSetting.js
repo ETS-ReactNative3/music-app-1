@@ -147,8 +147,8 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, 
                             <Card style={{ color: 'black', padding: 10 }}>
                                 {teamMembers && teamMembers.map(member => {
                                     return <div className="d-flex flex-row justify-content-between mx-3 my-2 border-bottom border-dark">
-                                        <div>{member.email}</div>
-                                        <Button variant="light">Cancel</Button>
+                                        <div>{member.user.name}</div>
+                                        {/* <Button variant="light">Cancel</Button> */}
                                     </div>
                                 })}
                             </Card>
