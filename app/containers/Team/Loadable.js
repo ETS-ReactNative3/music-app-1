@@ -23,3 +23,7 @@ export const TeamSetting = loadable(() => import('./TeamSetting'), {
 export const TeamRequest = loadable(() => import('./TeamRequest'), {
   fallback: <LoadingIndicator />,
 });
+
+export const MyTeams = loadable(() => import('./MyTeams'), {
+  fallback: <LoadingIndicator />,
+});

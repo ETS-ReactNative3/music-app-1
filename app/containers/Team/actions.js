@@ -4,7 +4,8 @@ import { ADD_TEAM, FETCH_TEAMS, SHOW_PROGRESS,SAVE_TEAMS, FETCH_TEAM_DETAILS, SA
     FETCH_TEAM_MEMBERS,
     SAVE_TEAM_MEMBERS,
     FETCH_MY_TEAM_REQUESTS,
-SAVE_MY_TEAM_REQUESTS} from "./constants"
+SAVE_MY_TEAM_REQUESTS,
+REQUEST_ACTION} from "./constants"
 
 export const fetchTeamsAction = () => {
     return {
@@ -130,5 +131,12 @@ export const saveMyTeamRequestAction = (requests) => {
     return {
         type: SAVE_MY_TEAM_REQUESTS,
         requests
+    }
+}
+
+export const requestAction = (teamsId, accepted) => {
+    return {
+        type: REQUEST_ACTION,
+        teamsId, accepted
     }
 }

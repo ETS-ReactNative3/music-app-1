@@ -5,7 +5,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { axiosInstance } from '../../utils/api';
 import history from '../../utils/history';
 import { saveTeamsAction, showProgressAction, saveTeamDetailsAction,fetchTeamMembersAction, saveTeamNameSuccessAction, saveTeamMemberSuccessAction, saveTeamMemberErrorAction, savePendingInvitesAction, fetchPendingInvitesAction, saveTeamMembersAction, saveMyTeamRequestAction } from './actions';
-import { ADD_TEAM, CANCEL_PENDING_REQUEST, FETCH_MY_TEAM_REQUESTS, FETCH_PENDING_INVITES, FETCH_TEAMS, FETCH_TEAM_DETAILS, FETCH_TEAM_MEMBERS, SAVE_TEAM_MEMBER, SAVE_TEAM_NAME } from './constants';
+import { ADD_TEAM, CANCEL_PENDING_REQUEST, FETCH_MY_TEAM_REQUESTS, FETCH_PENDING_INVITES, FETCH_TEAMS, FETCH_TEAM_DETAILS, FETCH_TEAM_MEMBERS, REQUEST_ACTION, SAVE_TEAM_MEMBER, SAVE_TEAM_NAME } from './constants';
 
 
 
@@ -38,7 +38,11 @@ function fetchTeamMembersAPI(teamId) {
 }
 
 function fetchMyTeamRequest() {
-  return axiosInstance().get(`team/requests`)
+  return axiosInstance().get(`team/invite/requests`)
+}
+
+function requestActionAPI(teamsId, accepted) {
+  return axiosInstance().post('team/request/action', {teamsId, accepted})
 }
 
 function* fetchTeamsSaga() {
@@ -144,6 +148,17 @@ function* fetchMyTeamRequestSaga() {
   }
 }
 
+function* requestActionSaga(action) {
+  const {teamsId, accepted} = action;
+  try {
+    yield call(requestActionAPI, teamsId, accepted);
+    if (accepted) toast.success('Request accepted, you in team');
+    else toast.success('Request declined');
+  } catch (e) {
+    if (accepted) toast.error('Unable to accept request');
+    else toast.error('Unable to decline request');
+  }
+}
 // Individual exports for testing
 export default function* teamSaga() {
   yield takeLatest(FETCH_TEAMS, fetchTeamsSaga);
@@ -154,5 +169,6 @@ export default function* teamSaga() {
   yield takeLatest(FETCH_PENDING_INVITES, fetchPendingInvitesSaga);
   yield takeLatest(CANCEL_PENDING_REQUEST, cancelPendingRequestSaga);
   yield takeLatest(FETCH_TEAM_MEMBERS, fetchTeamMembersSaga),
-  yield takeLatest(FETCH_MY_TEAM_REQUESTS, fetchMyTeamRequestSaga)
+  yield takeLatest(FETCH_MY_TEAM_REQUESTS, fetchMyTeamRequestSaga);
+  yield takeLatest(REQUEST_ACTION, requestActionSaga);
 }
