@@ -134,7 +134,7 @@ const EditAccount = (
       });
     reset({
       ...userDetails.artistInformation,
-      countryId: userDetails.artistInformation.country,
+      countryId: userDetails.artistInformation ? userDetails.artistInformation.country : null,
       ...userDetails,
       ...prepareData(influencerProfile),
       genres: tempFullGenre,
