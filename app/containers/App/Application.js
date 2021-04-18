@@ -29,6 +29,7 @@ import {DisputedCampaigns, FeaturedAlbums, UserList} from '../Admin/Loadable';
 import {Browse, BrowseAlbums} from '../Browse/Loadable';
 import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
 import {ArtistProfile, SupportedArtist} from '../Artist/Loadable';
+import {Earnings} from "../Earnings/Loadable";
 
 
 function useAuth() {
@@ -200,9 +201,12 @@ function Application() {
         <Route exact path="/browse/:genre">
           <BrowseAlbums/>
         </Route>
-        <Route exact path="/admin/campaigns/disputed">
+        <PrivateRoute exact path="/admin/campaigns/disputed" admin={true}>
           <DisputedCampaigns/>
-        </Route>
+        </PrivateRoute>
+        <PrivateRoute exact path="/earnings">
+          <Earnings/>
+        </PrivateRoute>
       </Switch>
     </Dashboard>
   );

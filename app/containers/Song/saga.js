@@ -123,7 +123,11 @@ export function* saveSongSaga({data}) {
     history.push('/songList');
     toast.success('Song saved successfully.');
   } catch (e) {
-    toast.error(e.message);
+    toast.error(e.response.data.message);
+    if (e.response.data.type === 'free_limit_reached') {
+      history.push('/subscription-plans');
+    }
+
     yield put(postSongRequestFail(e.message));
   }
 }
