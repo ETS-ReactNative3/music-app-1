@@ -226,12 +226,12 @@ const history = useHistory();
               </Row>
               <Row>
                 <Col md={12}>
-                  <CarouselFront
-                    list={newReleases}
+                  {/* <CarouselFront
+                    list={newReleases || []}
                     loading={newReleasesLoading}
                     heading="Recommended For You"
                     classes="carousel-front py-5"
-                  />
+                  /> */}
                 </Col>
               </Row>
             </PaperCard>

@@ -77,7 +77,7 @@ export function HomePage(props) {
       <div className="container-fluid">
         <CarouselFront
           loading={featuredAlbumLoading}
-          list={featuredAlbum}
+          list={featuredAlbum || []}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
           classes="carousel-front py-5"
         />

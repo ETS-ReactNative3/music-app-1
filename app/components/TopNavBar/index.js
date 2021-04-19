@@ -55,7 +55,7 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
   };
 
   const onInputChangeSelection = value => {
-    if (value.type === 'album') redirectOnAlbum(value[0].slug);
+    if (value[0].type === 'album') redirectOnAlbum(value[0].slug);
     else history.push(`/artist/${value[0].slug}`)
     searchRef.current.clear();
   };
