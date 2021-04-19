@@ -10,8 +10,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import PlanSvg from '../../images/svg/plan_icon.svg';
 import AvatarSvg from '../../images/user.svg';
 import Button from 'react-bootstrap/Button';
-import { Image } from "react-bootstrap";
-import { server } from "../../../config";
+import { Image } from 'react-bootstrap';
+import { server } from '../../../config';
 import { debounce } from 'lodash';
 
 const AsyncTypeahead = withAsync(Typeahead);
@@ -34,18 +34,18 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
         slug: i.slug,
       }));
 
-      options = options.concat(response.artists.map(i => ({
-        avatar_url: i.artwork,
-        id: i.id,
-        login: i.title,
-        slug: i.slug,
-      })))
+      options = options.concat(
+        response.artists.map(i => ({
+          avatar_url: i.artwork,
+          id: i.id,
+          login: i.title,
+          slug: i.slug,
+        })),
+      );
 
       setOptions(options);
       setIsLoading(false);
     });
-
-
   };
 
   const handleSideBar = () => {
@@ -65,11 +65,9 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
     location.reload();
   };
 
-
-  const searchEnhancer = debounce((searchValue) => {
+  const searchEnhancer = debounce(searchValue => {
     handleSearch(searchValue);
   }, 500);
-
 
   return (
     <header>
@@ -127,13 +125,13 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
             )}
           />
         </div>
-        {userDetails &&
+        {userDetails && (
           <div className="pl-5">
             <Link to="/subscription-plans">
               <Button variant="success">Subscription Plans</Button>
             </Link>
           </div>
-        }
+        )}
         <div className="pl-5">
           {userDetails ? (
             <Dropdown>
@@ -151,9 +149,7 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
                       alt="avatar-image"
                     />
                   </span>
-                  <span className="p-2">
-                    {userDetails.name}
-                  </span>
+                  <span className="p-2">{userDetails.name}</span>
                 </div>
               </Dropdown.Toggle>
               <Dropdown.Menu>
@@ -162,16 +158,13 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
                 </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/wallet">
                   Wallet -{' '}
-                  <img
-                    src={PlanSvg}
-                    alt="wallet Logo"
-                    width={17}
-                    height={17}
-                  />{' '}
+                  <img src={PlanSvg} alt="wallet Logo" width={17} height={17} />{' '}
                   {userDetails.credit}
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item className="cursor-pointer" onClick={logout}>Log out</Dropdown.Item>
+                <Dropdown.Item className="cursor-pointer" onClick={logout}>
+                  Log out
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
