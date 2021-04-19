@@ -93,7 +93,7 @@ function MyAccount(
             <div className="card bg-dark">
               <div className="card-body profile-user-box">
                 <div className="row">
-                  <div className="col-sm-8">
+                  <div className="col-sm-6">
                     {/* <div className="media">
                       <span className="float-left m-2 mr-4">
                         <Image
@@ -144,8 +144,11 @@ function MyAccount(
                       </div>
                     </div> */}
                   </div>
-                  <div className="col-sm-4">
+                  <div className="col-sm-6">
                     <div className="text-center mt-sm-0 mt-3 text-sm-right">
+                    <button type="button" className="btn btn-success" onClick={() => {}}>
+                        Advanced Section
+                      </button>
                       <button type="button" className="btn btn-success" onClick={() => history.push('/myaccount/edit')}>
                         Edit Profile
                       </button>
@@ -160,7 +163,7 @@ function MyAccount(
             </div>
           </div>
         </div>
-        <PatronInfo />
+        <PatronInfo userDetails={userDetails} />
         {userDetails.roleId === 1 && userDetails.influencerId === null && (
           <div className="row mt-3">
             <div className="col-sm-12">

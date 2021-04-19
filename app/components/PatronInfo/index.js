@@ -1,8 +1,11 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import './index.scss';
 
-const PatronInfo = ({ }) => {
+const PatronInfo = ({ userDetails }) => {
+
+    const [patronageAmount, setPatronageAmount] = React.useState(0);
+    const [modal, setModal] = React.useState({show: false, message: ''});
     return (
         <div className="row mt-3">
             <div className="col-sm-12">
@@ -34,7 +37,7 @@ const PatronInfo = ({ }) => {
                             </th> */}
                             <tr>
                                 <td className="mr-5">Available Credits:</td>
-                                <td>20,602</td>
+                                <td>{userDetails.credit}</td>
                             </tr>
                             <tr >
                                 <td className="mr-5">Patroned Credits:</td>
@@ -52,6 +55,8 @@ const PatronInfo = ({ }) => {
                                         style={{ width: '200px' }}
                                         placeholder="Enter amount"
                                         className={`form-control `}
+                                        value={patronageAmount}
+                                        onChange={(e) => setPatronageAmount(e.target.value)}
                                     />
                                 </td>
                             </tr>
@@ -67,7 +72,17 @@ const PatronInfo = ({ }) => {
                                 </td>
                             </tr>
                             <tr className="d-flex flex-row justify-content-around">
-                                <Button variant="success">Patron Credit</Button>
+                                <Button variant="success" onClick={() => {
+                                    if (userDetails.credit === 0) {
+                                        setModal({show: true, message: "You don't have credits to patronage"})
+                                    } 
+                                    else if (userDetails.credit < patronageAmount) {
+                                        setModal({show: true, message: "Entered amount is greater than available credit in account."})
+                                    }
+                                    else if (patronageAmount === 0) {
+                                        setModal({show: true, message: "Please enter patronage amount greater than 0."})
+                                    }
+                                }}>Patron Credit</Button>
                                 <Button variant="success">Withdraw</Button>
                             </tr>
                         </table>
@@ -75,6 +90,21 @@ const PatronInfo = ({ }) => {
                     </div>
                 </div>
             </div>
+            <Modal
+                show={modal.show}
+                onHide={() => setModal({show: false, message: ''})}
+                backdrop="static"
+                keyboard={false}
+            >
+                
+                <Modal.Body>{modal.message}</Modal.Body>
+                <Modal.Footer>
+                    
+                    <Button variant="primary" onClick={() => setModal({show: false, message: ''})}>
+                        Ok
+          </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }
