@@ -32,14 +32,16 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
         id: i.id,
         login: i.title,
         slug: i.slug,
+        type: 'album'
       }));
 
       options = options.concat(
         response.artists.map(i => ({
-          avatar_url: i.artwork,
+          avatar_url: i.avatar,
           id: i.id,
-          login: i.title,
-          slug: i.slug,
+          login: i.name,
+          slug: i.id,
+          type: 'artist'
         })),
       );
 
@@ -53,7 +55,8 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
   };
 
   const onInputChangeSelection = value => {
-    redirectOnAlbum(value[0].slug);
+    if (value.type === 'album') redirectOnAlbum(value[0].slug);
+    else history.push(`/artist/${value[0].slug}`)
     searchRef.current.clear();
   };
 
