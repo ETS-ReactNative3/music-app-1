@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { axiosInstance } from '../../utils/api';
 import history from '../../utils/history';
-import { saveTeamsAction, showProgressAction, saveTeamDetailsAction,fetchTeamMembersAction, saveTeamNameSuccessAction, saveTeamMemberSuccessAction, saveTeamMemberErrorAction, savePendingInvitesAction, fetchPendingInvitesAction, saveTeamMembersAction, saveMyTeamRequestAction } from './actions';
-import { ADD_TEAM, CANCEL_PENDING_REQUEST, FETCH_MY_TEAM_REQUESTS, FETCH_PENDING_INVITES, FETCH_TEAMS, FETCH_TEAM_DETAILS, FETCH_TEAM_MEMBERS, REQUEST_ACTION, SAVE_TEAM_MEMBER, SAVE_TEAM_NAME } from './constants';
+import { saveTeamsAction, showProgressAction, saveTeamDetailsAction,fetchTeamMembersAction, saveTeamNameSuccessAction, saveTeamMemberSuccessAction, saveTeamMemberErrorAction, savePendingInvitesAction, fetchPendingInvitesAction, saveTeamMembersAction, saveMyTeamRequestAction, saveMyTeamsAction } from './actions';
+import { ADD_TEAM, CANCEL_PENDING_REQUEST, FETCH_MY_TEAMS, FETCH_MY_TEAM_REQUESTS, FETCH_PENDING_INVITES, FETCH_TEAMS, FETCH_TEAM_DETAILS, FETCH_TEAM_MEMBERS, REQUEST_ACTION, SAVE_TEAM_MEMBER, SAVE_TEAM_NAME } from './constants';
 
 
 
@@ -22,7 +22,7 @@ function fetchTeamDetailsAPI(id) {
 }
 
 function saveTeamNameAPI(id, name) {
-  // return axiosInstance().get(`team/${id}`)
+  return axiosInstance().put(`team`, {id, name})
 }
 
 function inviteTeamMemberAPI(id, email) {
@@ -43,6 +43,10 @@ function fetchMyTeamRequest() {
 
 function requestActionAPI(teamsId, accepted) {
   return axiosInstance().post('team/request/action', {teamsId, accepted})
+}
+
+function fetchMyTeamsAPI() {
+  return axiosInstance().get('team/my/teams')
 }
 
 function* fetchTeamsSaga() {
@@ -89,6 +93,9 @@ function* saveTeamNameSaga(action) {
     const {id, name} = action;
     yield call(saveTeamNameAPI, id, name);
     yield put(saveTeamNameSuccessAction())
+    toast.success('Team name updated')
+    const result = yield call(fetchTeamDetailsAPI, id);
+    yield put(saveTeamDetailsAction(result.data))
   } catch (e) {
     toast.error("Error in saving name");
     yield put(saveTeamNameErrorAction())
@@ -100,6 +107,7 @@ function* saveTeamMemberSaga(action) {
     const {teamId, email} = action;
     yield call(inviteTeamMemberAPI, teamId, email);
     yield put(saveTeamMemberSuccessAction())
+    yield put(fetchPendingInvitesAction(teamId))
     toast.success("Invitation sent")
   } catch (e) {
     toast.error("Failed to add member")
@@ -154,11 +162,27 @@ function* requestActionSaga(action) {
     yield call(requestActionAPI, teamsId, accepted);
     if (accepted) toast.success('Request accepted, you in team');
     else toast.success('Request declined');
+    
+    const result = yield call(fetchMyTeamRequest);
+    yield put(saveMyTeamRequestAction(result.data))
   } catch (e) {
     if (accepted) toast.error('Unable to accept request');
     else toast.error('Unable to decline request');
   }
 }
+
+function* fetchMyTeamsSaga() {
+  try {
+    const result = yield call(fetchMyTeamsAPI);
+    yield put(saveMyTeamsAction(result.data));
+    yield put(showProgressAction(false));
+  } catch(e) {
+    toast.error("Failed to fetch teams");
+    yield put(showProgressAction(false));
+
+  }
+}
+
 // Individual exports for testing
 export default function* teamSaga() {
   yield takeLatest(FETCH_TEAMS, fetchTeamsSaga);
@@ -171,4 +195,6 @@ export default function* teamSaga() {
   yield takeLatest(FETCH_TEAM_MEMBERS, fetchTeamMembersSaga),
   yield takeLatest(FETCH_MY_TEAM_REQUESTS, fetchMyTeamRequestSaga);
   yield takeLatest(REQUEST_ACTION, requestActionSaga);
+  yield takeLatest(FETCH_MY_TEAMS, fetchMyTeamsSaga);
+
 }

@@ -12,14 +12,14 @@ import { useInjectReducer } from '../../utils/injectReducer';
 import teamReducer from './reducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import teamSaga from './saga';
-import { addTeamAction, fetchTeamDetailsAction, saveTeamMemberAction } from './actions';
+import { saveTeamNameAction, fetchTeamDetailsAction, saveTeamMemberAction } from './actions';
 import { makeSelectPendingInvites, makeSelectProgress, makeSelectSaveTeamMemberProgress, makeSelectSaveTeamNameProgress, makeSelectTeamDetails, makeSelectTeamMembers } from './selectors';
 import { useParams } from 'react-router';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { validateEmail } from '../../utils';
 import { toast } from 'react-toastify';
 
-const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, teamDetails, teamMembers, saveTeamNameProgress, saveTeamMemberProgress, saveTeamMember }) => {
+const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, teamDetails, teamMembers, saveTeamNameProgress, saveTeamMemberProgress, saveTeamMember, saveTeamName }) => {
 
     useInjectReducer({ key: 'team', reducer: teamReducer });
     useInjectSaga({ key: 'team', saga: teamSaga });
@@ -86,7 +86,7 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, 
                                     onChange={(e) => setTeamName(e.target.value)}
                                 />
                                 {saveTeamNameProgress ? <ButtonLoader /> : <Button variant="success" className="d-flex align-self-end mt-2" onClick={() => {
-                                    if (teamName && teamName.length > 0) addTeam(teamName)
+                                    if (teamName && teamName.length > 0) saveTeamName(teamDetails.id, teamName)
                                     else setShow({ show: true, message: 'Please enter name' })
                                 }}>Save</Button>}
                             </Card>
@@ -132,7 +132,7 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, 
                                 {pendingInvites && pendingInvites.map(invite => {
                                     return <div className="d-flex flex-row justify-content-between mx-3 my-2 border-bottom border-dark">
                                         <div>{invite.email}</div>
-                                        <Button variant="light">Cancel</Button>
+                                        {/* <Button variant="light">Cancel</Button> */}
                                     </div>
                                 })}
                             </Card>
@@ -154,7 +154,7 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, 
                             </Card>
                         </Form.Group>
                     </Form.Row>
-                    <Form.Row className="mt-5">
+                    {/* <Form.Row className="mt-5">
                         <Form.Group className="w-25">
                             <h4>Delete Team</h4>
                             <h6>Permanently delete this team</h6>
@@ -166,7 +166,7 @@ const TeamSetting = ({ userDetails, progress, fetchTeamDetails, pendingInvites, 
                                 <Button variant='danger' onClick={() => setShowDeleteModal(true)} className="d-flex flex-row align-self-start mx-1 my-4">Delete</Button>
                             </Card>
                         </Form.Group>
-                    </Form.Row>
+                    </Form.Row> */}
                     <Modal
                         show={show.show}
                         onHide={() => setShow(false)}
@@ -233,7 +233,8 @@ TeamSetting.propTypes = {
     saveTeamMemberProgress: PropTypes.bool,
     saveTeamMember: PropTypes.func,
     pendingInvites: PropTypes.array,
-    teamMembers: PropTypes.array
+    teamMembers: PropTypes.array,
+    saveTeamName: PropTypes.func
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -250,6 +251,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchTeamDetails: (id) => dispatch(fetchTeamDetailsAction(id)),
         saveTeamMember: (teamId, email) => dispatch(saveTeamMemberAction(teamId, email)),
+        saveTeamName: (id, name) => dispatch(saveTeamNameAction(id, name))
     };
 }
 

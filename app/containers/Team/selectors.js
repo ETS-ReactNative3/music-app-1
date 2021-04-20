@@ -61,6 +61,13 @@ createSelector(
   selectTeamDomain,
   substate => substate.requests,
 );
+
+
+const makeSelectMyTeams = () =>
+createSelector(
+  selectTeamDomain,
+  substate => substate.myTeams,
+);
 export {
   makeSelectProgress,
   makeSelectTeams,
@@ -69,5 +76,6 @@ export {
   makeSelectSaveTeamMemberProgress,
   makeSelectPendingInvites,
   makeSelectTeamMembers,
-  makeSelectMyTeamRequests
+  makeSelectMyTeamRequests,
+  makeSelectMyTeams
 };
