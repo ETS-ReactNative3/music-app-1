@@ -5,8 +5,10 @@
  */
 import produce from 'immer';
 import {
-  SHOW_PROGRESS, SAVE_TEAMS, FETCH_TEAMS, ADD_TEAM, SAVE_TEAM_DETAILS, FETCH_TEAM_DETAILS, SAVE_TEAM_NAME, SAVE_TEAM_NAME_ERROR, SAVE_TEAM_NAME_SUCCESS, SAVE_TEAM_MEMBER, SAVE_TEAM_MEMBER_SUCCESS, SAVE_TEAM_MEMBER_ERROR,
-  SAVE_PENDING_INVITES, SAVE_TEAM_MEMBERS, FETCH_MY_TEAM_REQUESTS, SAVE_MY_TEAM_REQUESTS, FETCH_MY_TEAMS, SAVE_MY_TEAMS
+  ADD_TEAM,
+  FETCH_MY_TEAMS, FETCH_MY_TEAM_REQUESTS, FETCH_TEAMS, FETCH_TEAM_DETAILS,
+  SAVE_MY_TEAMS, SAVE_MY_TEAM_REQUESTS, SAVE_PENDING_INVITES, SAVE_TEAMS, SAVE_TEAM_DETAILS, SAVE_TEAM_MEMBER,
+  SAVE_TEAM_MEMBERS, SAVE_TEAM_MEMBER_ERROR, SAVE_TEAM_MEMBER_SUCCESS, SAVE_TEAM_NAME, SAVE_TEAM_NAME_ERROR, SAVE_TEAM_NAME_SUCCESS, SHOW_PROGRESS
 } from './constants';
 
 
@@ -82,13 +84,13 @@ const teamReducer = (state = initialState, action) =>
         draft.requests = action.requests;
         break;
 
-        case FETCH_MY_TEAMS:
-          draft.progress = true;
-          break;
+      case FETCH_MY_TEAMS:
+        draft.progress = true;
+        break;
 
-          case SAVE_MY_TEAMS:
-            draft.myTeams = action.teams;
-            break;
+      case SAVE_MY_TEAMS:
+        draft.myTeams = action.teams;
+        break;
     }
   });
 

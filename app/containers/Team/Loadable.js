@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for Earnings
+ * Asynchronously loads the component for Teams
  *
  */
 
