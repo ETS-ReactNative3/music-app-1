@@ -53,6 +53,13 @@ const makeSelectInfluencerUpdateProcessing = () =>
     substate => substate.updateInfluencerProcessing,
   );
 
+
+const makeSelectUserCountries = () =>
+createSelector(
+  selectAccountDomain,
+  substate => substate.countries,
+);
+
 export {
   makeSelectActivities,
   makeSelectReviews,
@@ -60,5 +67,6 @@ export {
   makeSelectRatingCount,
   makeSelectUpdateProcessing,
   makeSelectInfluencerUpdateProcessing,
-  makeSelectRecentReviews
+  makeSelectRecentReviews,
+  makeSelectUserCountries
 };

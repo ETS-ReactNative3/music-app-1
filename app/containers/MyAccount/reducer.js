@@ -10,6 +10,7 @@ import {
   PUT_REVIEWS,
   UPDATE_INFLUENCER_PROCESSING,
   UPDATE_PROCESSING,
+  SAVE_USERS_COUNTRIES
 } from './constants';
 
 export const initialState = {
@@ -19,6 +20,7 @@ export const initialState = {
   ratingCount: null,
   updateProcessing: false,
   updateInfluencerProcessing: false,
+  countries: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -40,6 +42,10 @@ const accountReducer = (state = initialState, action) =>
         break;
       case UPDATE_INFLUENCER_PROCESSING:
         draft.updateInfluencerProcessing = action.flag;
+        break;
+      case SAVE_USERS_COUNTRIES:
+        draft.countries = action.countries;
+        break;
     }
   });
 
