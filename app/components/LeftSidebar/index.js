@@ -6,6 +6,7 @@ import {
   faMusic,
   faPlusSquare,
   faUser,
+  faUsers,
   faWallet,
   faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
@@ -90,6 +91,18 @@ function LeftSideBar({role, isInfluencer}) {
                     <Link to="/earnings" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
                       <p className="d-inline-block m-0">Earnings</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/team" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                      <p className="d-inline-block m-0">Team</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/myteams" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                      <p className="d-inline-block m-0">My Teams</p>
                     </Link>
                   </li>
                 </>

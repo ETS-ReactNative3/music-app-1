@@ -30,6 +30,7 @@ import {Browse, BrowseAlbums} from '../Browse/Loadable';
 import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
 import {ArtistProfile, SupportedArtist} from '../Artist/Loadable';
 import {Earnings} from "../Earnings/Loadable";
+import {AddTeam, MyTeams, Team, TeamRequest, TeamSetting} from "../Team/Loadable";
 
 
 function useAuth() {
@@ -206,6 +207,21 @@ function Application() {
         </PrivateRoute>
         <PrivateRoute exact path="/earnings">
           <Earnings/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/team">
+          <Team/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/team/add">
+          <AddTeam/>
+        </PrivateRoute>
+        <PrivateRoute exact path="/team/:id/setting">
+          <TeamSetting />
+        </PrivateRoute>
+        <PrivateRoute exact path="/team/request">
+          <TeamRequest />
+        </PrivateRoute>
+        <PrivateRoute exact path="/myteams">
+          <MyTeams />
         </PrivateRoute>
       </Switch>
     </Dashboard>
