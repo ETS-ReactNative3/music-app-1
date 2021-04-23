@@ -7,7 +7,7 @@ import {
   UPDATE_USER_DETAILS,
   UPDATE_INFLUENCER_DETAILS,
   UPDATE_PROCESSING,
-  UPDATE_INFLUENCER_PROCESSING, UPDATE_REGULAR_USER_DETAILS, SAVE_USERS_COUNTRIES,FETCH_USERS_COUNTRIES
+  UPDATE_INFLUENCER_PROCESSING, UPDATE_REGULAR_USER_DETAILS, SAVE_USERS_COUNTRIES,FETCH_USERS_COUNTRIES, CHANGE_PASSWORD
 } from './constants';
 
 export function requestInfluencer(data) {
@@ -91,5 +91,12 @@ export const saveUsersCountriesAction = (countries) => {
   return {
     type: SAVE_USERS_COUNTRIES,
     countries
+  }
+}
+
+export const changePasswordAction  = (oldPassword, newPassword) => {
+  return {
+    type: CHANGE_PASSWORD,
+    oldPassword, newPassword
   }
 }

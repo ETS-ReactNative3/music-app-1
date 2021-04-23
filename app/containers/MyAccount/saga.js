@@ -199,5 +199,5 @@ export default function* accountSaga() {
   yield takeLatest(UPDATE_USER_DETAILS, updateUserDetailsSaga);
   yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailsSaga);
   yield takeLatest(UPDATE_REGULAR_USER_DETAILS, updateRegularUserSaga);
-  yield takeLatest(FETCH_USERS_COUNTRIES, fetchUserCountriesSaga)
+  yield takeLatest(FETCH_USERS_COUNTRIES, fetchUserCountriesSaga);
 }

@@ -38,6 +38,7 @@ import { fetchInfluencerStatsAction } from "../Influencer/actions";
 import { makeSelectInfluencerStats, makeSelectInfluencerStatsLoader } from "../Influencer/selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import { InfoCard } from './InfoCard';
+import ChangePassword from '../../components/ChangePassword';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -218,36 +219,38 @@ function MyAccount(
                     </Col>
                   </>
                 </Row>
-        ) || <Row className="mt-5">
-            <Col md={7} lg={8} xl={9}>
-              <div className="card bg-dark">
-                <div className="card-body profile-user-box">
+        ) || userDetails.artistInformation && <Row className="mt-5">
+          <Col md={7} lg={8} xl={9}>
+            <div className="card bg-dark">
+              <div className="card-body profile-user-box">
 
 
-                  <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                    Social Media
+                <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                  Social Media
               </h3>
-                  <div className="mb-3">
-                    <div style={styles.linkContainer}>
-                      {getValue(userDetails, ['artistInformation', 'facebook']) && renderSocialMedias(userDetails.artistInformation, 'facebook')}
-                      {getValue(userDetails, ['artistInformation', 'twitter']) && renderSocialMedias(userDetails.artistInformation, 'twitter')}
-                      {getValue(userDetails, ['artistInformation', 'instagram']) && renderSocialMedias(userDetails.artistInformation, 'instagram')}
-                      {getValue(userDetails, ['artistInformation', 'youtube']) && renderSocialMedias(userDetails.artistInformation, 'youtube')}
+                <div className="mb-3">
+                  <div style={styles.linkContainer}>
+                    {getValue(userDetails, ['artistInformation', 'facebook']) && renderSocialMedias(userDetails.artistInformation, 'facebook')}
+                    {getValue(userDetails, ['artistInformation', 'twitter']) && renderSocialMedias(userDetails.artistInformation, 'twitter')}
+                    {getValue(userDetails, ['artistInformation', 'instagram']) && renderSocialMedias(userDetails.artistInformation, 'instagram')}
+                    {getValue(userDetails, ['artistInformation', 'youtube']) && renderSocialMedias(userDetails.artistInformation, 'youtube')}
 
 
 
-                    </div>
-                    {getValue(userDetails, ['artistInformation', 'location']) && <><h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                      Location
-                  </h3>
-                      <div className="mb-3">
-                        {getValue(userDetails, ['artistInformation', 'location'])}
-                      </div>
-                    </>}
                   </div>
+                  {getValue(userDetails, ['artistInformation', 'location']) && <><h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                    Location
+                  </h3>
+                    <div className="mb-3">
+                      {getValue(userDetails, ['artistInformation', 'location'])}
+                    </div>
+                  </>}
                 </div>
               </div>
-            </Col></Row>}
+            </div>
+          </Col></Row>}
+
+        <ChangePassword/>
       </PaperCard>
     </>
   );
