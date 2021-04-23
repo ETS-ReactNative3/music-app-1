@@ -15,96 +15,93 @@ import PropTypes from 'prop-types';
 import React, { memo, useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as Yup from 'yup';
+import Select from 'react-select';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
-import ButtonLoader from "../../components/ButtonLoader";
-import PaperCard from "../../components/PaperCard";
+import ButtonLoader from '../../components/ButtonLoader';
+import PaperCard from '../../components/PaperCard';
 import {
   getSocialChannelsRequest,
   getGenres,
   becomeAnInfluencer,
-  getInfluencerProfile
-} from "./actions";
-import saga from "./saga";
-import reducer from "./reducer";
+  getInfluencerProfile,
+} from './actions';
+import saga from './saga';
+import reducer from './reducer';
 import {
   makeSelectGenres,
   makeSelectSocialChannels,
   makeSelectFormLoader,
   makeSelectProfile,
-  makeSelectLoader
-} from "./selectors";
-import Select from "react-select";
-import { makeSelectUserDetails } from "../App/selectors";
-import LoadingIndicator from "../../components/LoadingIndicator";
+  makeSelectLoader,
+} from './selectors';
+import { makeSelectUserDetails } from '../App/selectors';
+import LoadingIndicator from '../../components/LoadingIndicator';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import { capatilizeText, renderSocialMediaIcons } from '../../utils';
 
-function RequestForm(
-  {
-    genres,
-    socialChannels,
-    getGenreList,
-    getSocialChannelList,
-    formLoader,
-    submitInfluencer,
-    userDetails,
-    profile,
-    getMyProfile,
-    loading
-  }) {
+function RequestForm({
+  genres,
+  socialChannels,
+  getGenreList,
+  getSocialChannelList,
+  formLoader,
+  submitInfluencer,
+  userDetails,
+  profile,
+  getMyProfile,
+  loading,
+}) {
   useInjectReducer({ key: 'influencer', reducer });
   useInjectSaga({ key: 'influencer', saga });
 
-  const [showFacebook, setShowFacebook] = useState(false);
-  const [showTwitter, setShowTwitter] = useState(false);
-  const [showInstagram, setShowInstagram] = useState(false);
-  const [showYoutube, setShowYoutube] = useState(false);
-  const [showBlog, setShowBlog] = useState(false);
-  const [showRadio, setShowRadio] = useState(false);
-  const [showTiktok, setShowTiktok] = useState(false);
-
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required('Entity name is required'),
+    name: Yup.string().required('Entity name is required'),
     description: Yup.string()
       .min(6, 'Must be 6 characters or more')
       .required('Your description is required'),
     helpArtistDescription: Yup.string()
       .min(6, 'Must be 6 characters or more')
       .required('How can you help artists is required'),
-    genres: Yup.array(Yup.object({ value: Yup.string() })).required('Genres are required'),
+    genres: Yup.array(Yup.object({ value: Yup.string() })).required(
+      'Genres are required',
+    ),
+
+    services: Yup.array().of(Yup.object({
+      link: Yup.string().required('Link is required'),
+      price: Yup.number().typeError('Price should not be empty').min(0, 'Price should be greater than 0').required('Price is required'),
+      followers: Yup.number().typeError('Followers should not be empty').min(2000, 'Followers should be greater than 2000').required('Followers is required')
+    })).test(
+      'required',
+      'You must add one service',
+      services => services ? services.length >= 1 : false,
+    ).min(1, "Required")
   });
 
   const customStyles = {
     option: provided => ({
       ...provided,
-      color: 'black'
+      color: 'black',
     }),
     control: provided => ({
       ...provided,
-      color: 'black'
+      color: 'black',
     }),
-    singleValue: (provided) => ({
+    singleValue: provided => ({
       ...provided,
-      color: 'black'
+      color: 'black',
     }),
-    menu: provided => ({ ...provided, zIndex: 9999 })
-  }
+    menu: provided => ({ ...provided, zIndex: 9999 }),
+  };
 
-  const {
-    register,
-    handleSubmit,
-    errors,
-    control,
-    getValues
-  } = useForm({
-    // resolver: yupResolver(validationSchema),
+  const { register, handleSubmit, errors, control, getValues } = useForm({
+    resolver: yupResolver(validationSchema),
   });
 
   useEffect(() => {
@@ -116,13 +113,17 @@ function RequestForm(
   }, []);
 
   useEffect(() => {
-    register('genres', { minLength: 1, min: 1, required: 'Field is required', validate: (value) => value !== undefined })
+    register('genres', {
+      minLength: 1,
+      min: 1,
+      required: 'Field is required',
+      validate: value => value !== undefined,
+    });
   }, [register]);
 
   const onSubmit = data => {
-    const submitData = prepareDataForSubmit(data)
-    console.log(submitData, data);
-    // submitInfluencer(submitData)
+    const submitData = prepareDataForSubmit(data);
+    submitInfluencer(submitData)
   };
 
   const prepareDataForSubmit = data => {
@@ -131,119 +132,50 @@ function RequestForm(
       name: data.name,
       description: data.description,
       helpArtistDescription: data.helpArtistDescription,
-      genres: filteredGenres
-    }
-    submitData.services = [];
+      genres: filteredGenres,
+    };
+    submitData.services = data.services.map((sevice, index) => {
+      return {
+        ...sevice,
+        socialChannelsId: fields[index].socialChannelsId
+      }
+    });
 
-    if (data.hasOwnProperty('facebook')) {
-      submitData.services.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'facebook').id,
-        followers: data.facebook.followers,
-        price: data.facebook.price,
-        link: data.facebook.link
-      })
-    }
 
-    if (data.hasOwnProperty('twitter')) {
-      submitData.services.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'twitter').id,
-        followers: data.twitter.followers,
-        price: data.twitter.price,
-        link: data.twitter.link
-      })
-    }
+    return submitData;
+  };
 
-    if (data.hasOwnProperty('youtube')) {
-      submitData.services.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'youtube').id,
-        followers: data.youtube.followers,
-        price: data.youtube.price,
-        link: data.youtube.link
-      })
-    }
 
-    if (data.hasOwnProperty('blog')) {
-      submitData.services.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'blog').id,
-        followers: data.blog.followers,
-        price: data.blog.price,
-        link: data.blog.link
-      })
-    }
-
-    if (data.hasOwnProperty('instagram')) {
-      submitData.services.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'instagram').id,
-        followers: data.instagram.followers,
-        price: data.instagram.price,
-        link: data.instagram.link
-      })
-    }
-    if (data.hasOwnProperty('radio')) {
-      submitData.services.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'radio').id,
-        followers: data.radio.followers,
-        price: data.radio.price,
-        link: data.radio.link
-      })
-    }
-    if (data.hasOwnProperty('tiktok')) {
-      submitData.services.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'tiktok').id,
-        followers: data.tiktok.followers,
-        price: data.tiktok.price,
-        link: data.tiktok.link
-      })
-    }
-
-    return submitData
-  }
+  const { fields, remove, insert } = useFieldArray({
+    control,
+    name: 'services',
+  });
 
   const socialChannelChange = event => {
-    switch (event.target.value) {
-      case 'facebook':
-        setShowFacebook(!showFacebook);
-        break;
-      case 'twitter':
-        setShowTwitter(!showTwitter);
-        break;
-      case 'instagram':
-        setShowInstagram(!showInstagram);
-        break;
-      case 'youtube':
-        setShowYoutube(!showYoutube);
-        break;
-      case 'blog':
-        setShowBlog(!showBlog);
-        break;
-      case 'radio':
-        setShowRadio(!showRadio);
-        break;
-      case 'tiktok':
-        setShowTiktok(!showTiktok);
-        break;
-    }
-  }
+    const index = fields.findIndex(field => field.socialChannelName === event.target.value)
+    if (index === -1) insert(socialChannels.findIndex(socialChannel => socialChannel.title === event.target.value), { link: '', price: 0, followers: 0, socialChannelName: event.target.value, socialChannelsId: socialChannels.find(x => x.title === event.target.value).id })
+    else remove(fields.findIndex(field => field.socialChannelName === event.target.value))
 
-  const { fields, append, remove, } = useFieldArray({
-    control,
-    name: "services",
-  });
+  };
+
 
   return (
     <PaperCard title="Request To Become An Influencer">
       {loading && <LoadingIndicator />}
-      {profile && profile.influencerStatusId === 3 ?
+      {profile && profile.influencerStatusId === 3 ? (
         <div className="m-3">
           <div>
             <h2>Almost there! </h2>
           </div>
           <div>
-            Your application is currently being reviewed by our team. Reviewing applications usually takes us from 1 to
-            5 days and you'll be updated by email if your influencer profile gets activated. Don't forget to fill in
-            your profile entirely to help us review your application faster.
+            Your application is currently being reviewed by our team. Reviewing
+            applications usually takes us from 1 to 5 days and you'll be updated
+            by email if your influencer profile gets activated. Don't forget to
+            fill in your profile entirely to help us review your application
+            faster.
           </div>
-        </div> :
+        </div>
+      ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridTitle">
@@ -273,7 +205,8 @@ function RequestForm(
                   color="white"
                   icon={faMusic}
                   style={{ marginRight: 5 }}
-                />Genres
+                />
+                Genres
               </div>
               <Controller
                 name="genres"
@@ -281,8 +214,8 @@ function RequestForm(
                 control={control}
                 isMulti
                 isClearable
-                getOptionLabel={(option) => option.title}
-                getOptionValue={(option) => option.id}
+                getOptionLabel={option => option.title}
+                getOptionValue={option => option.id}
                 options={genres}
                 as={Select}
               />
@@ -305,7 +238,8 @@ function RequestForm(
               <textarea
                 name="description"
                 placeholder="Tell us about yourself"
-                className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.description ? 'is-invalid' : ''
+                  }`}
                 ref={register({ required: 'Description is required' })}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
@@ -325,11 +259,13 @@ function RequestForm(
               <textarea
                 name="helpArtistDescription"
                 placeholder="How I can help artists"
-                className={`form-control ${errors.helpArtistDescription ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.helpArtistDescription ? 'is-invalid' : ''
+                  }`}
                 ref={register({ required: 'Description is required' })}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
-                {errors.helpArtistDescription && errors.helpArtistDescription.message}
+                {errors.helpArtistDescription &&
+                  errors.helpArtistDescription.message}
               </div>
             </Form.Group>
           </Form.Row>
@@ -362,9 +298,9 @@ function RequestForm(
               ))}
             </Form.Group>
           </Form.Row>
-          {fields && fields.map((field, index) => {
-            return (
-              <div>
+          {fields &&
+            fields.map((field, index) => (
+              <div key={field.id}>
                 <div
                   style={{
                     marginTop: 5,
@@ -379,13 +315,8 @@ function RequestForm(
                     paddingTop: 5,
                   }}
                 >
-                  <FontAwesomeIcon
-                    size="1x"
-                    color={PLAY_ICON_BG_COLOR}
-                    icon={faFacebook}
-                    style={{ marginRight: 5 }}
-                  />
-                  <div style={{ fontSize: 18 }}>Facebook</div>
+                  {renderSocialMediaIcons(field.socialChannelName, '1x', { marginRight: 5 }, PLAY_ICON_BG_COLOR)}
+                  <div style={{ fontSize: 18 }}>{capatilizeText(field.socialChannelName)}</div>
                 </div>
                 <Form.Row>
                   <Form.Group as={Col} controlId="formGridGenre">
@@ -394,12 +325,15 @@ function RequestForm(
                       style={{ width: '50%' }}
                       name={`services[${index}].link`}
                       placeholder="Enter url"
-                      className={`form-control ${errors.facebook && errors.facebook.link ? 'is-invalid' : ''
+                      className={`form-control ${errors.services && errors.services[index] && errors.services[index].link
+                        ? 'is-invalid'
+                        : ''
                         }`}
                       ref={register({ required: 'Field is required' })}
                     />
                     <div className="invalid-feedback">
-                      {errors.facebook && errors.facebook.link && errors.facebook.link.message}
+                      {errors.services && errors.services[index] && errors.services[index].link &&
+                        errors.services[index].link.message}
                     </div>
                   </Form.Group>
                 </Form.Row>
@@ -411,11 +345,15 @@ function RequestForm(
                       name={`services[${index}].price`}
                       placeholder="Enter amt."
                       inputMode="numeric"
-                      className={`form-control ${errors.facebook && errors.facebook.price ? 'is-invalid' : ''
+                      className={`form-control ${errors.services && errors.services[index] && errors.services[index].price
+                        ? 'is-invalid'
+                        : ''
                         }`}
                       ref={register({ required: 'Field is required' })}
-                    /><div className="invalid-feedback">
-                      {errors.facebook && errors.facebook.price && errors.facebook.price.message}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.services && errors.services[index] && errors.services[index].price &&
+                        errors.services[index].price.message}
                     </div>
                   </Form.Group>
                   <Form.Group as={Col} controlId="formGridGenre">
@@ -424,505 +362,22 @@ function RequestForm(
                       type="number"
                       name={`services[${index}].followers`}
                       placeholder="Enter count"
-                      className={`form-control ${errors.facebook && errors.facebook.followers ? 'is-invalid' : ''
+                      className={`form-control ${errors.services && errors.services[index] && errors.services[index].followers
+                        ? 'is-invalid'
+                        : ''
                         }`}
                       ref={register({ required: 'Field is required' })}
-                    /><div className="invalid-feedback">
-                      {errors.facebook && errors.facebook.followers && errors.facebook.followers.message}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.services && errors.services[index] && errors.services[index].followers && errors.services[index].followers.message}
                     </div>
                   </Form.Group>
                 </Form.Row>
-              </div>)
-          })}
-          {/* {showFacebook && <div className="facebook-section">
-            <div
-              style={{
-                marginTop: 5,
-                marginBottom: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'green',
-                borderStyle: 'solid',
-                borderTopWidth: 1,
-                paddingTop: 5,
-              }}
-            >
-              <FontAwesomeIcon
-                size="1x"
-                color={PLAY_ICON_BG_COLOR}
-                icon={faFacebook}
-                style={{ marginRight: 5 }}
-              />
-              <div style={{ fontSize: 18 }}>Facebook</div>
-            </div>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="email">Link</label>
-                <input
-                  style={{ width: '50%' }}
-                  name="facebook.link"
-                  placeholder="Enter url"
-                  className={`form-control ${errors.facebook && errors.facebook.link ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.facebook && errors.facebook.link && errors.facebook.link.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Price</label>
-                <input
-                  type="number"
-                  name="facebook.price"
-                  placeholder="Enter amt."
-                  inputMode="numeric"
-                  className={`form-control ${errors.facebook && errors.facebook.price ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                /><div className="invalid-feedback">
-                  {errors.facebook && errors.facebook.price && errors.facebook.price.message}
-                </div>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Followers Count</label>
-                <input
-                  type="number"
-                  name="facebook.followers"
-                  placeholder="Enter count"
-                  className={`form-control ${errors.facebook && errors.facebook.followers ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                /><div className="invalid-feedback">
-                  {errors.facebook && errors.facebook.followers && errors.facebook.followers.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-          </div>}
-          {showTwitter && <div className="twitter-section">
-            <div
-              style={{
-                marginTop: 5,
-                marginBottom: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'green',
-                borderStyle: 'solid',
-                borderTopWidth: 1,
-                paddingTop: 5,
-              }}
-            >
-              <FontAwesomeIcon
-                size="1x"
-                icon={faTwitter}
-                color={PLAY_ICON_BG_COLOR}
-                style={{ marginRight: 5 }}
-              />
-              <div style={{ fontSize: 18 }}>Twitter</div>
-            </div>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="email">Link</label>
-                <input
-                  style={{ width: '50%' }}
-                  name="twitter.link"
-                  placeholder="Enter url"
-                  className={`form-control ${errors.twitter && errors.twitter.link ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.twitter && errors.twitter.link && errors.twitter.link.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Price</label>
-                <input
-                  type="number"
-                  name="twitter.price"
-                  placeholder="Enter amt."
-                  className={`form-control ${errors.twitter && errors.twitter.price ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.twitter && errors.twitter.price && errors.twitter.price.message}
-                </div>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Followers Count</label>
-                <input
-                  type="number"
-                  name="twitter.followers"
-                  placeholder="Enter count"
-                  className={`form-control ${errors.twitter && errors.twitter.followers ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.twitter && errors.twitter.followers && errors.twitter.followers.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-          </div>}
-          {showInstagram && <div className="instagram-section">
-            <div
-              style={{
-                marginTop: 5,
-                marginBottom: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'green',
-                borderStyle: 'solid',
-                borderTopWidth: 1,
-                paddingTop: 5,
-              }}
-            >
-              <FontAwesomeIcon
-                size="1x"
-                color={PLAY_ICON_BG_COLOR}
-                icon={faInstagram}
-                style={{ marginRight: 5 }}
-              />
-              <div style={{ fontSize: 18 }}>Instagram</div>
-            </div>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="email">Link</label>
-                <input
-                  style={{ width: '50%' }}
-                  name="instagram.link"
-                  placeholder="Enter url"
-                  className={`form-control ${errors.instagram && errors.instagram.link ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.instagram && errors.instagram.link && errors.instagram.link.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Price</label>
-                <input
-                  type="number"
-                  name="instagram.price"
-                  placeholder="Enter amt."
-                  className={`form-control ${errors.instagram && errors.instagram.price ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.instagram && errors.instagram.price && errors.instagram.price.message}
-                </div>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Followers Count</label>
-                <input
-                  type="number"
-                  name="instagram.followers"
-                  placeholder="Enter count"
-                  className={`form-control ${errors.instagram && errors.instagram.followers ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.instagram && errors.instagram.followers && errors.instagram.followers.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-          </div>}
-          {showYoutube && <div className="youtube-section">
-            <div
-              style={{
-                marginTop: 5,
-                marginBottom: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'green',
-                borderStyle: 'solid',
-                borderTopWidth: 1,
-                paddingTop: 5,
-              }}
-            >
-              <FontAwesomeIcon
-                size="1x"
-                color={PLAY_ICON_BG_COLOR}
-                icon={faYoutube}
-                style={{ marginRight: 5 }}
-              />
-              <div style={{ fontSize: 18 }}>Youtube</div>
-            </div>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="email">Link</label>
-                <input
-                  style={{ width: '50%' }}
-                  name="youtube.link"
-                  placeholder="Enter url"
-                  className={`form-control ${errors.youtube && errors.youtube.link ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.youtube && errors.youtube.link && errors.youtube.link.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Price</label>
-                <input
-                  name="youtube.price"
-                  type="number"
-                  placeholder="Enter amt."
-                  className={`form-control ${errors.youtube && errors.youtube.price ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.youtube && errors.youtube.price && errors.youtube.price.message}
-                </div>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Followers Count</label>
-                <input
-                  name="youtube.followers"
-                  type="number"
-                  placeholder="Enter count"
-                  className={`form-control ${errors.youtube && errors.youtube.followers ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.youtube && errors.youtube.followers && errors.youtube.followers.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-          </div>}
-          {showBlog && <div className="blog-section">
-            <div
-              style={{
-                marginTop: 5,
-                marginBottom: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'green',
-                borderStyle: 'solid',
-                borderTopWidth: 1,
-                paddingTop: 5,
-              }}
-            >
-              <FontAwesomeIcon
-                size="1x"
-                color={PLAY_ICON_BG_COLOR}
-                icon={faBlog}
-                style={{ marginRight: 5 }}
-              />
-              <div style={{ fontSize: 18 }}>Blog</div>
-            </div>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="email">Link</label>
-                <input
-                  style={{ width: '50%' }}
-                  name="blog.link"
-                  placeholder="Enter url"
-                  className={`form-control ${errors.blog && errors.blog.link ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.blog && errors.blog.link && errors.blog.link.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Price</label>
-                <input
-                  name="blog.price"
-                  type="number"
-                  placeholder="Enter amt."
-                  className={`form-control ${errors.blog && errors.blog.price ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.blog && errors.blog.price && errors.blog.price.message}
-                </div>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Followers Count</label>
-                <input
-                  name="blog.followers"
-                  type="number"
-                  placeholder="Enter count"
-                  className={`form-control ${errors.blog && errors.blog.followers ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.blog && errors.blog.followers && errors.blog.followers.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-          </div>}
-          {showRadio && <div className="blog-section">
-            <div
-              style={{
-                marginTop: 5,
-                marginBottom: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'green',
-                borderStyle: 'solid',
-                borderTopWidth: 1,
-                paddingTop: 5,
-              }}
-            >
-              <FontAwesomeIcon
-                size="1x"
-                color={PLAY_ICON_BG_COLOR}
-                icon={faBlog}
-                style={{ marginRight: 5 }}
-              />
-              <div style={{ fontSize: 18 }}>Radio</div>
-            </div>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="email">Link</label>
-                <input
-                  style={{ width: '50%' }}
-                  name="radio.link"
-                  placeholder="Enter url"
-                  className={`form-control ${errors.radio && errors.radio.link ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.radio && errors.radio.link && errors.radio.link.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Price</label>
-                <input
-                  name="radio.price"
-                  type="number"
-                  placeholder="Enter amt."
-                  className={`form-control ${errors.radio && errors.radio.price ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.radio && errors.radio.price && errors.radio.price.message}
-                </div>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Followers Count</label>
-                <input
-                  name="radio.followers"
-                  type="number"
-                  placeholder="Enter count"
-                  className={`form-control ${errors.radio && errors.radio.followers ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.radio && errors.radio.followers && errors.radio.followers.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-          </div>}
-          {showTiktok && <div className="blog-section">
-            <div
-              style={{
-                marginTop: 5,
-                marginBottom: 10,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'green',
-                borderStyle: 'solid',
-                borderTopWidth: 1,
-                paddingTop: 5,
-              }}
-            >
-              <FontAwesomeIcon
-                size="1x"
-                color={PLAY_ICON_BG_COLOR}
-                icon={faBlog}
-                style={{ marginRight: 5 }}
-              />
-              <div style={{ fontSize: 18 }}>Tiktok</div>
-            </div>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="email">Link</label>
-                <input
-                  style={{ width: '50%' }}
-                  name="tiktok.link"
-                  placeholder="Enter url"
-                  className={`form-control ${errors.tiktok && errors.tiktok.link ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.tiktok && errors.tiktok.link && errors.tiktok.link.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-            <Form.Row>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Price</label>
-                <input
-                  name="tiktok.price"
-                  type="number"
-                  placeholder="Enter amt."
-                  className={`form-control ${errors.tiktok && errors.tiktok.price ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.tiktok && errors.tiktok.price && errors.tiktok.price.message}
-                </div>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridGenre">
-                <label htmlFor="releaseDate">Followers Count</label>
-                <input
-                  name="tiktok.followers"
-                  type="number"
-                  placeholder="Enter count"
-                  className={`form-control ${errors.tiktok && errors.tiktok.followers ? 'is-invalid' : ''
-                    }`}
-                  ref={register({ required: 'Field is required' })}
-                />
-                <div className="invalid-feedback">
-                  {errors.tiktok && errors.tiktok.followers && errors.tiktok.followers.message}
-                </div>
-              </Form.Group>
-            </Form.Row>
-          </div>} */}
+              </div>
+            ))}
+          <div className="invalid-feedback mb-4" style={{ display: 'block' }}>
+                {(errors.services && fields.length === 0) && errors.services.message}
+              </div>
 
           {formLoader ? (
             <ButtonLoader />
@@ -932,7 +387,7 @@ function RequestForm(
             </button>
           )}
         </form>
-      }
+      )}
     </PaperCard>
   );
 }
@@ -955,7 +410,7 @@ const mapStateToProps = createStructuredSelector({
   formLoader: makeSelectFormLoader(),
   profile: makeSelectProfile(),
   userDetails: makeSelectUserDetails(),
-  loading: makeSelectLoader()
+  loading: makeSelectLoader(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -963,7 +418,7 @@ function mapDispatchToProps(dispatch) {
     getGenreList: () => dispatch(getGenres()),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
     submitInfluencer: data => dispatch(becomeAnInfluencer(data)),
-    getMyProfile: () => dispatch(getInfluencerProfile())
+    getMyProfile: () => dispatch(getInfluencerProfile()),
   };
 }
 
