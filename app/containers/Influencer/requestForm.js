@@ -116,12 +116,13 @@ function RequestForm(
   }, []);
 
   useEffect(() => {
-    register('genres', {minLength: 1, min: 1, required: 'Field is required', validate: (value) =>  value !== undefined})
+    register('genres', { minLength: 1, min: 1, required: 'Field is required', validate: (value) => value !== undefined })
   }, [register]);
 
   const onSubmit = data => {
     const submitData = prepareDataForSubmit(data)
-    submitInfluencer(submitData)
+    console.log(submitData, data);
+    // submitInfluencer(submitData)
   };
 
   const prepareDataForSubmit = data => {
@@ -224,6 +225,11 @@ function RequestForm(
     }
   }
 
+  const { fields, append, remove, } = useFieldArray({
+    control,
+    name: "services",
+  });
+
   return (
     <PaperCard title="Request To Become An Influencer">
       {loading && <LoadingIndicator />}
@@ -254,7 +260,7 @@ function RequestForm(
                 name="name"
                 placeholder="Entity"
                 className={`form-control ${errors.name ? 'is-invalid' : ''}`}
-                ref={register({required: 'Entity name is required'})}
+                ref={register({ required: 'Entity name is required' })}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
                 {errors.name && errors.name.message}
@@ -300,7 +306,7 @@ function RequestForm(
                 name="description"
                 placeholder="Tell us about yourself"
                 className={`form-control ${errors.description ? 'is-invalid' : ''}`}
-                ref={register({required: 'Description is required'})}
+                ref={register({ required: 'Description is required' })}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
                 {errors.description && errors.description.message}
@@ -320,7 +326,7 @@ function RequestForm(
                 name="helpArtistDescription"
                 placeholder="How I can help artists"
                 className={`form-control ${errors.helpArtistDescription ? 'is-invalid' : ''}`}
-                ref={register({required: 'Description is required'})}
+                ref={register({ required: 'Description is required' })}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
                 {errors.helpArtistDescription && errors.helpArtistDescription.message}
@@ -356,7 +362,79 @@ function RequestForm(
               ))}
             </Form.Group>
           </Form.Row>
-          {showFacebook && <div className="facebook-section">
+          {fields && fields.map((field, index) => {
+            return (
+              <div>
+                <div
+                  style={{
+                    marginTop: 5,
+                    marginBottom: 10,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    borderWidth: 0,
+                    borderColor: 'green',
+                    borderStyle: 'solid',
+                    borderTopWidth: 1,
+                    paddingTop: 5,
+                  }}
+                >
+                  <FontAwesomeIcon
+                    size="1x"
+                    color={PLAY_ICON_BG_COLOR}
+                    icon={faFacebook}
+                    style={{ marginRight: 5 }}
+                  />
+                  <div style={{ fontSize: 18 }}>Facebook</div>
+                </div>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="email">Link</label>
+                    <input
+                      style={{ width: '50%' }}
+                      name={`services[${index}].link`}
+                      placeholder="Enter url"
+                      className={`form-control ${errors.facebook && errors.facebook.link ? 'is-invalid' : ''
+                        }`}
+                      ref={register({ required: 'Field is required' })}
+                    />
+                    <div className="invalid-feedback">
+                      {errors.facebook && errors.facebook.link && errors.facebook.link.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Price</label>
+                    <input
+                      type="number"
+                      name={`services[${index}].price`}
+                      placeholder="Enter amt."
+                      inputMode="numeric"
+                      className={`form-control ${errors.facebook && errors.facebook.price ? 'is-invalid' : ''
+                        }`}
+                      ref={register({ required: 'Field is required' })}
+                    /><div className="invalid-feedback">
+                      {errors.facebook && errors.facebook.price && errors.facebook.price.message}
+                    </div>
+                  </Form.Group>
+                  <Form.Group as={Col} controlId="formGridGenre">
+                    <label htmlFor="releaseDate">Followers Count</label>
+                    <input
+                      type="number"
+                      name={`services[${index}].followers`}
+                      placeholder="Enter count"
+                      className={`form-control ${errors.facebook && errors.facebook.followers ? 'is-invalid' : ''
+                        }`}
+                      ref={register({ required: 'Field is required' })}
+                    /><div className="invalid-feedback">
+                      {errors.facebook && errors.facebook.followers && errors.facebook.followers.message}
+                    </div>
+                  </Form.Group>
+                </Form.Row>
+              </div>)
+          })}
+          {/* {showFacebook && <div className="facebook-section">
             <div
               style={{
                 marginTop: 5,
@@ -844,15 +922,15 @@ function RequestForm(
                 </div>
               </Form.Group>
             </Form.Row>
-          </div>}
+          </div>} */}
 
           {formLoader ? (
             <ButtonLoader />
           ) : (
-              <button className="btn btn-primary btn-block" type="submit">
-                Submit
-              </button>
-            )}
+            <button className="btn btn-primary btn-block" type="submit">
+              Submit
+            </button>
+          )}
         </form>
       }
     </PaperCard>
