@@ -62,6 +62,7 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
     {
       dataField: 'role.title',
       text: 'Role',
+      formatter: roleFormatter,
       style: {
         width: '10%',
       },
@@ -115,6 +116,21 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
     }
 
     return <span>Active</span>;
+  }
+
+  function roleFormatter(cell, row) {
+    if (row.influencerId) {
+      return (
+        <span>Influencer</span>
+      )
+    }
+    else if (row.role) {
+      return (
+        <span>{row.role.title}</span>
+      );
+    }
+
+    return <span>Regular</span>;
   }
 
   function actionsFormatter(cell, row, rowIndex, formatExtraData) {
