@@ -30,6 +30,7 @@ import {
   fetchInfluencerStatsSuccessAction,
 } from './actions';
 import history from '../../utils/history';
+import { getUserDetails } from '../App/actions';
 
 function becomeInfuencer(data) {
   return axiosInstance().post('/influencers', data);
@@ -64,6 +65,7 @@ export function* becomeAnInfluencerSaga({ data }) {
     const result = yield call(becomeInfuencer, data);
     yield put(becomeAnInfluencerSucces(result.data));
     toast.success('Request to become an influencer is sent successfully.');
+    yield put(getUserDetails());   
     history.push('/');
   } catch (e) {
     toast.error(e.message);
