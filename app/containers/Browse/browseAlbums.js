@@ -50,6 +50,7 @@ const BrowseAlbums = ({fetchAlbums, albums, loading}) => {
               </Card>
             </Link>
           })}
+          {albums.length === 0 && <div className="mt-5"><h4>No Album found for these category.</h4></div>}
         </div>
 
       </PaperCard> : <LoadingIndicator/>}

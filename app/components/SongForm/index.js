@@ -61,6 +61,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
     }),
     menu: provided => ({ ...provided, zIndex: 9999 }),
   };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -175,6 +176,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
                   ref={register}
                   onChange={handleAudioChange}
                   id="inputGroupFile02"
+                  required
                   aria-describedby="inputGroupFileAddon02" />
                 <label className="custom-file-label" htmlFor="inputGroupFile02">Choose file</label>
               </div>
