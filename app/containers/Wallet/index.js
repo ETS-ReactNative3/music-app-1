@@ -68,6 +68,7 @@ export function Wallet({userCredit}) {
       '/order/create-checkout-session',
       {
         price: (+amount + (+amount * 0.30)),
+        number: amount
       },
     );
 

@@ -140,6 +140,7 @@ export function* updateSongSaga({data}) {
       description: data.description,
       genreId: data.genreId,
       releaseDate: data.releaseDate,
+      explicitContent: data.explicitContent,
       moods: data.moods.map(mood => mood.id)
     }
 

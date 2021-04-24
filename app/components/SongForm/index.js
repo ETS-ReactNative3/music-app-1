@@ -158,6 +158,19 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
               {errors.moods && errors.moods.message}
             </div>
           </Form.Group>
+          <Form.Group as={Col} controlId="formGridPublish">
+            <label htmlFor="explicitContent">Explicit Content</label>
+            <Form.Check
+              type="switch"
+              name="explicitContent"
+              id="custom-switch"
+              ref={register}
+              label="Explicit Content"
+            />
+            <div className="invalid-feedback">
+              {errors.explicitContent && errors.explicitContent.message}
+            </div>
+          </Form.Group>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} controlId="fileGridGenre">
