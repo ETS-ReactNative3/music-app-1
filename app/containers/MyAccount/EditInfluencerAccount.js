@@ -142,8 +142,8 @@ const EditInfluencerAccount = ({
 
   const prepareData = influencerProfileInner => {
     if (influencerProfileInner && Object.keys(influencerProfileInner).length === 0) return {};
-    let dataInner = { ...influencerProfileInner };
-    delete dataInner.name;
+    let dataInner = { ...influencerProfileInner, influencerName: influencerProfileInner.name };
+    // delete dataInner.name;
 
     influencerProfileInner.influencerServices.map(service => {
       dataInner = {
