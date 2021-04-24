@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import { initialState } from './reducer';
+import {createSelector} from 'reselect';
+import {initialState} from './reducer';
 
 /**
  * Direct selector to the song state domain
@@ -43,18 +43,27 @@ const makeSelectGenres = () =>
 
 
 const makeSelectMoods = () =>
-createSelector(
-  selectSongDomain,
-  substate => {
-    return substate.moods;
-  },
-);
+  createSelector(
+    selectSongDomain,
+    substate => {
+      return substate.moods;
+    },
+  );
 
 const makeSelectSongFormLoader = () =>
   createSelector(
     selectSongDomain,
     substate => substate.songFormLoading,
   );
+
+const makeSelectTeamMembers = () =>
+  createSelector(
+    selectSongDomain,
+    substate => {
+      return substate.members;
+    },
+  );
+
 
 export {
   selectSongDomain,
@@ -64,4 +73,5 @@ export {
   makeSelectGenres,
   makeSelectMoods,
   makeSelectSongFormLoader,
+  makeSelectTeamMembers
 };
