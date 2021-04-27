@@ -10,9 +10,11 @@ import {
   putUserReviews,
   updateInfluencerProcessingAction,
   updateProcessingAction,
+  saveUsersCountriesAction
 } from './actions';
 import {
   FETCH_ACTIVITY,
+  FETCH_USERS_COUNTRIES,
   REQUEST_INFLUENCER,
   UPDATE_INFLUENCER_DETAILS, UPDATE_REGULAR_USER_DETAILS,
   UPDATE_USER_DETAILS,
@@ -40,6 +42,10 @@ function updateArtistDetailsApi(data) {
 
 function updateInfluencerDetailsApi(data) {
   return axiosInstance().put('influencers', data);
+}
+
+function fetchUserCountriesAPI() {
+  return axiosInstance().get('users/countries');
 }
 
 function updateAvatar(data) {
@@ -178,10 +184,20 @@ function* updateInfluencerDetailsSaga(action) {
   }
 }
 
+function* fetchUserCountriesSaga() {
+  try {
+    const result = yield call(fetchUserCountriesAPI);
+    yield put(saveUsersCountriesAction(result.data))
+  } catch (e) {
+    yield put(saveUsersCountriesAction([]))
+  }
+}
+
 export default function* accountSaga() {
   yield takeLatest(REQUEST_INFLUENCER, requestInfluencerSaga);
   yield takeLatest(FETCH_ACTIVITY, getUserActivitiesSaga);
   yield takeLatest(UPDATE_USER_DETAILS, updateUserDetailsSaga);
   yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailsSaga);
   yield takeLatest(UPDATE_REGULAR_USER_DETAILS, updateRegularUserSaga);
+  yield takeLatest(FETCH_USERS_COUNTRIES, fetchUserCountriesSaga)
 }

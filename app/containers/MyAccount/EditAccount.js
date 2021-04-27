@@ -1,32 +1,33 @@
-import {yupResolver} from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import PropTypes from 'prop-types';
-import React, {memo} from 'react';
-import {Button, Card, Col, Form, Image} from 'react-bootstrap';
-import {useForm} from 'react-hook-form';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import React, { memo } from 'react';
+import { Button, Card, Col, Form, Image } from 'react-bootstrap';
+import { Controller, useForm } from 'react-hook-form';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import * as Yup from 'yup';
+import Select from 'react-select';
 import ButtonLoader from '../../components/ButtonLoader';
-import {useInjectReducer} from '../../utils/injectReducer';
-import {useInjectSaga} from '../../utils/injectSaga';
-import {getGenres} from '../Album/actions';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { getGenres } from '../Album/actions';
 import albumReducer from '../Album/reducer';
 import albumSaga from '../Album/saga';
-import {makeSelectGenres} from '../Album/selectors';
+import { makeSelectGenres } from '../Album/selectors';
 import {
   makeSelectInfluencerDetails,
   makeSelectUserDetails,
 } from '../App/selectors';
-import {getSocialChannelsRequest} from '../Influencer/actions';
+import { getSocialChannelsRequest } from '../Influencer/actions';
 import influencerReducer from '../Influencer/reducer';
 import influencerSaga from '../Influencer/saga';
-import {updateRegularUser, updateUserDetailsAction} from './actions';
+import { updateRegularUser, updateUserDetailsAction, fetchUsersCountriesAction } from './actions';
 import EditInfluencerAccount from './EditInfluencerAccount';
 import styles from './index.styles';
 import accountReducer from './reducer';
 import accountSaga from './saga';
-import {makeSelectUpdateProcessing} from './selectors';
+import { makeSelectUpdateProcessing, makeSelectUserCountries } from './selectors';
 import PaperCard from "../../components/PaperCard";
 
 const EditAccount = (
@@ -38,26 +39,29 @@ const EditAccount = (
     updateUserDetails,
     updateProcessing,
     getGenreList,
-    regularUserUpdate
+    regularUserUpdate,
+    fetchUsersCountries,
+    countries
   }) => {
-  useInjectReducer({key: 'influencer', reducer: influencerReducer});
-  useInjectSaga({key: 'influencer', saga: influencerSaga});
+  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
+  useInjectSaga({ key: 'influencer', saga: influencerSaga });
 
-  useInjectSaga({key: 'album', saga: albumSaga});
-  useInjectReducer({key: 'album', reducer: albumReducer});
-  useInjectSaga({key: 'account', saga: accountSaga});
-  useInjectReducer({key: 'account', reducer: accountReducer});
+  useInjectSaga({ key: 'album', saga: albumSaga });
+  useInjectReducer({ key: 'album', reducer: albumReducer });
+  useInjectSaga({ key: 'account', saga: accountSaga });
+  useInjectReducer({ key: 'account', reducer: accountReducer });
   const [data, setData] = React.useState({});
   const [coverPhoto, setCoverPhoto] = React.useState({});
 
   React.useEffect(() => {
     getGenreList();
     getSocialChannelList();
+    fetchUsersCountries();
   }, []);
 
   function handleFileChange(event) {
-    const {target} = event;
-    const {files} = target;
+    const { target } = event;
+    const { files } = target;
 
     if (files && files[0]) {
       const reader = new FileReader();
@@ -70,8 +74,8 @@ const EditAccount = (
   }
 
   function handleCoverFileChange(event) {
-    const {target} = event;
-    const {files} = target;
+    const { target } = event;
+    const { files } = target;
 
     if (files && files[0]) {
       const reader = new FileReader();
@@ -93,17 +97,18 @@ const EditAccount = (
     name: Yup.string().required('Name is required'),
   });
 
-  const {register, handleSubmit, errors, reset} = useForm({
+  const { register, handleSubmit, errors, reset, control, getValues } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = submitData => {
     if (userDetails.roleId === 1) {
-      regularUserUpdate({...submitData, profilePhoto: data}, Object.keys(data).length > 0)
+      regularUserUpdate({ ...submitData, profilePhoto: data }, Object.keys(data).length > 0)
     } else {
       updateUserDetails({
         ...submitData,
         profilePhoto: data,
+        countryId: submitData.countryId && submitData.countryId.id || '',
         coverPhotoLocal: coverPhoto
       }, Object.keys(data).length > 0, Object.keys(coverPhoto).length > 0);
     }
@@ -120,24 +125,40 @@ const EditAccount = (
   React.useEffect(() => {
     const tempFullGenre = [];
     influencerProfile && Object.keys(influencerProfile).length > 0 &&
-    influencerProfile.influencerGenres.map(generToSearch => {
-      const index = genres.findIndex(
-        genre => genre.id === generToSearch.genreId,
-      );
-      if (index !== -1) tempFullGenre.push(genres[index]);
-      return true;
-    });
+      influencerProfile.influencerGenres.map(generToSearch => {
+        const index = genres.findIndex(
+          genre => genre.id === generToSearch.genreId,
+        );
+        if (index !== -1) tempFullGenre.push(genres[index]);
+        return true;
+      });
     reset({
       ...userDetails.artistInformation,
+      countryId: userDetails.artistInformation ? userDetails.artistInformation.country : null,
       ...userDetails,
       ...prepareData(influencerProfile),
       genres: tempFullGenre,
     });
   }, [userDetails && influencerProfile]);
-
+  const customStyles = {
+    option: provided => ({
+      ...provided,
+      color: 'black',
+    }),
+    control: provided => ({
+      ...provided,
+      color: 'black',
+      backgroundColor: '#020f1f'
+    }),
+    singleValue: provided => ({
+      ...provided,
+      color: 'white',
+    }),
+    menu: provided => ({ ...provided, zIndex: 9999 }),
+  };
   const prepareData = influencerProfileInner => {
     if (influencerProfileInner && Object.keys(influencerProfileInner).length === 0) return {};
-    let dataInner = {...influencerProfileInner};
+    let dataInner = { ...influencerProfileInner };
     delete dataInner.name;
 
     influencerProfileInner.influencerServices.map(service => {
@@ -167,9 +188,8 @@ const EditAccount = (
                   <input
                     name="name"
                     placeholder="Name"
-                    className={`form-control ${
-                      errors.description ? 'is-invalid' : ''
-                    }`}
+                    className={`form-control ${errors.description ? 'is-invalid' : ''
+                      }`}
                     ref={register}
                   />
                   <div className="invalid-feedback">
@@ -183,9 +203,8 @@ const EditAccount = (
                   <input
                     name="email"
                     placeholder="E-mail address"
-                    className={`form-control ${
-                      errors.email ? 'is-invalid' : ''
-                    }`}
+                    className={`form-control ${errors.email ? 'is-invalid' : ''
+                      }`}
                     ref={register}
                   />
                   <div className="invalid-feedback">
@@ -199,9 +218,8 @@ const EditAccount = (
                   <input
                     name="phone"
                     placeholder="Phone"
-                    className={`form-control ${
-                      errors.description ? 'is-invalid' : ''
-                    }`}
+                    className={`form-control ${errors.description ? 'is-invalid' : ''
+                      }`}
                     ref={register}
                   />
                   <div className="invalid-feedback">
@@ -219,8 +237,8 @@ const EditAccount = (
                         src={
                           Object.keys(data).length === 0
                             ? userDetails
-                            ? userDetails.avatar
-                            : ''
+                              ? userDetails.avatar
+                              : ''
                             : data
                         }
                         roundedCircle
@@ -243,9 +261,8 @@ const EditAccount = (
                     <textarea
                       name="biography"
                       placeholder="Biography"
-                      className={`form-control ${
-                        errors.biography ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.biography ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -260,9 +277,8 @@ const EditAccount = (
                       name="publicPhone"
                       //   type="number"
                       placeholder="Public Phone"
-                      className={`form-control ${
-                        errors.publicPhone ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.publicPhone ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -280,8 +296,8 @@ const EditAccount = (
                           src={
                             Object.keys(coverPhoto).length === 0
                               ? userDetails.artistInformation
-                              ? userDetails.artistInformation.coverPhoto
-                              : ''
+                                ? userDetails.artistInformation.coverPhoto
+                                : ''
                               : coverPhoto
                           }
                           roundedCircle
@@ -303,9 +319,8 @@ const EditAccount = (
                     <input
                       name="publicEmail"
                       placeholder="Public Email"
-                      className={`form-control ${
-                        errors.publicEmail ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.publicEmail ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -319,9 +334,8 @@ const EditAccount = (
                     <input
                       name="managementEmail"
                       placeholder="Management Email"
-                      className={`form-control ${
-                        errors.managementEmail ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.managementEmail ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -335,9 +349,8 @@ const EditAccount = (
                     <input
                       name="bookingEmail"
                       placeholder="Booking Email"
-                      className={`form-control ${
-                        errors.bookingEmail ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.bookingEmail ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -351,9 +364,8 @@ const EditAccount = (
                     <input
                       name="recordLabelManager"
                       placeholder="Record Label manager"
-                      className={`form-control ${
-                        errors.recordLabelManager ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.recordLabelManager ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -367,9 +379,8 @@ const EditAccount = (
                     <input
                       name="facebook"
                       placeholder="Facebook"
-                      className={`form-control ${
-                        errors.facebook ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.facebook ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -383,9 +394,8 @@ const EditAccount = (
                     <input
                       name="twitter"
                       placeholder="Twitter"
-                      className={`form-control ${
-                        errors.twitter ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.twitter ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -399,9 +409,8 @@ const EditAccount = (
                     <input
                       name="instagram"
                       placeholder="Instagram"
-                      className={`form-control ${
-                        errors.instagram ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.instagram ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -415,9 +424,8 @@ const EditAccount = (
                     <input
                       name="youtube"
                       placeholder="Youtube"
-                      className={`form-control ${
-                        errors.youtube ? 'is-invalid' : ''
-                      }`}
+                      className={`form-control ${errors.youtube ? 'is-invalid' : ''
+                        }`}
                       ref={register}
                     />
                     <div className="invalid-feedback">
@@ -428,21 +436,24 @@ const EditAccount = (
                 <Form.Row>
                   <Form.Group as={Col} controlId="formGridDiscription">
                     <label htmlFor="location">Location</label>
-                    <input
-                      name="location"
-                      placeholder="Location"
-                      className={`form-control ${
-                        errors.location ? 'is-invalid' : ''
-                      }`}
-                      ref={register}
+                    <Controller
+                      name="countryId"
+                      styles={customStyles}
+                      control={control}
+                      isMulti={false}
+                      getOptionLabel={option => option.name}
+                      getOptionValue={option => option.id}
+                      options={countries}
+                      defaultValue={''}
+                      as={Select}
                     />
                     <div className="invalid-feedback">
-                      {errors.location && errors.location.message}
+                      {errors.countryId && errors.countryId.message}
                     </div>
                   </Form.Group>
                 </Form.Row></>}
               {updateProcessing ? (
-                <ButtonLoader/>
+                <ButtonLoader />
               ) : (
                 <Button variant="success" onClick={handleSubmit(onSubmit)}>
                   Submit
@@ -452,7 +463,7 @@ const EditAccount = (
           </div>
           {isInfluencer && (
             <div className="mt-3">
-              <EditInfluencerAccount/>
+              <EditInfluencerAccount />
             </div>
           )}
         </div>
@@ -469,6 +480,8 @@ EditAccount.propTypes = {
   updateUserDetails: PropTypes.func,
   updateProcessing: PropTypes.bool,
   getSocialChannelList: PropTypes.func,
+  fetchUsersCountries: PropTypes.func,
+  countries: PropTypes.array
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -476,6 +489,7 @@ const mapStateToProps = createStructuredSelector({
   influencerProfile: makeSelectInfluencerDetails(),
   genres: makeSelectGenres(),
   updateProcessing: makeSelectUpdateProcessing(),
+  countries: makeSelectUserCountries()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -484,7 +498,8 @@ function mapDispatchToProps(dispatch) {
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
     updateUserDetails: (data, isProfilePhotoUpdated, isCoverPhotoUpdated) =>
       dispatch(updateUserDetailsAction(data, isProfilePhotoUpdated, isCoverPhotoUpdated)),
-    regularUserUpdate: (data, isProfilePhotoUpdated) => dispatch(updateRegularUser(data, isProfilePhotoUpdated))
+    regularUserUpdate: (data, isProfilePhotoUpdated) => dispatch(updateRegularUser(data, isProfilePhotoUpdated)),
+    fetchUsersCountries: () => dispatch(fetchUsersCountriesAction())
   };
 }
 

@@ -26,6 +26,8 @@ import defaultImage from '../../images/default-image.png';
 import {styles} from './index.styles';
 import {capatilizeText, getValue, renderSocialMediaIcons} from '../../utils';
 import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
+import { fetchUsersCountriesAction } from '../MyAccount/actions';
+import { makeSelectUserCountries } from '../MyAccount/selectors';
 
 const RequestPopup = (
   {
@@ -36,6 +38,7 @@ const RequestPopup = (
     submitSocialLinksRequest,
     socialChannels,
     playSong,
+    countries,
   }) => {
   const [feedbackOption, setFeedbackOption] = React.useState((data.campaignStatusId === CampaignStatus.DECLINED || data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.COMPLETED || data.campaignStatusId === CampaignStatus["IN-PROGRESS"]) ? 1 : -1);
   const [feedbackProvided, setFeedbackProvided] = useState(false);
@@ -92,6 +95,7 @@ const RequestPopup = (
     </div>
 
   }
+
   return (
     <>
       <Container fluid>
@@ -121,8 +125,8 @@ const RequestPopup = (
                     )}
                   </small>
                   <small className=" d-block">
-                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'location']) &&
-                    <div>Location: {data.campaigns.song.user.artistInformation.location}</div>}
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'countryId']) &&
+                    <div>Location: {countries && countries.find(country => country.id === data.campaigns.song.user.artistInformation.countryId).name}</div>}
                   </small>
                   <div style={styles.linkContainer}>
                     {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'facebook']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'facebook')}
@@ -404,11 +408,15 @@ RequestPopup.propTypes = {
   submitSocialLinksRequest: PropTypes.func,
   socialChannels: PropTypes.array,
   playSong: PropTypes.any,
+  countries: PropTypes.array
 };
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  countries: makeSelectUserCountries()
+});
 
-function mapDispatchToProps() {
-  return {};
+function mapDispatchToProps(dispatch) {
+  return {
+  };
 }
 
 const withConnect = connect(

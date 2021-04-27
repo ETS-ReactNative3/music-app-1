@@ -1,21 +1,22 @@
-import React, {useRef, useState} from 'react';
-import {faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
-import {redirectOnAlbum} from '../../utils/redirect';
+import React, { useRef, useState } from 'react';
+import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typeahead, withAsync } from 'react-bootstrap-typeahead';
+import { redirectOnAlbum } from '../../utils/redirect';
 import request from '../../utils/request';
 import './index.scss';
-import {Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlanSvg from '../../images/svg/plan_icon.svg';
 import AvatarSvg from '../../images/user.svg';
 import Button from 'react-bootstrap/Button';
-import {Image} from "react-bootstrap";
-import {server} from "../../../config";
+import { Image } from 'react-bootstrap';
+import { server } from '../../../config';
+import { debounce } from 'lodash';
 
 const AsyncTypeahead = withAsync(Typeahead);
 
-const TopNavBar = ({userDetails, putUserDetails}) => {
+const TopNavBar = ({ userDetails, putUserDetails }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
@@ -26,12 +27,23 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
   const handleSearch = query => {
     setIsLoading(true);
     request(`${SEARCH_URI}${query}`).then(response => {
-      const options = response.map(i => ({
+      let options = response.albums.map(i => ({
         avatar_url: i.artwork,
         id: i.id,
         login: i.title,
         slug: i.slug,
+        type: 'album'
       }));
+
+      options = options.concat(
+        response.artists.map(i => ({
+          avatar_url: i.avatar,
+          id: i.id,
+          login: i.name,
+          slug: i.id,
+          type: 'artist'
+        })),
+      );
 
       setOptions(options);
       setIsLoading(false);
@@ -43,7 +55,8 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
   };
 
   const onInputChangeSelection = value => {
-    redirectOnAlbum(value[0].slug);
+    if (value[0].type === 'album') redirectOnAlbum(value[0].slug);
+    else history.push(`/artist/${value[0].slug}`)
     searchRef.current.clear();
   };
 
@@ -54,6 +67,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
     history.push('/auth/login');
     location.reload();
   };
+
+  const searchEnhancer = debounce(searchValue => {
+    handleSearch(searchValue);
+  }, 500);
 
   return (
     <header>
@@ -70,7 +87,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
               onClick={handleSideBar}
               role="button"
             >
-              <FontAwesomeIcon icon={faBars}/>
+              <FontAwesomeIcon icon={faBars} />
             </span>
           </li>
         </ul>
@@ -80,7 +97,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
               className="btn btn-navbar bg-transparent text-white"
               type="button"
             >
-              <FontAwesomeIcon icon={faSearch}/>
+              <FontAwesomeIcon icon={faSearch} />
             </button>
           </div>
           <AsyncTypeahead
@@ -90,7 +107,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             isLoading={isLoading}
             labelKey="login"
             minLength={3}
-            onSearch={handleSearch}
+            onSearch={searchEnhancer}
             options={options}
             placeholder="Search for an album"
             ref={searchRef}
@@ -111,13 +128,13 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             )}
           />
         </div>
-        {userDetails &&
-        <div className="pl-5">
-          <Link to="/subscription-plans">
-            <Button variant="success">Subscription Plans</Button>
-          </Link>
-        </div>
-        }
+        {userDetails && (
+          <div className="pl-5">
+            <Link to="/subscription-plans">
+              <Button variant="success">Subscription Plans</Button>
+            </Link>
+          </div>
+        )}
         <div className="pl-5">
           {userDetails ? (
             <Dropdown>
@@ -135,9 +152,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                       alt="avatar-image"
                     />
                   </span>
-                  <span className="p-2">
-                  {userDetails.name}
-                </span>
+                  <span className="p-2">{userDetails.name}</span>
                 </div>
               </Dropdown.Toggle>
               <Dropdown.Menu>
@@ -146,16 +161,13 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                 </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/wallet">
                   Wallet -{' '}
-                  <img
-                    src={PlanSvg}
-                    alt="wallet Logo"
-                    width={17}
-                    height={17}
-                  />{' '}
+                  <img src={PlanSvg} alt="wallet Logo" width={17} height={17} />{' '}
                   {userDetails.credit}
                 </Dropdown.Item>
-                <Dropdown.Divider/>
-                <Dropdown.Item className="cursor-pointer" onClick={logout}>Log out</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item className="cursor-pointer" onClick={logout}>
+                  Log out
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (

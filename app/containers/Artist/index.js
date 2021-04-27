@@ -101,7 +101,7 @@ export function Artist({artist, fetchArtist, artistFetching, followArtist, userD
           <section className="artist-data">
             <CarouselFront
               loading={artistFetching}
-              list={artist.albums}
+              list={artist.albums || []}
               heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
               classes="carousel-front py-5"
             />

@@ -227,7 +227,7 @@ const history = useHistory();
               <Row>
                 <Col md={12}>
                   <CarouselFront
-                    list={newReleases}
+                    list={newReleases || []}
                     loading={newReleasesLoading}
                     heading="Recommended For You"
                     classes="carousel-front py-5"

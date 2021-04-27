@@ -38,6 +38,7 @@ import { fetchInfluencerStatsAction } from "../Influencer/actions";
 import { makeSelectInfluencerStats, makeSelectInfluencerStatsLoader } from "../Influencer/selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import PatronInfo from '../../components/PatronInfo';
+import { InfoCard } from './InfoCard';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -66,15 +67,15 @@ function MyAccount(
   useInjectSaga({ key: 'influencer', saga: influencerSaga });
   useInjectReducer({ key: 'influencer', reducer: influencerReducer });
 
-  // useEffect(() => {
-  //   getGenreList();
-  // }, []);
+  useEffect(() => {
+    getGenreList();
+  }, []);
 
-  // useEffect(() => {
-  //   if (userDetails && userDetails.influencerId !== null) {
-  //     getInfluencerStats(userDetails.influencerId)
-  //   }
-  // }, [userDetails]);
+  useEffect(() => {
+    if (userDetails && userDetails.influencerId !== null) {
+      getInfluencerStats(userDetails.influencerId)
+    }
+  }, [userDetails]);
 
   const renderSocialMedias = (artistInfo, title) => {
     return <div>{(artistInfo[title] && <a href={artistInfo[title]} target="_blank" className="pr-2">
@@ -94,7 +95,7 @@ function MyAccount(
               <div className="card-body profile-user-box">
                 <div className="row">
                   <div className="col-sm-6">
-                    {/* <div className="media">
+                    <div className="media">
                       <span className="float-left m-2 mr-4">
                         <Image
                           width={120}
@@ -142,13 +143,11 @@ function MyAccount(
                         </div>
                         </>}
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                   <div className="col-sm-6">
                     <div className="text-center mt-sm-0 mt-3 text-sm-right">
-                    <button type="button" className="btn btn-success" onClick={() => {}}>
-                        Advanced Section
-                      </button>
+                    
                       <button type="button" className="btn btn-success" onClick={() => history.push('/myaccount/edit')}>
                         Edit Profile
                       </button>
@@ -163,87 +162,64 @@ function MyAccount(
             </div>
           </div>
         </div>
-        <PatronInfo userDetails={userDetails} />
         {userDetails.roleId === 1 && userDetails.influencerId === null && (
-          <div className="row mt-3">
-            <div className="col-sm-12">
-              <div className="card bg-dark">
-                <div className="card-body profile-user-box">
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <div className="text-center">
-                        <h2>
-                          Join our selection
-                          of music tastemakers
-                        </h2>
-                        <p className="mt-3">
-                          Join the team of Bliiink tastemakers and find the musical gems of tomorrow.
-                        </p>
+          <InfoCard title={'Join our selection of music tastemakers'} message={'Join the team of Bliiink tastemakers and find the musical gems of tomorrow.'} buttonTitle={'Become a tastemaker'} linkTo={'/tasteMaker/request/form'} />
+        )}
 
-                        <Link to="/tasteMaker/request/form">
-                          <Button className="mt-2" variant="success">
-                            Become a tastemaker
-                          </Button>
-                        </Link>
+        {isInfluencer && (
+          influencerProfile === undefined ? <LoadingIndicator />
+            : influencerProfile.influencerStatusId === 3 ? <InfoCard title={'Music Tastemakers'} message={'Your request for tastemakers is in pending state...'} buttonTitle={''} linkTo={''} />
+              : influencerProfile.influencerStatusId === 1 ? <InfoCard title={'Music Tastemakers'} message={'Your request for tastemakers is declined, you can request again by below button'} buttonTitle={'Become a tastemaker'} linkTo={'/tasteMaker/request/form'} />
+                :
+                <Row className="mt-5">
+                  <Col md={7} lg={8} xl={9}>
+                    <div className="card bg-dark">
+                      <div className="card-body profile-user-box">
+                        <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">Name</h3>
+                        <div className="mb-3">
+                          {influencerProfile.name}
+                        </div>
 
+                        <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                          Social Channels
+                  </h3>
+                        <div className="mb-3">
+                          <div style={styles.linkContainer}>
+                            {influencerProfile && influencerProfile.influencerServices &&
+                              influencerProfile.influencerServices.map(service => {
+
+                                return (
+                                  <a key={service.id} href={service.link} target="_blank" className="pr-2">
+                                    {renderSocialMediaIcons(service.socialChannels.title, '1x', { marginLeft: 5 }, PLAY_ICON_BG_COLOR)}
+                                    <span className="pl-2">{service.followers} followers</span>
+                                  </a>
+                                );
+
+                              }
+                              )}
+                          </div>
+                        </div>
+                        <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                          Services
+                  </h3>
+                        <div className="mb-3">
+                          {influencerProfile.helpArtistDescription}
+                        </div>
+                        <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                          Genres
+                  </h3>
+                        <div className="mb-3">
+                          {renderGenres(influencerProfile.influencerGenres, genres)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        {isInfluencer && (
-          <Row className="mt-5">
-            <Col md={7} lg={8} xl={9}>
-              <div className="card bg-dark">
-                <div className="card-body profile-user-box">
-                  <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">Name</h3>
-                  <div className="mb-3">
-                    {influencerProfile.name}
-                  </div>
-
-                  <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                    Social Channels
-                  </h3>
-                  <div className="mb-3">
-                    <div style={styles.linkContainer}>
-                      {influencerProfile && influencerProfile.influencerServices &&
-                        influencerProfile.influencerServices.map(service => {
-
-                          return (
-                            <a key={service.id} href={service.link} target="_blank" className="pr-2">
-                              {renderSocialMediaIcons(service.socialChannels.title, '1x', { marginLeft: 5 }, PLAY_ICON_BG_COLOR)}
-                              <span className="pl-2">{service.followers} followers</span>
-                            </a>
-                          );
-
-                        }
-                        )}
-                    </div>
-                  </div>
-                  <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                    Services
-                  </h3>
-                  <div className="mb-3">
-                    {influencerProfile.helpArtistDescription}
-                  </div>
-                  <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                    Genres
-                  </h3>
-                  <div className="mb-3">
-                    {renderGenres(influencerProfile.influencerGenres, genres)}
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <>
-              <Col md={5} lg={4} xl={3}>
-                {influencerStatsLoader ? <LoadingIndicator /> : <TasteMakerStats stats={influencerStats} />}
-              </Col>
-            </>
-          </Row>
+                  </Col>
+                  <>
+                    <Col md={5} lg={4} xl={3}>
+                      {influencerStatsLoader ? <LoadingIndicator /> : <TasteMakerStats stats={influencerStats} />}
+                    </Col>
+                  </>
+                </Row>
         ) || <Row className="mt-5">
             <Col md={7} lg={8} xl={9}>
               <div className="card bg-dark">
@@ -266,9 +242,9 @@ function MyAccount(
                     {getValue(userDetails, ['artistInformation', 'location']) && <><h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
                       Location
                   </h3>
-                    <div className="mb-3">
-                      {getValue(userDetails, ['artistInformation', 'location'])}
-                    </div>
+                      <div className="mb-3">
+                        {getValue(userDetails, ['artistInformation', 'location'])}
+                      </div>
                     </>}
                   </div>
                 </div>
