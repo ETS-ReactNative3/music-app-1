@@ -37,7 +37,6 @@ import influencerSaga from "../Influencer/saga";
 import { fetchInfluencerStatsAction } from "../Influencer/actions";
 import { makeSelectInfluencerStats, makeSelectInfluencerStatsLoader } from "../Influencer/selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
-import PatronInfo from '../../components/PatronInfo';
 import { InfoCard } from './InfoCard';
 
 const renderGenres = (genersToRender, genres) =>
@@ -166,6 +165,7 @@ function MyAccount(
           <InfoCard title={'Join our selection of music tastemakers'} message={'Join the team of Bliiink tastemakers and find the musical gems of tomorrow.'} buttonTitle={'Become a tastemaker'} linkTo={'/tasteMaker/request/form'} />
         )}
 
+
         {isInfluencer && (
           influencerProfile === undefined ? <LoadingIndicator />
             : influencerProfile.influencerStatusId === 3 ? <InfoCard title={'Music Tastemakers'} message={'Your request for tastemakers is in pending state...'} buttonTitle={''} linkTo={''} />
@@ -250,6 +250,8 @@ function MyAccount(
                 </div>
               </div>
             </Col></Row>}
+<InfoCard title={''} message={'Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'} buttonTitle={'Become a Patron'} linkTo={'/patron'} />
+
       </PaperCard>
     </>
   );
