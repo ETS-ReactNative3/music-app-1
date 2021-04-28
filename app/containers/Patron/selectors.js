@@ -19,7 +19,15 @@ createSelector(
   selectPatronDomain,
   substate => substate.progress,
 );
+
+
+const makeSelectStakeProgress = () =>
+createSelector(
+  selectPatronDomain,
+  substate => substate.stakeProgress,
+);
 export {
   makeSelectStakes,
-  makeSelectProgress
+  makeSelectProgress,
+  makeSelectStakeProgress
 };

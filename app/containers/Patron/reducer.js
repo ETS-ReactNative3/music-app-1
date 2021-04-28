@@ -4,11 +4,12 @@
  *
  */
 import produce from 'immer';
-import { FETCH_STAKE, SAVE_STAKE, SHOW_PROGRESS } from './constants';
+import { FETCH_STAKE, SAVE_STAKE, SHOW_PROGRESS, CREATE_STAKE_PROGRESS, CREATE_STAKE } from './constants';
 
 export const initialState = {
   stakes: [],
-  progress: false
+  progress: false,
+  stakeProgress: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -23,6 +24,12 @@ const patronReducer = (state = initialState, action) =>
         break;
       case SHOW_PROGRESS:
         draft.progress = action.flag;
+        break;
+      case CREATE_STAKE:
+        draft.stakeProgress = true;
+        break;
+      case CREATE_STAKE_PROGRESS:
+        draft.stakeProgress = action.flag;
         break;
     }
   });

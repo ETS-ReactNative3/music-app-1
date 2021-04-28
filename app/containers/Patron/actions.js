@@ -1,4 +1,4 @@
-import { FETCH_STAKE, SAVE_STAKE, SHOW_PROGRESS } from "./constants"
+import { FETCH_STAKE, SAVE_STAKE, SHOW_PROGRESS, CREATE_STAKE, CREATE_STAKE_PROGRESS } from "./constants"
 
 export const fetchStakeAction = () => {
     return {
@@ -16,6 +16,20 @@ export const saveStakeAction = (stakes) => {
 export const showProgressAction = (flag) => {
     return {
         type: SHOW_PROGRESS,
+        flag
+    }
+}
+
+export const createStakeAction = (data) => {
+    return {
+        type: CREATE_STAKE,
+        data
+    }
+}
+
+export const createStakeProgressAction = (flag) => {
+    return {
+        type: CREATE_STAKE_PROGRESS,
         flag
     }
 }

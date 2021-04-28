@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { fetchStakeAction } from './actions';
+import { createStakeAction, fetchStakeAction } from './actions';
 import { useInjectReducer } from '../../utils/injectReducer';
 import patronReducer from './reducer';
 import patronSaga from './saga';
 import { useInjectSaga } from '../../utils/injectSaga';
-import { makeSelectProgress, makeSelectStakes } from './selectors';
+import { makeSelectProgress, makeSelectStakeProgress, makeSelectStakes } from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { Button, Image, Modal } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -19,9 +19,13 @@ import { format } from 'date-fns';
 import defaultImage from '../../images/user.svg';
 import { makeSelectUserDetails } from '../App/selectors';
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from "yup";
+import ButtonLoader from "../../components/ButtonLoader";
 
 
-const PatronList = ({ fetchStake, progress, stakes, userDetails }) => {
+const PatronList = ({ fetchStake, progress, stakes, userDetails, createStakeProgress, createStake }) => {
   useInjectReducer({ key: 'patron', reducer: patronReducer });
   useInjectSaga({ key: 'patron', saga: patronSaga });
   React.useEffect(() => {
@@ -29,6 +33,19 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails }) => {
   }, []);
 
   const [showAddPatronage, setShowAddPatronage] = React.useState(false);
+  const validationSchema = Yup.object().shape({
+    amount: Yup.number().typeError('Please enter valid number')
+      .required('Amount is required'),
+    tenure: Yup.number().typeError('Please enter valid number')
+      .required('Tenure is required'),
+
+  });
+
+
+  const { register, handleSubmit, errors, reset, control } = useForm({
+    resolver: yupResolver(validationSchema)
+  });
+
 
   const columns = [
     {
@@ -69,7 +86,13 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails }) => {
   }
 
 
+  const onSubmit = data => {
+    createStake(data);
+    setTimeout(() => {
+      setShowAddPatronage(false);
 
+    }, 1000);
+  };
   return (
     <>
       {progress ? <LoadingIndicator /> :
@@ -133,7 +156,7 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails }) => {
                     <div className="col-sm-6">
                       <div className="text-center mt-sm-0 mt-3 text-sm-right">
 
-                        <Button variant="success" onClick={() => { setShowAddPatronage(true)}}>Patronage Credit</Button>
+                        <Button variant="success" onClick={() => { setShowAddPatronage(true) }}>Patronage Credit</Button>
 
                       </div>
 
@@ -166,15 +189,57 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails }) => {
             backdrop="static"
             keyboard={false}
           >
+              <form onSubmit={handleSubmit(onSubmit)}>
 
-<Modal.Header>Add Patronage</Modal.Header>
-            <Modal.Body>Need to be ad</Modal.Body>
+            <Modal.Header>Add Patronage</Modal.Header>
+            <Modal.Body>
+
+                <table className="">
+<tbody>
+                  <tr>
+                    <td>Patroned Amount:</td>
+                    <td>
+                      <input
+                        name="amount"
+                        style={{ width: '200px' }}
+                        placeholder="Enter amount"
+                        onChange={(e) => { }}
+                        className={`form-control ${errors.amount ? 'is-invalid' : ''}`}
+                        ref={register}
+                      />
+                      <div className="invalid-feedback">
+                        {errors.amount && errors.amount.message}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Tenure:</td>
+                    <td>
+                      <input
+                        name="tenure"
+                        style={{ width: '200px' }}
+                        placeholder="Enter period"
+                        type="number"
+                        className={`form-control ${errors.tenure ? 'is-invalid' : ''}`}
+                        ref={register} />
+                      <div className="invalid-feedback">
+                        {errors.tenure && errors.tenure.message}
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+            </Modal.Body>
             <Modal.Footer>
-
-              <Button variant="primary" onClick={() => setShowAddPatronage(false)}>
-                Ok
-          </Button>
+            <Button variant="secondary" onClick={() => setShowAddPatronage(false)}>
+              Close
+            </Button>
+            {createStakeProgress ? <ButtonLoader/> : <Button variant="primary" type="submit">
+              Create
+            </Button>}
             </Modal.Footer>
+            </form>
+
           </Modal>
         </PaperCard>}
     </>
@@ -185,18 +250,22 @@ PatronList.propTypes = {
   fetchStake: PropTypes.func,
   progress: PropTypes.bool,
   stakes: PropTypes.array,
-  userDetails: PropTypes.any
+  userDetails: PropTypes.any,
+  createStakeProgress: PropTypes.bool,
+  createStake: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   progress: makeSelectProgress(),
   stakes: makeSelectStakes(),
-  userDetails: makeSelectUserDetails()
+  userDetails: makeSelectUserDetails(),
+  createStakeProgress: makeSelectStakeProgress()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchStake: () => dispatch(fetchStakeAction())
+    fetchStake: () => dispatch(fetchStakeAction()),
+    createStake: (data) => dispatch(createStakeAction(data))
   };
 }
 

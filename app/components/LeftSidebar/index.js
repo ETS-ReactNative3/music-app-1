@@ -3,6 +3,7 @@ import {
   faFolderOpen,
   faGlobe,
   faHeadphonesAlt,
+  faMoneyBill,
   faMusic,
   faPlusSquare,
   faUser,
@@ -107,7 +108,7 @@ function LeftSideBar({role, isInfluencer}) {
                   </li>
                   <li className="nav-item rounded-lg">
                     <Link to="/patron" className="nav-link mb-1">
-                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                      <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>
                       <p className="d-inline-block m-0">My Patronage</p>
                     </Link>
                   </li>
@@ -141,6 +142,12 @@ function LeftSideBar({role, isInfluencer}) {
                     <Link to="/browse" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
                       <p className="d-inline-block m-0">Browse music</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/patron" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>
+                      <p className="d-inline-block m-0">My Patronage</p>
                     </Link>
                   </li>
                 </>
