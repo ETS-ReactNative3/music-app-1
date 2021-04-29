@@ -11,7 +11,7 @@ import {faChartPie} from '@fortawesome/free-solid-svg-icons';
 import PropTypes from "prop-types";
 
 function TasteMakerStats({stats}) {
-  return <div className="tasteMakerStatsContainer">
+  return stats ? <div className="tasteMakerStatsContainer">
     <h3 className="mb-3">Activity on Bliiink</h3>
     <div className="d-flex">
       <div className="float-left mr-3"><FontAwesomeIcon icon={faComment}/></div>
@@ -34,7 +34,7 @@ function TasteMakerStats({stats}) {
         <h6 className="text-muted">Since signing up</h6>
       </div>
     </div>
-  </div>;
+  </div>: <></>;
 }
 
 TasteMakerStats.propTypes = {

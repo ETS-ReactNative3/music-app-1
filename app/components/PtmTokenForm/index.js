@@ -22,7 +22,6 @@ function PtmTokenForm({methodSubmit}) {
     if (window.ethereum) {
       window.ethereum.enable()
       web3.eth.getAccounts().then(addr => {
-        console.log(addr[0])
         setAccount(addr[0]);
       });
     } else {
@@ -43,25 +42,8 @@ function PtmTokenForm({methodSubmit}) {
     <form className="mt-3" onSubmit={handleSubmit(methodFormSubmit)}>
       <div className="form-group">
         <div className="form-group">
-          <label htmlFor="beneficiary-name">Beneficiary</label>
-          <input
-            className={`form-control ${errors.beneficiaryName ? 'is-invalid' : ''}`}
-            type="text"
-            placeholder="Company information"
-            name="beneficiaryName"
-            ref={register({required: true})}
-            id="beneficiary-name"/>
-          {errors.beneficiaryName && <div className="invalid-feedback">This field is required</div>}
+          <p>Recieving Address: {account}</p>
         </div>
-        <label htmlFor="wallet">Erc20 Wallet</label>
-        <input
-          className={`form-control ${errors.walletId ? 'is-invalid' : ''}`}
-          type="text"
-          placeholder="Enter Erc20 Wallet"
-          name="walletId"
-          ref={register({required: true})}
-          id="wallet"/>
-        {errors.walletId && <div className="invalid-feedback">This field is required</div>}
       </div>
       <button type="submit" className="btn btn-primary">Add method</button>
     </form>

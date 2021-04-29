@@ -108,7 +108,7 @@ const EditAccount = (
       updateUserDetails({
         ...submitData,
         profilePhoto: data,
-        countryId: submitData.countryId.id,
+        countryId: submitData.countryId && submitData.countryId.id || '',
         coverPhotoLocal: coverPhoto
       }, Object.keys(data).length > 0, Object.keys(coverPhoto).length > 0);
     }
