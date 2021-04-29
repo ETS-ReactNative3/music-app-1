@@ -31,6 +31,7 @@ import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
 import {ArtistProfile, SupportedArtist} from '../Artist/Loadable';
 import {Earnings} from "../Earnings/Loadable";
 import {AddTeam, MyTeams, Team, TeamRequest, TeamSetting} from "../Team/Loadable";
+import { PatronList } from '../Patron/Loadable';
 
 
 function useAuth() {
@@ -222,6 +223,9 @@ function Application() {
         </PrivateRoute>
         <PrivateRoute exact path="/myteams">
           <MyTeams />
+        </PrivateRoute>
+        <PrivateRoute exact path="/patron">
+          <PatronList />
         </PrivateRoute>
       </Switch>
     </Dashboard>

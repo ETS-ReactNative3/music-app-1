@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { Form } from "react-bootstrap";
+import React, {useEffect, useState} from 'react';
+import {useForm, Controller} from 'react-hook-form';
+import {Form} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
+import {toast} from "react-toastify";
 
-function SongForm({ genres, formSubmit, song, formLoader, moods }) {
-  const [audio, setAudio] = useState({ audioFile: "" })
+function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
+  const [audio, setAudio] = useState({audioFile: ""})
+  const [counter, setCounter] = useState(0)
+  const [indexes, setIndexes] = useState([]);
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -20,6 +23,14 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
       .required('Description is required'),
     genreId: Yup.string()
       .required('Genre is required'),
+    collaborator: Yup.array().of(
+      Yup.object().shape({
+        member: Yup.string().required("Select a collaborator"),
+        percentage: Yup.number().typeError('You must specify a number')
+          .min(0, 'Min value 0.')
+          .max(99, 'Max value 99').required("Percentage is required")
+      })
+    )
   });
 
   const handleAudioChange = e => {
@@ -30,12 +41,33 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
     }
   };
 
-  const { register, handleSubmit, errors, reset, control } = useForm({
-    resolver: yupResolver(validationSchema)
+  const {register, handleSubmit, errors, reset, control} = useForm({
+    resolver: yupResolver(validationSchema),
   });
+
+  const addCollaborator = () => {
+    setIndexes(prevIndexes => [...prevIndexes, counter]);
+    setCounter(prevCounter => prevCounter + 1);
+  };
+
+  const removeFriend = index => () => {
+    setIndexes(prevIndexes => [...prevIndexes.filter(item => item !== index)]);
+    setCounter(prevCounter => prevCounter - 1);
+  };
 
   useEffect(() => {
     if (song) {
+      setCounter(0)
+      setIndexes([])
+      song.collaborator = song.songContributors.map((item, index) => {
+        setCounter(index + 1)
+        setIndexes(prevIndexes => [...prevIndexes, index])
+        return {
+          member: item.userId,
+          percentage: item.percentage
+        }
+      })
+
       song.releaseDate = new Date(song.releaseDate)
       song.moods = song.songMoods.map(moodItem => moodItem.moods)
       reset(song);
@@ -43,6 +75,19 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
   }, [song]);
 
   const onSubmit = data => {
+    const totalPercentage = data.collaborator.reduce((a, b) => a.percentage + b.percentage)
+    if (totalPercentage > 99) {
+      toast.error("Collaborator percentage is more than 99")
+      return false
+    }
+
+    let seen = new Set();
+    const hasDuplicates = data.collaborator.some(currentObject => seen.size === seen.add(currentObject.member).size);
+    if (hasDuplicates) {
+      toast.error("Same member repeated in collaboration")
+      return false
+    }
+
     formSubmit(data);
   };
   const customStyles = {
@@ -59,7 +104,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
       ...provided,
       color: 'black',
     }),
-    menu: provided => ({ ...provided, zIndex: 9999 }),
+    menu: provided => ({...provided, zIndex: 9999}),
   };
 
   return (
@@ -116,7 +161,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
               dateFormat={'dd/MM/yyyy'}
               name="releaseDate"
               control={control}
-              render={({ onChange, value }) => (
+              render={({onChange, value}) => (
                 <DatePicker
                   popperPlacement="top-start"
                   popperModifiers={{
@@ -130,7 +175,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
                   }}
                   className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}
                   selected={value}
-                  style={{ flex: 1 }}
+                  style={{flex: 1}}
                   onChange={onChange}
                 />
               )}
@@ -140,8 +185,8 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
             </div>
           </Form.Group>
         </Form.Row>
-        <Form.Row >
-          <Form.Group as={Col} controlId="formGridMood" style={{ flex: 0.5, marginRight: 10 }}>
+        <Form.Row>
+          <Form.Group as={Col} controlId="formGridMood" style={{flex: 0.5, marginRight: 10}}>
             <label htmlFor="email">Moods</label>
             <Controller
               name="moods"
@@ -200,20 +245,70 @@ function SongForm({ genres, formSubmit, song, formLoader, moods }) {
             {audio.audioFile && (
               <div className="mt-3">
                 <audio controls>
-                  <source src={audio.audioFile} />
+                  <source src={audio.audioFile}/>
                 </audio>
               </div>
             )}
             {song && song.url && !audio.audioFile && (
               <div className="mt-3">
                 <audio controls>
-                  <source src={song.url} />
+                  <source src={song.url}/>
                 </audio>
               </div>
             )}
           </Form.Group>
         </Form.Row>
-        {formLoader ? <ButtonLoader /> :
+        {indexes.map(index => {
+          const fieldName = `collaborator[${index}]`;
+          return (
+            <div className="row" key={index}>
+              <div className="col-md-5">
+                <label htmlFor="email">Collaborator</label>
+                <select
+                  name={`${fieldName}.member`}
+                  ref={register}
+                  className={`form-control ${errors.collaborator && errors.collaborator[index] && errors.collaborator[index].member ? 'is-invalid' : ''}`}
+                >
+                  <option value="" disabled selected>Select Collaborator</option>
+                  {members.map(member => (
+                    <option key={member.id} value={member.user.id}>
+                      {member.user.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="invalid-feedback-block">
+                  {errors.collaborator && errors.collaborator[index] && errors.collaborator[index].member && errors.collaborator[index].member.message}
+                </div>
+              </div>
+              <div className="col-md-5">
+                <label>Percentage</label>
+                <input
+                  type="number"
+                  name={`${fieldName}.percentage`}
+                  placeholder="Enter percentage"
+                  className={`form-control ${errors.collaborator && errors.collaborator[index] && errors.collaborator[index].percentage ? 'is-invalid' : ''}`}
+                  ref={register}
+                />
+                <div className="invalid-feedback-block">
+                  {errors.collaborator && errors.collaborator[index] && errors.collaborator[index].percentage && errors.collaborator[index].percentage.message}
+                </div>
+              </div>
+              <div className="col-md-2 pt-4">
+                <button className="btn btn-danger mt-2" type="button" onClick={removeFriend(index)}>
+                  Remove
+                </button>
+              </div>
+            </div>
+          );
+        })}
+        <div className="row mb-4 mt-2">
+          <div className="col">
+            <button className="btn btn-warning" type="button" onClick={addCollaborator}>
+              Add Collaborator
+            </button>
+          </div>
+        </div>
+        {formLoader ? <ButtonLoader/> :
           <button className="btn btn-primary btn-block" type="submit">
             Submit
           </button>
