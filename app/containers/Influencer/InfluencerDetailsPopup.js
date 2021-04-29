@@ -7,12 +7,12 @@ import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import styles from '../MyAccount/index.styles';
 
 
-const renderGenres = (genersToRender, genres) =>
-  genersToRender &&
-  isArray(genersToRender) &&
-  (genersToRender || []).map(internalGener => (
-    <Badge key={internalGener.id} variant="success" className="p-2 mr-3">
-      {(genres.find(gener => gener.id === internalGener.genreId) || {}).title}
+const renderGenres = (genresToRender, genres) =>
+genresToRender &&
+  isArray(genresToRender) &&
+  (genresToRender || []).map(internalGenre => (
+    <Badge key={internalGenre.id} variant="success" className="p-2 mr-3">
+      {(genres.find(genre => genre.id === internalGenre.genreId) || {}).title}
     </Badge>
   ));
 
