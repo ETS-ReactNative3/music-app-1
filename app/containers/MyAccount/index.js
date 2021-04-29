@@ -93,7 +93,7 @@ function MyAccount(
             <div className="card bg-dark">
               <div className="card-body profile-user-box">
                 <div className="row">
-                  <div className="col-sm-8">
+                  <div className="col-sm-6">
                     <div className="media">
                       <span className="float-left m-2 mr-4">
                         <Image
@@ -144,8 +144,9 @@ function MyAccount(
                       </div>
                     </div>
                   </div>
-                  <div className="col-sm-4">
+                  <div className="col-sm-6">
                     <div className="text-center mt-sm-0 mt-3 text-sm-right">
+                    
                       <button type="button" className="btn btn-success" onClick={() => history.push('/myaccount/edit')}>
                         Edit Profile
                       </button>
@@ -163,6 +164,7 @@ function MyAccount(
         {userDetails.roleId === 1 && userDetails.influencerId === null && (
           <InfoCard title={'Join our selection of music tastemakers'} message={'Join the team of Bliiink tastemakers and find the musical gems of tomorrow.'} buttonTitle={'Become a tastemaker'} linkTo={'/tasteMaker/request/form'} />
         )}
+
 
         {isInfluencer && (
           influencerProfile === undefined ? <LoadingIndicator />
@@ -248,6 +250,8 @@ function MyAccount(
                 </div>
               </div>
             </Col></Row>}
+<InfoCard title={''} message={'Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'} buttonTitle={'Become a Patron'} linkTo={'/patron'} />
+
       </PaperCard>
     </>
   );
