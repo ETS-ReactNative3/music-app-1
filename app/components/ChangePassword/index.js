@@ -8,8 +8,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { changePasswordAction } from '../../containers/MyAccount/actions';
 import PropTypes from 'prop-types';
+import { makeSelectChangePasswordProcessing } from '../../containers/MyAccount/selectors';
+import ButtonLoader from '../ButtonLoader';
 
-const ChangePassword = ({changePassword }) => {
+const ChangePassword = ({ changePassword, changePasswordProcessing }) => {
 
 
     const validationSchema = Yup.object().shape({
@@ -26,18 +28,21 @@ const ChangePassword = ({changePassword }) => {
     const {
         register,
         handleSubmit,
+        reset,
         errors,
     } = useForm({
         resolver: yupResolver(validationSchema),
     });
 
     const onSubmit = data => {
-        changePassword({oldPassword: data.currentPassword, newPassword: data.confirmPassword})
+        changePassword({ password: data.currentPassword, newPassword: data.confirmPassword })
+        reset({})
     }
     return (
         <>
-                <Row className="mt-5">
-                    <Col md={4} lg={6} xl={6}>
+            <Row className="mt-5">
+                <Col md={4} lg={6} xl={6}>
+                    <form onSubmit={handleSubmit(onSubmit)} autocomplete="off">
                         <div className="card bg-dark">
                             <div className="card-body profile-user-box">
 
@@ -89,41 +94,44 @@ const ChangePassword = ({changePassword }) => {
                                         {errors.confirmPassword && errors.confirmPassword.message}
                                     </div>
                                 </div>
+                                <div className="mt-2">
 
-                                <Button className="mt-4" variant="success" onClick={handleSubmit(onSubmit)}>
-                  Submit
-                </Button>
+                                    {changePasswordProcessing ? <ButtonLoader /> : <button className="btn btn-success btn-block" type="submit">
+                                        Submit
+              </button>}
 
+                                </div>
                             </div>
                         </div>
-                    </Col></Row>
+                    </form>
+                </Col></Row>
         </>
     )
 }
 
 
 ChangePassword.propTypes = {
-    
+
     changePassword: PropTypes.func,
-  };
-  
-  const mapStateToProps = createStructuredSelector({
-   
-  });
-  
-  function mapDispatchToProps(dispatch) {
+    changePasswordProcessing: PropTypes.bool
+};
+
+const mapStateToProps = createStructuredSelector({
+    changePasswordProcessing: makeSelectChangePasswordProcessing()
+});
+
+function mapDispatchToProps(dispatch) {
     return {
-        changePassword: (oldPassword, newPassword) => dispatch(changePasswordAction(oldPassword, newPassword))
+        changePassword: (data) => dispatch(changePasswordAction(data))
     };
-  }
-  
-  const withConnect = connect(
+}
+
+const withConnect = connect(
     mapStateToProps,
     mapDispatchToProps,
-  );
-  
-  export default compose(
+);
+
+export default compose(
     withConnect,
     memo,
-  )(ChangePassword);
-  
+)(ChangePassword);

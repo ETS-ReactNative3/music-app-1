@@ -38,7 +38,6 @@ import { fetchInfluencerStatsAction } from "../Influencer/actions";
 import { makeSelectInfluencerStats, makeSelectInfluencerStatsLoader } from "../Influencer/selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import { InfoCard } from './InfoCard';
-import ChangePassword from '../../components/ChangePassword';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -252,7 +251,6 @@ function MyAccount(
             </div>
           </Col></Row>}
 
-        <ChangePassword/>
 <InfoCard title={''} message={'Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'} buttonTitle={'Become a Patron'} linkTo={'/patron'} />
 
       </PaperCard>

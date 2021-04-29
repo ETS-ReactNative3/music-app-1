@@ -7,7 +7,7 @@ import {
   UPDATE_USER_DETAILS,
   UPDATE_INFLUENCER_DETAILS,
   UPDATE_PROCESSING,
-  UPDATE_INFLUENCER_PROCESSING, UPDATE_REGULAR_USER_DETAILS, SAVE_USERS_COUNTRIES,FETCH_USERS_COUNTRIES, CHANGE_PASSWORD
+  UPDATE_INFLUENCER_PROCESSING, UPDATE_REGULAR_USER_DETAILS, SAVE_USERS_COUNTRIES,FETCH_USERS_COUNTRIES, CHANGE_PASSWORD, CHANGE_PASSWORD_PROGRESS
 } from './constants';
 
 export function requestInfluencer(data) {
@@ -94,9 +94,17 @@ export const saveUsersCountriesAction = (countries) => {
   }
 }
 
-export const changePasswordAction  = (oldPassword, newPassword) => {
+export const changePasswordAction  = (data) => {
   return {
     type: CHANGE_PASSWORD,
-    oldPassword, newPassword
+    data
+  }
+}
+
+
+export const changePasswordProgressAction  = (flag) => {
+  return {
+    type: CHANGE_PASSWORD_PROGRESS,
+    flag
   }
 }
