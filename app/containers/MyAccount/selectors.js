@@ -60,6 +60,14 @@ createSelector(
   substate => substate.countries,
 );
 
+
+
+const makeSelectChangePasswordProcessing = () =>
+createSelector(
+  selectAccountDomain,
+  substate => substate.changePasswordProcessing,
+);
+
 export {
   makeSelectActivities,
   makeSelectReviews,
@@ -68,5 +76,6 @@ export {
   makeSelectUpdateProcessing,
   makeSelectInfluencerUpdateProcessing,
   makeSelectRecentReviews,
-  makeSelectUserCountries
+  makeSelectUserCountries,
+  makeSelectChangePasswordProcessing
 };

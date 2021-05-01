@@ -10,9 +10,11 @@ import {
   putUserReviews,
   updateInfluencerProcessingAction,
   updateProcessingAction,
-  saveUsersCountriesAction
+  saveUsersCountriesAction,
+  changePasswordProgressAction
 } from './actions';
 import {
+  CHANGE_PASSWORD,
   FETCH_ACTIVITY,
   FETCH_USERS_COUNTRIES,
   REQUEST_INFLUENCER,
@@ -46,6 +48,10 @@ function updateInfluencerDetailsApi(data) {
 
 function fetchUserCountriesAPI() {
   return axiosInstance().get('users/countries');
+}
+
+function changePasswordAPI(data) {
+  return axiosInstance().post('auth/changePassword', data);
 }
 
 function updateAvatar(data) {
@@ -193,11 +199,25 @@ function* fetchUserCountriesSaga() {
   }
 }
 
+function* changePasswordSaga(action) {
+  try {
+    const {data} = action;
+    yield call(changePasswordAPI, data);
+    toast.success("Password Change successfully");
+    yield put(changePasswordProgressAction(false));
+  } catch (e) {
+    toast.error("Failed to change password");
+    yield put(changePasswordProgressAction(false))
+
+  }
+}
+
 export default function* accountSaga() {
   yield takeLatest(REQUEST_INFLUENCER, requestInfluencerSaga);
   yield takeLatest(FETCH_ACTIVITY, getUserActivitiesSaga);
   yield takeLatest(UPDATE_USER_DETAILS, updateUserDetailsSaga);
   yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailsSaga);
   yield takeLatest(UPDATE_REGULAR_USER_DETAILS, updateRegularUserSaga);
-  yield takeLatest(FETCH_USERS_COUNTRIES, fetchUserCountriesSaga)
+  yield takeLatest(FETCH_USERS_COUNTRIES, fetchUserCountriesSaga);
+  yield takeLatest(CHANGE_PASSWORD, changePasswordSaga);
 }

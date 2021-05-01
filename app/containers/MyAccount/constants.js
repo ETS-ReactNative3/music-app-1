@@ -13,3 +13,6 @@ export const UPDATE_INFLUENCER_PROCESSING =
 
   export const FETCH_USERS_COUNTRIES = 'app/Account/FETCH_USERS_COUNTRIES';
   export const SAVE_USERS_COUNTRIES = 'app/Account/SAVE_USERS_COUNTRIES';
+
+  export const CHANGE_PASSWORD = 'app/Account/CHANGE_PASSWORD';
+  export const CHANGE_PASSWORD_PROGRESS = 'app/Account/CHANGE_PASSWORD_PROGRESS';
