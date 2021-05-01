@@ -1,22 +1,22 @@
-import React, { useRef, useState } from 'react';
-import { faSearch, faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Typeahead, withAsync } from 'react-bootstrap-typeahead';
-import { redirectOnAlbum } from '../../utils/redirect';
+import React, {useRef, useState} from 'react';
+import {faSearch, faBars, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
+import {redirectOnAlbum} from '../../utils/redirect';
 import request from '../../utils/request';
 import './index.scss';
-import { Link, useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlanSvg from '../../images/svg/plan_icon.svg';
 import AvatarSvg from '../../images/user.svg';
 import Button from 'react-bootstrap/Button';
-import { Image } from 'react-bootstrap';
-import { server } from '../../../config';
-import { debounce } from 'lodash';
+import {Image} from 'react-bootstrap';
+import {server} from '../../../config';
+import {debounce} from 'lodash';
 
 const AsyncTypeahead = withAsync(Typeahead);
 
-const TopNavBar = ({ userDetails, putUserDetails }) => {
+const TopNavBar = ({userDetails, putUserDetails}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
@@ -87,7 +87,7 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
               onClick={handleSideBar}
               role="button"
             >
-              <FontAwesomeIcon icon={faBars} />
+              <FontAwesomeIcon icon={faBars}/>
             </span>
           </li>
         </ul>
@@ -97,7 +97,7 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
               className="btn btn-navbar bg-transparent text-white"
               type="button"
             >
-              <FontAwesomeIcon icon={faSearch} />
+              <FontAwesomeIcon icon={faSearch}/>
             </button>
           </div>
           <AsyncTypeahead
@@ -161,10 +161,16 @@ const TopNavBar = ({ userDetails, putUserDetails }) => {
                 </Dropdown.Item>
                 <Dropdown.Item as={Link} to="/wallet">
                   Wallet -{' '}
-                  <img src={PlanSvg} alt="wallet Logo" width={17} height={17} />{' '}
+                  <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
                   {userDetails.credit}
                 </Dropdown.Item>
-                <Dropdown.Divider />
+                {userDetails.roleId === 2 &&
+                <Dropdown.Item as={Link} to="/team">
+                  <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                  My Teams
+                </Dropdown.Item>
+                }
+                <Dropdown.Divider/>
                 <Dropdown.Item className="cursor-pointer" onClick={logout}>
                   Log out
                 </Dropdown.Item>
