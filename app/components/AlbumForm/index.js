@@ -250,6 +250,7 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
                   className={`custom-file-input ${errors.albumImage ? 'is-invalid' : ''}`}
                   onChange={handleChange}
                   id="inputGroupFile01"
+                  required
                   aria-describedby="inputGroupFileAddon01"/>
                 <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
               </div>

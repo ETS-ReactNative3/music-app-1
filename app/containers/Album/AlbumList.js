@@ -95,7 +95,7 @@ function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
   }
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
-    return format(new Date(row.releaseDate), 'MM/dd/yyyy');
+    return format(new Date(row.releaseDate), 'dd MMMM yyyy');
   }
 
   function actionsFormatter(cell, row, rowIndex, formatExtraData) {

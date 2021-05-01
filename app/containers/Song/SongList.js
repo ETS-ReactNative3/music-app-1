@@ -100,7 +100,7 @@ function SongList({ getSongs, songs, deleteSongAction }) {
   ];
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
-    return format(new Date(row.releaseDate), 'MM/dd/yyyy');
+    return format(new Date(row.releaseDate), 'dd MMMM yyyy');
   }
 
   function promoteFormatter(cell, row, rowIndex, formatExtraData) {
