@@ -75,17 +75,19 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
   }, [song]);
 
   const onSubmit = data => {
-    const totalPercentage = data.collaborator.reduce((a, b) => a.percentage + b.percentage)
-    if (totalPercentage > 99) {
-      toast.error("Collaborator percentage is more than 99")
-      return false
-    }
+    if (indexes.length > 0) {
+      const totalPercentage = data.collaborator.reduce((a, b) => a.percentage + b.percentage)
+      if (totalPercentage > 99) {
+        toast.error("Collaborator percentage is more than 99")
+        return false
+      }
 
-    let seen = new Set();
-    const hasDuplicates = data.collaborator.some(currentObject => seen.size === seen.add(currentObject.member).size);
-    if (hasDuplicates) {
-      toast.error("Same member repeated in collaboration")
-      return false
+      let seen = new Set();
+      const hasDuplicates = data.collaborator.some(currentObject => seen.size === seen.add(currentObject.member).size);
+      if (hasDuplicates) {
+        toast.error("Same member repeated in collaboration")
+        return false
+      }
     }
 
     formSubmit(data);
@@ -235,7 +237,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
                   onChange={handleAudioChange}
                   id="inputGroupFile02"
                   required
-                  aria-describedby="inputGroupFileAddon02" />
+                  aria-describedby="inputGroupFileAddon02"/>
                 <label className="custom-file-label" htmlFor="inputGroupFile02">Choose file</label>
               </div>
               <div className="invalid-feedback-block">
@@ -301,13 +303,13 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
             </div>
           );
         })}
-        <div className="row mb-4 mt-2">
+        {indexes.length > 0 && <div className="row mb-4 mt-2">
           <div className="col">
             <button className="btn btn-warning" type="button" onClick={addCollaborator}>
               Add Collaborator
             </button>
           </div>
-        </div>
+        </div>}
         {formLoader ? <ButtonLoader/> :
           <button className="btn btn-primary btn-block" type="submit">
             Submit
