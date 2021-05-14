@@ -91,25 +91,19 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             </span>
           </li>
         </ul>
-        <div className="input-group ml-md-5">
-          <div className="input-group-prepend">
-            <button
-              className="btn btn-navbar bg-transparent text-white"
-              type="button"
-            >
-              <FontAwesomeIcon icon={faSearch}/>
-            </button>
-          </div>
+        <div className="search ml-md-5">
+          <span className="searchIcon">
+            <FontAwesomeIcon icon={faSearch}/>
+          </span>
           <AsyncTypeahead
             id="async-example"
-            className="autocomplete-box border-bottom blick-border border-top-0 border-right-0 border-left-0 flex-grow-1"
             useCache
             isLoading={isLoading}
             labelKey="login"
             minLength={3}
             onSearch={searchEnhancer}
             options={options}
-            placeholder="Search for an album"
+            placeholder="Search for albums, artists, genres"
             ref={searchRef}
             onChange={onInputChangeSelection}
             renderMenuItemChildren={option => (
@@ -134,9 +128,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
               <Link to="/subscription-plans">
                 <Button variant="success" className="badge-button mr-2">Subscribe</Button>
               </Link>
-            <Dropdown className="d-inline">
-              <Dropdown.Toggle as="button" id="dropdown-basic" className="badge-button btn btn-outline-success text-white">
-                <div>
+              <Dropdown className="d-inline">
+                <Dropdown.Toggle as="button" id="dropdown-basic"
+                                 className="badge-button btn btn-outline-success text-white">
+                  <div>
                   <span className="avatar rounded-circle">
                     <Image
                       width={24}
@@ -150,30 +145,30 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                       alt="avatar-image"
                     />
                   </span>
-                  <span className="p-2">{userDetails.name}</span>
-                </div>
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/myaccount">
-                  My profile
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/wallet">
-                  Wallet -{' '}
-                  <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
-                  {userDetails.credit}
-                </Dropdown.Item>
-                {userDetails.roleId === 2 &&
-                <Dropdown.Item as={Link} to="/team">
-                  <FontAwesomeIcon icon={faUsers} className="mr-2"/>
-                  My Teams
-                </Dropdown.Item>
-                }
-                <Dropdown.Divider/>
-                <Dropdown.Item className="cursor-pointer" onClick={logout}>
-                  Log out
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+                    <span className="p-2">{userDetails.name}</span>
+                  </div>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/myaccount">
+                    My profile
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/wallet">
+                    Wallet -{' '}
+                    <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
+                    {userDetails.credit}
+                  </Dropdown.Item>
+                  {userDetails.roleId === 2 &&
+                  <Dropdown.Item as={Link} to="/team">
+                    <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                    My Teams
+                  </Dropdown.Item>
+                  }
+                  <Dropdown.Divider/>
+                  <Dropdown.Item className="cursor-pointer" onClick={logout}>
+                    Log out
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </>
           ) : (
             <>
