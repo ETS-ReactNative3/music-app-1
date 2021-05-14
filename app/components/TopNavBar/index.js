@@ -128,21 +128,19 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             )}
           />
         </div>
-        {userDetails && (
-          <div className="pl-5">
-            <Link to="/subscription-plans">
-              <Button variant="success">Subscription Plans</Button>
-            </Link>
-          </div>
-        )}
-        <div className="pl-5">
+        <div className="right">
           {userDetails ? (
-            <Dropdown>
-              <Dropdown.Toggle as="a" id="dropdown-basic">
-                <div className="badge-pill badge  badge-dark ">
+            <>
+              <Link to="/subscription-plans">
+                <Button variant="success" className="badge-button mr-2">Subscribe</Button>
+              </Link>
+            <Dropdown className="d-inline">
+              <Dropdown.Toggle as="button" id="dropdown-basic" className="badge-button btn btn-outline-success text-white">
+                <div>
                   <span className="avatar rounded-circle">
                     <Image
-                      width={22}
+                      width={24}
+                      height={24}
                       roundedCircle
                       onError={e => {
                         e.target.onerror = null;
@@ -176,10 +174,16 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+            </>
           ) : (
-            <Link to="/auth/login">
-              <Button variant="success">Login</Button>
-            </Link>
+            <>
+              <Link to="/auth/login">
+                <Button variant="outline-success" className="badge-button mr-2">Sign in</Button>
+              </Link>
+              <Link to="/auth/register">
+                <Button variant="success" className="badge-button">Create Account</Button>
+              </Link>
+            </>
           )}
         </div>
       </div>
