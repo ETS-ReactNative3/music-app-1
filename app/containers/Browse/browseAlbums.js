@@ -17,6 +17,7 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import 'react-virtualized/styles.css';
 import PaperCard from "../../components/PaperCard";
 import {Link} from "react-router-dom";
+import AlbumList from "../../components/AlbumList/Loadable";
 
 const BrowseAlbums = ({fetchAlbums, albums, loading}) => {
   useInjectReducer({key: 'browse', reducer: browseReducer})
@@ -35,24 +36,9 @@ const BrowseAlbums = ({fetchAlbums, albums, loading}) => {
     <>
       {(item && !loading) ? <PaperCard title={item.title}>
         <div className="browse_container">
-          {albums && albums.map(album => {
-            const albumObj = item.browseType === 'genre' ? album.album : album
-            return <Link to={`/album/${albumObj.slug}`}>
-              <Card key={albumObj.title} className="browse_card">
-                <Card.Img variant="top" src={albumObj.artwork || ''} style={{width: '14rem', height: '8rem'}}
-                          onError={e => {
-                            e.target.onerror = null;
-                            e.target.src = defaultImage;
-                          }}/>
-                <Card.ImgOverlay>
-                  <div className="card_title">{albumObj.title}</div>
-                </Card.ImgOverlay>
-              </Card>
-            </Link>
-          })}
-          {albums.length === 0 && <div className="mt-5"><h4>No Album found for these category.</h4></div>}
+          <AlbumList albums={albums}/>
+          {albums.length === 0 && <div className="mt-5"><h4>No Albums found in this category.</h4></div>}
         </div>
-
       </PaperCard> : <LoadingIndicator/>}
     </>
   )

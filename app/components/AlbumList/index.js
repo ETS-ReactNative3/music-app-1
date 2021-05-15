@@ -8,15 +8,13 @@ import React, { memo } from 'react';
 import {Link} from "react-router-dom";
 import {Image} from "react-bootstrap";
 import defaultImage from "../../images/user.svg";
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
 
 function AlbumList({albums}) {
   return <section className="albumList pt-4">
     <div className="row">
       {albums.map(album => (
-        <div className="col-md-3 my-3">
-          <div className="card bg-dark" key={album.id}>
+        <div className="col-md-3 my-3" key={album.id}>
+          <div className="card bg-dark">
             <div className="card-body">
               <Link to={`/album/${album.album.slug}`}>
                 <Image

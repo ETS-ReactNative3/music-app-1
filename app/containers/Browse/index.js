@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Card} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
@@ -13,8 +12,9 @@ import './index.scss';
 import browseReducer from './reducer';
 import browseSaga from './saga';
 import {makeSelectBrowseData, makeSelectBrowseDataLoading} from './selectors';
-import defaultImage from '../../images/album-4.jpg'
 import {useHistory} from 'react-router-dom';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMusic, faHeadphonesAlt} from "@fortawesome/free-solid-svg-icons";
 
 const Browse = ({browseData, fetchBrowseData, browseDataLoading}) => {
   useInjectSaga({key: 'browse', saga: browseSaga});
@@ -27,38 +27,48 @@ const Browse = ({browseData, fetchBrowseData, browseDataLoading}) => {
   return (
     <>
       {browseDataLoading ? <LoadingIndicator/> :
-        <PaperCard title={'Browse Categories'}>
-          <div className="browse_container">
-            {browseData && browseData.genres.map(data => {
-              return <Card key={data.title} className="browse_card"
-                           onClick={() => history.push(`/browse/${data.title}`, {
-                             data: {
-                               ...data,
-                               browseType: 'genre'
-                             }
-                           })}>
-                <Card.Img variant="top" src={data.image || ''} style={{width: '14rem', height: '8rem'}} onError={e => {
-                  e.target.onerror = null;
-                  e.target.src = defaultImage;
-                }}/>
-                <Card.ImgOverlay>
-                  <div className="card_title">{data.title}</div>
-                </Card.ImgOverlay>
-              </Card>
-            })}
-            {browseData && browseData.moods.map(data => {
-              return <Card key={data.title} className="browse_card"
-                           onClick={() => history.push(`/browse/${data.title}`, {data: {...data, browseType: 'mood'}})}>
-                <Card.Img variant="top" src={data.image || ''} style={{width: '14rem', height: '8rem'}} onError={e => {
-                  e.target.onerror = null;
-                  e.target.src = defaultImage;
-                }}/>
-                <Card.ImgOverlay>
-                  <div className="card_title">{data.title}</div>
-                </Card.ImgOverlay>
-              </Card>
-            })}
-          </div>
+        <PaperCard>
+          <section className="mb-4">
+            <h2>Music by genre</h2>
+            <div className="row">
+              {browseData && browseData.genres.map(data =>
+                <div className="col-md-3 mt-3" key={data.title}
+                     onClick={() => history.push(`/browse/${data.title}`, {
+                       data: {
+                         ...data,
+                         browseType: 'genre'
+                       }
+                     })}>
+                  <div className="card bg-dark overflow-hidden">
+                    <div className="card-body browse-card">
+                      <span className="font-weight-bold">{data.title}</span>
+                      <div className="card-body-icon">
+                        <FontAwesomeIcon icon={faMusic} size="lg" className="mr-2 earningIcon"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+          <section className="pt-3">
+            <h2>Music by mood</h2>
+            <div className="row">
+              {browseData && browseData.moods.map(data =>
+                <div className="col-md-3 mt-3" key={data.title}
+                     onClick={() => history.push(`/browse/${data.title}`, {data: {...data, browseType: 'mood'}})}>
+                  <div className="card bg-dark overflow-hidden">
+                    <div className="card-body browse-card">
+                      <span className="font-weight-bold">{data.title}</span>
+                      <div className="card-body-icon">
+                        <FontAwesomeIcon icon={faHeadphonesAlt} size="lg" className="mr-2 earningIcon rotate-icon"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
         </PaperCard>}
     </>
   )
@@ -68,7 +78,6 @@ Browse.propTypes = {
   browseData: PropTypes.object,
   browseDataLoading: PropTypes.bool,
   fetchBrowseData: PropTypes.func
-
 }
 const mapStateToProps = createStructuredSelector({
   browseData: makeSelectBrowseData(),
