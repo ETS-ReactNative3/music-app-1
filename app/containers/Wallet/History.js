@@ -124,9 +124,11 @@ const WalletHistory = (
                   columns={columns}
                 />
               </Tab>
+              {userDetails.roleId !== 2 &&
               <Tab eventKey="earnings" title="Earnings">
                 <TastemakerEarnings earnings={earnings}/>
               </Tab>
+              }
               <Tab eventKey="withdrawal" title="Withdrawal Requests">
                 <WithdrawalRequests withdrawalRequests={withdrawalRequests}/>
               </Tab>
