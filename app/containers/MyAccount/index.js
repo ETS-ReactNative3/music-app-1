@@ -145,10 +145,35 @@ function MyAccount(
                         </>}
                       </div>
                     </div>
+                    {userDetails.artistInformation && <Row className="mt-5">
+                      <Col md={7} lg={8} xl={9}>
+
+                        <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                          Social Media
+                        </h3>
+                        <div className="mb-3">
+                          <div style={styles.linkContainer}>
+                            {getValue(userDetails, ['artistInformation', 'facebook']) && renderSocialMedias(userDetails.artistInformation, 'facebook')}
+                            {getValue(userDetails, ['artistInformation', 'twitter']) && renderSocialMedias(userDetails.artistInformation, 'twitter')}
+                            {getValue(userDetails, ['artistInformation', 'instagram']) && renderSocialMedias(userDetails.artistInformation, 'instagram')}
+                            {getValue(userDetails, ['artistInformation', 'youtube']) && renderSocialMedias(userDetails.artistInformation, 'youtube')}
+                          </div>
+                          {getValue(userDetails, ['artistInformation', 'location']) && <><h3
+                            className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
+                            Location
+                          </h3>
+                            <div className="mb-3">
+                              {getValue(userDetails, ['artistInformation', 'location'])}
+                            </div>
+                          </>}
+                        </div>
+                      </Col>
+                    </Row>}
                   </div>
                   <div className="col-sm-6">
                     <div className="text-center mt-sm-0 mt-3 text-sm-right">
-                      <button type="button" className="btn btn-success mr-3" onClick={() => history.push('/myaccount/edit')}>
+                      <button type="button" className="btn btn-success mr-3"
+                              onClick={() => history.push('/myaccount/edit')}>
                         Edit Profile
                       </button>
                       {userDetails.roleId === 1 &&
@@ -158,7 +183,6 @@ function MyAccount(
                         Supported Artist
                       </button>}
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -231,36 +255,7 @@ function MyAccount(
                   </Col>
                 </>
               </Row>
-        ) || userDetails.artistInformation && <Row className="mt-5">
-          <Col md={7} lg={8} xl={9}>
-            <div className="card bg-dark">
-              <div className="card-body profile-user-box">
-
-
-                <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                  Social Media
-                </h3>
-                <div className="mb-3">
-                  <div style={styles.linkContainer}>
-                    {getValue(userDetails, ['artistInformation', 'facebook']) && renderSocialMedias(userDetails.artistInformation, 'facebook')}
-                    {getValue(userDetails, ['artistInformation', 'twitter']) && renderSocialMedias(userDetails.artistInformation, 'twitter')}
-                    {getValue(userDetails, ['artistInformation', 'instagram']) && renderSocialMedias(userDetails.artistInformation, 'instagram')}
-                    {getValue(userDetails, ['artistInformation', 'youtube']) && renderSocialMedias(userDetails.artistInformation, 'youtube')}
-
-
-                  </div>
-                  {getValue(userDetails, ['artistInformation', 'location']) && <><h3
-                    className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                    Location
-                  </h3>
-                    <div className="mb-3">
-                      {getValue(userDetails, ['artistInformation', 'location'])}
-                    </div>
-                  </>}
-                </div>
-              </div>
-            </div>
-          </Col></Row>}
+        )}
 
         <InfoCard title={''}
                   message={'Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'}
