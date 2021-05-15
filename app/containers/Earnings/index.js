@@ -9,7 +9,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {compose} from 'redux';
-
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faUsers, faCoins, faMusic, faMoneyBill} from '@fortawesome/free-solid-svg-icons';
 import {useInjectSaga} from 'utils/injectSaga';
 import {useInjectReducer} from 'utils/injectReducer';
 import {
@@ -21,8 +22,7 @@ import reducer from './reducer';
 import saga from './saga';
 import {getMySupportedArtists, getPerStreamCost, getSongsStats, getUserCentricCost} from "./actions";
 import PaperCard from "../../components/PaperCard";
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import BootstrapTable from "react-bootstrap-table-next";
+import "./index.scss";
 
 export function Earnings(
   {
@@ -45,73 +45,65 @@ export function Earnings(
     fetchUserCentricCost()
   }, []);
 
-  const columns = [
-    {
-      dataField: 'title',
-      text: 'Title',
-      style: {
-        width: '25%',
-      },
-      headerStyle: {
-        width: '25%',
-      },
-    },
-    {
-      dataField: 'count',
-      text: 'Count',
-      style: {
-        width: '25%',
-      },
-      headerStyle: {
-        width: '25%',
-      },
-    },
-    {
-      dataField: 'id',
-      text: 'Cost',
-      formatter: costFormatter,
-      style: {
-        width: '25%',
-      },
-      headerStyle: {
-        width: '25%',
-      },
-    },
-  ]
-
-  function costFormatter(cell, row, rowIndex, formatExtraData) {
-    return `$${row.count * perStreamCost}`
-  }
-
   return <PaperCard title="Earnings">
-    <div className="row">
-      <div className="col">
-        <BootstrapTable
-          striped
-          bordered={false}
-          bootstrap4
-          pagination={paginationFactory()}
-          keyField="id"
-          data={songs}
-          columns={columns}
-        />
+    <section className="streaming pt-4 mb-4">
+      <div className="row">
+        {songs.map(item =>
+          <div className="col-md-4 mt-3">
+            <div className="card bg-dark overflow-hidden">
+              <div className="card-body profile-user-box">
+                <div className="row">
+                  <div className="col-8">
+                    <h4>{item.title}</h4>
+                    <h2 className="font-weight-bolder">{item.count}</h2>
+                    <h4 className="text-success">${(item.count * perStreamCost).toFixed(2)}</h4>
+                  </div>
+                  <div className="col-4">
+                    <div className="card-body-icon">
+                      <FontAwesomeIcon icon={faMusic} size="lg" className="mr-2 earningIcon"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-    <div className="row">
-      <div className="col">
-        <div className="card bg-dark">
-          <div className="card-body profile-user-box">
-            <div className="row">
-              <div className="col-sm-8">
-                <h3>Support Earnings</h3>
-                <p>Total Supporters = {supportedCount}</p>
-                <p>Total Earning = {userCentricCost}</p>
+    </section>
+    <section className="supporter pt-4">
+      <div className="row">
+        <div className="col">
+          <div className="card bg-dark overflow-hidden">
+            <div className="card-body profile-user-box">
+              <div className="row">
+                <div className="col">
+                  <h2>Support Earnings</h2>
+                </div>
+                <div className="col">
+                  <div className="card-body-icon">
+                    <FontAwesomeIcon icon={faMoneyBill} size="lg" className="mr-2 earningIcon rotate-icon"/>
+                  </div>
+                </div>
+              </div>
+              <div className="row py-4">
+                <div className="col-md-4">
+                  <FontAwesomeIcon icon={faUsers} size="lg" className="mr-2 earningIcon"/>
+                  <span className="font-weight-bold pl-3">Total Supporters <span
+                    className="px-4">=</span> <span className="text-success">{supportedCount}</span></span>
+                </div>
+                <div className="col-4">
+                  <FontAwesomeIcon icon={faCoins} size="lg" className="mr-2"/>
+                  <span className="font-weight-bold pl-3">
+                        <span>Total Earning</span><span className="px-4">=</span><span
+                    className="text-success">{userCentricCost}</span>
+                      </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </PaperCard>;
 }
 

@@ -1,0 +1,17 @@
+.card-body-icon {
+  position: absolute;
+  z-index: 0;
+  top: -25px;
+  right: -10px;
+  font-size: 5rem;
+}
+
+.rotate-icon {
+  -webkit-transform: rotate(
+      15deg
+  );
+  -ms-transform: rotate(15deg);
+  transform: rotate(
+      15deg
+  );
+}
