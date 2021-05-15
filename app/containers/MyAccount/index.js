@@ -38,6 +38,7 @@ import {fetchInfluencerStatsAction} from "../Influencer/actions";
 import {makeSelectInfluencerStats, makeSelectInfluencerStatsLoader} from "../Influencer/selectors";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {InfoCard} from './InfoCard';
+import ChangePassword from '../../components/ChangePassword';
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -66,6 +67,7 @@ function MyAccount(
   useInjectSaga({key: 'influencer', saga: influencerSaga});
   useInjectReducer({key: 'influencer', reducer: influencerReducer});
 
+  const [showChangePassword, setShowChangePassword] = React.useState(false);
   useEffect(() => {
     getGenreList();
   }, []);
@@ -176,6 +178,11 @@ function MyAccount(
                               onClick={() => history.push('/myaccount/edit')}>
                         Edit Profile
                       </button>
+
+                      <button type="button" className="btn btn-success mr-3"
+                              onClick={() => setShowChangePassword(true)}>
+                        Change Password
+                      </button>
                       {userDetails.roleId === 1 &&
                       <button type="button"
                               className="btn btn-success"
@@ -260,6 +267,8 @@ function MyAccount(
         <InfoCard title={''}
                   message={'Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'}
                   buttonTitle={'Become a Patron'} linkTo={'/patron'}/>
+
+                  <ChangePassword showChangePassword={showChangePassword} handleClose={() => setShowChangePassword(false)}/>
 
       </PaperCard>
     </>

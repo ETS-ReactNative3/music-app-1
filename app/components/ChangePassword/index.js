@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Col, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { makeSelectChangePasswordProcessing } from '../../containers/MyAccount/selectors';
 import ButtonLoader from '../ButtonLoader';
 
-const ChangePassword = ({ changePassword, changePasswordProcessing }) => {
+const ChangePassword = ({ changePassword, changePasswordProcessing, showChangePassword, handleClose }) => {
 
 
     const validationSchema = Yup.object().shape({
@@ -34,78 +34,96 @@ const ChangePassword = ({ changePassword, changePasswordProcessing }) => {
         resolver: yupResolver(validationSchema),
     });
 
+    React.useEffect(() => {
+        if (!changePasswordProcessing) {
+            reset({})
+            handleClose()
+        }
+    }, [changePasswordProcessing]);
     const onSubmit = data => {
         changePassword({ password: data.currentPassword, newPassword: data.confirmPassword })
-        reset({})
+
     }
     return (
-        <>
-            <Row className="mt-5">
-                <Col md={4} lg={6} xl={6}>
-                    <form onSubmit={handleSubmit(onSubmit)} autocomplete="off">
-                        <div className="card bg-dark">
-                            <div className="card-body profile-user-box">
+        <Modal
+            show={showChangePassword}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+            size="sg"
+        >
+            <Modal.Header closeButton>
+                <Modal.Title>Change Password</Modal.Title>
+            </Modal.Header>
+            <form onSubmit={handleSubmit(onSubmit)} autocomplete="off">
+
+                <Modal.Body>
 
 
-                                <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                                    Change Password
-              </h3>
-                                <div className="mt-4">
-                                    <label>Current Password</label>
-                                    <input
-                                        ref={register}
-                                        type="password"
-                                        name="currentPassword"
-                                        style={{ width: '300px' }}
-                                        placeholder="Enter Current Password"
-                                        className={`form-control `}
-                                    />
-                                    <div className="invalid-feedback" style={{ display: 'block' }}>
-                                        {errors.currentPassword && errors.currentPassword.message}
-                                    </div>
-                                </div>
 
-                                <div className="mt-4">
-                                    <label>New Password</label>
-                                    <input
-                                        ref={register}
-                                        type="password"
-                                        name="newPassword"
-                                        style={{ width: '300px' }}
-                                        placeholder="Enter New Password"
-                                        className={`form-control `}
-                                    />
-                                    <div className="invalid-feedback" style={{ display: 'block' }}>
-                                        {errors.newPassword && errors.newPassword.message}
-                                    </div>
-                                </div>
-
-                                <div className="mt-4">
-                                    <label>Confirm Password</label>
-                                    <input
-                                        ref={register}
-                                        type="password"
-                                        name="confirmPassword"
-                                        style={{ width: '300px' }}
-                                        placeholder="Enter Confirm Password"
-                                        className={`form-control `}
-                                    />
-                                    <div className="invalid-feedback" style={{ display: 'block' }}>
-                                        {errors.confirmPassword && errors.confirmPassword.message}
-                                    </div>
-                                </div>
-                                <div className="mt-2">
-
-                                    {changePasswordProcessing ? <ButtonLoader /> : <button className="btn btn-success btn-block" type="submit">
-                                        Submit
-              </button>}
-
-                                </div>
-                            </div>
+                    <div className="mt-1">
+                        <label>Current Password</label>
+                        <input
+                            ref={register}
+                            type="password"
+                            name="currentPassword"
+                            style={{ width: '300px' }}
+                            placeholder="Enter Current Password"
+                            className={`form-control `}
+                        />
+                        <div className="invalid-feedback" style={{ display: 'block' }}>
+                            {errors.currentPassword && errors.currentPassword.message}
                         </div>
-                    </form>
-                </Col></Row>
-        </>
+                    </div>
+
+                    <div className="mt-4">
+                        <label>New Password</label>
+                        <input
+                            ref={register}
+                            type="password"
+                            name="newPassword"
+                            style={{ width: '300px' }}
+                            placeholder="Enter New Password"
+                            className={`form-control `}
+                        />
+                        <div className="invalid-feedback" style={{ display: 'block' }}>
+                            {errors.newPassword && errors.newPassword.message}
+                        </div>
+                    </div>
+
+                    <div className="mt-4">
+                        <label>Confirm Password</label>
+                        <input
+                            ref={register}
+                            type="password"
+                            name="confirmPassword"
+                            style={{ width: '300px' }}
+                            placeholder="Enter Confirm Password"
+                            className={`form-control `}
+                        />
+                        <div className="invalid-feedback" style={{ display: 'block' }}>
+                            {errors.confirmPassword && errors.confirmPassword.message}
+                        </div>
+                    </div>
+                    <div className="mt-2">
+
+
+
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" className="btn-block" onClick={handleClose}>
+                        Cancel
+          </Button>
+                        {changePasswordProcessing ? <ButtonLoader /> :
+                            <Button variant="primary" className="btn-block" type="submit">
+                                Sumit
+          </Button>}
+                    
+                </Modal.Footer>
+            </form>
+
+        </Modal>
     )
 }
 
@@ -113,7 +131,9 @@ const ChangePassword = ({ changePassword, changePasswordProcessing }) => {
 ChangePassword.propTypes = {
 
     changePassword: PropTypes.func,
-    changePasswordProcessing: PropTypes.bool
+    changePasswordProcessing: PropTypes.bool,
+    handleClose: PropTypes.func,
+    showChangePassword: PropTypes.bool
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -29,7 +29,6 @@ import accountReducer from './reducer';
 import accountSaga from './saga';
 import { makeSelectUpdateProcessing, makeSelectUserCountries } from './selectors';
 import PaperCard from "../../components/PaperCard";
-import ChangePassword from '../../components/ChangePassword';
 
 const EditAccount = (
   {
@@ -467,8 +466,6 @@ const EditAccount = (
               <EditInfluencerAccount />
             </div>
           )}
-
-        <ChangePassword/>
 
         </div>
       </div>
