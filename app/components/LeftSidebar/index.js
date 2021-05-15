@@ -88,12 +88,6 @@ function LeftSideBar({role, isInfluencer}) {
                     </Link>
                   </li>
                   <li className="nav-item rounded-lg">
-                    <Link to="/earnings" className="nav-link mb-1">
-                      <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
-                      <p className="d-inline-block m-0">Earnings</p>
-                    </Link>
-                  </li>
-                  <li className="nav-item rounded-lg">
                     <Link to="/patron" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>
                       <p className="d-inline-block m-0">My Patronage</p>

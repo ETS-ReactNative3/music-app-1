@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {faSearch, faBars, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {faSearch, faBars, faUsers, faWallet, faUserAlt, faMoneyBillWave} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
 import {redirectOnAlbum} from '../../utils/redirect';
@@ -150,18 +150,26 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item as={Link} to="/myaccount">
+                    <FontAwesomeIcon icon={faUserAlt} className="mr-2"/>
                     My profile
                   </Dropdown.Item>
                   <Dropdown.Item as={Link} to="/wallet">
+                    <FontAwesomeIcon icon={faWallet} className="mr-2"/>
                     Wallet -{' '}
                     <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
                     {userDetails.credit}
                   </Dropdown.Item>
                   {userDetails.roleId === 2 &&
-                  <Dropdown.Item as={Link} to="/team">
-                    <FontAwesomeIcon icon={faUsers} className="mr-2"/>
-                    My Teams
-                  </Dropdown.Item>
+                  <>
+                    <Dropdown.Item as={Link} to="/team">
+                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                      My Teams
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/earnings">
+                      <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2"/>
+                      My Earnings
+                    </Dropdown.Item>
+                  </>
                   }
                   <Dropdown.Divider/>
                   <Dropdown.Item className="cursor-pointer" onClick={logout}>
