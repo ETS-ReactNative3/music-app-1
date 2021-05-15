@@ -1,137 +1,144 @@
-import React, { memo } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import React, {memo} from 'react';
+import {Button, Modal} from 'react-bootstrap';
+import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { changePasswordAction } from '../../containers/MyAccount/actions';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {createStructuredSelector} from 'reselect';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {changePasswordAction} from '../../containers/MyAccount/actions';
 import PropTypes from 'prop-types';
-import { makeSelectChangePasswordProcessing } from '../../containers/MyAccount/selectors';
+import {makeSelectChangePasswordProcessing} from '../../containers/MyAccount/selectors';
 import ButtonLoader from '../ButtonLoader';
 
-const ChangePassword = ({ changePassword, changePasswordProcessing }) => {
+const ChangePassword = ({changePassword, changePasswordProcessing, showChangePassword, handleClose}) => {
+  const validationSchema = Yup.object().shape({
+    currentPassword: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    newPassword: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
+  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    errors,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-
-    const validationSchema = Yup.object().shape({
-        currentPassword: Yup.string()
-            .min(6, 'Password must be at least 6 characters')
-            .required('Password is required'),
-        newPassword: Yup.string()
-            .min(6, 'Password must be at least 6 characters')
-            .required('Password is required'),
-        confirmPassword: Yup.string()
-            .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
-            .required('Confirm Password is required'),
-    });
-    const {
-        register,
-        handleSubmit,
-        reset,
-        errors,
-    } = useForm({
-        resolver: yupResolver(validationSchema),
-    });
-
-    const onSubmit = data => {
-        changePassword({ password: data.currentPassword, newPassword: data.confirmPassword })
-        reset({})
+  React.useEffect(() => {
+    if (!changePasswordProcessing) {
+      reset({})
+      handleClose()
     }
-    return (
-        <>
-            <Row className="mt-5">
-                <Col md={4} lg={6} xl={6}>
-                    <form onSubmit={handleSubmit(onSubmit)} autocomplete="off">
-                        <div className="card bg-dark">
-                            <div className="card-body profile-user-box">
+  }, [changePasswordProcessing]);
+  const onSubmit = data => {
+    changePassword({password: data.currentPassword, newPassword: data.confirmPassword})
 
+  }
+  return (
+    <Modal
+      show={showChangePassword}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+      size="sg"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Change Password</Modal.Title>
+      </Modal.Header>
+      <form onSubmit={handleSubmit(onSubmit)} autocomplete="off">
+        <Modal.Body>
+          <div className="mt-1">
+            <label>Current Password</label>
+            <input
+              ref={register}
+              type="password"
+              name="currentPassword"
+              style={{width: '300px'}}
+              placeholder="Enter Current Password"
+              className={`form-control `}
+            />
+            <div className="invalid-feedback" style={{display: 'block'}}>
+              {errors.currentPassword && errors.currentPassword.message}
+            </div>
+          </div>
 
-                                <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0">
-                                    Change Password
-              </h3>
-                                <div className="mt-4">
-                                    <label>Current Password</label>
-                                    <input
-                                        ref={register}
-                                        type="password"
-                                        name="currentPassword"
-                                        style={{ width: '300px' }}
-                                        placeholder="Enter Current Password"
-                                        className={`form-control `}
-                                    />
-                                    <div className="invalid-feedback" style={{ display: 'block' }}>
-                                        {errors.currentPassword && errors.currentPassword.message}
-                                    </div>
-                                </div>
+          <div className="mt-4">
+            <label>New Password</label>
+            <input
+              ref={register}
+              type="password"
+              name="newPassword"
+              style={{width: '300px'}}
+              placeholder="Enter New Password"
+              className={`form-control `}
+            />
+            <div className="invalid-feedback" style={{display: 'block'}}>
+              {errors.newPassword && errors.newPassword.message}
+            </div>
+          </div>
 
-                                <div className="mt-4">
-                                    <label>New Password</label>
-                                    <input
-                                        ref={register}
-                                        type="password"
-                                        name="newPassword"
-                                        style={{ width: '300px' }}
-                                        placeholder="Enter New Password"
-                                        className={`form-control `}
-                                    />
-                                    <div className="invalid-feedback" style={{ display: 'block' }}>
-                                        {errors.newPassword && errors.newPassword.message}
-                                    </div>
-                                </div>
-
-                                <div className="mt-4">
-                                    <label>Confirm Password</label>
-                                    <input
-                                        ref={register}
-                                        type="password"
-                                        name="confirmPassword"
-                                        style={{ width: '300px' }}
-                                        placeholder="Enter Confirm Password"
-                                        className={`form-control `}
-                                    />
-                                    <div className="invalid-feedback" style={{ display: 'block' }}>
-                                        {errors.confirmPassword && errors.confirmPassword.message}
-                                    </div>
-                                </div>
-                                <div className="mt-2">
-
-                                    {changePasswordProcessing ? <ButtonLoader /> : <button className="btn btn-success btn-block" type="submit">
-                                        Submit
-              </button>}
-
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </Col></Row>
-        </>
-    )
+          <div className="mt-4">
+            <label>Confirm Password</label>
+            <input
+              ref={register}
+              type="password"
+              name="confirmPassword"
+              style={{width: '300px'}}
+              placeholder="Enter Confirm Password"
+              className={`form-control `}
+            />
+            <div className="invalid-feedback" style={{display: 'block'}}>
+              {errors.confirmPassword && errors.confirmPassword.message}
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          {changePasswordProcessing ? <ButtonLoader/> :
+            <Button variant="primary" className="btn-success" type="submit">
+              Submit
+            </Button>}
+          <Button variant="secondary" className="btn-danger" onClick={handleClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </form>
+    </Modal>
+  )
 }
 
 
 ChangePassword.propTypes = {
 
-    changePassword: PropTypes.func,
-    changePasswordProcessing: PropTypes.bool
+  changePassword: PropTypes.func,
+  changePasswordProcessing: PropTypes.bool,
+  handleClose: PropTypes.func,
+  showChangePassword: PropTypes.bool
 };
 
 const mapStateToProps = createStructuredSelector({
-    changePasswordProcessing: makeSelectChangePasswordProcessing()
+  changePasswordProcessing: makeSelectChangePasswordProcessing()
 });
 
 function mapDispatchToProps(dispatch) {
-    return {
-        changePassword: (data) => dispatch(changePasswordAction(data))
-    };
+  return {
+    changePassword: (data) => dispatch(changePasswordAction(data))
+  };
 }
 
 const withConnect = connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps,
 );
 
 export default compose(
-    withConnect,
-    memo,
+  withConnect,
+  memo,
 )(ChangePassword);

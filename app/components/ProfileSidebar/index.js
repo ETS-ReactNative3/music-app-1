@@ -4,7 +4,7 @@
  *
  */
 
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import PropTypes from "prop-types";
 import defaultImage from "../../images/user.svg";
 import {Image} from "react-bootstrap";
@@ -13,8 +13,12 @@ import {faMapMarkerAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {renderSocialMediaIcons} from "../../utils";
 import {Link} from "react-router-dom";
+import ChangePassword from "../ChangePassword";
 
 function ProfileSidebar({userDetails}) {
+  const [showChangePassword, setShowChangePassword] = useState(false);
+
+
   return <div className="card bg-dark mb-3">
     <div className="card-header">
       <h5 className="card-title mb-0">Profile Details</h5>
@@ -52,9 +56,7 @@ function ProfileSidebar({userDetails}) {
         </Link>
       </div>
       <div className="mt-3">
-        <Link to="/myaccount/edit">
-          <button type="button" className="btn btn-sm btn-success">Change Password</button>
-        </Link>
+          <button type="button" className="btn btn-sm btn-success" onClick={() => setShowChangePassword(true)}>Change Password</button>
       </div>
     </div>
     <hr className="my-0"/>
@@ -118,6 +120,7 @@ function ProfileSidebar({userDetails}) {
       <h5 className="card-title mb-0">{userDetails.subscription.title} ({userDetails.subscription.duration} days)</h5>
     </div>
     }
+    <ChangePassword showChangePassword={showChangePassword} handleClose={() => setShowChangePassword(false)}/>
   </div>;
 }
 
