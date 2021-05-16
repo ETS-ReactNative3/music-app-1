@@ -1,33 +1,32 @@
-import React, { memo } from 'react';
+import React, {memo} from 'react';
 import PaperCard from '../../components/PaperCard';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { createStakeAction, fetchStakeAction } from './actions';
-import { useInjectReducer } from '../../utils/injectReducer';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {createStakeAction, fetchStakeAction} from './actions';
+import {useInjectReducer} from '../../utils/injectReducer';
 import patronReducer from './reducer';
 import patronSaga from './saga';
-import { useInjectSaga } from '../../utils/injectSaga';
-import { makeSelectProgress, makeSelectStakeProgress, makeSelectStakes } from './selectors';
+import {useInjectSaga} from '../../utils/injectSaga';
+import {makeSelectProgress, makeSelectStakeProgress, makeSelectStakes} from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
-import { Button, Image, Modal } from 'react-bootstrap';
+import {Button, Image, Modal} from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import filterFactory from 'react-bootstrap-table2-filter';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import defaultImage from '../../images/user.svg';
-import { makeSelectUserDetails } from '../App/selectors';
+import {makeSelectUserDetails} from '../App/selectors';
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import ButtonLoader from "../../components/ButtonLoader";
 
-
-const PatronList = ({ fetchStake, progress, stakes, userDetails, createStakeProgress, createStake }) => {
-  useInjectReducer({ key: 'patron', reducer: patronReducer });
-  useInjectSaga({ key: 'patron', saga: patronSaga });
+const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgress, createStake}) => {
+  useInjectReducer({key: 'patron', reducer: patronReducer});
+  useInjectSaga({key: 'patron', saga: patronSaga});
   React.useEffect(() => {
     fetchStake();
   }, []);
@@ -42,7 +41,7 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails, createStakeProg
   });
 
 
-  const { register, handleSubmit, errors, reset, control } = useForm({
+  const {register, handleSubmit, errors, reset, control} = useForm({
     resolver: yupResolver(validationSchema)
   });
 
@@ -95,115 +94,83 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails, createStakeProg
   };
   return (
     <>
-      {progress ? <LoadingIndicator /> :
+      {progress ? <LoadingIndicator/> :
         <PaperCard title="My Patronage">
           <div className="row">
-            <div className="col-sm-12">
-              <div className="card bg-dark">
-                <div className="card-body profile-user-box">
-                  <div className="row">
-                    <div className="col-sm-6">
-                      <div className="media">
-                        <span className="float-left m-2 mr-4">
-                          <Image
-                            width={120}
-                            height={120}
-                            onError={e => {
-                              e.target.onerror = null;
-                              e.target.src = defaultImage;
-                            }}
-                            src={userDetails.avatar}
-                            alt=""
-                            roundedCircle
-                          />
-                        </span>
-                        <div className="media-body">
-                          <h4 className="mt-1 mb-1 text-white">{userDetails.name}</h4>
-                          <p className="font-13 text-white-50">
-                            {userDetails.roleId !== 1 && userDetails.role.title}
-                          </p>
-                          <p className="font-13 text-white-50">
-                            {userDetails.roleId === 1 && userDetails.influencerId && 'Tastemaker'}
-                            {userDetails.roleId === 1 && !userDetails.influencerId && userDetails.role.title}
-                          </p>
-                          {userDetails.biography &&
-                            <p>
-                              <strong>Bio:</strong> {userDetails.biography}
-                            </p>
-                          }
-                          <ul className="mb-0 list-inline text-light">
-                            <li className="list-inline-item">
-                              <h5 className="mb-1">
-                                <img
-                                  src={PlanSvg}
-                                  alt="wallet Logo"
-                                  width={20}
-                                  height={20}
-                                /> {userDetails.credit}
-                              </h5>
-                              <p className="mb-0 font-13 text-white-50">Bliiink Credits</p>
-                            </li>
-                          </ul>
-                          {(userDetails && userDetails.subscription) && <>
-                            <h3 className="pb-2 d-inline-block border-top-0 border-right-0 border-left-0 mt-2">Subscription Info:- </h3>
-                            <div className="mb-3">
-                              {userDetails.subscription.title} ({userDetails.subscription.duration} days)
-                        </div>
-                          </>}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="text-center mt-sm-0 mt-3 text-sm-right">
-
-                        <Button variant="success" onClick={() => { setShowAddPatronage(true) }}>Patronage Credit</Button>
-
-                      </div>
-
-                    </div>
+            <div className="col-md-4 col-xl-3">
+              <div className="card bg-dark mb-3">
+                <div className="card-header">
+                  <h5 className="card-title mb-0">Profile Details</h5>
+                </div>
+                <div className="card-body text-center">
+                  <Image
+                    width={120}
+                    height={120}
+                    onError={e => {
+                      e.target.onerror = null;
+                      e.target.src = defaultImage;
+                    }}
+                    src={userDetails.avatar}
+                    className="mb-2"
+                    alt="avatar"
+                    roundedCircle
+                  />
+                  <h5 className="card-title mb-2">{userDetails.name}</h5>
+                  <div>
+                    <img
+                      src={PlanSvg}
+                      alt="wallet Logo"
+                      width={20}
+                      height={20}
+                    /><span className="font-weight-bold pl-2">  {userDetails.credit} credits</span>
+                  </div>
+                  <div className="mt-3">
+                    <button type="button" onClick={() => {
+                      setShowAddPatronage(true)
+                    }} className="btn btn-sm btn-success">
+                      Patronage Credit
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
+            <div className="col-md-8 col-xl-9">
+              <h2>Patroned Info:</h2>
+              <BootstrapTable
+                striped
+                hover
+                bordered={false}
+                bootstrap4
+                pagination={paginationFactory()}
+                filter={filterFactory()}
+                keyField="id"
+                data={stakes || []}
+                columns={columns}
+              />
+            </div>
           </div>
-          <h2 className="my-5">Patroned Info:</h2>
-          <BootstrapTable
-            striped
-            hover
-            bordered={false}
-            bootstrap4
-            pagination={paginationFactory()}
-            filter={filterFactory()}
-            keyField="id"
-            data={stakes || []}
-            columns={columns}
-            rowEvents={{
-              onClick: (e, row) => {
-
-              },
-            }}
-          />
           <Modal
             show={showAddPatronage}
             onHide={() => setShowAddPatronage(false)}
             backdrop="static"
             keyboard={false}
           >
-              <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
 
-            <Modal.Header>Add Patronage</Modal.Header>
-            <Modal.Body>
+              <Modal.Header>Add Patronage</Modal.Header>
+              <Modal.Body>
 
                 <table className="">
-<tbody>
+                  <tbody>
                   <tr>
                     <td>Patroned Amount:</td>
                     <td>
                       <input
                         name="amount"
-                        style={{ width: '200px' }}
+                        style={{width: '200px'}}
                         placeholder="Enter amount"
-                        onChange={(e) => { }}
+                        onChange={(e) => {
+                        }}
                         className={`form-control ${errors.amount ? 'is-invalid' : ''}`}
                         ref={register}
                       />
@@ -217,11 +184,11 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails, createStakeProg
                     <td>
                       <input
                         name="tenure"
-                        style={{ width: '200px' }}
+                        style={{width: '200px'}}
                         placeholder="Enter period"
                         type="number"
                         className={`form-control ${errors.tenure ? 'is-invalid' : ''}`}
-                        ref={register} />
+                        ref={register}/>
                       <div className="invalid-feedback">
                         {errors.tenure && errors.tenure.message}
                       </div>
@@ -229,15 +196,15 @@ const PatronList = ({ fetchStake, progress, stakes, userDetails, createStakeProg
                   </tr>
                   </tbody>
                 </table>
-            </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowAddPatronage(false)}>
-              Close
-            </Button>
-            {createStakeProgress ? <ButtonLoader/> : <Button variant="primary" type="submit">
-              Create
-            </Button>}
-            </Modal.Footer>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShowAddPatronage(false)}>
+                  Close
+                </Button>
+                {createStakeProgress ? <ButtonLoader/> : <Button variant="primary" type="submit">
+                  Create
+                </Button>}
+              </Modal.Footer>
             </form>
 
           </Modal>

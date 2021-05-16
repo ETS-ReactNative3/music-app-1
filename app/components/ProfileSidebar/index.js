@@ -18,7 +18,6 @@ import ChangePassword from "../ChangePassword";
 function ProfileSidebar({userDetails}) {
   const [showChangePassword, setShowChangePassword] = useState(false);
 
-
   return <div className="card bg-dark mb-3">
     <div className="card-header">
       <h5 className="card-title mb-0">Profile Details</h5>
