@@ -4,7 +4,7 @@ import Spinner from "react-bootstrap/Spinner";
 
 function ButtonLoader() {
   return (
-    <Button variant="primary" block disabled>
+    <Button variant="primary" block disabled className="mt-2">
       <Spinner
         as="span"
         animation="grow"
