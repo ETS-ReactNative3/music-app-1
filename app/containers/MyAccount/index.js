@@ -29,6 +29,7 @@ import {makeSelectInfluencerStats, makeSelectInfluencerStatsLoader} from "../Inf
 import LoadingIndicator from "../../components/LoadingIndicator";
 import {InfoCard} from './InfoCard';
 import ProfileSidebar from "../../components/ProfileSidebar/Loadable";
+import {SupportedArtist} from "../Artist/Loadable";
 
 const renderGenres = (genersToRender, genres) =>
   genersToRender &&
@@ -137,6 +138,7 @@ function MyAccount(
               title={''}
               message={'Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'}
               buttonTitle={'Become a Patron'} linkTo={'/patron'}/>
+
           </div>
         </div>
       </PaperCard>

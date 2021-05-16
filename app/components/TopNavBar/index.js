@@ -159,6 +159,12 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                     <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
                     {userDetails.credit}
                   </Dropdown.Item>
+                  {userDetails.roleId === 1 &&
+                    <Dropdown.Item as={Link} to="/user/supportedArtist">
+                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                      Supported Artists
+                    </Dropdown.Item>
+                  }
                   {userDetails.roleId === 2 &&
                   <>
                     <Dropdown.Item as={Link} to="/team">
