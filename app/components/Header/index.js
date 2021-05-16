@@ -1,5 +1,6 @@
 import React from 'react';
 import HomeVideo from './../../images/Bliink V01.mp4';
+import Banner from './../../images/banner-bg.jpg';
 import './index.scss';
 
 function Header() {
@@ -13,6 +14,7 @@ function Header() {
           loop
           playsInline
           muted
+          poster={Banner}
         />
       </div>
     </section>
