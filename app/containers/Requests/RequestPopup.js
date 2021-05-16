@@ -279,7 +279,7 @@ const RequestPopup = (
                 <div
                   className="cursor-pointer my-4"
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.host}/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
+                    navigator.clipboard.writeText(`${window.location.host}/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
                     toast.success('Song url copied');
                   }}
                 >
