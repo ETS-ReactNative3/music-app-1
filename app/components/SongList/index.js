@@ -14,6 +14,7 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
   return (
     <section className={`weekly-song-list ${classes}`}>
       <h3 className="mb-5 pb-3 d-inline-block border-top-0 border-right-0 border-left-0">{heading}</h3>
+      <Link to="/weeklyPlaylist"><span className="float-right pr-4">SEE ALL</span></Link>
       {loading ? <LoadingIndicator/> :
         <div className="row">
           {list.map((ele, index) => {

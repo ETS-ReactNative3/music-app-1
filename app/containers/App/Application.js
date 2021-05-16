@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {PropTypes} from 'prop-types';
 import Dashboard from '../Templates/Dashboard';
-import HomePage from '../HomePage/Loadable';
+import {Homepage, WeeklyPlaylist} from '../HomePage/Loadable';
 import {Album, AlbumForm, AlbumList} from '../Album/Loadable';
 import {SongList, SongForm} from '../Song/Loadable';
 import {Playlist, PlaylistDetail} from '../Playlist/Loadable';
@@ -87,7 +87,7 @@ function Application() {
     <Dashboard>
       <Switch>
         <Route exact path="/">
-          <HomePage/>
+          <Homepage/>
         </Route>
         <PrivateRoute exact path="/album/add">
           <AlbumForm/>
@@ -187,6 +187,9 @@ function Application() {
         </Route>
         <Route exact path="/browse">
           <Browse/>
+        </Route>
+        <Route exact path="/weeklyPlaylist">
+          <WeeklyPlaylist/>
         </Route>
         <PrivateRoute exact path="/admin/albums" admin={true}>
           <FeaturedAlbums/>

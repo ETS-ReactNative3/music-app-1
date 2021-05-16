@@ -148,7 +148,7 @@ const WalletHistory = (
       }
     </PaperCard>
   );
-};
+}
 
 WalletHistory.propTypes = {
   paymentHistory: PropTypes.any,
