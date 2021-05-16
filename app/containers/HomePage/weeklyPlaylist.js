@@ -18,6 +18,8 @@ import SongsOptionsBox from "../../components/SongsOptionsBox";
 import {addSongIntoPlaylist, createPlaylistandAddSong, getMyPlaylist} from "../Playlist/actions";
 import {makeSelectPlaylists} from "../Playlist/selectors";
 import {handleSingleSong, setPlaylist} from "../App/actions";
+import reducerPlaylist from "../Playlist/reducer";
+import sagaPlaylist from "../Playlist/saga";
 
 const WeeklyList = (
   {
@@ -35,6 +37,9 @@ const WeeklyList = (
   }) => {
   useInjectReducer({key: 'home', reducer});
   useInjectSaga({key: 'home', saga});
+
+  useInjectReducer({key: 'playlist', reducer: reducerPlaylist});
+  useInjectSaga({key: 'playlist', saga: sagaPlaylist});
 
   useEffect(() => {
     getTopSongsAction()

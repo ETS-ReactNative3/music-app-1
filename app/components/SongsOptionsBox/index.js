@@ -4,13 +4,14 @@ import AddtoPlaylistModal from '../AddtoPlaylistModal';
 import {faEllipsisH} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-const SongsOptionBox = ({
-                          songId,
-                          playlists,
-                          createPlaylistandAddSongAction,
-                          getMyPlaylistAction,
-                          addSongIntoPlaylistAction,
-                        }) => {
+const SongsOptionBox = (
+  {
+    songId,
+    playlists,
+    createPlaylistandAddSongAction,
+    getMyPlaylistAction,
+    addSongIntoPlaylistAction,
+  }) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
