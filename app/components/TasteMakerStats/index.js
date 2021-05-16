@@ -11,30 +11,42 @@ import {faChartPie} from '@fortawesome/free-solid-svg-icons';
 import PropTypes from "prop-types";
 
 function TasteMakerStats({stats}) {
-  return stats ? <div className="tasteMakerStatsContainer">
-    <h3 className="mb-3">Activity on Bliiink</h3>
-    <div className="d-flex">
-      <div className="float-left mr-3"><FontAwesomeIcon icon={faComment}/></div>
-      <div className="float-left">
-        <h6>{stats.answeredTotal} answers given</h6>
-        <h6 className="text-muted">Since signing up</h6>
-      </div>
+  return stats ? <div className="card bg-dark mb-3">
+    <div className="card-header">
+      <h5 className="card-title mb-0">Activity on Bliiink</h5>
     </div>
-    <div className="d-flex">
-      <div className="float-left mr-3"><FontAwesomeIcon icon={faChartBar}/></div>
-      <div>
-        <h6>{stats.answerRate}% answer rate</h6>
-        <h6 className="text-muted">Last 30 days</h6>
-      </div>
+    <div className="card-body">
+      <ul className="list-unstyled mb-0">
+        <li className="mb-2">
+          <div className="d-inline-block mr-2">
+            <FontAwesomeIcon icon={faComment} size={'lg'}/>
+          </div>
+          <div className="d-inline-block align-middle">
+            <h5>{stats.answeredTotal} answers given</h5>
+            <h5 className="text-muted">Since signing up</h5>
+          </div>
+        </li>
+        <li className="mb-2">
+          <div className="d-inline-block mr-2">
+            <FontAwesomeIcon icon={faChartBar} size={'lg'}/>
+          </div>
+          <div className="d-inline-block align-middle">
+            <h5>{stats.answerRate}% answer rate</h5>
+            <h5 className="text-muted">Last 30 days</h5>
+          </div>
+        </li>
+        <li className="mb-2">
+          <div className="d-inline-block mr-2">
+            <FontAwesomeIcon icon={faChartPie} size={'lg'}/>
+          </div>
+          <div className="d-inline-block align-middle">
+            <h5>{stats.acceptedRate}% acceptation rate</h5>
+            <h5 className="text-muted">Since signing up</h5>
+          </div>
+        </li>
+      </ul>
     </div>
-    <div className="d-flex">
-      <div className="float-left mr-3"><FontAwesomeIcon icon={faChartPie}/></div>
-      <div>
-        <h6>{stats.acceptedRate}% acceptation rate</h6>
-        <h6 className="text-muted">Since signing up</h6>
-      </div>
-    </div>
-  </div>: <></>;
+  </div> : <></>;
 }
 
 TasteMakerStats.propTypes = {
