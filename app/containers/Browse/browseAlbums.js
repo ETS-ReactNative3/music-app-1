@@ -11,13 +11,11 @@ import {useInjectSaga} from '../../utils/injectSaga';
 import browseSaga from './saga';
 import {makeSelectAlbums, makeSelectBrowseDataLoading} from './selectors';
 import './index.scss';
-import {Card} from 'react-bootstrap';
-import defaultImage from '../../images/album-1.jpg'
 import LoadingIndicator from '../../components/LoadingIndicator';
 import 'react-virtualized/styles.css';
 import PaperCard from "../../components/PaperCard";
-import {Link} from "react-router-dom";
 import AlbumList from "../../components/AlbumList/Loadable";
+import MoodAlbumList from "../../components/AlbumList/moodAlbumList";
 
 const BrowseAlbums = ({fetchAlbums, albums, loading}) => {
   useInjectReducer({key: 'browse', reducer: browseReducer})
@@ -36,7 +34,7 @@ const BrowseAlbums = ({fetchAlbums, albums, loading}) => {
     <>
       {(item && !loading) ? <PaperCard title={item.title}>
         <div className="browse_container">
-          <AlbumList albums={albums}/>
+          {location.state.data.browseType === 'mood' ? <MoodAlbumList albums={albums}/> : <AlbumList albums={albums}/>}
           {albums.length === 0 && <div className="mt-5"><h4>No Albums found in this category.</h4></div>}
         </div>
       </PaperCard> : <LoadingIndicator/>}

@@ -25,6 +25,7 @@ const SupportedArtist = ({fetchSupportedArtist, fetching, supportedArtistData}) 
     <>
       {fetching ? <LoadingIndicator/> :
         <PaperCard title={"Supported Artist"}>
+          {supportedArtistData.length === 0 && <h4>No Supported Artists</h4> }
           <ArtistList artists={supportedArtistData}/>
         </PaperCard>}
     </>
