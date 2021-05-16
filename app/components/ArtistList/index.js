@@ -8,14 +8,12 @@ import React, {memo} from 'react';
 import defaultImage from "../../images/user.svg";
 import {Image} from "react-bootstrap";
 import {Link} from "react-router-dom";
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
 
 function ArtistList({artists}) {
   return <section className="artistList pt-4">
     <div className="row">
       {artists.map(artist => (
-        <div className="col-md-3">
+        <div className="col-md-3 my-3">
           <div className="card bg-dark" key={artist.id}>
             <div className="card-body">
               <Link to={`/artist/${artist.artist.id}`}>

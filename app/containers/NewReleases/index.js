@@ -9,13 +9,11 @@ import reducer from '../HomePage/reducer';
 import {useInjectSaga} from '../../utils/injectSaga';
 import homePageData from '../HomePage/saga';
 import {makeSelectNewReleaseLoading, makeSelectNewReleases} from '../HomePage/selectors';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import './index.scss';
-import '../../components/CarouselFront/index.scss'
+import {Image, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import PaperCard from '../../components/PaperCard';
 import LoadingIndicator from '../../components/LoadingIndicator';
-import {redirectOnAlbum} from '../../utils/redirect';
-import PlayButton from '../../images/play-button.svg'
+import {Link} from "react-router-dom";
+import defaultImage from "../../images/user.svg";
 
 const NewReleases = ({getNewReleasesAction, newReleases, newReleasesLoading}) => {
 
@@ -25,39 +23,40 @@ const NewReleases = ({getNewReleasesAction, newReleases, newReleasesLoading}) =>
     getNewReleasesAction();
   }, []);
 
-  const renderReleaseItem = (item, index) => {
-    return (
-      <div className="col-lg-2 col-md-4 col-sm-4 mb-4" key={index}>
-        <div
-          className="hoverEffect carousel-image-container rounded cursor-pointer"
-          onClick={e => {
-            e.preventDefault();
-            redirectOnAlbum(item.slug);
-          }}
-        >
-          <img src={item.artwork} alt="" className="rounded carousel-image"/>
-          <div className="overlay">
-            <img src={PlayButton} alt="Play button" className="playButton"/>
-          </div>
-        </div>
-        <div className="pt-4">
-          <h5>{item.title}</h5>
-          {item.description.length > 45 ? <OverlayTrigger
-              placement="top"
-              delay={{show: 250, hide: 400}}
-              overlay={<Tooltip id={`song-title-tooltip`}>{item.description}</Tooltip>}
-            ><h6>{item.description.substring(0, 45)}...</h6></OverlayTrigger> :
-            <h6>{item.description}</h6>
-          }
-        </div>
-      </div>
-    )
-  }
   return (
     <>
       {newReleasesLoading ? <LoadingIndicator/> : <PaperCard title="New Releases">
         <div className="row pt-3">
-          {newReleases.map((release, index) => renderReleaseItem(release, index))}
+          {newReleases.map(album => (
+            <div className="col-md-3 my-3" key={album.id}>
+              <div className="card bg-dark">
+                <div className="card-body">
+                  <Link to={`/album/${album.slug}`}>
+                    <Image
+                      width={200}
+                      height={200}
+                      onError={e => {
+                        e.target.onerror = null;
+                        e.target.src = defaultImage;
+                      }}
+                      src={album.artwork}
+                      alt="album image"
+                    />
+                    <div className="pt-4">
+                      <h4>{album.title}</h4>
+                      {album.description.length > 45 ? <OverlayTrigger
+                          placement="top"
+                          delay={{show: 250, hide: 400}}
+                          overlay={<Tooltip id={`song-title-tooltip`}>{album.description}</Tooltip>}
+                        ><h6>{album.description.substring(0, 45)}...</h6></OverlayTrigger> :
+                        <h6>{album.description}</h6>
+                      }
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </PaperCard>}
     </>
