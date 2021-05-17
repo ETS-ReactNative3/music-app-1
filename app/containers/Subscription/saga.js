@@ -1,9 +1,10 @@
-import {call, put, takeLatest} from "redux-saga/effects";
-import {CREATE_SUBSCRIPTION_PAYMENT_REQUEST, GET_PLANS} from "./constants";
-import {toast} from "react-toastify";
-import {createSubscriptionPaymentSuccess, getPlansSuccess} from "./actions";
-import {axiosInstance} from "../../utils/api";
-import {getUserDetailsSuccess} from "../App/actions";
+import { call, put, select, takeLatest } from "redux-saga/effects";
+import { CREATE_SUBSCRIPTION_PAYMENT_REQUEST, GET_PLANS } from "./constants";
+import { toast } from "react-toastify";
+import { createSubscriptionPaymentSuccess, getPlansSuccess } from "./actions";
+import { axiosInstance } from "../../utils/api";
+import { getUserDetailsSuccess } from "../App/actions";
+import { makeSelectUserDetails } from "../App/selectors";
 
 function fetchSubscriptionList() {
   return axiosInstance().get('/subscriptions');
@@ -20,7 +21,13 @@ function fetchUserInformation() {
 export function* getPlanList() {
   try {
     const result = yield call(fetchSubscriptionList);
-    yield put(getPlansSuccess(result.data));
+    const userDetails = yield select(makeSelectUserDetails())
+    if (result) {
+      let filterResult = result.data;
+      filterResult = result.data.filter(userDetails.roleId === 2 ? (plan => plan.roleId === 2) : (plan => plan.roleId !== 2))
+      yield put(getPlansSuccess(filterResult));
+
+    }
   } catch (e) {
     toast.error(e.message);
   }
@@ -28,7 +35,7 @@ export function* getPlanList() {
 
 function* createPaymentSession(action) {
   try {
-    yield call(createPayment, {session_id: action.id});
+    yield call(createPayment, { session_id: action.id });
     yield put(createSubscriptionPaymentSuccess());
     const result = yield call(fetchUserInformation);
     yield put(getUserDetailsSuccess(result.data));
