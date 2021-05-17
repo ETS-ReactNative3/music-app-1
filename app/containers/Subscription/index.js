@@ -1,28 +1,29 @@
-import React, {memo, useEffect} from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {createStructuredSelector} from 'reselect';
-import {compose} from 'redux';
-import {useInjectSaga} from 'utils/injectSaga';
-import {useInjectReducer} from 'utils/injectReducer';
-import {makeSelectSubscriptionLoader, makeSelectSubscriptionPlans} from './selectors';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
+import { makeSelectSubscriptionLoader, makeSelectSubscriptionPlans } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import {getPlans} from "./actions";
+import { getPlans } from "./actions";
 import LoadingIndicator from "../../components/LoadingIndicator";
-import {axiosInstance} from "../../utils/api";
-import {toast} from "react-toastify";
-import {loadStripe} from "@stripe/stripe-js";
+import { axiosInstance } from "../../utils/api";
+import { toast } from "react-toastify";
+import { loadStripe } from "@stripe/stripe-js";
 import PaperCard from "../../components/PaperCard";
 import './index.scss';
-import {faCheck} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { makeSelectUserDetails } from '../App/selectors';
 
 const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
 
-export function Subscription({getPlansList, subscriptionPlans, subscriptionLoader}) {
-  useInjectReducer({key: 'subscription', reducer});
-  useInjectSaga({key: 'subscription', saga});
+export function Subscription({ getPlansList, subscriptionPlans, subscriptionLoader, userDetails }) {
+  useInjectReducer({ key: 'subscription', reducer });
+  useInjectSaga({ key: 'subscription', saga });
 
   useEffect(() => {
     getPlansList();
@@ -53,8 +54,19 @@ export function Subscription({getPlansList, subscriptionPlans, subscriptionLoade
     }
   }
 
+  const artistFeatures = React.useMemo(() => [
+    "Unlimited uploads", "Split payments with your collaborators", "Connect with Industry Tastemakers", "Opportunity to appear on our featured albums", "Ad-free listening", "Access full catalog", "Expertly curated playlists", "Automatic entry into draws & competitions", "Earn Rewards"
+  ], []);
+
+
+  const regularUserFeatures = React.useMemo(() => [
+    "Ad-free listening", "Access full catalog", "Expertly curated playlists", "Automatic entry into draws & competitions", "Earn Rewards", "Support your chosen artists directly"
+  ], []);
+
+
+
   return <div>
-    {subscriptionLoader || !subscriptionPlans ? <LoadingIndicator/> : <PaperCard title="Subscription Plans">
+    {subscriptionLoader || !subscriptionPlans ? <LoadingIndicator /> : <PaperCard title="Subscription Plans">
       <div className="row">
         {subscriptionPlans.map(item => (
           <div key={item.id} className="col-12 col-lg-4">
@@ -69,47 +81,21 @@ export function Subscription({getPlansList, subscriptionPlans, subscriptionLoade
               </div>
               <div className="card-body pt-5">
                 <ul className="list-group simple-list">
-                  <li className="list-group-item font-weight-normal">
-                    <span className="icon-gray">
-                      <FontAwesomeIcon icon={faCheck} className="mr-2"/>
-                      Ad-free listening
-                    </span>
-                  </li>
-                  <li className="list-group-item font-weight-normal">
-                    <span className="icon-gray">
-                      <FontAwesomeIcon icon={faCheck} className="mr-2"/>
-                      Access full catalog
-                    </span>
-                  </li>
-                  <li className="list-group-item font-weight-normal">
-                    <span className="icon-gray">
-                      <FontAwesomeIcon icon={faCheck} className="mr-2"/>
-                      Expertly curated playlists
-                    </span>
-                  </li>
-                  <li className="list-group-item font-weight-normal">
-                    <span className="icon-gray">
-                      <FontAwesomeIcon icon={faCheck} className="mr-2"/>
-                      Automatic entry into draws & competitions
-                    </span>
-                  </li>
-                  <li className="list-group-item font-weight-normal">
-                    <span className="icon-gray">
-                      <FontAwesomeIcon icon={faCheck} className="mr-2"/>
-                      Earn Rewards
-                    </span>
-                  </li>
-                  <li className="list-group-item font-weight-normal">
-                    <span className="icon-gray">
-                      <FontAwesomeIcon icon={faCheck} className="mr-2"/>
-                      Support your chosen artists directly
-                    </span>
-                  </li>
+                  {(userDetails.roleId === 2 ? artistFeatures : regularUserFeatures).map(feature => {
+                    return (
+                      <li key={feature} className="list-group-item font-weight-normal">
+                        <span className="icon-gray">
+                          <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                          {feature}
+                        </span>
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
               <div className="card-footer px-4 pb-4">
                 <button type="button" className="btn btn-block btn-success btn-outline-gray animate-up-2"
-                        onClick={() => handleClick(item.id)}>Buy
+                  onClick={() => handleClick(item.id)}>Buy
                 </button>
               </div>
             </div>
@@ -124,11 +110,13 @@ Subscription.propTypes = {
   getPlansList: PropTypes.func.isRequired,
   subscriptionLoader: PropTypes.bool,
   subscriptionPlans: PropTypes.any,
+  userDetails: PropTypes.any
 };
 
 const mapStateToProps = createStructuredSelector({
   subscriptionPlans: makeSelectSubscriptionPlans(),
   subscriptionLoader: makeSelectSubscriptionLoader(),
+  userDetails: makeSelectUserDetails()
 });
 
 function mapDispatchToProps(dispatch) {
