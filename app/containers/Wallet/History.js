@@ -108,7 +108,6 @@ const WalletHistory = (
 
   return (
     <PaperCard title="Credit Purchase History">
-      {(Object.keys(influencerProfile).length !== 0 || userDetails.roleId === 2) ?
         <>
           <Button variant="success" onClick={() => history.push('/wallet/withdrawal')}>Withdrawal Request</Button>
           <div className="mt-4">
@@ -134,18 +133,7 @@ const WalletHistory = (
               </Tab>
             </Tabs>
           </div>
-        </> : <div className="mt-4">
-          <BootstrapTable
-            striped
-            bordered={false}
-            bootstrap4
-            pagination={paginationFactory()}
-            keyField="id"
-            data={paymentHistory}
-            columns={columns}
-          />
-        </div>
-      }
+        </>
     </PaperCard>
   );
 }

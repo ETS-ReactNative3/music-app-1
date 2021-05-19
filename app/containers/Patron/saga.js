@@ -6,6 +6,7 @@ import {toast} from 'react-toastify';
 import {axiosInstance} from '../../utils/api';
 import { createStakeProgressAction, saveStakeAction, showProgressAction } from './actions';
 import { CREATE_STAKE, FETCH_STAKE } from './constants';
+import {getUserDetailsSuccess} from "../App/actions";
 
 function fetchStakeAPI() {
   return axiosInstance().get('stake');
@@ -14,6 +15,10 @@ function fetchStakeAPI() {
 
 function createStakeAPI(data) {
   return axiosInstance().post('stake', data);
+}
+
+function fetchUserInformation() {
+  return axiosInstance().get('/auth/userDetails');
 }
 
 function* fetchStakeSaga() {
@@ -37,6 +42,8 @@ function* createStakeSaga(action) {
     toast.success('Stake added');
     const result = yield call(fetchStakeAPI);
     yield put(saveStakeAction(result.data))
+    const userResult = yield call(fetchUserInformation);
+    yield put(getUserDetailsSuccess(userResult.data));
   } catch (e) {
     toast.error('Not able to create stake');
     yield put(createStakeProgressAction(false));
@@ -47,5 +54,5 @@ function* createStakeSaga(action) {
 export default function* patronSaga() {
   yield takeLatest(FETCH_STAKE, fetchStakeSaga);
   yield takeLatest(CREATE_STAKE, createStakeSaga);
-  
+
 }

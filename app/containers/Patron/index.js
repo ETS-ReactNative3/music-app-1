@@ -37,7 +37,7 @@ const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgr
       .required('Amount is required'),
     tenure: Yup.number().typeError('Please enter valid number')
       .required('Tenure is required'),
-
+    walletAddress: Yup.string().required('Please enter wallet address')
   });
 
 
@@ -159,43 +159,41 @@ const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgr
 
               <Modal.Header>Add Patronage</Modal.Header>
               <Modal.Body>
-
-                <table className="">
-                  <tbody>
-                  <tr>
-                    <td>Patroned Amount:</td>
-                    <td>
-                      <input
-                        name="amount"
-                        style={{width: '200px'}}
-                        placeholder="Enter amount"
-                        onChange={(e) => {
-                        }}
-                        className={`form-control ${errors.amount ? 'is-invalid' : ''}`}
-                        ref={register}
-                      />
-                      <div className="invalid-feedback">
-                        {errors.amount && errors.amount.message}
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Tenure:</td>
-                    <td>
-                      <input
-                        name="tenure"
-                        style={{width: '200px'}}
-                        placeholder="Enter period"
-                        type="number"
-                        className={`form-control ${errors.tenure ? 'is-invalid' : ''}`}
-                        ref={register}/>
-                      <div className="invalid-feedback">
-                        {errors.tenure && errors.tenure.message}
-                      </div>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
+                <div className="form-group">
+                  <label>Patroned Amount:</label>
+                  <input
+                    name="amount"
+                    placeholder="Enter amount"
+                    className={`form-control ${errors.amount ? 'is-invalid' : ''}`}
+                    ref={register}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.amount && errors.amount.message}
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Tenure:</label>
+                  <input
+                    name="tenure"
+                    placeholder="Enter period"
+                    type="number"
+                    className={`form-control ${errors.tenure ? 'is-invalid' : ''}`}
+                    ref={register}/>
+                  <div className="invalid-feedback">
+                    {errors.tenure && errors.tenure.message}
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Wallet Address:</label>
+                  <input
+                    name="walletAddress"
+                    placeholder="Enter Wallet Address"
+                    className={`form-control ${errors.walletAddress ? 'is-invalid' : ''}`}
+                    ref={register}/>
+                  <div className="invalid-feedback">
+                    {errors.walletAddress && errors.walletAddress.message}
+                  </div>
+                </div>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => setShowAddPatronage(false)}>
@@ -213,21 +211,24 @@ const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgr
   )
 }
 
-PatronList.propTypes = {
-  fetchStake: PropTypes.func,
-  progress: PropTypes.bool,
-  stakes: PropTypes.array,
-  userDetails: PropTypes.any,
-  createStakeProgress: PropTypes.bool,
-  createStake: PropTypes.func
-};
+PatronList.propTypes =
+  {
+    fetchStake: PropTypes.func,
+    progress: PropTypes.bool,
+    stakes: PropTypes.array,
+    userDetails: PropTypes.any,
+    createStakeProgress: PropTypes.bool,
+    createStake: PropTypes.func
+  };
 
-const mapStateToProps = createStructuredSelector({
-  progress: makeSelectProgress(),
-  stakes: makeSelectStakes(),
-  userDetails: makeSelectUserDetails(),
-  createStakeProgress: makeSelectStakeProgress()
-});
+const mapStateToProps = createStructuredSelector(
+  {
+    progress: makeSelectProgress(),
+    stakes: makeSelectStakes(),
+    userDetails: makeSelectUserDetails(),
+    createStakeProgress: makeSelectStakeProgress()
+  }
+);
 
 function mapDispatchToProps(dispatch) {
   return {

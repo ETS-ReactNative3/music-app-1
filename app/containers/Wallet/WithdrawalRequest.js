@@ -8,7 +8,7 @@ import Select from 'react-select';
 import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import PaperCard from '../../components/PaperCard';
-import {makeSelectUserWallet} from '../App/selectors';
+import {makeSelectUserDetails, makeSelectUserWallet} from '../App/selectors';
 import styles from './index.styles';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import {
@@ -39,7 +39,8 @@ const WithdrawalRequest = (
     paymentMethods,
     removePaymentMethod,
     submitWithdrawAmount,
-    requestButtonLoader
+    requestButtonLoader,
+    userDetails
   }) => {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
@@ -66,10 +67,15 @@ const WithdrawalRequest = (
   }
 
   const options = [
+    {value: 3, label: 'BLNK Token Transfer'},
     {value: 1, label: 'Bank Transfer'},
     {value: 2, label: 'Paypal Transfer'},
-    {value: 3, label: 'PTM Token Transfer'},
   ];
+
+  const regularUserOptions = [
+    {value: 3, label: 'BLNK Token Transfer'}
+  ];
+
   const [withdrawalTransfer, setWithdrawalTransfer] = useState(options[0]);
 
   function handleClose() {
@@ -116,7 +122,7 @@ const WithdrawalRequest = (
           <p>
             Withdraw money what you earned on bliiink
           </p>
-          <div className="row">
+          {userDetails.roleId === 2 ? <div className="row">
             <div className="col-md-7">
               <div className="card bg-dark">
                 <div className="card-body">
@@ -232,7 +238,123 @@ const WithdrawalRequest = (
                 </div>
               </div>
             </div>
-          </div>
+          </div> :
+            <div className="row">
+              <div className="col-md-7">
+                <div className="card bg-dark">
+                  <div className="card-body">
+                    <div className="form-group">
+                      <label htmlFor="beneficiary-name">1. Withdrawal method</label>
+                      {paymentMethods.map((item, index) => {
+                        return (
+                          <div style={styles.withdrawalOptionContainer} key={item.id}
+                               onClick={() => setWithdrawalAccount(item.id)}>
+                            <label className="form-check-label">
+                              <input
+                                type="radio"
+                                className="form-check-input"
+                                checked={withdrawalAccount === item.id}
+                                value={item.id}
+                                name="optradio"/>Account: {item.beneficiaryName}
+                            </label>
+                            <Button variant="link" onClick={() => handleClickOpen(item.id)}>Delete</Button>
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <div className="form-group">
+                      <div style={styles.addWithdrawalContainer}>
+                        <label className="form-check-label">
+                          <input
+                            type="radio"
+                            className="form-check-input"
+                            onChange={() => setWithdrawalAccount('no')}
+                            checked={withdrawalAccount === 'no'}
+                            name="optradio"/>Add Withdrawal Method
+                        </label>
+                      </div>
+                    </div>
+                    {withdrawalAccount === 'no' &&
+                    <div className="form-group">
+                      <div style={styles.addWithdrawalContainer}>
+                        <label>Withdrawal Method</label>
+                        <Select
+                          className="basic-single"
+                          classNamePrefix="select"
+                          styles={customStyles}
+                          name="Add Withdrawal"
+                          options={regularUserOptions}
+                          value={withdrawalTransfer}
+                          placeholder="Select Withdrawal type"
+                          onChange={(value) => setWithdrawalTransfer(value)}
+                        />
+                        {withdrawalTransfer.value === 3 && <PtmTokenForm methodSubmit={methodSubmit}/>}
+                      </div>
+                    </div>
+                    }
+                  </div>
+                </div>
+                <div className="card bg-dark mt-4">
+                  <div className="card-body">
+                    <WithdrawalAmountForm
+                      userCredit={userCredit}
+                      setAmount={setAmount}
+                      submitAmount={submitAmount}
+                      requestButtonLoader={requestButtonLoader}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="card bg-dark">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <h4 className="mb-3">Summary</h4>
+                        <div className="row mb-2">
+                          <div className="col-md-8">
+                            Available Credits
+                          </div>
+                          <div className="col-md-4">
+                            {userCredit} <img
+                            src={PlanSvgColor}
+                            alt="PlanSvg"
+                            width={20}
+                            height={20}/>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-md-8">
+                            Withdrawal
+                          </div>
+                          <div className="col-md-4">
+                            {amount} <img
+                            src={PlanSvgColor}
+                            alt="PlanSvg"
+                            width={20}
+                            height={20}/>
+                          </div>
+                        </div>
+                        <hr/>
+                        <div className="row">
+                          <div className="col-md-8">
+                            New balance After Withdrawal
+                          </div>
+                          <div className="col-md-4">
+                            {userCredit - amount} <img
+                            src={PlanSvgColor}
+                            alt="PlanSvg"
+                            width={20}
+                            height={20}/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         </>
       }
       <Modal
@@ -263,6 +385,7 @@ WithdrawalRequest.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+  userDetails: makeSelectUserDetails(),
   userCredit: makeSelectUserWallet(),
   loader: makeSelectLoader(),
   paymentMethods: makeSelectPaymentMethods(),
