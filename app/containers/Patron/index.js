@@ -35,8 +35,6 @@ const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgr
   const validationSchema = Yup.object().shape({
     amount: Yup.number().typeError('Please enter valid number')
       .required('Amount is required'),
-    tenure: Yup.number().typeError('Please enter valid number')
-      .required('Tenure is required'),
     walletAddress: Yup.string().required('Please enter wallet address')
   });
 
@@ -50,16 +48,6 @@ const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgr
     {
       dataField: 'amount',
       text: 'Patronage Amount',
-      headerStyle: {
-        width: '20%'
-      },
-      style: {
-        width: '20%'
-      }
-    },
-    {
-      dataField: 'tenure',
-      text: 'Patron Tenure',
       headerStyle: {
         width: '20%'
       },
@@ -169,18 +157,6 @@ const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgr
                   />
                   <div className="invalid-feedback">
                     {errors.amount && errors.amount.message}
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label>Tenure:</label>
-                  <input
-                    name="tenure"
-                    placeholder="Enter period"
-                    type="number"
-                    className={`form-control ${errors.tenure ? 'is-invalid' : ''}`}
-                    ref={register}/>
-                  <div className="invalid-feedback">
-                    {errors.tenure && errors.tenure.message}
                   </div>
                 </div>
                 <div className="form-group">

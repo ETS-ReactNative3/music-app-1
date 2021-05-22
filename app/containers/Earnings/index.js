@@ -109,7 +109,7 @@ export function Earnings(
                   <FontAwesomeIcon icon={faCoins} size="lg" className="mr-2"/>
                   <span className="font-weight-bold pl-3">
                         <span>Total Earning</span><span className="px-4">=</span><span
-                    className="text-success">{userCentricCost}</span>
+                    className="text-success">{userCentricCost ? userCentricCost : 0}</span>
                       </span>
                 </div>
               </div>
