@@ -4,7 +4,7 @@
  *
  */
 
-import React, {memo, useEffect} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
@@ -23,6 +23,8 @@ import saga from './saga';
 import {getMySupportedArtists, getPerStreamCost, getSongsStats, getUserCentricCost} from "./actions";
 import PaperCard from "../../components/PaperCard";
 import "./index.scss";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export function Earnings(
   {
@@ -38,6 +40,8 @@ export function Earnings(
   useInjectReducer({key: 'earnings', reducer});
   useInjectSaga({key: 'earnings', saga});
 
+  const [startDate, setStartDate] = useState(new Date());
+
   useEffect(() => {
     fetchSongStats()
     fetchSupportedCount()
@@ -46,6 +50,16 @@ export function Earnings(
   }, []);
 
   return <PaperCard title="Earnings">
+    <div className="float-right">
+      <DatePicker
+        selected={startDate}
+        onChange={date => setStartDate(date)}
+        dateFormat="MM/yyyy"
+        className="form-control"
+        showMonthYearPicker
+        showFullMonthYearPicker
+      />
+    </div>
     <section className="streaming pt-4 mb-4">
       <div className="row">
         {songs.map(item =>
