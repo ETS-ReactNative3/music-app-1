@@ -303,13 +303,13 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
             </div>
           );
         })}
-        {indexes.length > 0 && <div className="row mb-4 mt-2">
+        <div className="row mb-4 mt-2">
           <div className="col">
             <button className="btn btn-warning" type="button" onClick={addCollaborator}>
               Add Collaborator
             </button>
           </div>
-        </div>}
+        </div>
         {formLoader ? <ButtonLoader/> :
           <button className="btn btn-primary btn-block" type="submit">
             Submit
