@@ -15,7 +15,7 @@ import saga from './saga';
 import {makeSelectEarnings, makeSelectPaymentHistory, makeSelectWithdrawalRequests} from './selectors';
 import {Button} from 'react-bootstrap';
 import history from '../../utils/history';
-import {makeSelectInfluencerDetails} from "../App/selectors";
+import {makeSelectInfluencerDetails, makeSelectUserDetails} from "../App/selectors";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import WithdrawalRequests from "../../components/WithdrawalRequests/Loadable";
@@ -29,7 +29,8 @@ const WalletHistory = (
     getWithdrawalRequests,
     withdrawalRequests,
     getEarnings,
-    earnings
+    earnings,
+    userDetails
   }) => {
   useInjectReducer({key: 'wallet', reducer});
   useInjectSaga({key: 'wallet', saga});
@@ -107,7 +108,6 @@ const WalletHistory = (
 
   return (
     <PaperCard title="Credit Purchase History">
-      {Object.keys(influencerProfile).length !== 0 ?
         <>
           <Button variant="success" onClick={() => history.push('/wallet/withdrawal')}>Withdrawal Request</Button>
           <div className="mt-4">
@@ -123,29 +123,20 @@ const WalletHistory = (
                   columns={columns}
                 />
               </Tab>
+              {userDetails.roleId !== 2 &&
               <Tab eventKey="earnings" title="Earnings">
                 <TastemakerEarnings earnings={earnings}/>
               </Tab>
+              }
               <Tab eventKey="withdrawal" title="Withdrawal Requests">
                 <WithdrawalRequests withdrawalRequests={withdrawalRequests}/>
               </Tab>
             </Tabs>
           </div>
-        </> : <div className="mt-4">
-          <BootstrapTable
-            striped
-            bordered={false}
-            bootstrap4
-            pagination={paginationFactory()}
-            keyField="id"
-            data={paymentHistory}
-            columns={columns}
-          />
-        </div>
-      }
+        </>
     </PaperCard>
   );
-};
+}
 
 WalletHistory.propTypes = {
   paymentHistory: PropTypes.any,
@@ -156,7 +147,8 @@ const mapStateToProps = createStructuredSelector({
   paymentHistory: makeSelectPaymentHistory(),
   influencerProfile: makeSelectInfluencerDetails(),
   withdrawalRequests: makeSelectWithdrawalRequests(),
-  earnings: makeSelectEarnings()
+  earnings: makeSelectEarnings(),
+  userDetails: makeSelectUserDetails()
 });
 
 function mapDispatchToProps(dispatch) {

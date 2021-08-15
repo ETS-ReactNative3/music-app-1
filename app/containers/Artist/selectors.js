@@ -27,4 +27,10 @@ const makeSelectArtist = () =>
     substate => substate.fetching,
   );
 
-export { makeSelectArtist, makeSelectArtistFetching };
+  const makeSelectSupportedArtist = () =>
+  createSelector(
+    selectArtistDomain,
+    substate => substate.supportedArtist,
+  );
+
+export { makeSelectArtist, makeSelectArtistFetching, makeSelectSupportedArtist };

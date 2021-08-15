@@ -19,7 +19,7 @@ import {
   UPDATE_SONG_REQUEST_FAIL,
   GET_GENRES,
   GET_GENRES_SUCCESS,
-  GET_GENRES_FAIL,
+  GET_GENRES_FAIL, SAVE_MOOD_LIST, GET_MOOD_LIST, GET_TEAM_MEMBERS, GET_TEAM_MEMBERS_SUCCESS, GET_TEAM_MEMBERS_FAIL
 } from './constants';
 
 export function songRequest() {
@@ -159,6 +159,39 @@ export function getGenresSuccess(genres) {
 export function getGenresFail(error) {
   return {
     type: GET_GENRES_FAIL,
+    error,
+  };
+}
+
+export function getMoodListAction() {
+  return {
+    type: GET_MOOD_LIST
+  }
+}
+
+export function saveMoodListAction(moods) {
+  return {
+    type: SAVE_MOOD_LIST,
+    moods
+  }
+}
+
+export function getTeamMembers() {
+  return {
+    type: GET_TEAM_MEMBERS,
+  };
+}
+
+export function getTeamMembersSuccess(members) {
+  return {
+    type: GET_TEAM_MEMBERS_SUCCESS,
+    members,
+  };
+}
+
+export function getTeamMembersFail(error) {
+  return {
+    type: GET_TEAM_MEMBERS_FAIL,
     error,
   };
 }

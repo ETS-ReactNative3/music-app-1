@@ -66,5 +66,10 @@ export const styles = {
         // width: '50%',
         marginTop: 10,
         marginBottom: 10
-    }
+    },
+    linkContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+      }
 }

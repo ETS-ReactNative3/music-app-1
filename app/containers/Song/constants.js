@@ -26,3 +26,10 @@ export const UPDATE_SONG_REQUEST_FAIL = 'app/Song/UPDATE_SONG_REQUEST_FAIL';
 export const GET_GENRES = 'app/Song/GET_GENRES';
 export const GET_GENRES_SUCCESS = 'app/Song/GET_GENRES_SUCCESS';
 export const GET_GENRES_FAIL = 'app/Song/GET_GENRES_FAIL';
+
+export const GET_MOOD_LIST = 'app/Song/GET_MOOD_LIST';
+export const SAVE_MOOD_LIST = 'app/Song/SAVE_MOOD_LIST';
+
+export const GET_TEAM_MEMBERS = 'app/Song/GET_TEAM_MEMBERS';
+export const GET_TEAM_MEMBERS_SUCCESS = 'app/Song/GET_TEAM_MEMBERS_SUCCESS';
+export const GET_TEAM_MEMBERS_FAIL = 'app/Song/GET_TEAM_MEMBERS_FAIL';

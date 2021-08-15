@@ -15,23 +15,19 @@ import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faBlog, faCheck, faPlay} from '@fortawesome/free-solid-svg-icons';
-import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
+import {faCheck, faPlay} from '@fortawesome/free-solid-svg-icons';
 import {useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import {Link} from 'react-router-dom';
 import {faClipboard} from '@fortawesome/free-regular-svg-icons';
 import {toast} from 'react-toastify';
 import {CampaignStatus} from './constants';
-import {SOCIAL_CHANNELS} from '../App/constants';
 import defaultImage from '../../images/default-image.png';
 import {styles} from './index.styles';
+import {capatilizeText, getValue, renderSocialMediaIcons} from '../../utils';
+import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
+import { fetchUsersCountriesAction } from '../MyAccount/actions';
+import { makeSelectUserCountries } from '../MyAccount/selectors';
 
 const RequestPopup = (
   {
@@ -42,83 +38,24 @@ const RequestPopup = (
     submitSocialLinksRequest,
     socialChannels,
     playSong,
+    countries,
   }) => {
   const [feedbackOption, setFeedbackOption] = React.useState((data.campaignStatusId === CampaignStatus.DECLINED || data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.COMPLETED || data.campaignStatusId === CampaignStatus["IN-PROGRESS"]) ? 1 : -1);
   const [feedbackProvided, setFeedbackProvided] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [songPlayed, setSongPlayed] = useState(false);
 
-  const validationSchema = Yup.object().shape({
-    facebook: (() => {
-      let validation = Yup.string();
-      if (
-        data.campaignInfluencerServices.findIndex(
-          service => service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
-        ) !== -1
-      ) {
-        validation = validation.required('this field is required');
-        validation = validation.url('Enter correct url');
-      }
-      return validation;
-    })(),
-    twitter: (() => {
-      let validation = Yup.string();
-      if (
-        data.campaignInfluencerServices.findIndex(
-          service => service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
-        ) !== -1
-      ) {
-        validation = validation.required('this field is required');
-        validation = validation.url('Enter correct url');
-      }
-      return validation;
-    })(),
-    instagram: (() => {
-      let validation = Yup.string();
-      if (
-        data.campaignInfluencerServices.findIndex(
-          service => service.socialChannelsId === SOCIAL_CHANNELS.INSTAGRAM,
-        ) !== -1
-      ) {
-        validation = validation.required('this field is required');
-        validation = validation.url('Enter correct url');
-      }
-      return validation;
-    })(),
-    blog: (() => {
-      let validation = Yup.string();
-      if (
-        data.campaignInfluencerServices.findIndex(
-          service => service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-        ) !== -1
-      ) {
-        validation = validation.required('this field is required');
-        validation = validation.url('Enter correct url');
-      }
-      return validation;
-    })(),
-    youtube: (() => {
-      let validation = Yup.string();
-      if (
-        data.campaignInfluencerServices.findIndex(
-          service => service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
-        ) !== -1
-      ) {
-        validation = validation.required('this field is required');
-        validation = validation.url('Enter correct url');
-      }
-      return validation;
-    })(),
-  });
+  const validationSchema = Yup.object().shape({});
 
   const {register, handleSubmit, errors} = useForm({
-    resolver: yupResolver(validationSchema),
+    // resolver: yupResolver(validationSchema),
   });
 
   const isReviewFromArtist = (data.ratings && data.ratings.length > 0) || (data.reviews && data.reviews.length > 0);
 
   const onSubmit = localData => {
-    submitSocialLinksRequest(prepareDataForSubmit(localData));
+    submitSocialLinksRequest(
+      prepareDataForSubmit(localData));
     updateCampaignStatus(data.id, CampaignStatus.COMPLETED);
     handleClose();
   };
@@ -126,52 +63,22 @@ const RequestPopup = (
   const listenToSong = song => {
     playSong(song);
     setSongPlayed(true);
-    // if (data.campaignStatusId === CampaignStatus.ACCEPTED || data.campaignStatusId === CampaignStatus.PEDNING) updateCampaignStatus(data.id, CampaignStatus['IN-PROGRESS']);
   };
 
   const prepareDataForSubmit = formData => {
     const submitData = {};
     submitData.links = [];
 
-    if (Object.prototype.hasOwnProperty.call(formData, 'facebook')) {
-      submitData.links.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'facebook').id,
-        campaignInfluencersId: data.id,
-        response: formData.facebook,
-      });
+    if (formData.data) {
+      Object.keys(formData.data).map(key => {
+        submitData.links.push({
+          socialChannelsId: socialChannels.find(x => x.title === key).id,
+          campaignInfluencersId: data.id,
+          response: formData.data[key],
+        });
+      })
     }
 
-    if (Object.prototype.hasOwnProperty.call(formData, 'twitter')) {
-      submitData.links.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'twitter').id,
-        campaignInfluencersId: data.id,
-        response: formData.twitter,
-      });
-    }
-
-    if (Object.prototype.hasOwnProperty.call(formData, 'youtube')) {
-      submitData.links.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'youtube').id,
-        campaignInfluencersId: data.id,
-        response: formData.youtube,
-      });
-    }
-
-    if (Object.prototype.hasOwnProperty.call(formData, 'blog')) {
-      submitData.links.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'blog').id,
-        campaignInfluencersId: data.id,
-        response: formData.blog,
-      });
-    }
-
-    if (Object.prototype.hasOwnProperty.call(formData, 'instagram')) {
-      submitData.links.push({
-        socialChannelsId: socialChannels.find(x => x.title === 'instagram').id,
-        campaignInfluencersId: data.id,
-        response: formData.instagram,
-      });
-    }
 
     return submitData;
   };
@@ -180,6 +87,14 @@ const RequestPopup = (
     data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED)
     ? data.campaignInfluencerServices && data.campaignInfluencerServices.length > 0 && data.campaignInfluencerServices[0].response !== undefined && data.campaignInfluencerServices[0].response !== '' && data.campaignInfluencerServices[0].response !== null ? true : false : true;
 
+
+  const renderSocialMedias = (artistInfo, title) => {
+    return <div>{(artistInfo[title] && <a href={artistInfo[title]} target="_blank" className="pr-2">
+      {renderSocialMediaIcons(title, '1x', {marginLeft: 5}, PLAY_ICON_BG_COLOR)}
+    </a>)}
+    </div>
+
+  }
 
   return (
     <>
@@ -200,7 +115,7 @@ const RequestPopup = (
                   roundedCircle
                 />
                 <div className="ml-3">
-                  {data.campaigns.song.title}
+                  <a href={`/artist/${data.campaigns.song.userId}`}>{data.campaigns.song.title}</a>
                   <small className="text-muted d-block">
                     {data.campaigns.song.description}
                   </small>
@@ -209,6 +124,18 @@ const RequestPopup = (
                       'DD MMMM YYYY',
                     )}
                   </small>
+                  <small className=" d-block">
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'countryId']) &&
+                    <div>Location: {countries && countries.find(country => country.id === data.campaigns.song.user.artistInformation.countryId).name}</div>}
+                  </small>
+                  <div style={styles.linkContainer}>
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'facebook']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'facebook')}
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'twitter']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'twitter')}
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'instagram']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'instagram')}
+                    {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'youtube']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'youtube')}
+
+
+                  </div>
                 </div>
               </div>
             </Col>
@@ -295,6 +222,8 @@ const RequestPopup = (
                           data.campaigns.id,
                           data.influencerId,
                           feedback,
+                          feedbackOption === 2,
+                          data.campaigns.song.user.id
                         );
 
                         if (feedbackOption === 2) {
@@ -342,70 +271,15 @@ const RequestPopup = (
               <fieldset disabled={!(feedbackProvided || data.feedback !== null)}>
                 <div className="d-flex align-items-center">
                   <FormLabel className="m-0">Share with</FormLabel>
-                  {data.campaignInfluencerServices.map(service => {
-                    switch (service.socialChannels.title) {
-                      case 'facebook':
-                        return (
-                          <FontAwesomeIcon
-                            size="2x"
-                            className="cursor-pointer"
-                            icon={faFacebook}
-                            style={{marginLeft: 5}}
-                          />
-                        );
-                      case 'twitter':
-                        return (
-                          <FontAwesomeIcon
-                            size="2x"
-                            className="cursor-pointer"
-                            icon={faTwitter}
-                            style={{marginLeft: 5}}
-                          />
-                        );
-                      case 'instagram':
-                        return (
-                          <FontAwesomeIcon
-                            size="2x"
-                            className="cursor-pointer"
-                            icon={faInstagram}
-                            style={{marginLeft: 5}}
-                          />
-                        );
-                      case 'blog':
-                        return (
-                          <FontAwesomeIcon
-                            size="2x"
-                            className="cursor-pointer"
-                            icon={faBlog}
-                            style={{marginLeft: 5}}
-                          />
-                        );
-                      case 'youtube':
-                        return (
-                          <FontAwesomeIcon
-                            size="2x"
-                            className="cursor-pointer"
-                            icon={faYoutube}
-                            style={{marginLeft: 5}}
-                          />
-                        );
-                      default:
-                        return (
-                          <FontAwesomeIcon
-                            size="2x"
-                            className="cursor-pointer"
-                            icon={faFacebook}
-                            style={{marginLeft: 5}}
-                          />
-                        );
-                    }
-                  })}
+                  {data.campaignInfluencerServices.map(service =>
+                    renderSocialMediaIcons(service.socialChannels.title, '2x', {marginLeft: 5})
+                  )}
 
                 </div>
                 <div
                   className="cursor-pointer my-4"
                   onClick={() => {
-                    navigator.clipboard.writeText(`https://open.bliiink.co.uk/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
+                    navigator.clipboard.writeText(`${window.location.host}/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
                     toast.success('Song url copied');
                   }}
                 >
@@ -425,255 +299,60 @@ const RequestPopup = (
                     <FormLabel className="mt-4">Provide Links</FormLabel>
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <Row>
-                        {data.campaignInfluencerServices.findIndex(
+                        {data.campaignInfluencerServices.map(
                           service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
-                        ) !== -1 && (
-                          <Col md={6}>
-                            <FormLabel>Facebook</FormLabel>
-                            <FormControl
-                              ref={register}
-                              className="bg-transparent text-white"
-                              as="input"
-                              name="facebook"
-                              id="endereco"
-                              type="text"
-                              placeholder="Enter Facebook url"
-                              required
-                            />
-                            {errors.facebook && errors.facebook.message && (
-                              <small className="invalid-feedback" style={{display: 'block'}}>
-                                {errors.facebook && errors.facebook.message}
-                              </small>
-                            )}
-                          </Col>
+                            (
+                              <Col md={6}>
+                                <FormLabel>{capatilizeText(service.socialChannels.title)}</FormLabel>
+                                <FormControl
+                                  ref={register({required: 'Field is required',
+                                    pattern: {
+                                      value: /http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-z0-9\-_]+)(.com|.net|.gov|.org|.in)(\/[^\s]*)?/,
+                                      message: "Enter proper link"
+                                    }
+                                  })}
+                                  className="bg-transparent text-white"
+                                  as="input"
+                                  name={'data.' + service.socialChannels.title}
+                                  id="endereco"
+                                  type="text"
+                                  placeholder={`Enter ${service.socialChannels.title} url`}
+
+                                />
+                                {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message && (
+                                  <small className="invalid-feedback" style={{display: 'block'}}>
+                                    {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message}
+                                  </small>
+                                )}
+                              </Col>
+                            )
                         )}
 
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId ===
-                            SOCIAL_CHANNELS.INSTAGRAM,
-                        ) !== -1 && (
-                          <Col md={6}>
-                            <FormLabel>Instagram</FormLabel>
-                            <FormControl
-                              ref={register}
-                              className="bg-transparent text-white"
-                              as="input"
-                              name="instagram"
-                              id="endereco"
-                              type="text"
-                              placeholder="Enter Instagram url"
-                              required
-                            />
-                            {errors.instagram && errors.instagram.message && (
-                              <small className="invalid-feedback" style={{display: 'block'}}>
-                                {errors.instagram && errors.instagram.message}
-                              </small>
-                            )}
-                          </Col>
-                        )}
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
-                        ) !== -1 && (
-                          <Col md={6}>
-                            <FormLabel>Twitter</FormLabel>
-                            <FormControl
-                              ref={register}
-                              className="bg-transparent text-white"
-                              as="input"
-                              name="twitter"
-                              id="endereco"
-                              type="text"
-                              placeholder="Enter twitter url"
-                              required
-                            />
-                            {errors.twitter && errors.twitter.message && (
-                              <small className="invalid-feedback" style={{display: 'block'}}>
-                                {errors.twitter && errors.twitter.message}
-                              </small>
-                            )}
-                          </Col>
-                        )}
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                        ) !== -1 && (
-                          <Col md={6}>
-                            <FormLabel>Blog</FormLabel>
-                            <FormControl
-                              ref={register}
-                              className="bg-transparent text-white"
-                              as="input"
-                              name="blog"
-                              id="endereco"
-                              type="text"
-                              placeholder="Enter Blog url"
-                              required
-                            />
-                            {errors.blog && errors.blog.message && (
-                              <small className="invalid-feedback" style={{display: 'block'}}>
-                                {errors.blog && errors.blog.message}
-                              </small>
-                            )}
-                          </Col>
-                        )}
-                        {data.campaignInfluencerServices.findIndex(
-                          service =>
-                            service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
-                        ) !== -1 && (
-                          <Col md={6}>
-                            <FormLabel>Youtube</FormLabel>
-                            <FormControl
-                              ref={register}
-                              className="bg-transparent text-white"
-                              as="input"
-                              name="youtube"
-                              id="endereco"
-                              type="text"
-                              placeholder="Enter Youtube url"
-                              required
-                            />
-                            {errors.youtube && errors.youtube.message && (
-                              <small className="invalid-feedback" style={{display: 'block'}}>
-                                {errors.youtube && errors.youtube.message}
-                              </small>
-                            )}
-                          </Col>
-                        )}
                       </Row>
                     </form>
                   </div>
                 )) || (
                   <div>
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.FACEBOOK,
-                    ) !== -1 && (
-                      <div>
-                        {' '}
-                        Facebook:{' '}
-                        <Link
-                          to={`${data.campaignInfluencerServices.find(
-                            service =>
-                              service.socialChannelsId ===
-                              SOCIAL_CHANNELS.FACEBOOK,
-                          ).response
-                          }`}
-                        >
-                          {
-                            data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.FACEBOOK,
-                            ).response
-                          }
-                        </Link>
-                      </div>
+                    {data.campaignInfluencerServices.map(
+                      service => {
+
+                        return <div style={{display: 'flex', flexDirection: 'row'}}>
+                          &nbsp;
+                          {capatilizeText(service.socialChannels.title)}:
+                          &nbsp;
+                          <Link
+                            to={`${service.response
+                            }`}
+                          >
+                            {
+                              service.response
+                            }
+                          </Link>
+
+                        </div>
+                      }
                     )}
 
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.INSTAGRAM,
-                    ) !== -1 && (
-                      <div>
-                        {' '}
-                        Instagram:{' '}
-                        <Link
-                          to={`${data.campaignInfluencerServices.find(
-                            service =>
-                              service.socialChannelsId ===
-                              SOCIAL_CHANNELS.INSTAGRAM,
-                          ).response
-                          }`}
-                        >
-                          {
-                            data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.INSTAGRAM,
-                            ).response
-                          }
-                        </Link>
-                      </div>
-                    )}
-
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.TWITTER,
-                    ) !== -1 && (
-                      <div>
-                        {' '}
-                        Twitter:{' '}
-                        <Link
-                          to={`${data.campaignInfluencerServices.find(
-                            service =>
-                              service.socialChannelsId ===
-                              SOCIAL_CHANNELS.TWITTER,
-                          ).response
-                          }`}
-                        >
-                          {
-                            data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.TWITTER,
-                            ).response
-                          }
-                        </Link>
-                      </div>
-                    )}
-
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                    ) !== -1 && (
-                      <div>
-                        {' '}
-                        Blog:{' '}
-                        <Link
-                          to={`${data.campaignInfluencerServices.find(
-                            service =>
-                              service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                          ).response
-                          }`}
-                        >
-                          {
-                            data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId === SOCIAL_CHANNELS.BLOG,
-                            ).response
-                          }
-                        </Link>
-                      </div>
-                    )}
-
-                    {data.campaignInfluencerServices.findIndex(
-                      service =>
-                        service.socialChannelsId === SOCIAL_CHANNELS.YOUTUBE,
-                    ) !== -1 && (
-                      <div>
-                        {' '}
-                        Youtube:{' '}
-                        <Link
-                          to={`${data.campaignInfluencerServices.find(
-                            service =>
-                              service.socialChannelsId ===
-                              SOCIAL_CHANNELS.YOUTUBE,
-                          ).response
-                          }`}
-                        >
-                          {
-                            data.campaignInfluencerServices.find(
-                              service =>
-                                service.socialChannelsId ===
-                                SOCIAL_CHANNELS.YOUTUBE,
-                            ).response
-                          }
-                        </Link>
-                      </div>
-                    )}
                   </div>
                 )}
 
@@ -729,11 +408,15 @@ RequestPopup.propTypes = {
   submitSocialLinksRequest: PropTypes.func,
   socialChannels: PropTypes.array,
   playSong: PropTypes.any,
+  countries: PropTypes.array
 };
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  countries: makeSelectUserCountries()
+});
 
-function mapDispatchToProps() {
-  return {};
+function mapDispatchToProps(dispatch) {
+  return {
+  };
 }
 
 const withConnect = connect(

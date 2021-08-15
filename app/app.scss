@@ -1,32 +1,24 @@
 @import "~bootstrap/scss/bootstrap";
 
+h5 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+h4 {
+  font-size: 16px;
+  color: #ffffff;
+}
+
+h6 {
+  font-size: 13px;
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .modal-content {
   background-color: #020f1f;
-}
-
-.img-preview {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.img-preview:hover .hover-box {
-  display: flex;
-}
-
-.hover-box {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;
-  background: rgba(31, 219, 174, 0.6);
-  background-size: 100% 100%;
-  width: 100%;
-  height: 100%;
-  font-family: 'Work Sans', sans-serif;
-  font-weight: 500;
-  justify-content: center;
-  align-items: center;
 }
 
 .table {
@@ -60,7 +52,11 @@
   }
 }
 
-.table-hover tbody tr:hover {
+a {
+  color: #b3b3b3;
+}
+
+.table-hover tbody tr:hover, .song-row:hover, .top-songs:hover {
   color: #1fdbae;
   background-color: rgba(var(--color--text), 14%) !important;
 }

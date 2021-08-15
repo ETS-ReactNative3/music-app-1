@@ -11,8 +11,8 @@ import '@babel/polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
+import {Provider} from 'react-redux';
+import {ConnectedRouter} from 'connected-react-router';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
 import './app.scss';
@@ -30,7 +30,8 @@ import 'file-loader?name=.htaccess!./.htaccess'; // eslint-disable-line import/e
 import configureStore from './configureStore';
 
 // Import i18n messages
-import { translationMessages } from './i18n';
+import {translationMessages} from './i18n';
+import {saveState} from "./localstorage";
 
 // Create redux store with history
 const initialState = {};
@@ -42,7 +43,7 @@ const render = messages => {
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <App/>
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
@@ -73,6 +74,14 @@ if (!window.Intl) {
 } else {
   render(translationMessages);
 }
+
+
+// To store song count in localstorage
+store.subscribe(() => {
+  saveState({
+    metaInformation: store.getState().metaInformation,
+  });
+});
 
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,

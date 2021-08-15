@@ -5,12 +5,14 @@ import {compose} from 'redux';
 import {createStructuredSelector} from 'reselect';
 import {
   handleSongPlaying,
-  handleSingleSong,
+  handleSingleSong, updateSongPlayDuration, trackSong,
 } from '../../containers/App/actions';
 import 'react-h5-audio-player/lib/styles.css';
 import {
   makeSelectPlaylist,
   makeSelectCurrentSong,
+  makeSelectSongPlayDuration,
+  makeSelectUserDetails,
 } from '../../containers/App/selectors';
 import './index.scss';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
@@ -21,6 +23,10 @@ const Footer = props => {
     currentSong,
     onHandleSongPlaying,
     onHandleSingleSong,
+    handlePlaySongDuration,
+    songPlayDuration,
+    handleTrackSongData,
+    userDetails
   } = props;
   const audioRef = useRef(null);
   const volumeRef = useRef(null);
@@ -31,6 +37,18 @@ const Footer = props => {
       : audioRef.current.audio.current.pause();
 
   }, [currentSong]);
+
+  useEffect(() => {
+    if (songPlayDuration === 30 && userDetails) {
+      handleTrackSongData({
+        songId: currentSong.songData.id,
+        userId: userDetails.id,
+        metaData: {
+          artistId: currentSong.songData.artistId
+        }
+      })
+    }
+  }, [songPlayDuration, userDetails]);
 
   const handleClickPrevious = () => {
     const songIndex = playlist.findIndex(item => item.song.id === currentSong.songData.id)
@@ -49,6 +67,10 @@ const Footer = props => {
   const handleVolumeChange = e => {
     volumeRef.current.value = e.target.volume;
   };
+
+  const handleListenDuration = () => {
+    handlePlaySongDuration()
+  }
 
   const footerText = (
     <div className="row mr-2">
@@ -89,6 +111,7 @@ const Footer = props => {
         src={currentSong.songData.src}
         onClickPrevious={handleClickPrevious}
         onClickNext={handleClickNext}
+        onListen={handleListenDuration}
         onEnded={handleClickNext}
         onPlay={() => {
           onHandleSongPlaying(true);
@@ -111,6 +134,8 @@ const Footer = props => {
 const mapStateToProps = createStructuredSelector({
   playlist: makeSelectPlaylist(),
   currentSong: makeSelectCurrentSong(),
+  songPlayDuration: makeSelectSongPlayDuration(),
+  userDetails: makeSelectUserDetails()
 });
 
 export function mapDispatchToProps(dispatch) {
@@ -118,6 +143,8 @@ export function mapDispatchToProps(dispatch) {
     onHandleSongPlaying: status => dispatch(handleSongPlaying(status)),
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
+    handlePlaySongDuration: () => dispatch(updateSongPlayDuration()),
+    handleTrackSongData: (data) => dispatch(trackSong(data))
   };
 }
 

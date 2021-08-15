@@ -6,10 +6,24 @@ import {createStructuredSelector} from 'reselect';
 import {useParams} from 'react-router-dom';
 import {useInjectSaga} from 'utils/injectSaga';
 import {useInjectReducer} from 'utils/injectReducer';
-import {getGenres, getSongRequest, postSongRequest, updateSongRequest} from './actions';
+import {
+  getGenres,
+  getMoodListAction,
+  getSongRequest,
+  getTeamMembers,
+  postSongRequest,
+  updateSongRequest
+} from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import {makeSelectedSong, makeSelectGenres, makeSelectSongFormLoader, makeSelectSongLoader} from './selectors';
+import {
+  makeSelectedSong,
+  makeSelectGenres,
+  makeSelectMoods,
+  makeSelectSongFormLoader,
+  makeSelectSongLoader,
+  makeSelectTeamMembers
+} from './selectors';
 import SongForm from '../../components/SongForm';
 import PaperCard from "../../components/PaperCard";
 
@@ -22,7 +36,11 @@ function Form(
     song,
     editSong,
     loader,
-    formLoader
+    getMembers,
+    members,
+    formLoader,
+    getMoodList,
+    moods
   }) {
   useInjectReducer({key: 'song', reducer});
   useInjectSaga({key: 'song', saga});
@@ -31,7 +49,9 @@ function Form(
   const {id} = useParams();
 
   useEffect(() => {
-    getGenreList();
+    getMoodList()
+    getGenreList()
+    getMembers()
     if (id) {
       getSongAction(id);
       setAddSong(false);
@@ -49,8 +69,8 @@ function Form(
   return (
     <PaperCard title={addSong ? 'Add Song' : 'Edit Song'}>
       {
-        addSong ? <SongForm formSubmit={values => onSubmit(values)} genres={genres} formLoader={formLoader}/>
-          : <SongForm formSubmit={values => onSubmit(values)} genres={genres} song={song} formLoader={formLoader}/>
+        addSong ? <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} formLoader={formLoader}/>
+          : <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} song={song} formLoader={formLoader}/>
       }
     </PaperCard>
   );
@@ -63,19 +83,26 @@ Form.propTypes = {
   postSongAction: PropTypes.func.isRequired,
   loader: PropTypes.bool.isRequired,
   formLoader: PropTypes.bool.isRequired,
+  getMoodList: PropTypes.func,
+  moods: PropTypes.array,
+  getMembers: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
+  moods: makeSelectMoods(),
   genres: makeSelectGenres(),
   song: makeSelectedSong(),
   loader: makeSelectSongLoader(),
-  formLoader: makeSelectSongFormLoader()
+  formLoader: makeSelectSongFormLoader(),
+  members: makeSelectTeamMembers()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     getGenreList: () => dispatch(getGenres()),
+    getMoodList: () => dispatch(getMoodListAction()),
     getSongAction: id => dispatch(getSongRequest(id)),
+    getMembers: () => dispatch(getTeamMembers()),
     postSongAction: data => dispatch(postSongRequest(data)),
     editSong: data => dispatch(updateSongRequest(data)),
   };

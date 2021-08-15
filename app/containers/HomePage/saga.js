@@ -3,7 +3,7 @@
  */
 
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {GET_FEATURED_ALBUMS, GET_NEW_RELEASES, GET_TOP_SONGS} from "./constants";
+import {GET_FEATURED_ALBUMS, GET_NEW_RELEASES, GET_TOP_SONGS, } from "./constants";
 import {axiosInstance} from "../../utils/api";
 import {
   getFeaturedAlbumsFail,
@@ -11,7 +11,7 @@ import {
   getNewReleasesFail,
   getNewReleasesSuccess,
   getTopSongsFail,
-  getTopSongsSuccess
+  getTopSongsSuccess,
 } from "./actions";
 import {toast} from "react-toastify";
 
@@ -26,6 +26,7 @@ function fetchTopSongs() {
 function fetchFeaturedAlbums() {
   return axiosInstance().get('/albums/featured');
 }
+
 
 export function* getNewReleasesSaga() {
   try {
@@ -56,6 +57,7 @@ export function* getFeaturedAlbumsSaga() {
     yield put(getFeaturedAlbumsFail(error));
   }
 }
+
 
 /**
  * Root saga manages watcher lifecycle

@@ -12,6 +12,8 @@ import {
   GET_MY_PLAYLISTS_REQUEST,
   DELETE_SONG_PLAYLIST_REQUEST,
   UPDATE_PLAYLIST_REQUEST,
+  FOLLOW_PLAYLIST,
+  GET_POPULAR_PLAYLIST
 } from './constants';
 import {axiosInstance} from '../../utils/api';
 import {
@@ -31,7 +33,11 @@ import {
   getPlaylistFail,
   getPlaylistSuccess,
   togglePlaylistPopup,
+
   getPlaylist, updatePlaylistSuccess, updatePlaylistFail, toggleUpdatePlaylistPopup,
+
+  getPopularPlaylistSuccessAction,
+  getPopularPlaylistErrorAction
 } from './actions';
 
 function postPlaylist(data) {
@@ -62,6 +68,13 @@ function addSongIntoPaylistApi(data) {
   return axiosInstance().post('/playlists/songs', data);
 }
 
+function followPlayList(data) {
+  return axiosInstance().post('playlists/like', data);
+}
+
+function fetchPopularPlaylist() {
+  return axiosInstance().get('/playlists/popular');
+}
 export function* createPlaylistSaga({data}) {
   try {
     yield call(postPlaylist, data);
@@ -138,8 +151,8 @@ export function* addSongIntoPaylist({data}) {
     yield put(addSongIntoPlaylistSuccess(result.data));
     toast.success('Song Successfully added into Playlist.');
   } catch (e) {
-    toast.error(e.message);
-    yield put(addSongIntoPlaylistFail(e.message));
+    toast.error(e.response.data.message);
+    yield put(addSongIntoPlaylistFail(e.response.data.message));
   }
 }
 
@@ -158,6 +171,27 @@ export function* createPlaylistAddSong({data}) {
   }
 }
 
+export function* followPlayListSaga(action) {
+  const {playlistId, like} = action;
+  try {
+    yield call(followPlayList, {playlistId});
+    if (like) toast.success('Playlist added to your playlists');
+    else toast.success('Playlist removed from your playlists');
+    yield put(getPlaylist(playlistId))
+  } catch (e) {
+    toast.error(e);
+  }
+}
+
+function* getPopularPlaylistSaga() {
+  try {
+    const result = yield call(fetchPopularPlaylist);
+    yield put(getPopularPlaylistSuccessAction(result.data));
+  } catch (error) {
+    toast.error(error.message);
+    yield put(getPopularPlaylistErrorAction(error));
+  }
+}
 export default function* playlistSaga() {
   yield takeLatest(CREATE_PLAYLIST_REQUEST, createPlaylistSaga);
   yield takeLatest(UPDATE_PLAYLIST_REQUEST, updatePlaylistSaga);
@@ -167,4 +201,7 @@ export default function* playlistSaga() {
   yield takeLatest(ADD_SONG_INTO_PAYLIST, addSongIntoPaylist);
   yield takeLatest(CREATE_PLAYLIST_AND_ADD_SONG, createPlaylistAddSong);
   yield takeLatest(DELETE_SONG_PLAYLIST_REQUEST, deleteSongFromPlaylist);
+  yield takeLatest(FOLLOW_PLAYLIST, followPlayListSaga);
+  yield takeLatest(GET_POPULAR_PLAYLIST, getPopularPlaylistSaga);
+
 }

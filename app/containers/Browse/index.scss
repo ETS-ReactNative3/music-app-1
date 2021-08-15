@@ -1,0 +1,22 @@
+.browse-card {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  cursor: pointer;
+}
+.card-body-icon {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: -10px;
+  font-size: 3.5rem;
+}
+
+.rotate-icon {
+  -webkit-transform: rotate(
+      15deg
+  );
+  -ms-transform: rotate(15deg);
+  transform: rotate(
+      15deg
+  );
+}

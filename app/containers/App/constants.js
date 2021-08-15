@@ -12,6 +12,10 @@
 export const SET_PLAYLIST = 'boilerplate/App/SET_PLAYLIST';
 export const HANDLE_SONG_PLAYING = 'boilerplate/App/HANDLE_SONG_PLAYING';
 export const HANDLE_SINGLE_SONG = 'boilerplate/App/HANDLE_SINGLE_SONG';
+export const SUCCESS_HANDLE_SONG_PLAYING = 'boilerplate/App/SUCCESS_HANDLE_SONG_PLAYING';
+export const SUCCESS_HANDLE_SINGLE_SONG = 'boilerplate/App/SUCCESS_HANDLE_SINGLE_SONG';
+export const UPDATE_SONG_PLAY_DURATION = 'boilerplate/App/UPDATE_SONG_PLAY_DURATION';
+export const TRACK_SONG = 'boilerplate/App/TRACK_SONG';
 export const SET_ROLE = 'app/Global/SET_ROLE';
 export const GET_GENRES = 'app/Global/GET_GENRES';
 export const GET_GENRES_SUCCESS = 'app/Global/GET_GENRES_SUCCESS';

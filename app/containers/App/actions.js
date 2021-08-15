@@ -25,6 +25,8 @@ import {
   GET_USER_DETAILS,
   GET_USER_DETAILS_SUCCESS,
   GET_USER_DETAILS_ERROR,
+  UPDATE_SONG_PLAY_DURATION,
+  TRACK_SONG, SUCCESS_HANDLE_SINGLE_SONG, SUCCESS_HANDLE_SONG_PLAYING,
 } from './constants';
 
 export function setPlaylist(songs) {
@@ -41,12 +43,33 @@ export function handleSongPlaying(playing) {
   };
 }
 
+export function successHandleSongPlaying(playing) {
+  return {
+    type: SUCCESS_HANDLE_SONG_PLAYING,
+    playing,
+  };
+}
+
 export function handleSingleSong(songId, status) {
   return {
     type: HANDLE_SINGLE_SONG,
     songId,
     status,
   };
+}
+
+export function successHandleSingleSong(songId, status) {
+  return {
+    type: SUCCESS_HANDLE_SINGLE_SONG,
+    songId,
+    status,
+  };
+}
+
+export function updateSongPlayDuration() {
+  return {
+    type: UPDATE_SONG_PLAY_DURATION
+  }
 }
 
 export function setRole(role) {
@@ -94,4 +117,11 @@ export function getUserDetailsFail(error) {
     type: GET_USER_DETAILS_ERROR,
     error,
   };
+}
+
+export function trackSong(songData) {
+  return {
+    type: TRACK_SONG,
+    songData,
+  }
 }

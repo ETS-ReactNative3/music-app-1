@@ -1,26 +1,30 @@
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import React, {memo, useEffect} from 'react';
-import {createStructuredSelector} from 'reselect';
-import {useParams} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import React, { memo, useEffect } from 'react';
+import { createStructuredSelector } from 'reselect';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import PaperCard from '../../components/PaperCard';
-import {Col, Image, OverlayTrigger, Row, Tooltip} from 'react-bootstrap';
-import defaultImage from '../../images/album-3.jpg';
+import { Col, Image, Row } from 'react-bootstrap';
+import defaultImage from '../../images/default-image.png';
 import ShareBox from '../../components/ShareBox';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPauseCircle, faPlayCircle} from '@fortawesome/free-solid-svg-icons';
-import {useInjectReducer} from '../../utils/injectReducer';
-import {useInjectSaga} from '../../utils/injectSaga';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle, faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { useInjectSaga } from '../../utils/injectSaga';
 import reducer from './reducer';
 import saga from './saga';
-import {deleteSong, getPlaylist} from './actions';
-import {makeSelectLoader, makeSelectPlaylist} from './selectors';
-import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
-import {handleSingleSong, handleSongPlaying, setSongs} from '../App/actions';
-import {makeSelectCurrentSong} from '../App/selectors';
+import { deleteSong, followPlayListAction, getPlaylist, getPopularPlaylistAction } from './actions';
+import { makeSelectLoader, makeSelectPlaylist, makeSelectPopularPlaylist, makeSelectPopularPlaylistLoading } from './selectors';
+import { handleSingleSong, handleSongPlaying, setSongs } from '../App/actions';
+import { makeSelectCurrentSong } from '../App/selectors';
 import PlaylistOptions from '../../components/PlaylistOptions';
-import LoadingIndicator from '../../components/LoadingIndicator';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as faHeartFilled } from '@fortawesome/free-solid-svg-icons';
+import CarouselFront from '../../components/CarouselFront';
+import './index.scss';
+import { convertSecondsToTime } from '../../utils';
 
 function Detail(
   {
@@ -32,13 +36,18 @@ function Detail(
     currentSong,
     setSongsAction,
     deleteSongAction,
+    followPlaylist,
+    popularPlaylistLoading,
+    popularPlaylist,
+    getPopularPlaylist
   }) {
-  useInjectReducer({key: 'playlist', reducer});
-  useInjectSaga({key: 'playlist', saga});
-  const {id} = useParams();
+  useInjectReducer({ key: 'playlist', reducer });
+  useInjectSaga({ key: 'playlist', saga });
+  const { id } = useParams();
 
   useEffect(() => {
     getPlaylistAction(id);
+    getPopularPlaylist();
   }, [id]);
 
   const playAllSongsHandler = () => {
@@ -59,100 +68,109 @@ function Detail(
   return (
     <>
       {playlist && (
-        <PaperCard title="PlayList">
-          <Row className="mt-4">
-            <Col md={7} lg={8} xl={9}>
-              <div className="d-flex align-items-center">
-                {playlist.playlistSongs.length > 0 ? <Image
-                    width={150}
-                    height={150}
-                    onError={e => {
-                      e.target.onerror = null;
-                      e.target.src = defaultImage;
-                    }}
-                    src={playlist.playlistSongs[0].song.artwork ? playlist.playlistSongs[0].song.artwork : defaultImage}
-                    alt=""
-                    roundedCircle
-                  /> :
-                  <Image
-                    width={150}
-                    height={150}
-                    onError={e => {
-                      e.target.onerror = null;
-                      e.target.src = defaultImage;
-                    }}
-                    src={defaultImage}
-                    alt=""
-                    roundedCircle
-                  />
-                }
-                <div className="ml-3">
-                  <div className="d-flex align-items-center">
-                    {playlist.title}
-                    <span className="ml-2">
-                      <ShareBox/>
-                    </span>
-                  </div>
-                  <small className="text-muted d-block">
-                    {moment(playlist.createdDate).format('YYYY-MM-DD')}
-                  </small>
-                  <small className="text-muted d-block">
-                    Songs: {playlist.playlistSongs.length}
-                  </small>
-                  <span
-                    onClick={playAllSongsHandler}
-                    className="mt-2 btn btn-warning btn-sm rounded-pill cursor-pointer"
-                  >
-                    {currentSong.playing ? 'Pause' : 'Play All'}
-                  </span>
-                </div>
+        <PaperCard>
+          <div className="row d-flex align-items-end">
+            <div className="col-3">
+              {playlist.playlistSongs.length > 0 ? <Image
+                width={230}
+                height={230}
+                onError={e => {
+                  e.target.onerror = null;
+                  e.target.src = defaultImage;
+                }}
+                src={playlist.playlistSongs[0].song.albumSongs[0].album.artwork ? playlist.playlistSongs[0].song.albumSongs[0].album.artwork : defaultImage}
+                alt="playlist image"
+              /> :
+                <Image
+                  width={230}
+                  height={230}
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = defaultImage;
+                  }}
+                  src={defaultImage}
+                  alt=""
+                />
+              }
+            </div>
+            <div className="col-9 px-0">
+              <div className="py-2">
+                <h6 className="py-2">PLAYLIST</h6>
+                <h1>{playlist.title}</h1>
               </div>
-            </Col>
-          </Row>
+              <div className="text-muted d-flex align-items-center">
+                <small className="px-1">{moment(playlist.createdDate).format('MMM YYYY')}</small>
+                <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
+                <small className="px-1">{playlist.playlistSongs.length} songs</small>
+              </div>
+            </div>
+          </div>
+          <div className="row py-4">
+            <div className="col-12 d-flex align-items-center">
+              <span
+                onClick={playAllSongsHandler}
+                className="btn btn-success rounded-pill cursor-pointer px-4"
+              >
+                {currentSong.playing ? 'Pause' : 'Play All'}
+              </span>
+              <ShareBox />
+              {!playlist.myPlaylist &&
+              <div onClick={() => followPlaylist(playlist.id, !playlist.likedPlaylist)}>
+                {playlist.likedPlaylist ?
+                  <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR}
+                                   size='lg'/>
+                  :
+                  <div className="heart_icon">
+                    <FontAwesomeIcon icon={faHeart} size='lg'/>
+                  </div>}
+              </div>
+              }
+            </div>
+          </div>
           <Row>
             <Col md={12}>
               <section className="py-5">
                 {playlist.playlistSongs.map((ele, index) => (
                   <div
-                    className="row border-bottom blick-border border-top-0 border-right-0 border-left-0 align-items-center songs-ul py-2"
+                    className="row song-row align-content-center py-3"
+                    id={`songNumber${ele.song.id}`}
                     key={index}
                   >
-                    <div className="song-number pr-3 col-md-1">
-                      {`0${index + 1}`.slice(-2)}
-                    </div>
-                    <div className="song-title px-2 col-md-5">
-                      <OverlayTrigger
-                        placement="top"
-                        delay={{show: 250, hide: 400}}
-                        overlay={<Tooltip id={`button-tooltip-${index}`}>{ele.song.title}</Tooltip>}
-                      >
-                        <h5>{ele.song.title}</h5>
-                      </OverlayTrigger>
-                    </div>
-                    <div className="song-duration px-2">4:25</div>
-                    <div className="song-action px-2">
+                    <div className="col-10">
+                      <span className="song-number pr-3">{index + 1}</span>
                       <span
                         onClick={() => singleSongHandler(ele.song.id)}
-                        className="cursor-pointer"
+                        className="cursor-pointer px-3"
                       >
                         <FontAwesomeIcon
-                          size="3x"
-                          color={PLAY_ICON_BG_COLOR}
                           icon={
                             currentSong.songData.id === ele.song.id &&
-                            currentSong.playing
-                              ? faPauseCircle
-                              : faPlayCircle
+                              currentSong.playing
+                              ? faPause
+                              : faPlay
                           }
                         />
                       </span>
+                      <h5 className="song-title d-inline">{ele.song.title}</h5>
                     </div>
-                    <div className="dot-box ml-auto">
-                      <PlaylistOptions remove={() => removeSong(ele.song.id)}/>
+                    <div className="col-2 d-flex justify-content-center align-items-center">
+                      <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
+                      <PlaylistOptions remove={() => removeSong(ele.song.id)} />
                     </div>
                   </div>
                 ))}
               </section>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <CarouselFront
+              type={'playlist'}
+                list={popularPlaylist}
+                loading={popularPlaylistLoading}
+                heading="Recommended For You"
+                classes="carousel-front py-5"
+              />
             </Col>
           </Row>
         </PaperCard>
@@ -165,6 +183,9 @@ const mapStateToProps = createStructuredSelector({
   playlist: makeSelectPlaylist(),
   loader: makeSelectLoader(),
   currentSong: makeSelectCurrentSong(),
+
+  popularPlaylist: makeSelectPopularPlaylist(),
+  popularPlaylistLoading: makeSelectPopularPlaylistLoading()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -172,9 +193,11 @@ function mapDispatchToProps(dispatch) {
     getPlaylistAction: id => dispatch(getPlaylist(id)),
     onHandleSongPlaying: status => dispatch(handleSongPlaying(status)),
     setSongsAction: songs => dispatch(setSongs(songs)),
-    onHandleSingleSong: (index, status) =>
-      dispatch(handleSingleSong(index, status)),
+    onHandleSingleSong: (index, status) => dispatch(handleSingleSong(index, status)),
     deleteSongAction: (id, songId) => dispatch(deleteSong(id, songId)),
+    followPlaylist: (id, like) => dispatch(followPlayListAction(id, like)),
+    getPopularPlaylist: () => dispatch(getPopularPlaylistAction()),
+
   };
 }
 

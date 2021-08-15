@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 
 const selectGlobal = state => state.global || initialState;
+const selectMetaInformation = state => state.metaInformation || {songCount: 0};
 
 const selectRouter = state => state.router;
 
@@ -122,6 +123,18 @@ const makeSelectLoader = () =>
     substate => substate.loader,
   );
 
+const makeSelectSongPlayDuration = () =>
+  createSelector(
+    selectGlobal,
+    substate => substate.songPlayDuration,
+  );
+
+const makeSelectSongCount = () =>
+  createSelector(
+    selectMetaInformation,
+    substate => substate.songCount,
+  );
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -143,4 +156,6 @@ export {
   makeSelectInfluencerDetails,
   makeSelectLoader,
   makeSelectUserWallet,
+  makeSelectSongPlayDuration,
+  makeSelectSongCount
 };

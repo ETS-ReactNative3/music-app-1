@@ -1,0 +1,12 @@
+export const FETCH_ALBUMS = 'app/admin/FETCH_ALBUMS';
+export const SAVE_ALBUMS = 'app/admin/SAVE_ALBUMS';
+export const MAKE_ALBUM_FEATURED = 'app/admin/MAKE_ALBUM_FEATURED';
+export const FETCH_USERS = 'app/admin/FETCH_USERS';
+export const SAVE_USERS = 'app/admin/SAVE_USERS';
+export const SAVE_USERS_COUNT = 'app/admin/SAVE_USERS_COUNT';
+export const SAVE_ALBUMS_COUNT = 'app/admin/SAVE_ALBUMS_COUNT';
+export const BLOCK_USER = 'app/admin/BLOCK_USER';
+export const ADD_CREDITS = 'app/admin/ADD_CREDITS';
+export const FETCH_DISPUTED_CAMPAIGNS = 'app/admin/FETCH_DISPUTED_CAMPAIGNS';
+export const SAVE_DISPUTED_CAMPAIGNS = 'app/admin/SAVE_DISPUTED_CAMPAIGNS';
+export const ON_ERROR_DISPUTED_CAMPAIGNS = 'app/admin/ON_ERROR_DISPUTED_CAMPAIGNS';

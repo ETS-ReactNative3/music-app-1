@@ -4,9 +4,10 @@ import {
   deleteSongFail,
   deleteSongSuccess, getGenresFail, getGenresSuccess,
   getSongRequestFail,
-  getSongRequestSuccess,
+  getSongRequestSuccess, getTeamMembersFail, getTeamMembersSuccess,
   postSongRequestFail,
   postSongRequestSuccess,
+  saveMoodListAction,
   songRequest,
   songRequestFail,
   songRequestSuccess,
@@ -20,7 +21,7 @@ import {
   GET_SONG_REQUEST,
   GET_SONGS_REQUEST,
   POST_SONG_REQUEST, UPDATE_SONG_REQUEST,
-  UPLOAD_SONG_REQUEST,
+  UPLOAD_SONG_REQUEST, GET_MOOD_LIST, GET_TEAM_MEMBERS
 } from './constants';
 import history from '../../utils/history';
 import {toast} from "react-toastify";
@@ -49,8 +50,17 @@ function fetchGenres() {
   return axiosInstance().get('/songs/genres');
 }
 
+
+function fetchMoods() {
+  return axiosInstance().get('/songs/moods');
+}
+
 function editSong(data) {
   return axiosInstance().put('/songs', data);
+}
+
+function fetchMembers() {
+  return axiosInstance().get('/team/members/all');
 }
 
 export function* fetchSongs() {
@@ -109,14 +119,19 @@ export function* saveSongSaga({data}) {
     const songData = {
       ...data,
       songKey: result.data.songKey,
-      url: result.data.location
+      url: result.data.location,
+      duration: result.data.duration
     }
     yield call(postSong, songData);
     yield put(postSongRequestSuccess());
     history.push('/songList');
     toast.success('Song saved successfully.');
   } catch (e) {
-    toast.error(e.message);
+    toast.error(e.response.data.message);
+    if (e.response.data.type === 'free_limit_reached') {
+      history.push('/subscription-plans');
+    }
+
     yield put(postSongRequestFail(e.message));
   }
 }
@@ -128,12 +143,17 @@ export function* updateSongSaga({data}) {
       title: data.title,
       description: data.description,
       genreId: data.genreId,
-      releaseDate: data.releaseDate
+      releaseDate: data.releaseDate,
+      explicitContent: data.explicitContent,
+      collaborator: data.collaborator,
+      moods: data.moods.map(mood => mood.id)
     }
+
     if (data.audio.length !== 0) {
       const result = yield call(postSongApi, data);
       songData.songKey = result.data.songKey;
       songData.url = result.data.location;
+      songData.duration = result.data.duration;
     }
 
     yield call(editSong, songData);
@@ -156,6 +176,26 @@ export function* getGenresSaga() {
   }
 }
 
+
+export function* getMoodsSaga() {
+  try {
+    const result = yield call(fetchMoods);
+    yield put(saveMoodListAction(result.data));
+  } catch (e) {
+    toast.error(e.message);
+  }
+}
+
+export function* fetchTeamMembers() {
+  try {
+    const result = yield call(fetchMembers);
+    yield put(getTeamMembersSuccess(result.data));
+  } catch (e) {
+    toast.error(e.message);
+    yield put(getTeamMembersFail(e.message));
+  }
+}
+
 export default function* watchSong() {
   yield takeLatest(GET_SONGS_REQUEST, fetchSongs);
   yield takeLatest(UPLOAD_SONG_REQUEST, uploadSong);
@@ -164,4 +204,6 @@ export default function* watchSong() {
   yield takeLatest(POST_SONG_REQUEST, saveSongSaga);
   yield takeLatest(UPDATE_SONG_REQUEST, updateSongSaga);
   yield takeLatest(GET_GENRES, getGenresSaga);
+  yield takeLatest(GET_MOOD_LIST, getMoodsSaga);
+  yield takeLatest(GET_TEAM_MEMBERS, fetchTeamMembers);
 }

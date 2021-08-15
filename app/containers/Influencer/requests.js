@@ -22,10 +22,11 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import PaperCard from '../../components/PaperCard';
 import saga from './saga';
 import reducer from './reducer';
-import {makeSelectLoader, makeSelectRequests} from './selectors';
-import {getInfluencerRequests, updateInfluencerStatus} from './actions';
+import {makeSelectGenres, makeSelectLoader, makeSelectRequests} from './selectors';
+import {getGenres, getInfluencerRequests, updateInfluencerStatus} from './actions';
 import {PLAY_ICON_BG_COLOR} from "../../utils/constants";
 import {faFacebook, faInstagram, faTwitter, faYoutube} from "@fortawesome/free-brands-svg-icons";
+import { InfluencerDetailsPopup } from './InfluencerDetailsPopup';
 
 export function Requests(
   {
@@ -33,21 +34,24 @@ export function Requests(
     influencerRequests,
     loader,
     updateInfluencerStatusAction,
+    genres,
+    fetchGenres
   }) {
   const [rejectOpen, setRejectOpen] = useState(false);
   const [approvalOpen, setApprovalOpen] = useState(false);
   const [influencer, setInfluencer] = useState(null);
+  const [openDetails, setOpenDetails] = useState(false);
 
   useInjectReducer({key: 'influencer', reducer});
   useInjectSaga({key: 'influencer', saga});
 
   useEffect(() => {
-    getRequests();
+    getRequests();fetchGenres();
   }, []);
 
   const columns = [
     {
-      dataField: 'name',
+      dataField: 'businessName',
       text: 'Name',
       style: {
         width: '20%',
@@ -165,6 +169,12 @@ export function Requests(
               keyField="id"
               data={influencerRequests}
               columns={columns}
+              rowEvents={{
+                onClick: (e, row) => {
+                  setInfluencer(row);
+                    setOpenDetails(true);
+                },
+              }}
             />
           )}
         </div>
@@ -310,6 +320,7 @@ export function Requests(
           </Button>
         </Modal.Footer>
       </Modal>
+      <InfluencerDetailsPopup genres={genres} influencer={influencer} openDetails={openDetails} handleDetailsClose={() => setOpenDetails(false)} />
     </PaperCard>
   );
 }
@@ -319,11 +330,14 @@ Requests.propTypes = {
   influencerRequests: PropTypes.any,
   loader: PropTypes.bool,
   updateInfluencerStatusAction: PropTypes.func,
+  genres: PropTypes.array,
+  fetchGenres: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
   influencerRequests: makeSelectRequests(),
   loader: makeSelectLoader(),
+  genres: makeSelectGenres()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -331,6 +345,7 @@ function mapDispatchToProps(dispatch) {
     getRequests: () => dispatch(getInfluencerRequests()),
     updateInfluencerStatusAction: data =>
       dispatch(updateInfluencerStatus(data)),
+      fetchGenres: () => dispatch(getGenres())
   };
 }
 

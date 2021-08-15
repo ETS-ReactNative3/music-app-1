@@ -1,15 +1,7 @@
 /* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import React, { memo } from 'react';
-import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
-import { faBlog } from '@fortawesome/free-solid-svg-icons';
 import LoadingIndicator from 'components/LoadingIndicator';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, FormControl, Image, Spinner, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -18,7 +10,7 @@ import PaperCard from '../../components/PaperCard';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import defaultImage from '../../images/album-3.jpg';
+import defaultImage from '../../images/user.svg';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { useInjectSaga } from '../../utils/injectSaga';
 import albumReducer from '../Album/reducer';
@@ -41,6 +33,7 @@ import {
   makeSelectVerifySubmitting,
 } from './selectors';
 import './index.scss';
+import { capatilizeText, renderSocialMediaIcons } from '../../utils';
 
 const Details = (
   {
@@ -275,90 +268,19 @@ const Details = (
                 selectedInfluencer.campaignInfluencerServices.map(
                   service => {
                     if (service.response)
-                      switch (service.socialChannelsId) {
-                        case 1:
+
                           return (
                             <div className="service_response_parent">
-                              <FontAwesomeIcon
-                                size="1x"
-                                icon={faFacebook}
-                                style={{ marginLeft: 5 }}
-                              />
+                              {renderSocialMediaIcons(service.socialChannels.title, '1x', {marginLeft: 5})}
                           &nbsp;
-                          Facebook:
+                          {capatilizeText(service.socialChannels.title)}:
                           &nbsp;
                               <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
                                 {service.response}
                               </a>
                             </div>
                           );
-                        case 2:
-                          return (
-                            <div className="service_response_parent">
-                              <FontAwesomeIcon
-                                size="1x"
-                                icon={faTwitter}
-                                style={{ marginLeft: 5 }}
-                              />
-                            &nbsp;
-                            Twitter:
-                            &nbsp;
-                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
-                                {service.response}
-                              </a>
-                            </div>
-                          );
-                        case 3:
-                          return (
-                            <div className="service_response_parent">
-                              <FontAwesomeIcon
-                                size="1x"
-                                icon={faInstagram}
-                                style={{ marginLeft: 5 }}
-                              />
-                            &nbsp;
-                            Instagram:
-                            &nbsp;
-                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
-                                {service.response}
-                              </a>
-                            </div>
-                          );
-                        case 4:
-                          return (
-                            <div className="service_response_parent">
-                              <FontAwesomeIcon
-                                size="1x"
-                                icon={faYoutube}
-                                style={{ marginLeft: 5 }}
-                              />
-                            &nbsp;
-                            Youtube:
-                            &nbsp;
-                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
-                                {service.response}
-                              </a>
-                            </div>
-                          );
-                        case 5:
-                          return (
-                            <div className="service_response_parent">
-                              <FontAwesomeIcon
-                                size="1x"
-                                icon={faBlog}
-                                style={{ marginLeft: 5 }}
-                              />
-                            &nbsp;
-                            Blog:
-                            &nbsp;
-                              <a target={'_blank'} href={(service.response.includes('https') || service.response.includes('http')) ? service.response : `https://${service.response}`}>
-                                {service.response}
-                              </a>
-                            </div>
-                          );
-                        default:
-                          return <></>;
-                      }
+
                   },
                 )}
             </div>

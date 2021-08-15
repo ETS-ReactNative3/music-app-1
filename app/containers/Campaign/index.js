@@ -15,14 +15,6 @@ import {
 import PaperCard from '../../components/PaperCard';
 import {Link, withRouter} from 'react-router-dom';
 import moment from 'moment';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
-import {faBlog} from '@fortawesome/free-solid-svg-icons';
 import {useInjectReducer} from '../../utils/injectReducer';
 import {makeSelectSelectedInfluencers} from '../Tastemaker/selectors';
 import {launchCampaignAction} from './actions';
@@ -34,15 +26,15 @@ import {makeSelectedSong} from '../Song/selectors';
 import {useInjectSaga} from '../../utils/injectSaga';
 import styles from './index.styles';
 import defaultImage from '../../images/album-3.jpg';
+import defaultAvatar from '../../images/user.svg';
 import {getSongRequest} from '../Song/actions';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import {makeSelectLoader, makeSelectUserDetails} from '../App/selectors';
 import {_calculatePriceForSelectedInfluencers} from '../Tastemaker';
-import {makeSelectFormLoader} from '../Album/selectors';
 import appReducer from '../App/reducer';
 import ButtonLoader from '../../components/ButtonLoader';
-import {SOCIAL_MEDIA} from '../App/constants';
 import LoadingIndicator from "../../components/LoadingIndicator";
+import { renderSocialMediaIcons } from '../../utils';
 
 const CampaignSummary = (
   {
@@ -78,7 +70,7 @@ const CampaignSummary = (
                   height={50}
                   onError={e => {
                     e.target.onerror = null;
-                    e.target.src = defaultImage;
+                    e.target.src = defaultAvatar;
                   }}
                   src={selectedInfluencer.avatar}
                   alt=""
@@ -87,7 +79,7 @@ const CampaignSummary = (
               </div>
             </div>
             <div style={styles.influencerBodyStyle}>
-              {selectedInfluencer.name}
+              {selectedInfluencer.influencer.name}
               <p className="d-block">
                 {selectedInfluencer.influencer.description}
               </p>
@@ -95,33 +87,9 @@ const CampaignSummary = (
                 {selectedInfluencer &&
                 selectedInfluencer.influencer &&
                 selectedInfluencer.influencer.influencerServices.map(
-                  influencerService => {
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.FACEBOOK
-                    )
-                      return <FontAwesomeIcon icon={faFacebook} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.INSTAGRAM
-                    )
-                      return <FontAwesomeIcon icon={faInstagram} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.TWITTER
-                    )
-                      return <FontAwesomeIcon icon={faTwitter} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.BLOG
-                    )
-                      return <FontAwesomeIcon icon={faBlog} className="mr-2"/>;
-                    if (
-                      influencerService.socialChannels.title ===
-                      SOCIAL_MEDIA.YOUTUBE
-                    )
-                      return <FontAwesomeIcon icon={faYoutube} className="mr-2"/>;
-                  },
+                  influencerService =>
+                    renderSocialMediaIcons(influencerService.socialChannels.title)
+                  ,
                 )}
               </span>
             </div>
@@ -162,7 +130,7 @@ const CampaignSummary = (
                           e.target.onerror = null;
                           e.target.src = defaultImage;
                         }}
-                        src={selectedSong.artwork || ''}
+                        src={selectedSong.albumSongs[0].album.artwork || ''}
                         alt=""
                         roundedCircle
                       />

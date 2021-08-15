@@ -6,25 +6,24 @@ import {toast} from 'react-toastify';
 import {axiosInstance} from '../../utils/api';
 import {getUserDetails} from '../App/actions';
 import {
-  putUserActivities,
   putUserRatings,
   putUserReviews,
   updateInfluencerProcessingAction,
   updateProcessingAction,
+  saveUsersCountriesAction,
+  changePasswordProgressAction
 } from './actions';
 import {
+  CHANGE_PASSWORD,
   FETCH_ACTIVITY,
+  FETCH_USERS_COUNTRIES,
   REQUEST_INFLUENCER,
-  UPDATE_INFLUENCER_DETAILS,
+  UPDATE_INFLUENCER_DETAILS, UPDATE_REGULAR_USER_DETAILS,
   UPDATE_USER_DETAILS,
 } from './constants';
 
 function requestInfluencerApi(data) {
   return axiosInstance().post('influencers', data);
-}
-
-function getUserActivitiesAPI(userId) {
-  return axiosInstance().get(`campaigns/user/${userId}`);
 }
 
 function getUserRatingsAPI(userId) {
@@ -39,8 +38,20 @@ function updateUserDetailsApi(data) {
   return axiosInstance().put('users', data);
 }
 
+function updateArtistDetailsApi(data) {
+  return axiosInstance().put('users/artist', data);
+}
+
 function updateInfluencerDetailsApi(data) {
   return axiosInstance().put('influencers', data);
+}
+
+function fetchUserCountriesAPI() {
+  return axiosInstance().get('users/countries');
+}
+
+function changePasswordAPI(data) {
+  return axiosInstance().post('auth/changePassword', data);
 }
 
 function updateAvatar(data) {
@@ -79,13 +90,6 @@ export function* requestInfluencerSaga(data) {
 
 export function* getUserActivitiesSaga({userId}) {
   try {
-    // let response = yield call(getUserActivitiesAPI, userId);
-    // // success?
-
-    // if (response.statusText === 'OK') {
-    //   yield put(putUserActivities(response.data));
-    // }
-
     let response = yield call(getUserRatingsAPI, userId);
     if (response.statusText === 'OK') {
       let totalRatings = 0;
@@ -121,6 +125,7 @@ function* updateUserDetailsSaga(action) {
         avatarImageKey: response.data.avatarImageKey,
       };
     }
+
     if (isCoverPhotoUpdated) {
       const response = yield call(updateCoverPhoto, data.coverPhotoLocal);
       data = {
@@ -129,12 +134,12 @@ function* updateUserDetailsSaga(action) {
         coverPhotoImageKey: response.data.coverPhotoImageKey,
       };
     }
+
     delete data.profilePhoto;
     delete data.coverPhotoLocal;
-    yield call(updateUserDetailsApi, data);
+    yield call(updateArtistDetailsApi, data);
 
     yield put(getUserDetails());
-    // history.goBack();
     toast.success('User information updated successfully');
     yield put(updateProcessingAction(false));
   } catch (e) {
@@ -143,7 +148,32 @@ function* updateUserDetailsSaga(action) {
   }
 }
 
-function* updateInfluencerDetailslSaga(action) {
+function* updateRegularUserSaga(action) {
+  try {
+    yield put(updateProcessingAction(true));
+    let {data} = action;
+    const {isProfilePhotoUpdated} = action;
+    if (isProfilePhotoUpdated) {
+      const response = yield call(updateAvatar, data.profilePhoto);
+      data = {
+        ...data,
+        avatar: response.data.avatarLocation,
+        avatarImageKey: response.data.avatarImageKey,
+      };
+    }
+
+    delete data.profilePhoto;
+    yield call(updateUserDetailsApi, data);
+    yield put(getUserDetails());
+    toast.success('User information updated successfully');
+    yield put(updateProcessingAction(false));
+  } catch (e) {
+    toast.error(e.message);
+    yield put(updateProcessingAction(false));
+  }
+}
+
+function* updateInfluencerDetailsSaga(action) {
   try {
     yield put(updateInfluencerProcessingAction(true));
     const {data} = action;
@@ -160,9 +190,34 @@ function* updateInfluencerDetailslSaga(action) {
   }
 }
 
+function* fetchUserCountriesSaga() {
+  try {
+    const result = yield call(fetchUserCountriesAPI);
+    yield put(saveUsersCountriesAction(result.data))
+  } catch (e) {
+    yield put(saveUsersCountriesAction([]))
+  }
+}
+
+function* changePasswordSaga(action) {
+  try {
+    const {data} = action;
+    yield call(changePasswordAPI, data);
+    toast.success("Password Change successfully");
+    yield put(changePasswordProgressAction(false));
+  } catch (e) {
+    toast.error("Failed to change password");
+    yield put(changePasswordProgressAction(false))
+
+  }
+}
+
 export default function* accountSaga() {
   yield takeLatest(REQUEST_INFLUENCER, requestInfluencerSaga);
   yield takeLatest(FETCH_ACTIVITY, getUserActivitiesSaga);
   yield takeLatest(UPDATE_USER_DETAILS, updateUserDetailsSaga);
-  yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailslSaga);
+  yield takeLatest(UPDATE_INFLUENCER_DETAILS, updateInfluencerDetailsSaga);
+  yield takeLatest(UPDATE_REGULAR_USER_DETAILS, updateRegularUserSaga);
+  yield takeLatest(FETCH_USERS_COUNTRIES, fetchUserCountriesSaga);
+  yield takeLatest(CHANGE_PASSWORD, changePasswordSaga);
 }

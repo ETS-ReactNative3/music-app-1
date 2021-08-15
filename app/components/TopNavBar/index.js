@@ -1,15 +1,18 @@
 import React, {useRef, useState} from 'react';
-import {faSearch, faBars} from '@fortawesome/free-solid-svg-icons';
+import {faSearch, faBars, faUsers, faWallet, faUserAlt, faMoneyBillWave} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
 import {redirectOnAlbum} from '../../utils/redirect';
-
 import request from '../../utils/request';
 import './index.scss';
 import {Link, useHistory} from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PlanSvg from '../../images/svg/plan_icon.svg';
+import AvatarSvg from '../../images/user.svg';
 import Button from 'react-bootstrap/Button';
+import {Image} from 'react-bootstrap';
+import {server} from '../../../config';
+import {debounce} from 'lodash';
 
 const AsyncTypeahead = withAsync(Typeahead);
 
@@ -18,18 +21,29 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
   const headerRef = useRef('');
-  const SEARCH_URI = 'https://bliiink.ga/albums/search/album/';
+  const SEARCH_URI = `${server.apiURL}albums/search/album/`;
   const history = useHistory();
 
   const handleSearch = query => {
     setIsLoading(true);
     request(`${SEARCH_URI}${query}`).then(response => {
-      const options = response.map(i => ({
+      let options = response.albums.map(i => ({
         avatar_url: i.artwork,
         id: i.id,
         login: i.title,
         slug: i.slug,
+        type: 'album'
       }));
+
+      options = options.concat(
+        response.artists.map(i => ({
+          avatar_url: i.avatar,
+          id: i.id,
+          login: i.name,
+          slug: i.id,
+          type: 'artist'
+        })),
+      );
 
       setOptions(options);
       setIsLoading(false);
@@ -41,7 +55,8 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
   };
 
   const onInputChangeSelection = value => {
-    redirectOnAlbum(value[0].slug);
+    if (value[0].type === 'album') redirectOnAlbum(value[0].slug);
+    else history.push(`/artist/${value[0].slug}`)
     searchRef.current.clear();
   };
 
@@ -52,6 +67,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
     history.push('/auth/login');
     location.reload();
   };
+
+  const searchEnhancer = debounce(searchValue => {
+    handleSearch(searchValue);
+  }, 500);
 
   return (
     <header>
@@ -72,25 +91,19 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             </span>
           </li>
         </ul>
-        <div className="input-group ml-md-5">
-          <div className="input-group-prepend">
-            <button
-              className="btn btn-navbar bg-transparent text-white"
-              type="button"
-            >
-              <FontAwesomeIcon icon={faSearch}/>
-            </button>
-          </div>
+        <div className="search ml-md-5">
+          <span className="searchIcon">
+            <FontAwesomeIcon icon={faSearch}/>
+          </span>
           <AsyncTypeahead
             id="async-example"
-            className="autocomplete-box border-bottom blick-border border-top-0 border-right-0 border-left-0 flex-grow-1"
             useCache
             isLoading={isLoading}
             labelKey="login"
             minLength={3}
-            onSearch={handleSearch}
+            onSearch={searchEnhancer}
             options={options}
-            placeholder="Search for an album"
+            placeholder="Search for albums, artists, genres"
             ref={searchRef}
             onChange={onInputChangeSelection}
             renderMenuItemChildren={option => (
@@ -109,36 +122,77 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             )}
           />
         </div>
-        <div className="pl-5">
+        <div className="right">
           {userDetails ? (
-            <Dropdown>
-              <Dropdown.Toggle as="a" id="dropdown-basic">
-                <span className="badge badge-pill badge-dark p-2">
-                  {userDetails.name}
-                </span>
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item as={Link} to="/myaccount">
-                  My profile
-                </Dropdown.Item>
-                <Dropdown.Item as={Link} to="/wallet">
-                  Wallet -{' '}
-                  <img
-                    src={PlanSvg}
-                    alt="wallet Logo"
-                    width={17}
-                    height={17}
-                  />{' '}
-                  {userDetails.credit}
-                </Dropdown.Item>
-                <Dropdown.Divider/>
-                <Dropdown.Item className="cursor-pointer" onClick={logout}>Log out</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <>
+              <Link to="/subscription-plans">
+                <Button variant="success" className="badge-button mr-2">Subscribe</Button>
+              </Link>
+              <Dropdown className="d-inline">
+                <Dropdown.Toggle as="button" id="dropdown-basic"
+                                 className="badge-button btn btn-outline-success text-white">
+                  <div>
+                  <span className="avatar rounded-circle">
+                    <Image
+                      width={24}
+                      height={24}
+                      roundedCircle
+                      onError={e => {
+                        e.target.onerror = null;
+                        e.target.src = AvatarSvg;
+                      }}
+                      src={userDetails.avatar}
+                      alt="avatar-image"
+                    />
+                  </span>
+                    <span className="p-2">{userDetails.name}</span>
+                  </div>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to="/myaccount">
+                    <FontAwesomeIcon icon={faUserAlt} className="mr-2"/>
+                    My profile
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/wallet">
+                    <FontAwesomeIcon icon={faWallet} className="mr-2"/>
+                    Wallet -{' '}
+                    <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
+                    {userDetails.credit}
+                  </Dropdown.Item>
+                  {userDetails.roleId === 1 &&
+                    <Dropdown.Item as={Link} to="/user/supportedArtist">
+                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                      Supported Artists
+                    </Dropdown.Item>
+                  }
+                  {userDetails.roleId === 2 &&
+                  <>
+                    <Dropdown.Item as={Link} to="/team">
+                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                      My Teams
+                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/earnings">
+                      <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2"/>
+                      My Earnings
+                    </Dropdown.Item>
+                  </>
+                  }
+                  <Dropdown.Divider/>
+                  <Dropdown.Item className="cursor-pointer" onClick={logout}>
+                    Log out
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </>
           ) : (
-            <Link to="/auth/login">
-              <Button variant="success">Login</Button>
-            </Link>
+            <>
+              <Link to="/auth/login">
+                <Button variant="outline-success" className="badge-button mr-2">Sign in</Button>
+              </Link>
+              <Link to="/auth/register">
+                <Button variant="success" className="badge-button">Create Account</Button>
+              </Link>
+            </>
           )}
         </div>
       </div>

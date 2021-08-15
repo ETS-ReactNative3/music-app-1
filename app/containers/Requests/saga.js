@@ -51,11 +51,13 @@ export function* updateCampaignStatusSaga(action) {
 }
 
 export function* submitFeedbackRequestSaga(action) {
-  const { campaignId, influencerId, feedback } = action;
+  const { campaignId, influencerId, feedback, declined, artistId } = action;
   yield call(submitFeedbackRequestApi, {
     influencerId,
     campaignsId: campaignId,
     feedback,
+    declined,
+    artistId
   });
 }
 

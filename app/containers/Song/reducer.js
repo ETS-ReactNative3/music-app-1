@@ -21,7 +21,7 @@ import {
   UPDATE_SONG_REQUEST_FAIL,
   UPDATE_SONG_REQUEST,
   UPDATE_SONG_REQUEST_SUCCESS,
-  GET_GENRES_SUCCESS,
+  GET_GENRES_SUCCESS, SAVE_MOOD_LIST, GET_TEAM_MEMBERS_SUCCESS
 } from './constants';
 
 export const initialState = {
@@ -32,6 +32,7 @@ export const initialState = {
   songFormLoading: false,
   song: null,
   genres: [],
+  members: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -77,6 +78,12 @@ const songReducer = (state = initialState, action) =>
         break;
       case GET_GENRES_SUCCESS:
         draft.genres = action.genres;
+        break;
+      case SAVE_MOOD_LIST:
+        draft.moods = action.moods;
+        break;
+      case GET_TEAM_MEMBERS_SUCCESS:
+        draft.members = action.members;
         break;
     }
   });

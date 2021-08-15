@@ -15,7 +15,7 @@ import './index.scss';
 
 const ShareBox = () => (
   <>
-    <Dropdown className="social-album-share">
+    <Dropdown className="social-album-share d-inline pl-4">
       <Dropdown.Toggle id="dropdown-basic" as="span">
       <FontAwesomeIcon
                         size="1x"

@@ -10,6 +10,7 @@ import {
   GET_INFLUENCER_PROFILE,
   GET_INFLUENCER_REQUESTS,
   UPDATE_INFLUENCER_STATUS_REQUEST,
+  FETCH_INFLUENCER_STATS,
 } from './constants';
 import { axiosInstance } from '../../utils/api';
 import {
@@ -26,8 +27,10 @@ import {
   updateInfluencerStatusSuccess,
   updateInfluencerStatusFail,
   getInfluencerRequests,
+  fetchInfluencerStatsSuccessAction,
 } from './actions';
 import history from '../../utils/history';
+import { getUserDetails } from '../App/actions';
 
 function becomeInfuencer(data) {
   return axiosInstance().post('/influencers', data);
@@ -53,11 +56,16 @@ function updateStatus(data) {
   return axiosInstance().put('/influencers/status', data);
 }
 
+function fetchInfluencerStatsApi(id) {
+  return axiosInstance().get(`/influencers/stat/${id}`)
+}
+
 export function* becomeAnInfluencerSaga({ data }) {
   try {
     const result = yield call(becomeInfuencer, data);
     yield put(becomeAnInfluencerSucces(result.data));
     toast.success('Request to become an influencer is sent successfully.');
+    yield put(getUserDetails());   
     history.push('/');
   } catch (e) {
     toast.error(e.message);
@@ -121,6 +129,17 @@ export function* updateInfluencerStatus({ data }) {
   }
 }
 
+function* fetchInfluencerStatsSaga({id}) {
+  try {
+    const response = yield call(fetchInfluencerStatsApi, id);
+    if (response) {
+      yield put(fetchInfluencerStatsSuccessAction(response.data))
+    }
+  } catch (e) {
+    toast.error(e.message);
+  }
+}
+
 export default function* influencerSaga() {
   yield takeLatest(BECOME_AN_INFLUENCER, becomeAnInfluencerSaga);
   yield takeLatest(GET_SOCIAL_CHANNELS, getSocialChannels);
@@ -128,4 +147,5 @@ export default function* influencerSaga() {
   yield takeLatest(GET_INFLUENCER_PROFILE, getInfluencerProfile);
   yield takeLatest(GET_INFLUENCER_REQUESTS, getInfluencerRequestsSaga);
   yield takeLatest(UPDATE_INFLUENCER_STATUS_REQUEST, updateInfluencerStatus);
+  yield takeLatest(FETCH_INFLUENCER_STATS, fetchInfluencerStatsSaga)
 }

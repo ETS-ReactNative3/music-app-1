@@ -1,27 +1,25 @@
-import React, {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
-import {FormattedMessage} from 'react-intl';
-
-import {useInjectReducer} from 'utils/injectReducer';
-import {useInjectSaga} from 'utils/injectSaga';
+import React, { memo, useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
+import { useInjectReducer } from 'utils/injectReducer';
+import { useInjectSaga } from 'utils/injectSaga';
+import CarouselFront from '../../components/CarouselFront';
+import Header from '../../components/Header';
+import SongList from '../../components/SongList';
+import { handleSingleSong, setPlaylist } from '../App/actions';
 import {
-  makeSelectLatestPosts,
-  makeSelectFeaturedAlbums,
-  makeSelectRecommended,
-  makeSelectPlaylist,
-  makeSelectCurrentSong,
+  makeSelectCurrentSong, makeSelectFeaturedAlbums, makeSelectLatestPosts,
+
+
+  makeSelectPlaylist, makeSelectRecommended
 } from '../App/selectors';
+import { getFeaturedAlbums, getNewReleases, getTopSongs } from "./actions";
+import messages from './messages';
 import reducer from './reducer';
 import saga from './saga';
-import Header from '../../components/Header';
-import CarouselFront from '../../components/CarouselFront';
-import SongList from '../../components/SongList';
-import messages from './messages';
-import {setPlaylist, handleSingleSong} from '../App/actions';
-import {getFeaturedAlbums, getNewReleases, getTopSongs} from "./actions";
 import {
   makeSelectFeaturedAlbum,
   makeSelectFeaturedAlbumLoading,
@@ -30,6 +28,7 @@ import {
   makeSelectTopSongs,
   makeSelectTopSongsLoading
 } from "./selectors";
+
 
 const key = 'home';
 
@@ -47,7 +46,7 @@ export function HomePage(props) {
     topSongsLoading,
     topSongs,
     featuredAlbumLoading,
-    featuredAlbum
+    featuredAlbum,
   } = props;
 
   useInjectReducer({key, reducer});
@@ -78,9 +77,9 @@ export function HomePage(props) {
       <div className="container-fluid">
         <CarouselFront
           loading={featuredAlbumLoading}
-          list={featuredAlbum}
+          list={featuredAlbum || []}
           heading={<FormattedMessage {...messages.featuredAlbumHeading} />}
-          clasess="carousel-front py-5"
+          classes="carousel-front py-5"
         />
         {/*<LatestPosts*/}
         {/*  list={posts}*/}
@@ -93,13 +92,14 @@ export function HomePage(props) {
           singleSongHandler={handleWeeklySong}
           currentSong={currentSong}
           loading={topSongsLoading}
-          clasess="py-5"
+          classes="py-5"
         />
         <CarouselFront
           list={newReleases}
           loading={newReleasesLoading}
+          viewAll="/newReleases"
           heading={<FormattedMessage {...messages.newReleasesHeading} />}
-          clasess="carousel-front py-5"
+          classes="carousel-front py-5"
         />
         {/*<CarouselFront*/}
         {/*  list={recommended}*/}
@@ -129,7 +129,7 @@ const mapStateToProps = createStructuredSelector({
   currentPlaylist: makeSelectPlaylist(),
   currentSong: makeSelectCurrentSong(),
   featuredAlbumLoading: makeSelectFeaturedAlbumLoading(),
-  featuredAlbum: makeSelectFeaturedAlbum()
+  featuredAlbum: makeSelectFeaturedAlbum(),
 });
 
 export function mapDispatchToProps(dispatch) {

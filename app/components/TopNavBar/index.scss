@@ -42,3 +42,40 @@
     }
   }
 }
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.badge-dark {
+  background-color: #000000;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #343a40
+  }
+}
+
+.right {
+  float: right;
+  margin-left: auto;
+  padding-right: 20px;
+}
+
+.search {
+  width: 500px;
+  background: #000000;
+  border-radius: 10px;
+  position: relative;
+
+  .searchIcon {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
+
+  .form-control {
+    background: transparent;
+    border: none;
+  }
+}

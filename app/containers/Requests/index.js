@@ -38,6 +38,9 @@ import {makeSelectSocialChannels} from '../Influencer/selectors';
 import {handleSingleSong, setPlaylist} from '../App/actions';
 import {CampaignStatus} from "./constants";
 import {toast} from "react-toastify";
+import { fetchUsersCountriesAction } from '../MyAccount/actions';
+import accountSaga from '../MyAccount/saga';
+import accountReducer from '../MyAccount/reducer';
 
 function RequestListing(
   {
@@ -54,7 +57,8 @@ function RequestListing(
     onHandleSingleSong,
     approvedRequestList,
     declinedRequestList,
-    disputedRequestList
+    disputedRequestList,
+    fetchCountries
   }) {
   const [openModal, setOpenModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
@@ -63,9 +67,13 @@ function RequestListing(
   useInjectReducer({key: 'influencer', reducer: influencerReducer});
   useInjectSaga({key: 'influencer', saga: influencerSaga});
 
+  useInjectSaga({ key: 'account', saga: accountSaga });
+  useInjectReducer({ key: 'account', reducer: accountReducer });
+
   useEffect(() => {
     fetchRequests();
     getSocialChannelList();
+    fetchCountries();
   }, []);
 
   const renderTable = (data, columns) => (
@@ -181,6 +189,7 @@ RequestListing.propTypes = {
   updateCampaignStatus: PropTypes.func,
   setPlaylistAction: PropTypes.func,
   onHandleSingleSong: PropTypes.func,
+  fetchCountries: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -198,13 +207,15 @@ function mapDispatchToProps(dispatch) {
     fetchRequests: () => dispatch(fetchRequestsAction()),
     updateCampaignStatus: (campaignId, statusId) =>
       dispatch(updateCampaignStatusAction(campaignId, statusId)),
-    submitFeedbackRequest: (campaignId, influencerId, feedback) =>
-      dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback)),
+    submitFeedbackRequest: (campaignId, influencerId, feedback, decline, artistId) =>
+      dispatch(submitFeedbackRequestAction(campaignId, influencerId, feedback, decline, artistId)),
     submitSocialLinksRequest: data => dispatch(submitSocialLinksAction(data)),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
     setPlaylistAction: songs => dispatch(setPlaylist(songs)),
     onHandleSingleSong: (index, status) =>
       dispatch(handleSingleSong(index, status)),
+    fetchCountries: () => dispatch(fetchUsersCountriesAction())
+
   };
 }
 

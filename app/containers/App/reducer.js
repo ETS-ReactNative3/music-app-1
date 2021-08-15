@@ -11,8 +11,6 @@ import produce from 'immer';
 import {GET_INFLUENCER_PROFILE_SUCCESS} from '../Influencer/constants';
 import {
   SET_PLAYLIST,
-  HANDLE_SONG_PLAYING,
-  HANDLE_SINGLE_SONG,
   SET_ROLE,
   GET_GENRES_SUCCESS,
   SET_SONGS,
@@ -20,6 +18,9 @@ import {
   GET_USER_DETAILS_SUCCESS,
   GET_USER_DETAILS,
   GET_USER_DETAILS_ERROR,
+  UPDATE_SONG_PLAY_DURATION,
+  SUCCESS_HANDLE_SONG_PLAYING,
+  SUCCESS_HANDLE_SINGLE_SONG,
 } from './constants';
 
 // The initial state of the App
@@ -47,8 +48,9 @@ export const initialState = {
       artist: '',
       artwork: ''
     },
-    playing: false,
+    playing: false
   },
+  songPlayDuration: 0,
   role: '',
   genres: [],
   loader: false,
@@ -64,13 +66,17 @@ const appReducer = (state = initialState, action) =>
         draft.currentPlaylist = action.songs;
         draft.currentSong.playing = false;
         break;
-      case HANDLE_SONG_PLAYING:
+      case SUCCESS_HANDLE_SONG_PLAYING:
         draft.loading = false;
         draft.currentSong.playing = action.playing;
         break;
-      case HANDLE_SINGLE_SONG:
+      case UPDATE_SONG_PLAY_DURATION:
+        draft.songPlayDuration = draft.songPlayDuration + 1;
+        break;
+      case SUCCESS_HANDLE_SINGLE_SONG:
         draft.loading = false;
         draft.currentSong.playing = action.status;
+        draft.songPlayDuration = 0;
         const song = state.currentPlaylist.find(item => item.song.id === action.songId)
         if (song) {
           const albumImage = song.album ? song.album.artwork : song.song.albumSongs[0].album.artwork
@@ -79,6 +85,7 @@ const appReducer = (state = initialState, action) =>
             src: song.song.url,
             title: song.song.title,
             artist: song.song.user.name,
+            artistId: song.song.user.id,
             artwork: albumImage,
           }
         }

@@ -5,6 +5,7 @@ import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import {
   DELETE_ALBUM,
+  FOLLOW_ALBUM,
   GET_ALBUM,
   GET_GENRES,
   GET_MY_ALBUMS_REQUEST,
@@ -24,6 +25,7 @@ import {
   getMyAlbumsRequest,
   getMyAlbumsRequestFail,
   getMyAlbumsRequestSuccess,
+  loadAlbum,
   loadAlbumFail,
   loadAlbumSuccess,
   postAlbumRequestFail,
@@ -39,6 +41,10 @@ import { setPlaylist } from '../App/actions';
 
 function getAlbumInfo(albumSlug) {
   return axiosInstance().get(`/albums/songs/slug/${albumSlug}`);
+}
+
+function getAlbumInfoForLoggedIn(albumSlug) {
+  return axiosInstance().get(`/albums/details/${albumSlug}`)
 }
 
 function fetchMyAlbums() {
@@ -79,6 +85,10 @@ function fetchGenres() {
   return axiosInstance().get('/songs/genres');
 }
 
+function followAlbumApi(data) {
+  return axiosInstance().post('albums/action', data)
+}
+
 export function* fetchSongs() {
   try {
     const result = yield call(getSongsApi);
@@ -91,7 +101,8 @@ export function* fetchSongs() {
 
 export function* albumSaga(action) {
   try {
-    const result = yield call(getAlbumInfo, action.slug);
+    const token = yield localStorage.getItem('token');
+    const result = yield call(token ? getAlbumInfoForLoggedIn : getAlbumInfo, action.slug);
     yield put(loadAlbumSuccess(result.data));
   } catch (e) {
     toast.error(e.message);
@@ -183,6 +194,21 @@ export function* getGenresSaga() {
   }
 }
 
+export function* followAlbumSaga(action) {
+  const { albumId, like, albumSlug } = action;
+  try {
+    yield call(followAlbumApi, { albumId, like });
+    if (like) toast.success('Album added to your library');
+    else toast.success('Album removed from your library');
+    const token = yield localStorage.getItem('token');
+    const result = yield call(token ? getAlbumInfoForLoggedIn : getAlbumInfo, albumSlug);
+    yield put(loadAlbumSuccess(result.data));
+  } catch (e) {
+    if (like) toast.error('Error in saving album');
+    else toast.error('Error in unlike album');
+  }
+}
+
 export default function* watchAlbum() {
   yield takeLatest(LOAD_ALBUM, albumSaga);
   yield takeLatest(GET_MY_ALBUMS_REQUEST, myAlbumsSaga);
@@ -192,4 +218,5 @@ export default function* watchAlbum() {
   yield takeLatest(DELETE_ALBUM, deleteAlbum);
   yield takeLatest(UPDATE_ALBUM, updateAlbum);
   yield takeLatest(GET_GENRES, getGenresSaga);
+  yield takeLatest(FOLLOW_ALBUM, followAlbumSaga)
 }
