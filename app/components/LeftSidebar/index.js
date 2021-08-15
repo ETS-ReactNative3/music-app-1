@@ -59,7 +59,7 @@ function LeftSideBar({role, isInfluencer}) {
                         icon={faHeadphonesAlt}
                         className="mr-2"
                       />
-                      <p className="d-inline-block m-0">My Albums</p>
+                      <p className="d-inline-block m-0">Publish/Manage Songs</p>
                     </Link>
                   </li>
                   <li className="nav-item rounded-lg">

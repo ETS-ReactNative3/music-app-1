@@ -24,7 +24,7 @@ function Register({registerRequest}) {
     email: Yup.string()
       .required('Email is required')
       .email('Email is invalid'),
-    phone: Yup.string()
+    phone: Yup.number()
       .required('Name is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
@@ -117,6 +117,7 @@ function Register({registerRequest}) {
         <div className="form-group">
           <label htmlFor="email">Phone</label>
           <input
+            type="number"
             name="phone"
             placeholder="Enter phone"
             className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
@@ -183,7 +184,7 @@ function Register({registerRequest}) {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Terms and Conditions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           I will not close if you click outside me. Don't even try to press
@@ -193,7 +194,7 @@ function Register({registerRequest}) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary">Understood</Button>
+          <Button variant="primary" onClick={handleClose}>Understood</Button>
         </Modal.Footer>
       </Modal>
     </>

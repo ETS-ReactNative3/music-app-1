@@ -119,6 +119,11 @@ const PatronList = ({fetchStake, progress, stakes, userDetails, createStakeProgr
                       Patronage Credit
                     </button>
                   </div>
+                  <div className="mt-3">
+                    <a href="https://60a91c0d74ddfe66ade065b4--kind-lalande-bdaf84.netlify.app/" target="_blank" type="button" className="btn btn-sm btn-success">
+                      Patron Pool
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

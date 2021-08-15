@@ -151,8 +151,8 @@ export function* addSongIntoPaylist({data}) {
     yield put(addSongIntoPlaylistSuccess(result.data));
     toast.success('Song Successfully added into Playlist.');
   } catch (e) {
-    toast.error(e.message);
-    yield put(addSongIntoPlaylistFail(e.message));
+    toast.error(e.response.data.message);
+    yield put(addSongIntoPlaylistFail(e.response.data.message));
   }
 }
 

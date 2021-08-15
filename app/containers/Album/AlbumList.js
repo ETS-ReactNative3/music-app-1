@@ -138,7 +138,7 @@ function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
   }
 
   return (
-    <PaperCard title="Album List">
+    <PaperCard title="Manage Songs">
       <div className="row pb-5">
         <div className="col">
           <Link to="/album/add">

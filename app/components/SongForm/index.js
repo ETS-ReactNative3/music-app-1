@@ -146,7 +146,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
               ref={register}
               className={`form-control ${errors.genreId ? 'is-invalid' : ''}`}
             >
-              <option value="" disabled selected>Select Album Genre</option>
+              <option value="" disabled selected>Select Song Genre</option>
               {genres.map(genre => (
                 <option key={genre.id} value={genre.id}>
                   {genre.title}
