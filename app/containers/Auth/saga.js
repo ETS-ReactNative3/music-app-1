@@ -85,7 +85,7 @@ export function* loginRequest({data}) {
     yield put(setRole(decoded.role));
     history.push('/');
   } catch (err) {
-    toast.error(err.message);
+    toast.error("You have entered an invalid email or password.");
     yield put(loginFail(err.message));
   }
 }
