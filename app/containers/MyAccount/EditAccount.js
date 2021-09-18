@@ -94,7 +94,18 @@ const EditAccount = (
     false;
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    name: Yup.string()
+
+      .required('Name is required')
+      .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
+      .test('space', 'Name is required', val => { return val.trim().toString().length > 0 })
+      .test('min', 'Name must have 5 characters atleast', val => { return val.trim().toString().length > 4 })
+      .test('max', 'Name should have atmost 50 characters', val => { return val.trim().toString().length < 51 }),
+    email: Yup.string()
+      .required('Email is required')
+      .email('Email is invalid'),
+    phone: Yup.string().required('Phone is required').min(10, "Phone number should contain minimum 10 digits").max(15, "Phone number should contain atmost 15 digits"),
+
   });
 
   const { register, handleSubmit, errors, reset, control, getValues } = useForm({
@@ -188,7 +199,7 @@ const EditAccount = (
                   <input
                     name="name"
                     placeholder="Name"
-                    className={`form-control ${errors.description ? 'is-invalid' : ''
+                    className={`form-control ${errors.name ? 'is-invalid' : ''
                       }`}
                     ref={register}
                   />
@@ -216,9 +227,10 @@ const EditAccount = (
                 <Form.Group as={Col} controlId="formGridDiscription">
                   <label htmlFor="phone">Phone</label>
                   <input
+                    type="number"
                     name="phone"
                     placeholder="Phone"
-                    className={`form-control ${errors.description ? 'is-invalid' : ''
+                    className={`form-control ${errors.phone ? 'is-invalid' : ''
                       }`}
                     ref={register}
                   />
