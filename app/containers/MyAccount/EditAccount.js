@@ -105,6 +105,21 @@ const EditAccount = (
       .required('Email is required')
       .email('Email is invalid'),
     phone: Yup.string().required('Phone is required').min(10, "Phone number should contain minimum 10 digits").max(15, "Phone number should contain atmost 15 digits"),
+    publicPhone: Yup.string()
+      .matches(/^[0-9\- ]{10,15}$/, { message: "Phone number should be atleast 10 and atmost 15 digits", excludeEmptyString: true }),
+    publicEmail: Yup.string()
+      .email('Email is invalid'),
+    managementEmail: Yup.string().email('Email is invalid'),
+    bookingEmail: Yup.string().email('Email is invalid'),
+    recordLabelManager: Yup.string()
+
+      .matches(/^[A-Z a-z]+$/, 'Label Manager should be in valid format')
+      .test('space', 'Label Manager is required', val => { return val.trim().toString().length > 0 }),
+      facebook: Yup.string().url('Invalid Url address'),
+    twitter: Yup.string().url('Invalid Url address'),
+    instagram: Yup.string().url('Invalid Url address'),
+    youtube: Yup.string().url('Invalid Url address'),
+
 
   });
 

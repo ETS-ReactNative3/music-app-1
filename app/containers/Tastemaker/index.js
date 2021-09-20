@@ -34,7 +34,7 @@ import defaultImage from '../../images/user.svg';
 
 import reducer from './reducer';
 import saga from './saga';
-import {getTasteMakersRequest, removeInfluencerAction} from './actions';
+import {getTasteMakersRequest, removeInfluencerAction, resetSelectedInfluencer} from './actions';
 import PaperCard from '../../components/PaperCard';
 import {
   makeSelectSelectedInfluencers,
@@ -73,7 +73,8 @@ export function Tastemaker(
     getPlaylist,
     getSocialChannelList,
     socialChannels,
-    genres
+    genres,
+    resetSelectedInfluncerAction
   }) {
   useInjectReducer({key: 'tastemaker', reducer});
   useInjectSaga({key: 'tastemaker', saga});
@@ -89,6 +90,7 @@ export function Tastemaker(
     getTasteMakersAction();
     getGenreList();
     getSocialChannelList();
+    resetSelectedInfluncerAction()
   }, []);
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -335,6 +337,7 @@ export function Tastemaker(
                     selectedInfluencers,
                   )}`}
                 </span>
+                &nbsp;
                 credits
               </div>
             </div>
@@ -401,7 +404,8 @@ Tastemaker.propTypes = {
   getGenreList: PropTypes.func,
   socialChannels: PropTypes.array,
   getSocialChannelList: PropTypes.func,
-  genres: PropTypes.array
+  genres: PropTypes.array,
+  resetSelectedInfluncerAction: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -422,6 +426,7 @@ function mapDispatchToProps(dispatch) {
     getSongAction: id => dispatch(getSongRequest(id)),
     getGenreList: () => dispatch(getGenres()),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
+    resetSelectedInfluncerAction: () => dispatch(resetSelectedInfluencer())
   };
 }
 
