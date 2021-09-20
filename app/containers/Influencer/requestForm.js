@@ -62,7 +62,7 @@ function RequestForm({
   useInjectSaga({ key: 'influencer', saga });
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Entity name is required'),
+    businessName: Yup.string().required('Entity name is required'),
     description: Yup.string()
       .min(6, 'Must be 6 characters or more')
       .required('Your description is required'),
@@ -129,7 +129,7 @@ function RequestForm({
   const prepareDataForSubmit = data => {
     const filteredGenres = data.genres.map(genre => genre.id);
     const submitData = {
-      name: data.name,
+      businessName: data.businessName,
       description: data.description,
       helpArtistDescription: data.helpArtistDescription,
       genres: filteredGenres,
@@ -179,7 +179,7 @@ function RequestForm({
         <form onSubmit={handleSubmit(onSubmit)}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridTitle">
-              <label htmlFor="name">
+              <label htmlFor="businessName">
                 <FontAwesomeIcon
                   size="1x"
                   color="white"
@@ -189,13 +189,13 @@ function RequestForm({
                 Entity Name
               </label>
               <input
-                name="name"
+                name="businessName"
                 placeholder="Entity"
-                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.businessName ? 'is-invalid' : ''}`}
                 ref={register({ required: 'Entity name is required' })}
               />
               <div className="invalid-feedback" style={{ display: 'block' }}>
-                {errors.name && errors.name.message}
+                {errors.businessName && errors.businessName.message}
               </div>
             </Form.Group>
             <Form.Group as={Col} controlId="formGridTitle">
