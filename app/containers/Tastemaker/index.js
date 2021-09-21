@@ -4,15 +4,15 @@
  *
  */
 
-import React, {memo, useEffect} from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {createStructuredSelector} from 'reselect';
-import {compose} from 'redux';
-import {useInjectSaga} from 'utils/injectSaga';
-import {useInjectReducer} from 'utils/injectReducer';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Multiselect} from 'multiselect-react-dropdown';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Multiselect } from 'multiselect-react-dropdown';
 import {
   faAngleRight,
   faCheck,
@@ -27,70 +27,71 @@ import {
   Card,
   ListGroup,
 } from 'react-bootstrap';
-import {debounce} from 'lodash';
-import {Link, withRouter} from 'react-router-dom';
+import { debounce } from 'lodash';
+import { Link, withRouter } from 'react-router-dom';
 import PlanSvgColor from '../../images/svg/plan_icon_color.svg';
 import defaultImage from '../../images/user.svg';
 
 import reducer from './reducer';
 import saga from './saga';
-import {getTasteMakersRequest, removeInfluencerAction, resetSelectedInfluencer} from './actions';
+import {
+  getTasteMakersRequest,
+  removeInfluencerAction,
+  resetSelectedInfluencer,
+} from './actions';
 import PaperCard from '../../components/PaperCard';
 import {
   makeSelectSelectedInfluencers,
   makeSelectTastemaker,
 } from './selectors';
 import InfluencerAccountPopup from '../../components/InfluencerAccountPopup';
-import {makeSelectLoader, makeSelectPlaylist} from '../App/selectors';
+import { makeSelectLoader, makeSelectPlaylist } from '../App/selectors';
 import appReducer from '../App/reducer';
-import {
-  makeSelectedSong,
-} from '../Song/selectors';
-import {getSongRequest} from '../Song/actions';
+import { makeSelectedSong } from '../Song/selectors';
+import { getSongRequest } from '../Song/actions';
 import songReducer from '../Song/reducer';
 import songSaga from '../Song/saga';
-import {getGenres} from '../Album/actions';
+import { getGenres } from '../Album/actions';
 import albumSaga from '../Album/saga';
 import albumReducer from '../Album/reducer';
-import {capatilizeText, renderSocialMediaIcons} from '../../utils';
-import {getSocialChannelsRequest} from '../Influencer/actions';
-import {makeSelectSocialChannels} from '../Influencer/selectors';
+import { capatilizeText, renderSocialMediaIcons } from '../../utils';
+import { getSocialChannelsRequest } from '../Influencer/actions';
+import { makeSelectSocialChannels } from '../Influencer/selectors';
 import influencerSaga from '../Influencer/saga';
 import influencerReducer from '../Influencer/reducer';
-import {makeSelectGenres} from '../Album/selectors';
+import { makeSelectGenres } from '../Album/selectors';
 
-export function Tastemaker(
-  {
-    getTasteMakersAction,
-    getSongAction,
-    tasteMakers,
-    selectedInfluencers,
-    removeInfluencer,
-    formLoader,
-    match,
-    selectedSong,
-    getGenreList,
-    getPlaylist,
-    getSocialChannelList,
-    socialChannels,
-    genres,
-    resetSelectedInfluncerAction
-  }) {
-  useInjectReducer({key: 'tastemaker', reducer});
-  useInjectSaga({key: 'tastemaker', saga});
-  useInjectReducer({key: 'song', reducer: songReducer});
-  useInjectSaga({key: 'song', saga: songSaga});
-  useInjectReducer({key: 'app', reducer: appReducer});
-  useInjectSaga({key: 'influencer', saga: influencerSaga});
-  useInjectReducer({key: 'influencer', reducer: influencerReducer});
-  useInjectSaga({key: 'album', saga: albumSaga});
-  useInjectReducer({key: 'album', reducer: albumReducer});
+export function Tastemaker({
+  getTasteMakersAction,
+  getSongAction,
+  tasteMakers,
+  selectedInfluencers,
+  removeInfluencer,
+  formLoader,
+  match,
+  selectedSong,
+  getGenreList,
+  getPlaylist,
+  getSocialChannelList,
+  socialChannels,
+  genres,
+  resetSelectedInfluncerAction,
+}) {
+  useInjectReducer({ key: 'tastemaker', reducer });
+  useInjectSaga({ key: 'tastemaker', saga });
+  useInjectReducer({ key: 'song', reducer: songReducer });
+  useInjectSaga({ key: 'song', saga: songSaga });
+  useInjectReducer({ key: 'app', reducer: appReducer });
+  useInjectSaga({ key: 'influencer', saga: influencerSaga });
+  useInjectReducer({ key: 'influencer', reducer: influencerReducer });
+  useInjectSaga({ key: 'album', saga: albumSaga });
+  useInjectReducer({ key: 'album', reducer: albumReducer });
 
   useEffect(() => {
     getTasteMakersAction();
     getGenreList();
     getSocialChannelList();
-    resetSelectedInfluncerAction()
+    resetSelectedInfluncerAction();
   }, []);
 
   const [openModal, setOpenModal] = React.useState(false);
@@ -135,7 +136,7 @@ export function Tastemaker(
                 placeholder="Filter by genre"
                 style={{
                   flex: 1,
-                  chips: {background: 'green'},
+                  chips: { background: 'green' },
                   optionContainer: {
                     color: 'black',
                   },
@@ -165,41 +166,53 @@ export function Tastemaker(
                   <div className="h5">Campaign Mediums</div>
                 </ListGroup.Item>
                 <ListGroup.Item className="pb-4 bg-transparent">
-                  {socialChannels && socialChannels.map(channel => (
-                    <div className="custom-checkbox" key={channel.id}>
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id={channel.id}
-                        onChange={() => {
-                          if (filters.includes(channel.id)) {
-                            setFilters([...filters.filter(filter => filter !== channel.id)])
-                          } else {
-                            setFilters([...filters, channel.id]);
-                          }
-                        }}
-                      />
-                      <label className="form-check-label" htmlFor={channel.id}>
-                        {capatilizeText(channel.title)}
-                      </label>
-                    </div>
-                  ))}
+                  {socialChannels &&
+                    socialChannels.map(channel => (
+                      <div className="custom-checkbox" key={channel.id}>
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id={channel.id}
+                          onChange={() => {
+                            if (filters.includes(channel.id)) {
+                              setFilters([
+                                ...filters.filter(
+                                  filter => filter !== channel.id,
+                                ),
+                              ]);
+                            } else {
+                              setFilters([...filters, channel.id]);
+                            }
+                          }}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor={channel.id}
+                        >
+                          {capatilizeText(channel.title)}
+                        </label>
+                      </div>
+                    ))}
                 </ListGroup.Item>
               </ListGroup>
             </Card>
           </Col>
           <Col md={7} lg={8} xl={9}>
-            <div className="search-input input-group mb-4" style={{display: 'flex', flexDirection: 'row'}}>
-              <div style={{flex: 1}}><input
-                className="text-white form-control-lg bg-transparent form-control blick-border border-left-0 border-top-0 border-right-0"
-                type="text"
-                ref={inputRef}
-                onChange={e => {
-                  e.persist();
-                  searchEnhancer(() => getSearchResults(e.target.value));
-                }}
-                placeholder="Search here...."
-              />
+            <div
+              className="search-input input-group mb-4"
+              style={{ display: 'flex', flexDirection: 'row' }}
+            >
+              <div style={{ flex: 1 }}>
+                <input
+                  className="text-white form-control-lg bg-transparent form-control blick-border border-left-0 border-top-0 border-right-0"
+                  type="text"
+                  ref={inputRef}
+                  onChange={e => {
+                    e.persist();
+                    searchEnhancer(() => getSearchResults(e.target.value));
+                  }}
+                  placeholder="Search here...."
+                />
                 {searchText.length > 0 && (
                   <div className="input-group-append">
                     <span className="input-group-text">
@@ -224,9 +237,12 @@ export function Tastemaker(
                       <Card.Body>
                         <div className="d-flex align-items-center tastemaker__header">
                           <div className="mr-2 flex-grow-1 title">
-                            <Card.Title className="text-truncate cursor-pointer" onClick={() => {
-                              handleOpen(item);
-                            }}>
+                            <Card.Title
+                              className="text-truncate cursor-pointer"
+                              onClick={() => {
+                                handleOpen(item);
+                              }}
+                            >
                               {item.influencer.name}
                             </Card.Title>
                             <Card.Text className=" music-card__desc">
@@ -251,18 +267,25 @@ export function Tastemaker(
                         </div>
                         <Card.Text className=" music-card__social">
                           {item.influencer.influencerServices &&
-                          item.influencer.influencerServices.map(
-                            (influencerService, index) => {
-
-                              return (
-                                <a key={index} target={'_blank'}
-                                   href={(influencerService.link.includes('https') || influencerService.link.includes('http')) ? influencerService.link : `https://${influencerService.link}`}
-                                   style={{color: "white"}}>
-                                  {renderSocialMediaIcons(influencerService.socialChannels.title)}
+                            item.influencer.influencerServices.map(
+                              (influencerService, index) => (
+                                <a
+                                  key={index}
+                                  target="_blank"
+                                  href={
+                                    influencerService.link.includes('https') ||
+                                    influencerService.link.includes('http')
+                                      ? influencerService.link
+                                      : `https://${influencerService.link}`
+                                  }
+                                  style={{ color: 'white' }}
+                                >
+                                  {renderSocialMediaIcons(
+                                    influencerService.socialChannels.title,
+                                  )}
                                 </a>
-                              );
-                            }
-                          )}
+                              ),
+                            )}
                         </Card.Text>
                         <Card.Text className="music-card__gener">
                           {item.influencer.influencerGenres.map(genre => (
@@ -290,7 +313,7 @@ export function Tastemaker(
                           ) : (
                             <div className="d-flex align-items-center justify-content-between">
                               <div className="text-success">
-                                <FontAwesomeIcon size="1x" icon={faCheck}/>
+                                <FontAwesomeIcon size="1x" icon={faCheck} />
                                 Added
                               </div>
                               <Button
@@ -318,7 +341,10 @@ export function Tastemaker(
       </PaperCard>
       {selectedInfluencers && selectedInfluencers.length > 0 && (
         <footer
-          className={`main-footer fixed-bottom blick-border ${getPlaylist.length > 0 ? "footer-extra-padding" : ""}`}>
+          className={`main-footer fixed-bottom blick-border ${
+            getPlaylist.length > 0 ? 'footer-extra-padding' : ''
+          }`}
+        >
           <div className="px-3 py-1 d-flex align-items-center justify-content-between">
             <div>
               <small className="text-success">
@@ -330,15 +356,14 @@ export function Tastemaker(
                   alt="PlanSvg"
                   width={15}
                   height={15}
-                  style={{marginRight: 5}}
+                  style={{ marginRight: 5 }}
                 />
                 <span className="h5 mb-0">
                   {`${_calculatePriceForSelectedInfluencers(
                     selectedInfluencers,
                   )}`}
                 </span>
-                &nbsp;
-                credits
+                &nbsp; credits
               </div>
             </div>
             <Link
@@ -351,7 +376,7 @@ export function Tastemaker(
                   selectedInfluencers && selectedInfluencers.length === 0
                 }
                 variant="success"
-                style={{paddingLeft: 15, paddingRight: 15}}
+                style={{ paddingLeft: 15, paddingRight: 15 }}
                 onClick={() => {
                   selectInfluencer({
                     ...innerInfluencer,
@@ -364,7 +389,7 @@ export function Tastemaker(
                   handleClose();
                 }}
               >
-                View Order <FontAwesomeIcon size="1x" icon={faAngleRight}/>
+                View Order <FontAwesomeIcon size="1x" icon={faAngleRight} />
               </Button>
             </Link>
           </div>
@@ -405,7 +430,7 @@ Tastemaker.propTypes = {
   socialChannels: PropTypes.array,
   getSocialChannelList: PropTypes.func,
   genres: PropTypes.array,
-  resetSelectedInfluncerAction: PropTypes.func
+  resetSelectedInfluncerAction: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -415,18 +440,18 @@ const mapStateToProps = createStructuredSelector({
   selectedSong: makeSelectedSong(),
   getPlaylist: makeSelectPlaylist(),
   socialChannels: makeSelectSocialChannels(),
-  genres: makeSelectGenres()
+  genres: makeSelectGenres(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     getTasteMakersAction: (searchText, filters, genresFilter) =>
-      dispatch(getTasteMakersRequest({filters, searchText, genresFilter})),
+      dispatch(getTasteMakersRequest({ filters, searchText, genresFilter })),
     removeInfluencer: data => dispatch(removeInfluencerAction(data)),
     getSongAction: id => dispatch(getSongRequest(id)),
     getGenreList: () => dispatch(getGenres()),
     getSocialChannelList: () => dispatch(getSocialChannelsRequest()),
-    resetSelectedInfluncerAction: () => dispatch(resetSelectedInfluencer())
+    resetSelectedInfluncerAction: () => dispatch(resetSelectedInfluencer()),
   };
 }
 

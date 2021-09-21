@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import PaperCard from '../../components/PaperCard';
 import { Image, Button, Modal } from 'react-bootstrap';
-import defaultImage from '../../images/album-3.jpg'
+import PaperCard from '../../components/PaperCard';
+import defaultImage from '../../images/album-3.jpg';
 import { makeSelectUserDetails } from '../App/selectors';
 import ButtonLoader from '../../components/ButtonLoader';
 import { useInjectReducer } from '../../utils/injectReducer';
@@ -25,23 +25,22 @@ const AddTeam = ({ userDetails, progress, addTeam }) => {
   const [teamName, setTeamName] = React.useState('');
   const [show, setShow] = React.useState(false);
 
-
   const validationSchema = Yup.object().shape({
     name: Yup.string()
 
       .required('Name is required')
       .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
-      .test('space', 'Name is required', val => { return val.trim().toString().length > 0 })
-      .test('min', 'Name must have 5 characters atleast', val => { return val.trim().toString().length > 4 })
-      .test('max', 'Name should have atmost 50 characters', val => { return val.trim().toString().length < 51 }),
+      .test('space', 'Name is required', val => val.trim().toString().length > 0)
+      .test('min', 'Name must have 5 characters atleast', val => val.trim().toString().length > 4)
+      .test('max', 'Name should have atmost 50 characters', val => val.trim().toString().length < 51),
 
   });
   const onSubmit = values => {
-    addTeam(values.name)
+    addTeam(values.name);
   };
 
   const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
   });
   return (
     <PaperCard title="Create Team">
@@ -83,15 +82,22 @@ const AddTeam = ({ userDetails, progress, addTeam }) => {
                       name="name"
                       placeholder="Enter name"
                       ref={register}
-                      className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                      className={`form-control ${
+                        errors.name ? 'is-invalid' : ''
+                      }`}
                     />
                     <div className="invalid-feedback">
                       {errors.name && errors.name.message}
                     </div>
-                    {progress ? <ButtonLoader /> :
-                      <button className="btn btn-primary btn-block" type="submit">
-                      Submit
-                    </button>}
+                    {progress ? (
+                      <ButtonLoader />
+                    ) : (
+                      <button
+                        className="btn btn-primary btn-block"
+                        type="submit"
+                      >
+                        Submit
+                      </button>}
                   </div>
                 </div>
               </div>
@@ -105,35 +111,31 @@ const AddTeam = ({ userDetails, progress, addTeam }) => {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Body>
-          Please enter team name
-        </Modal.Body>
+        <Modal.Body>Please enter team name</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShow(false)}>
             Close
           </Button>
         </Modal.Footer>
       </Modal>
-
     </PaperCard>
-  )
-}
-
+  );
+};
 
 AddTeam.propTypes = {
   userDetails: PropTypes.any,
   progress: PropTypes.bool,
   addTeam: PropTypes.func,
-}
+};
 
 const mapStateToProps = createStructuredSelector({
   userDetails: makeSelectUserDetails(),
-  progress: makeSelectProgress()
+  progress: makeSelectProgress(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    addTeam: (name) => dispatch(addTeamAction(name))
+    addTeam: name => dispatch(addTeamAction(name)),
   };
 }
 
