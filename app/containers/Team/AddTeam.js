@@ -97,7 +97,7 @@ const AddTeam = ({ userDetails, progress, addTeam }) => {
                         type="submit"
                       >
                         Submit
-                      </button>}
+                      </button>)}
                   </div>
                 </div>
               </div>

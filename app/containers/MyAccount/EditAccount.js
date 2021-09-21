@@ -36,6 +36,7 @@ import {
   makeSelectUserCountries,
 } from './selectors';
 import PaperCard from '../../components/PaperCard';
+import '../../components/InputPhone/index.scss';
 
 const EditAccount = ({
   userDetails,
@@ -99,7 +100,7 @@ const EditAccount = ({
       userDetails.influencerId !== undefined) ||
     false;
 
-  const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape((userDetails && userDetails.roleId === 2) ? {
     name: Yup.string()
 
       .required('Name is required')
@@ -145,6 +146,33 @@ const EditAccount = ({
     twitter: Yup.string().url('Invalid Url address'),
     instagram: Yup.string().url('Invalid Url address'),
     youtube: Yup.string().url('Invalid Url address'),
+  }: {
+    name: Yup.string()
+
+      .required('Name is required')
+      .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
+      .test(
+        'space',
+        'Name is required',
+        val => val.trim().toString().length > 0,
+      )
+      .test(
+        'min',
+        'Name must have 5 characters atleast',
+        val => val.trim().toString().length > 4,
+      )
+      .test(
+        'max',
+        'Name should have atmost 50 characters',
+        val => val.trim().toString().length < 51,
+      ),
+    email: Yup.string()
+      .required('Email is required')
+      .email('Email is invalid'),
+    phone: Yup.string()
+      .required('Phone is required')
+      .min(10, 'Phone number should contain minimum 10 digits')
+      .max(15, 'Phone number should contain atmost 15 digits'),
   });
 
   const { register, handleSubmit, errors, reset, control, getValues } = useForm(
@@ -287,7 +315,7 @@ const EditAccount = ({
                     type="number"
                     name="phone"
                     placeholder="Phone"
-                    className={`form-control ${
+                    className={` phone_field form-control ${
                       errors.phone ? 'is-invalid' : ''
                     }`}
                     ref={register}

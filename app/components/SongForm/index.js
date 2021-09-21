@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {useForm, Controller} from 'react-hook-form';
-import {Form} from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Button, Form, Modal } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
-function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
-  const [audio, setAudio] = useState({audioFile: ""})
+function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
+  const [audio, setAudio] = useState({ audioFile: "" })
   const [counter, setCounter] = useState(0)
   const [indexes, setIndexes] = useState([]);
+  const [show, setShow] = useState(false)
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
@@ -41,7 +42,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
     }
   };
 
-  const {register, handleSubmit, errors, reset, control} = useForm({
+  const { register, handleSubmit, errors, reset, control, getValues } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
@@ -70,11 +71,17 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
 
       song.releaseDate = new Date(song.releaseDate)
       song.moods = song.songMoods.map(moodItem => moodItem.moods)
+      // song.audio = [song.url]
+      audio.audioFile = song.url
       reset(song);
     }
   }, [song]);
 
   const onSubmit = data => {
+    if (audio.audioFile.length === 0) {
+      setShow(true)
+      return;
+    }
     if (indexes.length > 0) {
       const totalPercentage = data.collaborator.reduce((a, b) => a.percentage + b.percentage)
       if (totalPercentage > 99) {
@@ -106,7 +113,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
       ...provided,
       color: 'black',
     }),
-    menu: provided => ({...provided, zIndex: 9999}),
+    menu: provided => ({ ...provided, zIndex: 9999 }),
   };
 
   return (
@@ -163,7 +170,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
               dateFormat={'dd/MM/yyyy'}
               name="releaseDate"
               control={control}
-              render={({onChange, value}) => (
+              render={({ onChange, value }) => (
                 <DatePicker
                   popperPlacement="top-start"
                   popperModifiers={{
@@ -177,7 +184,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
                   }}
                   className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}
                   selected={value}
-                  style={{flex: 1}}
+                  style={{ flex: 1 }}
                   onChange={onChange}
                 />
               )}
@@ -188,7 +195,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
           </Form.Group>
         </Form.Row>
         <Form.Row>
-          <Form.Group as={Col} controlId="formGridMood" style={{flex: 0.5, marginRight: 10}}>
+          <Form.Group as={Col} controlId="formGridMood" style={{ flex: 0.5, marginRight: 10 }}>
             <label htmlFor="email">Moods</label>
             <Controller
               name="moods"
@@ -233,11 +240,15 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
                   className="custom-file-input"
                   multiple
                   name="audio"
-                  ref={register}
+
                   onChange={handleAudioChange}
                   id="inputGroupFile02"
-                  required
-                  aria-describedby="inputGroupFileAddon02"/>
+
+                  aria-describedby="inputGroupFileAddon02"
+                  ref={register({
+                    required: 'File is required'
+                  })}
+                />
                 <label className="custom-file-label" htmlFor="inputGroupFile02">Choose file</label>
               </div>
               <div className="invalid-feedback-block">
@@ -245,19 +256,19 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
               </div>
             </div>
             {audio.audioFile && (
-              <div className="mt-3">
+              <div key={audio && audio.audioFile} className="mt-3">
                 <audio controls>
-                  <source src={audio.audioFile}/>
+                  <source src={audio.audioFile} />
                 </audio>
               </div>
             )}
-            {song && song.url && !audio.audioFile && (
+            {/* {song && song.url && !audio.audioFile && (
               <div className="mt-3">
                 <audio controls>
-                  <source src={song.url}/>
+                  <source src={song.url} />
                 </audio>
               </div>
-            )}
+            )} */}
           </Form.Group>
         </Form.Row>
         {indexes.map(index => {
@@ -310,12 +321,28 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members}) {
             </button>
           </div>
         </div>
-        {formLoader ? <ButtonLoader/> :
+        {formLoader ? <ButtonLoader /> :
           <button className="btn btn-primary btn-block" type="submit">
             Submit
           </button>
         }
       </form>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Validation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Please add song</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

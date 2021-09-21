@@ -13,6 +13,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import '../../components/InputPhone/index.scss';
 
 function Register({ registerRequest }) {
   useInjectSaga({ key: 'auth', saga });
@@ -125,8 +126,9 @@ function Register({ registerRequest }) {
           <input
             type="number"
             name="phone"
+            pattern="[0-9]{10,15}"
             placeholder="Enter phone"
-            className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+            className={`phone_field form-control ${errors.phone ? 'is-invalid' : ''}`}
             ref={register}
           />
           <div className="invalid-feedback">
