@@ -1,11 +1,4 @@
 import {
-  faFacebook,
-  faInstagram,
-  faTwitter,
-  faYoutube,
-} from '@fortawesome/free-brands-svg-icons';
-import {
-  faBlog,
   faBriefcase,
   faMusic,
 } from '@fortawesome/free-solid-svg-icons';
@@ -62,7 +55,13 @@ function RequestForm({
   useInjectSaga({ key: 'influencer', saga });
 
   const validationSchema = Yup.object().shape({
-    businessName: Yup.string().required('Entity name is required'),
+  businessName: Yup.string()
+    .required('Entity Name is required')
+    .matches(/^[A-Z a-z]+$/, 'Entity Name should be in valid format')
+    .test('space', 'Entity Name is required', val => { return val.trim().toString().length > 0 })
+    .test('min', 'Entity Name must have 5 characters atleast', val => { return val.trim().toString().length > 4 })
+    .test('max', 'Entity Name should have atmost 50 characters', val => { return val.trim().toString().length < 51 }),
+    // name: Yup.string().required('Entity name is required'),
     description: Yup.string()
       .min(6, 'Must be 6 characters or more')
       .required('Your description is required'),
@@ -74,7 +73,7 @@ function RequestForm({
     ),
 
     services: Yup.array().of(Yup.object({
-      link: Yup.string().required('Link is required'),
+      link: Yup.string().url('Enter valid url').required('Link is required'),
       price: Yup.number().typeError('Price should not be empty').min(0, 'Price should be greater than 0').required('Price is required'),
       followers: Yup.number().typeError('Followers should not be empty').min(2000, 'Followers should be greater than 2000').required('Followers is required')
     })).test(

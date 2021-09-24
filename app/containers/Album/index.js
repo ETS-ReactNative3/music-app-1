@@ -33,7 +33,7 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import ShareBox from '../../components/ShareBox';
 import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
-import {Link, useLocation, useParams} from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { followAlbumAction, loadAlbum } from './actions';
 import { makeSelectAlbum, makeSelectAlbumLoader } from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
@@ -44,7 +44,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as faHeartFilled } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { convertSecondsToTime } from '../../utils';
 
 function useQuery() {
@@ -63,7 +63,7 @@ const Album = props => {
 
   const { slug } = useParams();
   const query = useQuery();
-const history = useHistory();
+  const history = useHistory();
   const {
     newReleases,
     onLoadAlbum,
@@ -98,7 +98,7 @@ const history = useHistory();
 
   const playAllSongsHandler = () => {
     setPlaylistAction(albumInfo.albumSongs)
-    onHandleSingleSong(playlist[0].song.id, !currentSong.playing);
+    onHandleSingleSong(albumInfo.albumSongs[0].song.id, !currentSong.playing);
     onHandleSongPlaying(!currentSong.playing);
   };
 
@@ -114,129 +114,130 @@ const history = useHistory();
       {loader || !albumInfo ? (
         <LoadingIndicator />
       ) : (
-          <>
-            <PaperCard>
-              <div className="row d-flex align-items-end">
-                <div className="col-3">
-                  <Image
-                    width={230}
-                    height={230}
-                    onError={e => {
-                      e.target.onerror = null;
-                      e.target.src = defaultImage;
-                    }}
-                    src={albumInfo.artwork}
-                    alt="album-image"
-                  />
+        <>
+          <PaperCard>
+            <div className="row d-flex align-items-end">
+              <div className="col-3">
+                <Image
+                  width={230}
+                  height={230}
+                  onError={e => {
+                    e.target.onerror = null;
+                    e.target.src = defaultImage;
+                  }}
+                  src={albumInfo.artwork}
+                  alt="album-image"
+                />
+              </div>
+              <div className="col-9 px-0">
+                <div className="py-2">
+                  <h6 className="py-2">ALBUM</h6>
+                  <h1>{albumInfo.title}</h1>
+                  <h6>{albumInfo.caption}</h6>
                 </div>
-                <div className="col-9 px-0">
-                  <div className="py-2">
-                    <h6 className="py-2">ALBUM</h6>
-                    <h1>{albumInfo.title}</h1>
-                    <h6>{albumInfo.caption}</h6>
-                  </div>
-                  <div className="text-muted d-flex align-items-center">
-                    <Link to={`/artist/${albumInfo.user.id}`}>
-                      <Image
-                        width={24}
-                        height={24}
-                        onError={e => {
-                          e.target.onerror = null;
-                          e.target.src = defaultImage;
-                        }}
-                        src={albumInfo.user.avatar}
-                        alt="album-image"
-                        roundedCircle
-                      />
-                      <small className="px-1">{albumInfo.user.name}</small>
-                    </Link>
-                    <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
-                    <small className="px-1">{moment(albumInfo.releaseDate).format('MMM YYYY')}</small>
-                    <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
-                    <small className="px-1">{albumInfo.albumSongs.length} songs</small>
-                  </div>
+                <div className="text-muted d-flex align-items-center">
+                  <Link to={`/artist/${albumInfo.user.id}`}>
+                    <Image
+                      width={24}
+                      height={24}
+                      onError={e => {
+                        e.target.onerror = null;
+                        e.target.src = defaultImage;
+                      }}
+                      src={albumInfo.user.avatar}
+                      alt="album-image"
+                      roundedCircle
+                    />
+                    <small className="px-1">{albumInfo.user.name}</small>
+                  </Link>
+                  <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
+                  <small className="px-1">{moment(albumInfo.releaseDate).format('MMM YYYY')}</small>
+                  <FontAwesomeIcon icon={faCircle} style={{ fontSize: "5px" }} />
+                  <small className="px-1">{albumInfo.albumSongs.length} songs</small>
                 </div>
               </div>
+            </div>
 
-              <div className="row py-4">
-                <div className="col-12 d-flex align-items-center">
-                  <span
-                    onClick={playAllSongsHandler}
-                    className="btn btn-success rounded-pill cursor-pointer px-4"
-                  >
-                    {currentSong.playing ? 'Pause' : 'Play All'}
-                  </span>
-                  <ShareBox />
-                  <div onClick={() => (userDetails && Object.keys(userDetails).length > 0) ? followAlbum(albumInfo.id, !albumInfo.albumLiked, slug) : history.push('/auth/login')}>
-                    {albumInfo.albumLiked ?
-                      <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='lg' />
-                      :
-                      <div className="heart_icon">
-                        <FontAwesomeIcon icon={faHeart} size='lg' />
-                      </div>}
-                  </div>
+            <div className="row py-4">
+              <div className="col-12 d-flex align-items-center">
+                <span
+                  onClick={playAllSongsHandler}
+                  className="btn btn-success rounded-pill cursor-pointer px-4"
+                >
+                  {albumInfo.albumSongs.find((ele, index) => currentSong.songData.id === ele.song.id &&
+                    currentSong.playing) ? 'Pause' : 'Play All'}
+                </span>
+                <ShareBox />
+                <div onClick={() => (userDetails && Object.keys(userDetails).length > 0) ? followAlbum(albumInfo.id, !albumInfo.albumLiked, slug) : history.push('/auth/login')}>
+                  {albumInfo.albumLiked ?
+                    <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='lg' />
+                    :
+                    <div className="heart_icon">
+                      <FontAwesomeIcon icon={faHeart} size='lg' />
+                    </div>}
                 </div>
               </div>
-              <Row>
-                <Col md={12}>
-                  <section>
-                    {albumInfo.albumSongs.map((ele, index) => (
-                      <div
-                        className="row song-row align-content-center py-3"
-                        id={`songNumber${ele.song.id}`}
-                        key={index}
-                      >
-                        <div className="col-10">
-                          <span className="song-number pr-3">{index + 1}</span>
-                          <span
-                            onClick={() => singleSongHandler(ele.song.id)}
-                            className="cursor-pointer px-3"
-                          >
-                            <FontAwesomeIcon
-                              icon={
-                                currentSong.songData.id === ele.song.id &&
-                                  currentSong.playing
-                                  ? faPause
-                                  : faPlay
-                              }
-                            />
-                          </span>
-                          <h5 className="song-title d-inline">{ele.song.title}</h5>
-                        </div>
-                        <div className="col-2 d-flex justify-content-center align-items-center">
-                          <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
-                          {role && (
-                            <SongsOptionsBox
-                              songId={ele.song.id}
-                              playlists={playlists}
-                              getMyPlaylistAction={getMyPlaylistAction}
-                              createPlaylistandAddSongAction={
-                                createPlaylistandAddSongAction
-                              }
-                              addSongIntoPlaylistAction={
-                                addSongIntoPlaylistAction
-                              }
-                            />
-                          )}
-                        </div>
+            </div>
+            <Row>
+              <Col md={12}>
+                <section>
+                  {albumInfo.albumSongs.map((ele, index) => (
+                    <div
+                      className="row song-row align-content-center py-3"
+                      id={`songNumber${ele.song.id}`}
+                      key={index}
+                    >
+                      <div className="col-10">
+                        <span className="song-number pr-3">{index + 1}</span>
+                        <span
+                          onClick={() => singleSongHandler(ele.song.id)}
+                          className="cursor-pointer px-3"
+                        >
+                          <FontAwesomeIcon
+                            icon={
+                              currentSong.songData.id === ele.song.id &&
+                                currentSong.playing
+                                ? faPause
+                                : faPlay
+                            }
+                          />
+                        </span>
+                        <h5 className="song-title d-inline">{ele.song.title}</h5>
                       </div>
-                    ))}
-                  </section>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={12}>
-                  <CarouselFront
-                    list={newReleases || []}
-                    loading={newReleasesLoading}
-                    heading="Recommended For You"
-                    classes="carousel-front py-5"
-                  />
-                </Col>
-              </Row>
-            </PaperCard>
-          </>
-        )}
+                      <div className="col-2 d-flex justify-content-center align-items-center">
+                        <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
+                        {role && (
+                          <SongsOptionsBox
+                            songId={ele.song.id}
+                            playlists={playlists}
+                            getMyPlaylistAction={getMyPlaylistAction}
+                            createPlaylistandAddSongAction={
+                              createPlaylistandAddSongAction
+                            }
+                            addSongIntoPlaylistAction={
+                              addSongIntoPlaylistAction
+                            }
+                          />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </section>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                <CarouselFront
+                  list={newReleases || []}
+                  loading={newReleasesLoading}
+                  heading="Recommended For You"
+                  classes="carousel-front py-5"
+                />
+              </Col>
+            </Row>
+          </PaperCard>
+        </>
+      )}
     </>
   );
 };
