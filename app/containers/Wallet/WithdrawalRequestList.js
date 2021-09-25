@@ -32,8 +32,8 @@ const WithdrawalRequestList = ({getWithdrawalList, withdrawalList, payRequest}) 
 
   const columns = [
     {
-      dataField: 'influencer.name',
-      text: 'Tastemaker Name',
+      dataField: 'user.name',
+      text: 'Name',
       headerStyle: {
         width: '20%'
       },
@@ -52,7 +52,7 @@ const WithdrawalRequestList = ({getWithdrawalList, withdrawalList, payRequest}) 
       }
     },
     {
-      dataField: 'influencerWithdrawalStatus.name',
+      dataField: 'withdrawalStatus.name',
       text: 'Status',
       filter: textFilter(),
       headerStyle: {
@@ -152,34 +152,34 @@ const WithdrawalRequestList = ({getWithdrawalList, withdrawalList, payRequest}) 
           {tastemaker &&
           <div>
             <div>
-              Name: {tastemaker.influencer.name}
+              Name: {tastemaker.user.name}
             </div>
             <div>
               Amount: {tastemaker.amount}
             </div>
             <div>
-              Status: {tastemaker.influencerWithdrawalStatus.name}
+              Status: {tastemaker.withdrawalStatus.name}
             </div>
             <div>
               Withdrawal Method:
             </div>
             <div>
-              beneficiaryName: {tastemaker.influencerWithdrawalMethods.beneficiaryName}
+              beneficiaryName: {tastemaker.withdrawalMethods.beneficiaryName}
             </div>
-            {tastemaker.influencerWithdrawalMethods.accountNumber && <div>
-              Account Number: {tastemaker.influencerWithdrawalMethods.accountNumber}
+            {tastemaker.withdrawalMethods.accountNumber && <div>
+              Account Number: {tastemaker.withdrawalMethods.accountNumber}
             </div>}
-            {tastemaker.influencerWithdrawalMethods.iban && <div>
-              IBAN: {tastemaker.influencerWithdrawalMethods.iban}
+            {tastemaker.withdrawalMethods.iban && <div>
+              IBAN: {tastemaker.withdrawalMethods.iban}
             </div>}
-            {tastemaker.influencerWithdrawalMethods.paypalEmail && <div>
-              Paypal Email: {tastemaker.influencerWithdrawalMethods.paypalEmail}
+            {tastemaker.withdrawalMethods.paypalEmail && <div>
+              Paypal Email: {tastemaker.withdrawalMethods.paypalEmail}
             </div>}
-            {tastemaker.influencerWithdrawalMethods.swift && <div>
-              Swift: {tastemaker.influencerWithdrawalMethods.swift}
+            {tastemaker.withdrawalMethods.swift && <div>
+              Swift: {tastemaker.withdrawalMethods.swift}
             </div>}
-            {tastemaker.influencerWithdrawalMethods.walletId && <div>
-              Wallet Id: {tastemaker.influencerWithdrawalMethods.walletId}
+            {tastemaker.withdrawalMethods.walletId && <div>
+              Wallet Id: {tastemaker.withdrawalMethods.walletId}
             </div>}
             {tastemaker.paidDate && <div>
               Paid: {format(new Date(tastemaker.paidDate), 'MM/dd/yyyy HH:mm')}
