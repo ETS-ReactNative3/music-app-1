@@ -14,7 +14,7 @@ import format from "date-fns/format";
 function WithdrawalRequests({withdrawalRequests}) {
   const columns = [
     {
-      dataField: 'influencerWithdrawalMethods.beneficiaryName',
+      dataField: 'withdrawalMethods.beneficiaryName',
       text: 'Beneficiary Name',
       style: {
         width: '30%',
@@ -38,7 +38,7 @@ function WithdrawalRequests({withdrawalRequests}) {
       }
     },
     {
-      dataField: 'influencerWithdrawalStatus.name',
+      dataField: 'withdrawalStatus.name',
       text: 'Status',
       style: {
         width: '25%',

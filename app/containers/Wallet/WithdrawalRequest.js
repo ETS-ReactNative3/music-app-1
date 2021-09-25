@@ -107,7 +107,7 @@ const WithdrawalRequest = (
     if (!withdrawalAccount) {
       toast.warning('Add a withdrawal method first');
     } else {
-      submitWithdrawAmount({influencerWithdrawalMethodsId: withdrawalAccount, ...data})
+      submitWithdrawAmount({withdrawalMethodsId: withdrawalAccount, ...data})
     }
   }
 

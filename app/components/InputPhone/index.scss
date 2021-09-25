@@ -1,0 +1,10 @@
+.phone_field::-webkit-outer-spin-button,
+.phone_field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.phone_field {
+  -moz-appearance: textfield;
+}

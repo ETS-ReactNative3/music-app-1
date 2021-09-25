@@ -55,11 +55,12 @@ function fetchUserInformation() {
 }
 
 function createPaymentMethod(data) {
-  return axiosInstance().post('/influencers/method', data);
+  console.log(data)
+  return axiosInstance().post('/withdrawal/method', data);
 }
 
 function getPaymentMethods() {
-  return axiosInstance().get('/influencers/methods');
+  return axiosInstance().get('/withdrawal/methods');
 }
 
 function getEarnings() {
@@ -67,23 +68,23 @@ function getEarnings() {
 }
 
 function getWithdrawalRequests() {
-  return axiosInstance().get('/influencers/my/withdrawal');
+  return axiosInstance().get('/withdrawal/my');
 }
 
 function getWithdrawalRequestList() {
-  return axiosInstance().get('/influencers/withdrawal/requests');
+  return axiosInstance().get('/withdrawal/requests');
 }
 
 function deletePaymentMethod(id) {
-  return axiosInstance().delete(`/influencers/method/${id}`);
+  return axiosInstance().delete(`/withdrawal/method/${id}`);
 }
 
 function submitWithdrawal(data) {
-  return axiosInstance().post('/influencers/withdrawal/request', data);
+  return axiosInstance().post('/withdrawal/request', data);
 }
 
 function payWithdrawal(data) {
-  return axiosInstance().put('/influencers/withdrawal/request/status', data);
+  return axiosInstance().put('/withdrawal/request/status', data);
 }
 
 function* createPaymentSession(action) {
