@@ -37,6 +37,8 @@ const WalletHistory = (
 
   useEffect(() => {
     fetchPaymentHistory();
+    getWithdrawalRequests();
+
   }, []);
 
   useEffect(() => {

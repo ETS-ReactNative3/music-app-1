@@ -146,7 +146,7 @@ const WithdrawalRequestList = ({getWithdrawalList, withdrawalList, payRequest}) 
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Tastemaker details</Modal.Title>
+          <Modal.Title>User details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {tastemaker &&
