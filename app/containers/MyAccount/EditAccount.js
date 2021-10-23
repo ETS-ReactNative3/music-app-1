@@ -102,7 +102,6 @@ const EditAccount = ({
 
   const validationSchema = Yup.object().shape((userDetails && userDetails.roleId === 2) ? {
     name: Yup.string()
-
       .required('Name is required')
       .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
       .test(
@@ -134,14 +133,6 @@ const EditAccount = ({
     publicEmail: Yup.string().email('Email is invalid'),
     managementEmail: Yup.string().email('Email is invalid'),
     bookingEmail: Yup.string().email('Email is invalid'),
-    recordLabelManager: Yup.string()
-
-      .matches(/^[A-Z a-z]+$/, 'Label Manager should be in valid format')
-      .test(
-        'space',
-        'Label Manager is required',
-        val => val.trim().toString().length > 0,
-      ),
     facebook: Yup.string().url('Invalid Url address'),
     twitter: Yup.string().url('Invalid Url address'),
     instagram: Yup.string().url('Invalid Url address'),

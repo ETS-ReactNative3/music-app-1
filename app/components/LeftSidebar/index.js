@@ -21,7 +21,7 @@ function LeftSideBar({role, isInfluencer}) {
   const handleSideBar = () => {
     document.body.classList.toggle('sidebar-collapse');
   };
-
+  
   return (
     <aside className="main-sidebar bg-sidebar elevation-4 fixed-top h-100 shadow-lg">
       <span
