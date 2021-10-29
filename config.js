@@ -1,6 +1,6 @@
 let config = module.exports = {};
 
 config.server = {
-  apiURL: 'https://bliiinkstaging-3t9ns.ondigitalocean.app/',
+  apiURL: 'https://bliiink-svfjg.ondigitalocean.app/',
   trackingApiURL: 'https://track.bliiink.ga/',
 };
