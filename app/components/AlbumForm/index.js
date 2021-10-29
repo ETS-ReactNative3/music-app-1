@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Form} from "react-bootstrap";
+import {Form, Modal, Button} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
 import Select from "react-select";
@@ -12,6 +12,8 @@ import './index.scss';
 
 function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
   const [image, setImage] = useState({preview: ""})
+  const [show, setShow] = useState(false)
+
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required('Title is required'),
@@ -72,11 +74,16 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
         if (index !== -1) tempFullGenre.push(genres[index]);
         return true;
       });
+      image.preview = album.artwork
       reset({...album, songs, albumGenres: tempFullGenre});
     }
   }, [album, songList, genres]);
 
   const onSubmit = data => {
+    if (image.preview.length === 0) {
+      setShow(true)
+      return;
+    }
     formSubmit(data);
   };
 
@@ -150,9 +157,9 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
               options={genres}
               as={Select}
             />
-            <div className="invalid-feedback">
+            {errors.albumGenres && errors.albumGenres.message && <div style={{display: 'block'}} className="invalid-feedback">
               {errors.albumGenres && errors.albumGenres.message}
-            </div>
+            </div>}
           </Form.Group>
           <Form.Group as={Col} controlId="formGridGenre">
             <label htmlFor="email">Songs</label>
@@ -246,11 +253,13 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
                   accept="image/*"
                   multiple
                   name="albumImage"
-                  ref={register}
+                  ref={register({
+                    required: 'File is required'
+                  })}
                   className={`custom-file-input ${errors.albumImage ? 'is-invalid' : ''}`}
                   onChange={handleChange}
                   id="inputGroupFile01"
-                  required
+                  // required
                   aria-describedby="inputGroupFileAddon01"/>
                 <label className="custom-file-label" htmlFor="inputGroupFile01">Choose file</label>
               </div>
@@ -269,6 +278,22 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
           </button>
         }
       </form>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Validation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Please add image</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShow(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

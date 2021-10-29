@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, { memo, useState } from 'react';
 import {
   Button,
   FormControl,
@@ -10,22 +10,22 @@ import {
 } from 'react-bootstrap';
 import StarRatings from 'react-star-ratings';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
-import {createStructuredSelector} from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 import moment from 'moment';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCheck, faPlay} from '@fortawesome/free-solid-svg-icons';
-import {useForm} from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import {Link} from 'react-router-dom';
-import {faClipboard} from '@fortawesome/free-regular-svg-icons';
-import {toast} from 'react-toastify';
-import {CampaignStatus} from './constants';
+import { Link } from 'react-router-dom';
+import { faClipboard } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
+import { CampaignStatus } from './constants';
 import defaultImage from '../../images/default-image.png';
-import {styles} from './index.styles';
-import {capatilizeText, getValue, renderSocialMediaIcons} from '../../utils';
-import {PLAY_ICON_BG_COLOR} from '../../utils/constants';
+import { styles } from './index.styles';
+import { capatilizeText, getValue, renderSocialMediaIcons } from '../../utils';
+import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import { fetchUsersCountriesAction } from '../MyAccount/actions';
 import { makeSelectUserCountries } from '../MyAccount/selectors';
 
@@ -47,7 +47,7 @@ const RequestPopup = (
 
   const validationSchema = Yup.object().shape({});
 
-  const {register, handleSubmit, errors} = useForm({
+  const { register, handleSubmit, errors } = useForm({
     // resolver: yupResolver(validationSchema),
   });
 
@@ -90,7 +90,7 @@ const RequestPopup = (
 
   const renderSocialMedias = (artistInfo, title) => {
     return <div>{(artistInfo[title] && <a href={artistInfo[title]} target="_blank" className="pr-2">
-      {renderSocialMediaIcons(title, '1x', {marginLeft: 5}, PLAY_ICON_BG_COLOR)}
+      {renderSocialMediaIcons(title, '1x', { marginLeft: 5 }, PLAY_ICON_BG_COLOR)}
     </a>)}
     </div>
 
@@ -126,7 +126,7 @@ const RequestPopup = (
                   </small>
                   <small className=" d-block">
                     {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'countryId']) &&
-                    <div>Location: {countries && countries.find(country => country.id === data.campaigns.song.user.artistInformation.countryId).name}</div>}
+                      <div>Location: {countries && countries.find(country => country.id === data.campaigns.song.user.artistInformation.countryId).name}</div>}
                   </small>
                   <div style={styles.linkContainer}>
                     {getValue(data, ['campaigns', 'song', 'user', 'artistInformation', 'facebook']) && renderSocialMedias(data.campaigns.song.user.artistInformation, 'facebook')}
@@ -156,37 +156,37 @@ const RequestPopup = (
           data.campaignStatusId === CampaignStatus.COMPLETED ||
           data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
         ) ? <>
-          <hr className="blick-border"/>
+          <hr className="blick-border" />
           <Row className="my-4">
             <Col>
               <fieldset disabled={!songPlayed}>
 
                 <div>Action:</div>
-                <tr style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <input type="radio" name="site_name"
-                         value={1}
-                         checked={feedbackOption === 1}
-                         disabled={!songPlayed}
-                         onChange={() => {
-                           if (!songPlayed) return true;
-                           setFeedbackOption(1)
-                         }}/>
-                  <div style={{marginLeft: 10}} onClick={() => {
+                    value={1}
+                    checked={feedbackOption === 1}
+                    disabled={!songPlayed}
+                    onChange={() => {
+                      if (!songPlayed) return true;
+                      setFeedbackOption(1)
+                    }} />
+                  <div style={{ marginLeft: 10 }} onClick={() => {
                     if (!songPlayed) return true;
                     setFeedbackOption(1)
                   }}>Want to share to social media and provide feedback as well
                   </div>
                 </tr>
-                <tr style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <tr style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                   <input type="radio" name="address"
-                         value={2}
-                         disabled={!songPlayed}
-                         checked={feedbackOption === 2}
-                         onChange={() => {
-                           if (!songPlayed) return true;
-                           setFeedbackOption(2)
-                         }}/>
-                  <div style={{marginLeft: 10}} onClick={() => {
+                    value={2}
+                    disabled={!songPlayed}
+                    checked={feedbackOption === 2}
+                    onChange={() => {
+                      if (!songPlayed) return true;
+                      setFeedbackOption(2)
+                    }} />
+                  <div style={{ marginLeft: 10 }} onClick={() => {
                     if (!songPlayed) return true;
                     setFeedbackOption(2)
                   }}>Want to provide feedback only
@@ -195,7 +195,7 @@ const RequestPopup = (
               </fieldset>
             </Col>
           </Row></> : <></>}
-        <hr className="blick-border"/>
+        <hr className="blick-border" />
         {(feedbackOption === 1 || feedbackOption === 2) && <Row className="my-4">
           <Col>
             <fieldset disabled={!songPlayed}>
@@ -243,156 +243,161 @@ const RequestPopup = (
                   </Button>
                 </>
               )) || (
-                <>
-                  <FormLabel
-                    htmlFor="feedbackTextArea"
-                    className="text-success"
-                  >
-                    Feedback sent <FontAwesomeIcon size="1x" icon={faCheck}/>
-                  </FormLabel>
-                  <FormControl
-                    id="feedbackTextArea"
-                    className="bg-transparent text-white"
-                    as="textarea"
-                    aria-label="With textarea"
-                    disabled
-                    placeholder={data.feedback}
-                  />
-                </>
-              )}
+                  <>
+                    <FormLabel
+                      htmlFor="feedbackTextArea"
+                      className="text-success"
+                    >
+                      Feedback sent <FontAwesomeIcon size="1x" icon={faCheck} />
+                    </FormLabel>
+                    <FormControl
+                      id="feedbackTextArea"
+                      className="bg-transparent text-white"
+                      as="textarea"
+                      aria-label="With textarea"
+                      disabled
+                      placeholder={data.feedback}
+                    />
+                  </>
+                )}
             </fieldset>
           </Col>
         </Row>}
         {feedbackOption === 1 && <>
-          <hr className="blick-border"/>
+          <hr className="blick-border" />
           <Row className="my-4">
             <Col>
               {showSocialMediaSection &&
-              <fieldset disabled={!(feedbackProvided || data.feedback !== null)}>
-                <div className="d-flex align-items-center">
-                  <FormLabel className="m-0">Share with</FormLabel>
-                  {data.campaignInfluencerServices.map(service =>
-                    renderSocialMediaIcons(service.socialChannels.title, '2x', {marginLeft: 5})
-                  )}
-
-                </div>
-                <div
-                  className="cursor-pointer my-4"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.host}/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
-                    toast.success('Song url copied');
-                  }}
-                >
-                  Song link, Click to Copy
-                  <FontAwesomeIcon
-                    icon={faClipboard}
-                    style={{marginLeft: 10}}
-                    className="cursor-pointer text-success"
-                    size="x"
-                  />
-                </div>
-                {(!(
-                  data.campaignStatusId === CampaignStatus.COMPLETED ||
-                  data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
-                ) && (
-                  <div style={styles.shareLinkStyle}>
-                    <FormLabel className="mt-4">Provide Links</FormLabel>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <Row>
-                        {data.campaignInfluencerServices.map(
-                          service =>
-                            (
-                              <Col md={6}>
-                                <FormLabel>{capatilizeText(service.socialChannels.title)}</FormLabel>
-                                <FormControl
-                                  ref={register({required: 'Field is required',
-                                    pattern: {
-                                      value: /http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-z0-9\-_]+)(.com|.net|.gov|.org|.in)(\/[^\s]*)?/,
-                                      message: "Enter proper link"
-                                    }
-                                  })}
-                                  className="bg-transparent text-white"
-                                  as="input"
-                                  name={'data.' + service.socialChannels.title}
-                                  id="endereco"
-                                  type="text"
-                                  placeholder={`Enter ${service.socialChannels.title} url`}
-
-                                />
-                                {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message && (
-                                  <small className="invalid-feedback" style={{display: 'block'}}>
-                                    {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message}
-                                  </small>
-                                )}
-                              </Col>
-                            )
-                        )}
-
-                      </Row>
-                    </form>
-                  </div>
-                )) || (
-                  <div>
-                    {data.campaignInfluencerServices.map(
-                      service => {
-
-                        return <div style={{display: 'flex', flexDirection: 'row'}}>
-                          &nbsp;
-                          {capatilizeText(service.socialChannels.title)}:
-                          &nbsp;
-                          <Link
-                            to={`${service.response
-                            }`}
-                          >
-                            {
-                              service.response
-                            }
-                          </Link>
-
-                        </div>
-                      }
+                <fieldset disabled={!(feedbackProvided || data.feedback !== null)}>
+                  <div className="d-flex align-items-center">
+                    <FormLabel className="m-0">Share with</FormLabel>
+                    {data.campaignInfluencerServices.map(service =>
+                      renderSocialMediaIcons(service.socialChannels.title, '2x', { marginLeft: 5 })
                     )}
 
                   </div>
-                )}
+                  <div
+                    className="cursor-pointer my-4"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`${window.location.host}/album/${data.campaigns.song.albumSongs[0].album.slug}?songId=${data.campaigns.songId}`);
+                      toast.success('Song url copied');
+                    }}
+                  >
+                    Song link, Click to Copy
+                    <FontAwesomeIcon
+                      icon={faClipboard}
+                      style={{ marginLeft: 10 }}
+                      className="cursor-pointer text-success"
+                      size="x"
+                    />
+                  </div>
+                  {(!(
+                    data.campaignStatusId === CampaignStatus.COMPLETED ||
+                    data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
+                  ) && (
+                      <div style={styles.shareLinkStyle}>
+                        <FormLabel className="mt-4">Provide Links</FormLabel>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                          <Row>
+                            {data.campaignInfluencerServices.map(
+                              service =>
+                              (
+                                <Col md={6}>
+                                  <FormLabel>{capatilizeText(service.socialChannels.title)}</FormLabel>
+                                  <FormControl
+                                    ref={register({
+                                      required: 'Field is required',
+                                      pattern: {
+                                        value: /http(s?)(:\/\/)((www.)?)(([^.]+)\.)?([a-zA-z0-9\-_]+)(.com|.net|.gov|.org|.in)(\/[^\s]*)?/,
+                                        message: "Enter proper link"
+                                      }
+                                    })}
+                                    className="bg-transparent text-white"
+                                    as="input"
+                                    name={'data.' + service.socialChannels.title}
+                                    id="endereco"
+                                    type="text"
+                                    placeholder={`Enter ${service.socialChannels.title} url`}
 
-                {!(
-                  data.campaignStatusId === CampaignStatus.COMPLETED ||
-                  data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
-                ) && (
-                  <>
-                    <Button
-                      variant="warning"
-                      className="mt-4"
-                      onClick={handleSubmit(onSubmit)}
-                    >
-                      Submit
-                    </Button>
-                    <small className="text-muted d-block">
-                      Please share and provide url
-                    </small>
-                  </>
-                )}
+                                  />
+                                  {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message && (
+                                    <small className="invalid-feedback" style={{ display: 'block' }}>
+                                      {errors.data && errors.data[service.socialChannels.title] && errors.data[service.socialChannels.title].message}
+                                    </small>
+                                  )}
+                                </Col>
+                              )
+                            )}
 
-                {isReviewFromArtist && <>
-                  <hr className="my-4 blick-border"/>
-                  <h4>Feedback from artist:</h4>
-                  <Row>
-                    <Col>
-                      {data.ratings && data.ratings.length > 0 && <StarRatings
-                        rating={data.ratings[0].rating}
-                        starRatedColor="yellow"
-                        numberOfStars={5}
-                        starDimension="15px"
-                        name="rating"
-                      />}
-                      {data.reviews && data.reviews.length > 0 && <small className="text-muted d-block">
-                        {data.reviews[0].review}
-                      </small>}
-                    </Col>
-                  </Row>
-                </>}
-              </fieldset>}
+                          </Row>
+                        </form>
+                      </div>
+                    )) || (
+                      <div>
+                        {data.campaignInfluencerServices.map(
+                          service => {
+
+                            return <div style={{ display: 'flex', flexDirection: 'row' }}>
+                              &nbsp;
+                              {capatilizeText(service.socialChannels.title)}:
+                              &nbsp;
+                              <Link
+                                target="_blank"
+                                to={{
+                                  pathname: `${service.response
+                                    }`
+                                }}
+
+                              >
+                                {
+                                  service.response
+                                }
+                              </Link>
+
+                            </div>
+                          }
+                        )}
+
+                      </div>
+                    )}
+
+                  {!(
+                    data.campaignStatusId === CampaignStatus.COMPLETED ||
+                    data.campaignStatusId === CampaignStatus.APPROVED || data.campaignStatusId === CampaignStatus.DECLINED
+                  ) && (
+                      <>
+                        <Button
+                          variant="warning"
+                          className="mt-4"
+                          onClick={handleSubmit(onSubmit)}
+                        >
+                          Submit
+                        </Button>
+                        <small className="text-muted d-block">
+                          Please share and provide url
+                        </small>
+                      </>
+                    )}
+
+                  {isReviewFromArtist && <>
+                    <hr className="my-4 blick-border" />
+                    <h4>Feedback from artist:</h4>
+                    <Row>
+                      <Col>
+                        {data.ratings && data.ratings.length > 0 && <StarRatings
+                          rating={data.ratings[0].rating}
+                          starRatedColor="yellow"
+                          numberOfStars={5}
+                          starDimension="15px"
+                          name="rating"
+                        />}
+                        {data.reviews && data.reviews.length > 0 && <small className="text-muted d-block">
+                          {data.reviews[0].review}
+                        </small>}
+                      </Col>
+                    </Row>
+                  </>}
+                </fieldset>}
             </Col>
           </Row>
         </>}</Container>

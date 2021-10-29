@@ -15,7 +15,10 @@ function PtmTokenForm({methodSubmit}) {
   const [showMetaMask, setShowMetaMask] = useState(false);
   const {register, handleSubmit, errors} = useForm();
   const methodFormSubmit = data => {
-    methodSubmit(data)
+    methodSubmit({
+      walletId: account,
+      beneficiaryName: account
+    })
   }
 
   useEffect(() => {

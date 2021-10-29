@@ -35,7 +35,11 @@ export function* prepareApp() {
   const token = yield localStorage.getItem('token');
   if (token) {
     const decoded = jwt_decode(token);
-    yield put(setRole(decoded.role));
+    if (decoded.exp < new Date().getTime() / 1000) {
+      yield put(setRole('regular'));
+    } else {
+      yield put(setRole(decoded.role));
+    }
   }
 }
 
