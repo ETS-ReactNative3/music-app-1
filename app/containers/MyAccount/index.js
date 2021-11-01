@@ -136,8 +136,8 @@ function MyAccount(
             )}
             <InfoCard
               title={''}
-              message={'Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'}
-              buttonTitle={'Become a Patron'} linkTo={'/patron'}/>
+              message={'Coming Soon: Became a Bliiink patron Today, Get involved in decision making and EARN while you do so.'}
+              buttonTitle={'Become a Patron'} linkTo={''}/>
 
           </div>
         </div>
