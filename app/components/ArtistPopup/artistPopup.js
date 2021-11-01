@@ -15,7 +15,7 @@ const ArtistPopup = ({artist, handleClose, showMoreInfo}) => {
       </Modal.Header>
       <Modal.Body>
         <h3>Biography</h3>
-        <p>{artist.artistInformation.biography}</p>
+        {artist.artistInformation && artist.artistInformation.biography && <p>{artist.artistInformation.biography}</p>}
       </Modal.Body>
     </Modal>
   )
