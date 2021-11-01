@@ -21,7 +21,7 @@ function LeftSideBar({role, isInfluencer}) {
   const handleSideBar = () => {
     document.body.classList.toggle('sidebar-collapse');
   };
-  
+
   return (
     <aside className="main-sidebar bg-sidebar elevation-4 fixed-top h-100 shadow-lg">
       <span
@@ -87,12 +87,12 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Browse music</p>
                     </Link>
                   </li>
-                  <li className="nav-item rounded-lg">
-                    <Link to="/patron" className="nav-link mb-1">
-                      <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>
-                      <p className="d-inline-block m-0">My Patronage</p>
-                    </Link>
-                  </li>
+                  {/*<li className="nav-item rounded-lg">*/}
+                  {/*  <Link to="/patron" className="nav-link mb-1">*/}
+                  {/*    <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>*/}
+                  {/*    <p className="d-inline-block m-0">My Patronage</p>*/}
+                  {/*  </Link>*/}
+                  {/*</li>*/}
                 </>
               ) : (
                 <>
@@ -125,12 +125,12 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Browse music</p>
                     </Link>
                   </li>
-                  <li className="nav-item rounded-lg">
-                    <Link to="/patron" className="nav-link mb-1">
-                      <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>
-                      <p className="d-inline-block m-0">My Patronage</p>
-                    </Link>
-                  </li>
+                  {/*<li className="nav-item rounded-lg">*/}
+                  {/*  <Link to="/patron" className="nav-link mb-1">*/}
+                  {/*    <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>*/}
+                  {/*    <p className="d-inline-block m-0">My Patronage</p>*/}
+                  {/*  </Link>*/}
+                  {/*</li>*/}
                 </>
               )}
               {role === 'administrator' && (
