@@ -38,6 +38,7 @@ import {
 
 import history from '../../utils/history';
 import { setPlaylist } from '../App/actions';
+import jwt_decode from "jwt-decode";
 
 function getAlbumInfo(albumSlug) {
   return axiosInstance().get(`/albums/songs/slug/${albumSlug}`);
@@ -102,7 +103,8 @@ export function* fetchSongs() {
 export function* albumSaga(action) {
   try {
     const token = yield localStorage.getItem('token');
-    const result = yield call(token ? getAlbumInfoForLoggedIn : getAlbumInfo, action.slug);
+    const decoded = jwt_decode(token);
+    const result = yield call(decoded.exp < new Date().getTime() / 1000 ? getAlbumInfo : getAlbumInfoForLoggedIn, action.slug);
     yield put(loadAlbumSuccess(result.data));
   } catch (e) {
     toast.error(e.message);
