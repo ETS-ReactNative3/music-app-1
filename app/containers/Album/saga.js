@@ -103,9 +103,15 @@ export function* fetchSongs() {
 export function* albumSaga(action) {
   try {
     const token = yield localStorage.getItem('token');
-    const decoded = jwt_decode(token);
-    const result = yield call(decoded.exp < new Date().getTime() / 1000 ? getAlbumInfo : getAlbumInfoForLoggedIn, action.slug);
-    yield put(loadAlbumSuccess(result.data));
+    if (token) {
+      const decoded = jwt_decode(token);
+      const result = yield call(decoded.exp < new Date().getTime() / 1000 ? getAlbumInfo : getAlbumInfoForLoggedIn, action.slug);
+      yield put(loadAlbumSuccess(result.data));
+    } else {
+      const result = yield call(getAlbumInfo, action.slug);
+      yield put(loadAlbumSuccess(result.data));
+    }
+
   } catch (e) {
     toast.error(e.message);
     yield put(loadAlbumFail(e.message));
