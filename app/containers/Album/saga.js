@@ -3,6 +3,7 @@
 // Individual exports for testing
 import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
+import jwt_decode from 'jwt-decode';
 import {
   DELETE_ALBUM,
   FOLLOW_ALBUM,
@@ -38,14 +39,13 @@ import {
 
 import history from '../../utils/history';
 import { setPlaylist } from '../App/actions';
-import jwt_decode from "jwt-decode";
 
 function getAlbumInfo(albumSlug) {
   return axiosInstance().get(`/albums/songs/slug/${albumSlug}`);
 }
 
 function getAlbumInfoForLoggedIn(albumSlug) {
-  return axiosInstance().get(`/albums/details/${albumSlug}`)
+  return axiosInstance().get(`/albums/details/${albumSlug}`);
 }
 
 function fetchMyAlbums() {
@@ -87,7 +87,7 @@ function fetchGenres() {
 }
 
 function followAlbumApi(data) {
-  return axiosInstance().post('albums/action', data)
+  return axiosInstance().post('albums/action', data);
 }
 
 export function* fetchSongs() {
@@ -105,13 +105,17 @@ export function* albumSaga(action) {
     const token = yield localStorage.getItem('token');
     if (token) {
       const decoded = jwt_decode(token);
-      const result = yield call(decoded.exp < new Date().getTime() / 1000 ? getAlbumInfo : getAlbumInfoForLoggedIn, action.slug);
+      const result = yield call(
+        decoded.exp < new Date().getTime() / 1000
+          ? getAlbumInfo
+          : getAlbumInfoForLoggedIn,
+        action.slug,
+      );
       yield put(loadAlbumSuccess(result.data));
     } else {
       const result = yield call(getAlbumInfo, action.slug);
       yield put(loadAlbumSuccess(result.data));
     }
-
   } catch (e) {
     toast.error(e.message);
     yield put(loadAlbumFail(e.message));
@@ -209,7 +213,10 @@ export function* followAlbumSaga(action) {
     if (like) toast.success('Album added to your library');
     else toast.success('Album removed from your library');
     const token = yield localStorage.getItem('token');
-    const result = yield call(token ? getAlbumInfoForLoggedIn : getAlbumInfo, albumSlug);
+    const result = yield call(
+      token ? getAlbumInfoForLoggedIn : getAlbumInfo,
+      albumSlug,
+    );
     yield put(loadAlbumSuccess(result.data));
   } catch (e) {
     if (like) toast.error('Error in saving album');
@@ -226,5 +233,5 @@ export default function* watchAlbum() {
   yield takeLatest(DELETE_ALBUM, deleteAlbum);
   yield takeLatest(UPDATE_ALBUM, updateAlbum);
   yield takeLatest(GET_GENRES, getGenresSaga);
-  yield takeLatest(FOLLOW_ALBUM, followAlbumSaga)
+  yield takeLatest(FOLLOW_ALBUM, followAlbumSaga);
 }
