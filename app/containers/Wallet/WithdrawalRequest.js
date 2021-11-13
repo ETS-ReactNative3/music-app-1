@@ -122,7 +122,7 @@ const WithdrawalRequest = (
           <p>
             Withdraw money what you earned on bliiink
           </p>
-          {userDetails.roleId === 2 ? <div className="row">
+          {userDetails.roleId === 2 || userDetails.influencerId ? <div className="row">
             <div className="col-md-7">
               <div className="card bg-dark">
                 <div className="card-body">
