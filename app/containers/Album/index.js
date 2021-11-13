@@ -46,6 +46,7 @@ import './index.scss';
 import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import { useHistory } from 'react-router-dom';
 import { convertSecondsToTime } from '../../utils';
+import Explicit from "../../images/explicit.png";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -202,7 +203,10 @@ const Album = props => {
                             }
                           />
                         </span>
-                        <h5 className="song-title d-inline">{ele.song.title}</h5>
+                        <h5 className="song-title d-inline">
+                          {ele.song.title}
+                          {ele.song.explicitContent && <img className="pl-2 explicitIcon" src={Explicit} alt="explicit icon"/>}
+                        </h5>
                       </div>
                       <div className="col-2 d-flex justify-content-center align-items-center">
                         <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>

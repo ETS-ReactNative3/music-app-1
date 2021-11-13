@@ -57,7 +57,7 @@ const AddtoPlaylistModal = ({
                   </div>
                 </Form.Group>
               </Form.Row>
-              <button className="btn btn-success btn-block" type="submit">
+              <button className="btn btn-warning btn-block" type="submit">
                 Save
               </button>
             </form>

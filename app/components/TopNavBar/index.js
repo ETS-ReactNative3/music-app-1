@@ -1,5 +1,13 @@
 import React, {useRef, useState} from 'react';
-import {faSearch, faBars, faUsers, faWallet, faUserAlt, faMoneyBillWave} from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faBars,
+  faUsers,
+  faWallet,
+  faUserAlt,
+  faMoneyBillWave,
+  faLandmark
+} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
 import {redirectOnAlbum} from '../../utils/redirect';
@@ -158,6 +166,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                     Wallet -{' '}
                     <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
                     {userDetails.credit}
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/wallet/history">
+                    <FontAwesomeIcon icon={faLandmark} className="mr-2"/>
+                    Transactions
                   </Dropdown.Item>
                   {userDetails.roleId === 1 &&
                     <Dropdown.Item as={Link} to="/user/supportedArtist">

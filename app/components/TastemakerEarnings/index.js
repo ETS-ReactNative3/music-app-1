@@ -65,7 +65,7 @@ function TastemakerEarnings({earnings}) {
   ];
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
-    return format(new Date(row.campaigns.createdDate), 'MM/dd/yyyy HH:mm');
+    return format(new Date(row.campaigns.createdDate), 'do MMM yyyy HH:mm aaa');
   }
 
   return <BootstrapTable

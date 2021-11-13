@@ -65,7 +65,7 @@ function WithdrawalRequests({withdrawalRequests}) {
   ];
 
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
-    return format(new Date(row.createdDate), 'MM/dd/yyyy HH:mm');
+    return format(new Date(row.createdDate), 'do MMM yyyy HH:mm aaa');
   }
 
   return <BootstrapTable
