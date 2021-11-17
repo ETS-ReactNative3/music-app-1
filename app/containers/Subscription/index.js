@@ -19,7 +19,7 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {makeSelectUserDetails} from '../App/selectors';
 
-const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
+const stripePromise = loadStripe('pk_live_51JwPeEKvevnJrmTxwkEmeCVJC1qHvP5bkipiKE3uCEsltBlhLyp7bLajN4PbE8Kd5ZGRQX0XoXNdRSIlRK1nGLkZ00kHQObyzu');
 
 export function Subscription({getPlansList, subscriptionPlans, subscriptionLoader, userDetails}) {
   useInjectReducer({key: 'subscription', reducer});

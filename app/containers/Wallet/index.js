@@ -31,7 +31,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import PlanSvg from "../../images/svg/plan_icon_color.svg";
 
-const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
+const stripePromise = loadStripe('pk_live_51JwPeEKvevnJrmTxwkEmeCVJC1qHvP5bkipiKE3uCEsltBlhLyp7bLajN4PbE8Kd5ZGRQX0XoXNdRSIlRK1nGLkZ00kHQObyzu');
 
 
 const schema = yup.object().shape({
