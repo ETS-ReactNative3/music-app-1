@@ -3,7 +3,7 @@ import {
   faFolderOpen,
   faGlobe,
   faHeadphonesAlt,
-  faMoneyBill,
+  faQuestionCircle,
   faMusic,
   faPlusSquare,
   faUser,
@@ -87,6 +87,12 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Browse music</p>
                     </Link>
                   </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/faq" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
+                      <p className="d-inline-block m-0">FAQ</p>
+                    </Link>
+                  </li>
                   {/*<li className="nav-item rounded-lg">*/}
                   {/*  <Link to="/patron" className="nav-link mb-1">*/}
                   {/*    <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>*/}
@@ -123,6 +129,12 @@ function LeftSideBar({role, isInfluencer}) {
                     <Link to="/browse" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
                       <p className="d-inline-block m-0">Browse music</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/faq" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
+                      <p className="d-inline-block m-0">FAQ</p>
                     </Link>
                   </li>
                   {/*<li className="nav-item rounded-lg">*/}
@@ -194,6 +206,12 @@ function LeftSideBar({role, isInfluencer}) {
                 <Link to="/playlists" className="nav-link mb-1">
                   <FontAwesomeIcon icon={faPlusSquare} className="mr-2"/>
                   <p className="d-inline-block m-0">My Playlists</p>
+                </Link>
+              </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/faq" className="nav-link mb-1">
+                  <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
+                  <p className="d-inline-block m-0">FAQ</p>
                 </Link>
               </li>
             </ul>

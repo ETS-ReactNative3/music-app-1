@@ -1,0 +1,24 @@
+#faq-tabs {
+  .card-header {
+    background-color: #041E3F;
+    cursor: pointer;
+  }
+
+  .card {
+    background-color: #041E3F;
+  }
+
+  .h5 {
+    font-size: 1.1rem;
+  }
+
+  .accordion {
+    margin-bottom: 10px;
+  }
+
+  .nav-item {
+    .active {
+      background-color: #041E3F;
+    }
+  }
+}

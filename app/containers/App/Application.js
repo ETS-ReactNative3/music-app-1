@@ -32,6 +32,7 @@ import {ArtistProfile, SupportedArtist} from '../Artist/Loadable';
 import {Earnings} from "../Earnings/Loadable";
 import {AddTeam, MyTeams, Team, TeamRequest, TeamSetting} from "../Team/Loadable";
 import { PatronList } from '../Patron/Loadable';
+import {Faq} from "../Faq/Loadable";
 
 
 function useAuth() {
@@ -94,6 +95,9 @@ function Application() {
         </PrivateRoute>
         <Route exact path="/album/:slug">
           <Album/>
+        </Route>
+        <Route exact path="/faq">
+          <Faq/>
         </Route>
         <PrivateRoute exact path="/albumList">
           <AlbumList/>
