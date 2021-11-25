@@ -44,6 +44,7 @@ function Dashboard({
           <LeftSideBar
             role={role}
             isInfluencer={userDetails && userDetails.influencerId !== null}
+            userDetails={userDetails}
           />
           <div className="pt-5">{children}</div>
           <Footer />

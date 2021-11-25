@@ -16,8 +16,9 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LogoPng from '../../images/logo.png';
 import './index.scss';
+import Button from "react-bootstrap/Button";
 
-function LeftSideBar({role, isInfluencer}) {
+function LeftSideBar({role, isInfluencer, userDetails}) {
   const handleSideBar = () => {
     document.body.classList.toggle('sidebar-collapse');
   };
@@ -218,6 +219,17 @@ function LeftSideBar({role, isInfluencer}) {
           )}
         </nav>
       </div>
+      {userDetails ? (<Link to="/subscription-plans" className="d-md-none">
+          <Button variant="success" className="badge-button mx-2">Subscribe</Button>
+        </Link>) :
+        <div className="mt-2">
+          <Link to="/auth/login" className="d-md-none">
+            <Button variant="outline-success" className="badge-button mr-2">Sign in</Button>
+          </Link>
+          <Link to="/auth/register" className="d-md-none">
+            <Button variant="success" className="badge-button">Create Account</Button>
+          </Link>
+        </div>}
     </aside>
   );
 }

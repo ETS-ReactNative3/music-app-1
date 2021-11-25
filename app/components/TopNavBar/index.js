@@ -133,7 +133,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
         <div className="right">
           {userDetails ? (
             <>
-              <Link to="/subscription-plans">
+              <Link to="/subscription-plans" className="d-none d-md-inline-block">
                 <Button variant="success" className="badge-button mr-2">Subscribe</Button>
               </Link>
               <Dropdown className="d-inline">
@@ -198,10 +198,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             </>
           ) : (
             <>
-              <Link to="/auth/login">
+              <Link to="/auth/login" className="d-none d-md-inline-block">
                 <Button variant="outline-success" className="badge-button mr-2">Sign in</Button>
               </Link>
-              <Link to="/auth/register">
+              <Link to="/auth/register" className="d-none d-md-inline-block">
                 <Button variant="success" className="badge-button">Create Account</Button>
               </Link>
             </>
