@@ -12,6 +12,7 @@ function Outer({children}) {
               alt="Bliiink Logo"
               className="logo-size"
             />
+            <span className="d-flex justify-content-center beta-tag">Beta Version</span>
           </Link>
         </div>
         <div className="row justify-content-center">

@@ -35,6 +35,7 @@ function LeftSideBar({role, isInfluencer, userDetails}) {
       <div className="d-flex pl-3 py-3">
         <Link to="/">
           <img src={LogoPng} alt="AdminLTE Logo" className="logo-size"/>
+          <span className="d-flex justify-content-center beta-tag">Beta Version</span>
         </Link>
       </div>
       <div className="sidebar px-2">
