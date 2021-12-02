@@ -123,7 +123,7 @@ function Faq() {
           ans:
             '<p>Users can earn free BLIIINK tokens as rewards, through engagement on the platform. \n' +
             '<strong>More information is coming soon, also join our <a href="https://discord.com/invite/6NndvkFWYq" target="_blank">discord group</a> for making key decisions on the platform.</strong></p>'+
-            '<p>For any questions or issues purchasing or earning Notes please contact support@bliiink.co.uk</p>'
+            '<p>For any questions or issues purchasing or earning Bliiink tokens please contact support@bliiink.co.uk</p>'
         },
         {
           question: 'Withdrawing BLIIINK credits',
