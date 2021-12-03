@@ -31,9 +31,9 @@ import {SubscriptionPlans, SubscriptionSuccess} from '../Subscription/Loadable';
 import {ArtistProfile, SupportedArtist} from '../Artist/Loadable';
 import {Earnings} from "../Earnings/Loadable";
 import {AddTeam, MyTeams, Team, TeamRequest, TeamSetting} from "../Team/Loadable";
-import { PatronList } from '../Patron/Loadable';
+import {PatronList} from '../Patron/Loadable';
 import {Faq} from "../Faq/Loadable";
-
+import {NotFoundPage, UnAuthorized} from '../NotFoundPage/Loadable';
 
 function useAuth() {
   const accessToken = localStorage.getItem('token');
@@ -54,27 +54,55 @@ function getRole() {
   const accessToken = localStorage.getItem('token');
   if (accessToken) {
     const decoded = jwtDecode(accessToken);
-    if (decoded.role === 'administrator') {
-      return true
-    }
+    return decoded.role
   }
 
   return false
 }
 
+function roleCheck(auth, role, children, rest) {
+  const userRole = getRole()
+  if (userRole && userRole === role) {
+    return (
+      <Route
+        {...rest}
+        render={() => children}
+      />
+    );
+  }
+
+  return (
+    <Redirect
+      to={{
+        pathname: '/unauthorized',
+      }}
+    />
+  )
+}
+
 function PrivateRoute({children, ...rest}) {
   const auth = useAuth();
+  // check admin role
+  if (rest.admin && auth) {
+    return roleCheck(auth, 'administrator', children, rest)
+  }
+
+  // check artist role
+  if (rest.artist && auth) {
+    return roleCheck(auth, 'artist', children, rest)
+  }
+
 
   return (
     <Route
       {...rest}
       render={() =>
-        (auth || (rest.admin && getRole())) ? (
+        (auth) ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: '/auth/login',
+              pathname: '/unauthorized',
             }}
           />
         )
@@ -99,19 +127,22 @@ function Application() {
         <Route exact path="/faq">
           <Faq/>
         </Route>
-        <PrivateRoute exact path="/albumList">
+        <Route exact path="/unauthorized">
+          <UnAuthorized/>
+        </Route>
+        <PrivateRoute exact path="/albumList" artist={true}>
           <AlbumList/>
         </PrivateRoute>
-        <PrivateRoute exact path="/album/edit/:id">
+        <PrivateRoute exact path="/album/edit/:id" artist={true}>
           <AlbumForm/>
         </PrivateRoute>
-        <PrivateRoute exact path="/songList">
+        <PrivateRoute exact path="/songList" artist={true}>
           <SongList/>
         </PrivateRoute>
-        <PrivateRoute exact path="/song/edit/:id">
+        <PrivateRoute exact path="/song/edit/:id" artist={true}>
           <SongForm/>
         </PrivateRoute>
-        <PrivateRoute exact path="/song/add">
+        <PrivateRoute exact path="/song/add" artist={true}>
           <SongForm/>
         </PrivateRoute>
         <PrivateRoute exact path="/playlists">
@@ -219,21 +250,24 @@ function Application() {
         <PrivateRoute exact path="/team">
           <Team/>
         </PrivateRoute>
-        <PrivateRoute exact path="/team/add">
+        <PrivateRoute exact path="/team/add" artist={true}>
           <AddTeam/>
         </PrivateRoute>
-        <PrivateRoute exact path="/team/:id/setting">
-          <TeamSetting />
+        <PrivateRoute exact path="/team/:id/setting" artist={true}>
+          <TeamSetting/>
         </PrivateRoute>
         <PrivateRoute exact path="/team/request">
-          <TeamRequest />
+          <TeamRequest/>
         </PrivateRoute>
         <PrivateRoute exact path="/myteams">
-          <MyTeams />
+          <MyTeams/>
         </PrivateRoute>
         <PrivateRoute exact path="/patron">
-          <PatronList />
+          <PatronList/>
         </PrivateRoute>
+        <Route path="*">
+          <NotFoundPage/>
+        </Route>
       </Switch>
     </Dashboard>
   );

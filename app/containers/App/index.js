@@ -21,7 +21,7 @@ const App = () => {
       <Switch>
         <Route path="/auth" component={Auth}/>
         <Route path="/" component={Application}/>
-        <Route component={NotFoundPage}/>
+        <Route path="*" component={NotFoundPage}/>
       </Switch>
     </ThemeWrapper>
   );
