@@ -20,6 +20,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import WithdrawalRequests from "../../components/WithdrawalRequests/Loadable";
 import TastemakerEarnings from "../../components/TastemakerEarnings/Loadable";
+import PlanSvg from "../../images/svg/plan_icon_color.svg";
 
 const WalletHistory = (
   {
@@ -50,13 +51,16 @@ const WalletHistory = (
 
   // eslint-disable-next-line no-unused-vars
   function dateFormatter(cell, row, rowIndex, formatExtraData) {
-    return format(new Date(row.updatedAt), 'MM/dd/yyyy');
+    return format(new Date(row.updatedAt), 'do MMM yyyy');
   }
 
   const columns = [
     {
-      dataField: 'amount',
-      text: 'Amount',
+      dataField: 'credits',
+      text: 'Credits',
+      formatter: (cell, row, rowIndex, formatExtraData) => {
+        return <span><img src={PlanSvg} alt="wallet Logo" width={17} height={17}/> {row.credits}</span>
+      },
       style: {
         width: '20%'
       },
@@ -65,16 +69,16 @@ const WalletHistory = (
       }
     },
     {
-      dataField: 'currency',
-      text: 'Currency',
+      dataField: 'amount',
+      text: 'Amount',
+      formatter: (cell, row, rowIndex, formatExtraData) => {
+        return <span>${row.amount}</span>
+      },
       style: {
-        width: '20%',
-        textAlign: 'center'
+        width: '20%'
       },
       headerStyle: {
-        width: '20%',
-        textAlign: 'center'
-
+        width: '20%'
       }
     },
     {

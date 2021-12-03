@@ -1,5 +1,13 @@
 import React, {useRef, useState} from 'react';
-import {faSearch, faBars, faUsers, faWallet, faUserAlt, faMoneyBillWave} from '@fortawesome/free-solid-svg-icons';
+import {
+  faSearch,
+  faBars,
+  faUsers,
+  faWallet,
+  faUserAlt,
+  faMoneyBillWave,
+  faLandmark
+} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Typeahead, withAsync} from 'react-bootstrap-typeahead';
 import {redirectOnAlbum} from '../../utils/redirect';
@@ -125,7 +133,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
         <div className="right">
           {userDetails ? (
             <>
-              <Link to="/subscription-plans">
+              <Link to="/subscription-plans" className="d-none d-md-inline-block">
                 <Button variant="success" className="badge-button mr-2">Subscribe</Button>
               </Link>
               <Dropdown className="d-inline">
@@ -159,6 +167,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                     <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '}
                     {userDetails.credit}
                   </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/wallet/history">
+                    <FontAwesomeIcon icon={faLandmark} className="mr-2"/>
+                    Transactions
+                  </Dropdown.Item>
                   {userDetails.roleId === 1 &&
                     <Dropdown.Item as={Link} to="/user/supportedArtist">
                       <FontAwesomeIcon icon={faUsers} className="mr-2"/>
@@ -186,10 +198,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
             </>
           ) : (
             <>
-              <Link to="/auth/login">
+              <Link to="/auth/login" className="d-none d-md-inline-block">
                 <Button variant="outline-success" className="badge-button mr-2">Sign in</Button>
               </Link>
-              <Link to="/auth/register">
+              <Link to="/auth/register" className="d-none d-md-inline-block">
                 <Button variant="success" className="badge-button">Create Account</Button>
               </Link>
             </>

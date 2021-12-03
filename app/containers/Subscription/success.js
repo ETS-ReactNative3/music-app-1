@@ -51,9 +51,9 @@ export function SubscriptionSuccess({createOrder}) {
                   <div className="m-4">
                     <small className="h6">Your subscription purchase order was successful</small>
                   </div>
-                  <Link to="/wallet">
+                  <Link to="/">
                     <Button className="mt-2" variant="success">
-                      Go back to wallet
+                      Go back to Home
                     </Button>
                   </Link>
                 </ListGroup.Item>

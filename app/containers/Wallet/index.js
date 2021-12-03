@@ -17,9 +17,8 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import {faWallet, faCircle} from '@fortawesome/free-solid-svg-icons';
+import {faCircle} from '@fortawesome/free-solid-svg-icons';
 import {loadStripe} from '@stripe/stripe-js';
-import {Link} from 'react-router-dom';
 import reducer from './reducer';
 import saga from './saga';
 import PaperCard from '../../components/PaperCard';
@@ -30,8 +29,9 @@ import {makeSelectWallet} from "./selectors";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
+import PlanSvg from "../../images/svg/plan_icon_color.svg";
 
-const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
+const stripePromise = loadStripe('pk_live_51JwPeEKvevnJrmTxwkEmeCVJC1qHvP5bkipiKE3uCEsltBlhLyp7bLajN4PbE8Kd5ZGRQX0XoXNdRSIlRK1nGLkZ00kHQObyzu');
 
 
 const schema = yup.object().shape({
@@ -101,12 +101,7 @@ export function Wallet({userCredit}) {
                 : 'mr-2 mb-0 text-danger'
             }
           />
-          CURRENT BALANCE
-          <Link to="/wallet/history"> View history</Link>
-        </span>
-        <span className="h1">
-          {userCredit}
-          <FontAwesomeIcon icon={faWallet} className="ml-2 h3 mb-0"/>
+          CURRENT BALANCE <img src={PlanSvg} alt="wallet Logo" width={17} height={17}/>{' '} {userCredit}
         </span>
       </div>
       <Row className="mt-4">

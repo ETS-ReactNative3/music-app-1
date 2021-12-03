@@ -1,29 +1,29 @@
-import React, { memo, useEffect } from 'react';
+import React, {memo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { useInjectSaga } from 'utils/injectSaga';
-import { useInjectReducer } from 'utils/injectReducer';
-import { makeSelectSubscriptionLoader, makeSelectSubscriptionPlans } from './selectors';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
+import {useInjectSaga} from 'utils/injectSaga';
+import {useInjectReducer} from 'utils/injectReducer';
+import {makeSelectSubscriptionLoader, makeSelectSubscriptionPlans} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getPlans } from "./actions";
+import {getPlans} from "./actions";
 import LoadingIndicator from "../../components/LoadingIndicator";
-import { axiosInstance } from "../../utils/api";
-import { toast } from "react-toastify";
-import { loadStripe } from "@stripe/stripe-js";
+import {axiosInstance} from "../../utils/api";
+import {toast} from "react-toastify";
+import {loadStripe} from "@stripe/stripe-js";
 import PaperCard from "../../components/PaperCard";
 import './index.scss';
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { makeSelectUserDetails } from '../App/selectors';
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {makeSelectUserDetails} from '../App/selectors';
 
-const stripePromise = loadStripe('pk_test_KcTV8d4CSSGpMfe4PIKvUeFI00hDyI8a1d');
+const stripePromise = loadStripe('pk_live_51JwPeEKvevnJrmTxwkEmeCVJC1qHvP5bkipiKE3uCEsltBlhLyp7bLajN4PbE8Kd5ZGRQX0XoXNdRSIlRK1nGLkZ00kHQObyzu');
 
-export function Subscription({ getPlansList, subscriptionPlans, subscriptionLoader, userDetails }) {
-  useInjectReducer({ key: 'subscription', reducer });
-  useInjectSaga({ key: 'subscription', saga });
+export function Subscription({getPlansList, subscriptionPlans, subscriptionLoader, userDetails}) {
+  useInjectReducer({key: 'subscription', reducer});
+  useInjectSaga({key: 'subscription', saga});
 
   useEffect(() => {
     getPlansList();
@@ -64,9 +64,8 @@ export function Subscription({ getPlansList, subscriptionPlans, subscriptionLoad
   ], []);
 
 
-
   return <div>
-    {subscriptionLoader || !subscriptionPlans ? <LoadingIndicator /> : <PaperCard title="Subscription Plans">
+    {subscriptionLoader || !subscriptionPlans ? <LoadingIndicator/> : <PaperCard title="Subscription Plans">
       <div className="row">
         {subscriptionPlans.map(item => (
           <div key={item.id} className="col-12 col-lg-4">
@@ -85,7 +84,7 @@ export function Subscription({ getPlansList, subscriptionPlans, subscriptionLoad
                     return (
                       <li key={feature} className="list-group-item font-weight-normal">
                         <span className="icon-gray">
-                          <FontAwesomeIcon icon={faCheck} className="mr-2" />
+                          <FontAwesomeIcon icon={faCheck} className="mr-2"/>
                           {feature}
                         </span>
                       </li>
@@ -94,9 +93,14 @@ export function Subscription({ getPlansList, subscriptionPlans, subscriptionLoad
                 </ul>
               </div>
               <div className="card-footer px-4 pb-4">
-                <button type="button" className="btn btn-block btn-success btn-outline-gray animate-up-2"
-                  onClick={() => handleClick(item.id)}>Buy
-                </button>
+                {item.id === userDetails.subscriptionId ?
+                  <button type="button" className="btn btn-block btn-success btn-outline-gray animate-up-2"
+                          disabled>Current Plan
+                  </button> :
+                  <button type="button" className="btn btn-block btn-success btn-outline-gray animate-up-2"
+                          onClick={() => handleClick(item.id)}>Buy
+                  </button>
+                }
               </div>
             </div>
           </div>

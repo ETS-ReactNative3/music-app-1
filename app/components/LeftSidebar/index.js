@@ -3,7 +3,7 @@ import {
   faFolderOpen,
   faGlobe,
   faHeadphonesAlt,
-  faMoneyBill,
+  faQuestionCircle,
   faMusic,
   faPlusSquare,
   faUser,
@@ -16,8 +16,9 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LogoPng from '../../images/logo.png';
 import './index.scss';
+import Button from "react-bootstrap/Button";
 
-function LeftSideBar({role, isInfluencer}) {
+function LeftSideBar({role, isInfluencer, userDetails}) {
   const handleSideBar = () => {
     document.body.classList.toggle('sidebar-collapse');
   };
@@ -34,6 +35,7 @@ function LeftSideBar({role, isInfluencer}) {
       <div className="d-flex pl-3 py-3">
         <Link to="/">
           <img src={LogoPng} alt="AdminLTE Logo" className="logo-size"/>
+          <span className="d-flex justify-content-center beta-tag">Beta Version</span>
         </Link>
       </div>
       <div className="sidebar px-2">
@@ -87,6 +89,12 @@ function LeftSideBar({role, isInfluencer}) {
                       <p className="d-inline-block m-0">Browse music</p>
                     </Link>
                   </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/faq" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
+                      <p className="d-inline-block m-0">FAQ</p>
+                    </Link>
+                  </li>
                   {/*<li className="nav-item rounded-lg">*/}
                   {/*  <Link to="/patron" className="nav-link mb-1">*/}
                   {/*    <FontAwesomeIcon icon={faMoneyBill} className="mr-2"/>*/}
@@ -123,6 +131,12 @@ function LeftSideBar({role, isInfluencer}) {
                     <Link to="/browse" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faGlobe} className="mr-2"/>
                       <p className="d-inline-block m-0">Browse music</p>
+                    </Link>
+                  </li>
+                  <li className="nav-item rounded-lg">
+                    <Link to="/faq" className="nav-link mb-1">
+                      <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
+                      <p className="d-inline-block m-0">FAQ</p>
                     </Link>
                   </li>
                   {/*<li className="nav-item rounded-lg">*/}
@@ -196,10 +210,27 @@ function LeftSideBar({role, isInfluencer}) {
                   <p className="d-inline-block m-0">My Playlists</p>
                 </Link>
               </li>
+              <li className="nav-item rounded-lg">
+                <Link to="/faq" className="nav-link mb-1">
+                  <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
+                  <p className="d-inline-block m-0">FAQ</p>
+                </Link>
+              </li>
             </ul>
           )}
         </nav>
       </div>
+      {userDetails ? (<Link to="/subscription-plans" className="d-md-none">
+          <Button variant="success" className="badge-button mx-2">Subscribe</Button>
+        </Link>) :
+        <div className="mt-2">
+          <Link to="/auth/login" className="d-md-none">
+            <Button variant="outline-success" className="badge-button mr-2">Sign in</Button>
+          </Link>
+          <Link to="/auth/register" className="d-md-none">
+            <Button variant="success" className="badge-button">Create Account</Button>
+          </Link>
+        </div>}
     </aside>
   );
 }
