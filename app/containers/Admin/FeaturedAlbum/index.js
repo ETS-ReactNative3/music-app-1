@@ -68,7 +68,16 @@ const FeaturedAlbums = ({fetchAlbums, featuredAlbums, makeAlbumFeatured, albumsC
         width: '15%',
       },
     },
-
+    {
+      text: 'Publish Status',
+      formatter: publishStatusFormatter,
+      style: {
+        width: '15%',
+      },
+      headerStyle: {
+        width: '15%',
+      },
+    },
     {
       dataField: 'actions',
       text: 'Actions',
@@ -94,6 +103,16 @@ const FeaturedAlbums = ({fetchAlbums, featuredAlbums, makeAlbumFeatured, albumsC
     }
 
     return <span>Non-featured</span>;
+  }
+
+  function publishStatusFormatter(cell, row) {
+    if (row.publish) {
+      return (
+        <span>Published</span>
+      );
+    }
+
+    return <span>Unpublished</span>;
   }
 
 
