@@ -54,10 +54,13 @@ function Faq() {
       subtitle: '',
       qandA: [
         {
-          question: 'Reach Industry contacts and build a fanbase on BLIIINK',
+          question: 'How to create an album and upload songs on Bliiink?',
           ans: '<p>Create an artist account, and complete your profile adding as much detail as possible. \n' +
-            'Next <a href="https://open.bliiink.co.uk/songList" target="_blank">upload the songs</a> you would like to promote, filling the required information, then add it into your <a href="https://open.bliiink.co.uk/album/add" target="_blank">album</a>, also adding as many details as possible to publish it.</p>' +
-            '<p>Once published, go back to <a href="https://open.bliiink.co.uk/songList" target="_blank">my song</a> tab, and after choosing a song to promote you will be provided with a selection of tastemakers. We’ve provided search parameters to navigate finding tastemakers that fit your style of music!</p>' +
+            'Next <a href="https://open.bliiink.co.uk/songList" target="_blank">upload the songs</a> you would like to promote, filling the required information, then add it into your <a href="https://open.bliiink.co.uk/album/add" target="_blank">album</a>, also adding as many details as possible to publish it.</p>'
+        },
+        {
+          question: 'How to select tastemakers on Bliiink?',
+          ans: '<p>Go to <a href="https://open.bliiink.co.uk/songList" target="_blank">my song</a> tab, and after choosing a song to promote you will be provided with a selection of tastemakers. We’ve provided search parameters to navigate finding tastemakers that fit your style of music!</p>' +
             '<p>If you see a tastemaker you like, submit your song! Once you submit your song, your funds are held until the tastemaker selected completes the task. If the task is not completed, the funds will be sent back to you.</p>' +
             '<p>You will be notified by our system if your song has been accepted to be shared by a tastemaker. To follow the progress click on the campaign tab on the left-hand section of the screen. Please pay close attention to the messages here, and respond as required.</p>'+
             '<p>Remember to reshare your content with your audience so they can come to see you grow and support you on Bliiink.</p>'
