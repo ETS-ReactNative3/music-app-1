@@ -77,15 +77,15 @@ export function* handlePlaySongAction(data) {
   }
 
   // If user is logged in but not subscribed
-  const userDetails = yield select(makeSelectUserDetails())
-  if (userDetails && !userDetails.subscription) {
-    let songCount = yield select(makeSelectSongCount());
-    if (songCount > 7) {
-      toast.success("Please subscribe to listen to more music")
-      history.push('/subscription-plans');
-      return
-    }
-  }
+  // const userDetails = yield select(makeSelectUserDetails())
+  // if (userDetails && !userDetails.subscription) {
+  //   let songCount = yield select(makeSelectSongCount());
+  //   if (songCount > 7) {
+  //     toast.success("Please subscribe to listen to more music")
+  //     history.push('/subscription-plans');
+  //     return
+  //   }
+  // }
 
   if (data.type === "boilerplate/App/HANDLE_SINGLE_SONG") {
     yield put(successHandleSingleSong(data.songId, data.status))
