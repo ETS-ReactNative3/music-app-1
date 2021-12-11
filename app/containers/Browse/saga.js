@@ -35,7 +35,7 @@ function* fetchAlbumsSaga(action) {
         if (browseType === 'genre') {
             const response = yield call(fetchAlbumsGenres, page, limit, id)
             if (response) {
-                yield put(saveAlbumsAction(response.data.albums))
+                yield put(saveAlbumsAction(response.data))
             }
         } else {
             const response = yield call(fetchAlbumsMoods, page, limit, id)
