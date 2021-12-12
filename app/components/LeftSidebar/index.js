@@ -92,7 +92,7 @@ function LeftSideBar({role, isInfluencer, userDetails}) {
                   <li className="nav-item rounded-lg">
                     <Link to="/faq" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
-                      <p className="d-inline-block m-0">FAQ</p>
+                      <p className="d-inline-block m-0">Faq</p>
                     </Link>
                   </li>
                   {/*<li className="nav-item rounded-lg">*/}
@@ -136,7 +136,7 @@ function LeftSideBar({role, isInfluencer, userDetails}) {
                   <li className="nav-item rounded-lg">
                     <Link to="/faq" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
-                      <p className="d-inline-block m-0">FAQ</p>
+                      <p className="d-inline-block m-0">Faq</p>
                     </Link>
                   </li>
                   {/*<li className="nav-item rounded-lg">*/}
@@ -213,7 +213,7 @@ function LeftSideBar({role, isInfluencer, userDetails}) {
               <li className="nav-item rounded-lg">
                 <Link to="/faq" className="nav-link mb-1">
                   <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
-                  <p className="d-inline-block m-0">FAQ</p>
+                  <p className="d-inline-block m-0">Faq</p>
                 </Link>
               </li>
             </ul>
