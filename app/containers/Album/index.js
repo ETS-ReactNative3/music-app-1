@@ -168,7 +168,7 @@ const Album = props => {
                   {albumInfo.albumSongs.find((ele, index) => currentSong.songData.id === ele.song.id &&
                     currentSong.playing) ? 'Pause' : 'Play All'}
                 </span>
-                <ShareBox />
+                <ShareBox url={window.location.origin+'/album/'+albumInfo.slug} />
                 <div onClick={() => (userDetails && Object.keys(userDetails).length > 0) ? followAlbum(albumInfo.id, !albumInfo.albumLiked, slug) : history.push('/auth/login')}>
                   {albumInfo.albumLiked ?
                     <FontAwesomeIcon className="followed_heart_icon" icon={faHeartFilled} color={PLAY_ICON_BG_COLOR} size='lg' />

@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import './index.scss';
 
-const ShareBox = () => (
+const ShareBox = ({url}) => (
   <>
     <Dropdown className="social-album-share d-inline pl-4">
       <Dropdown.Toggle id="dropdown-basic" as="span">
@@ -26,7 +26,7 @@ const ShareBox = () => (
         <Dropdown.Item>
           <FacebookShareButton
             title="I am listening to songs on Bliiink"
-            url={window.location.href}
+            url={url}
           >
             <FacebookIcon size={32} round />
           </FacebookShareButton>
@@ -34,7 +34,7 @@ const ShareBox = () => (
         <Dropdown.Item>
           <WhatsappShareButton
             title="I am listening to songs on Bliiink"
-            url={window.location.href}
+            url={url}
             separator=" "
           >
             <WhatsappIcon size={32} round />
@@ -43,7 +43,7 @@ const ShareBox = () => (
         <Dropdown.Item>
           <TwitterShareButton
             title="I am listening to songs on Bliiink"
-            url={window.location.href}
+            url={url}
           >
             <TwitterIcon size={32} round />
           </TwitterShareButton>
