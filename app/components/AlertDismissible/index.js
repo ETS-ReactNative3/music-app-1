@@ -7,7 +7,7 @@ function AlertDismissible({message}) {
 
   if (show) {
     return (
-      <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+      <Alert variant="warning" onClose={() => setShow(false)} dismissible>
         <p className='message'>
           {message}
         </p>
