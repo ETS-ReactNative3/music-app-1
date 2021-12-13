@@ -26,6 +26,7 @@ import {
 } from './selectors';
 import SongForm from '../../components/SongForm';
 import PaperCard from "../../components/PaperCard";
+import AlertDismissible from '../../components/AlertDismissible';
 
 function Form(
   {
@@ -68,6 +69,8 @@ function Form(
 
   return (
     <PaperCard title={addSong ? 'Add Song' : 'Edit Song'}>
+       <AlertDismissible message={`Only upload music you fully own the rights to. DJ Mixes, Bootleg/Unofficial remixes are not allowed.
+Disclaimer: Uploading music you don't fully own the rights to will result in account termination.`}/>
       {
         addSong ? <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} formLoader={formLoader}/>
           : <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} song={song} formLoader={formLoader}/>
