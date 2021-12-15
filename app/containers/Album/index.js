@@ -118,7 +118,7 @@ const Album = props => {
         <>
           <PaperCard>
             <div className="row d-flex align-items-end">
-              <div className="col-3">
+              <div className="col-md-3">
                 <Image
                   width={230}
                   height={230}
@@ -130,7 +130,7 @@ const Album = props => {
                   alt="album-image"
                 />
               </div>
-              <div className="col-9 px-0">
+              <div className="col-md-9 px-md-0">
                 <div className="py-2">
                   <h6 className="py-2">ALBUM</h6>
                   <h1>{albumInfo.title}</h1>
