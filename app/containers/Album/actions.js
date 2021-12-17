@@ -73,10 +73,11 @@ export function getMyAlbumsRequestFail(error) {
   };
 }
 
-export function postAlbumRequest(data) {
+export function postAlbumRequest(data, callback = undefined) {
   return {
     type: POST_ALBUMS_REQUEST,
     data,
+    callback
   };
 }
 

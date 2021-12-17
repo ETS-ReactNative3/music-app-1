@@ -132,7 +132,7 @@ export function* myAlbumsSaga() {
   }
 }
 
-export function* saveAlbumSaga({ data }) {
+export function* saveAlbumSaga({ data, callback }) {
   try {
     const result = yield call(postAlbumImage, data);
     const albumData = {
@@ -142,8 +142,13 @@ export function* saveAlbumSaga({ data }) {
     };
     yield call(postAlbum, albumData);
     yield put(postAlbumRequestSuccess());
-    history.push('/albumList');
     toast.success('Album uploaded successfully.');
+    if (callback) {
+      yield put(getMyAlbumsRequest())
+      callback();
+    } else {
+      history.push('/albumList');
+    }
   } catch (e) {
     toast.error(e.message);
     yield put(postAlbumRequestFail(e.message));
