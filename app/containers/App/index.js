@@ -8,7 +8,7 @@
 
 import React, {useMemo} from 'react';
 import {Switch, Route} from 'react-router-dom';
-import NotFoundPage from '../NotFoundPage/Loadable';
+import {NotFoundPage} from '../NotFoundPage/Loadable';
 import '../../styles/global-style.scss';
 import './index.scss';
 import ThemeWrapper from './ThemeWrapper';
