@@ -18,6 +18,7 @@ import saga from './saga';
 import reducer from './reducer';
 import {deleteAlbum, getMyAlbumsRequest} from './actions';
 import {makeSelectMyAlbums} from './selectors';
+import UploadSongVideo from "../../components/UploadSongVideo";
 
 function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
   const [albumId, setAlbumId] = useState(0);
@@ -139,6 +140,7 @@ function AlbumList({getMyAlbums, myAlbums, deleteAlbumCall}) {
 
   return (
     <PaperCard title="Manage Songs">
+      <UploadSongVideo/>
       <div className="row pb-5">
         <div className="col">
           <Link to="/album/add">
