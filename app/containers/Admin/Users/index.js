@@ -14,6 +14,7 @@ import adminUsersSaga from '../saga';
 import {makeSelectAdminUsers, makeSelectAdminUsersCount} from '../selectors';
 import PaperCard from "../../../components/PaperCard";
 import UserAddCredit from "./UserAddCredit";
+import UserDetails from "./UserDetails";
 
 
 const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
@@ -22,6 +23,7 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
   useInjectSaga({key: 'admin', saga: adminUsersSaga})
   const [currentPage, setCurrentPage] = useState(1);
   const [openCreditModal, setOpenCreditModal] = useState(false);
+  const [openUserDetailModal, setOpenUserDetailModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
 
   const handleTableChange = (type, {page, sizePerPage}) => {
@@ -39,6 +41,7 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
   const columns = [
     {
       dataField: 'name',
+      formatter: userDetailFormatter,
       text: 'Name',
       style: {
         width: '20%',
@@ -118,13 +121,16 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
     return <span>Active</span>;
   }
 
+  function userDetailFormatter(cell, row) {
+    return <span className="cursor-pointer" onClick={() => {setOpenUserDetailModal(true); setSelectedUser(row)}}>{row.name}</span>
+  }
+
   function roleFormatter(cell, row) {
     if (row.influencerId) {
       return (
         <span>Influencer</span>
       )
-    }
-    else if (row.role) {
+    } else if (row.role) {
       return (
         <span>{row.role.title}</span>
       );
@@ -185,6 +191,9 @@ const AdminUsers = ({users, fetchUsers, blockUser, usersCount}) => {
       {openCreditModal && <UserAddCredit openModal={openCreditModal} handleClose={() => {
         setOpenCreditModal(false)
       }} id={selectedUser ? selectedUser.id : ''} page={currentPage} limit={10}/>}
+      {openUserDetailModal && <UserDetails openModal={openUserDetailModal} handleClose={() => {
+        setOpenUserDetailModal(false)
+      }} user={selectedUser}/>}
     </PaperCard>
   )
 }

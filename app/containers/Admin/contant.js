@@ -10,3 +10,6 @@ export const ADD_CREDITS = 'app/admin/ADD_CREDITS';
 export const FETCH_DISPUTED_CAMPAIGNS = 'app/admin/FETCH_DISPUTED_CAMPAIGNS';
 export const SAVE_DISPUTED_CAMPAIGNS = 'app/admin/SAVE_DISPUTED_CAMPAIGNS';
 export const ON_ERROR_DISPUTED_CAMPAIGNS = 'app/admin/ON_ERROR_DISPUTED_CAMPAIGNS';
+export const USER_DETAILS = 'app/admin/USER_DETAILS';
+export const CREATE_WALLET = 'app/admin/CREATE_WALLET';
+export const SAVE_INFLUENCER_DATA = 'app/admin/SAVE_INFLUENCER_DATA';
