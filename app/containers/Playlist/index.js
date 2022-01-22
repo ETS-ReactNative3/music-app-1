@@ -59,7 +59,6 @@ export function Playlist(
     title: Yup.string()
 
     .required('Title is required')
-    .matches(/^[A-Z a-z]+$/, 'Title should be in valid format')
     .test('space', 'Title is required', val => { return val.trim().toString().length > 0 })
     .test('min', 'Title must have 5 characters atleast', val => { return val.trim().toString().length > 4 })
     .test('max', 'Title should have atmost 50 characters', val => { return val.trim().toString().length < 51 }),

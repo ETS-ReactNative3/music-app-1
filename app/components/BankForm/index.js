@@ -18,7 +18,6 @@ function BankForm({ methodSubmit }) {
     beneficiaryName: Yup.string()
 
       .required('Name is required')
-      .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
       .test('space', 'Name is required', val => { return val.trim().toString().length > 0 }),
 
     accountNumber: Yup.string().required('Account Number is required')
