@@ -29,7 +29,7 @@ import {
   GET_GENRES,
   GET_GENRES_SUCCESS,
   GET_GENRES_FAIL,
-  FOLLOW_ALBUM,
+  FOLLOW_ALBUM, CAST_VOTE, CAST_VOTE_SUCCESS,
 } from './constants';
 
 export function loadAlbum(slug) {
@@ -199,5 +199,20 @@ export function followAlbumAction(albumId, like, albumSlug) {
   return {
     type: FOLLOW_ALBUM,
     albumId, like, albumSlug
+  }
+}
+
+export function castVote(songId, walletAddress, slug) {
+  return {
+    type: CAST_VOTE,
+    songId,
+    walletAddress,
+    slug
+  }
+}
+
+export function voteLoadingSuccess() {
+  return {
+    type: CAST_VOTE_SUCCESS
   }
 }

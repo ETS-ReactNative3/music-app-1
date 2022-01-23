@@ -5,6 +5,7 @@ import { call, put, takeLatest } from '@redux-saga/core/effects';
 import { toast } from 'react-toastify';
 import jwt_decode from 'jwt-decode';
 import {
+  CAST_VOTE,
   DELETE_ALBUM,
   FOLLOW_ALBUM,
   GET_ALBUM,
@@ -34,11 +35,12 @@ import {
   songRequestFail,
   songRequestSuccess,
   updateAlbumFail,
-  updateAlbumSuccess,
+  updateAlbumSuccess, voteLoadingSuccess,
 } from './actions';
 
 import history from '../../utils/history';
 import { setPlaylist } from '../App/actions';
+import axios from "axios";
 
 function getAlbumInfo(albumSlug) {
   return axiosInstance().get(`/albums/songs/slug/${albumSlug}`);
@@ -88,6 +90,32 @@ function fetchGenres() {
 
 function followAlbumApi(data) {
   return axiosInstance().post('albums/action', data);
+}
+
+function postVoteApi(data) {
+  return axiosInstance().post('songs/vote', {songId: data.id});
+}
+
+function getWalletBalance(data) {
+  return axios({
+    url: `https://api.devnet.solana.com`,
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    data: {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "getTokenAccountsByOwner",
+      params: [
+        data.address,
+        {
+          mint: "7dKhEzYxMp26kwJUrtdAU8BcoKNTovX7bPryUR8Ut7uH",
+        },
+        {
+          encoding: "jsonParsed",
+        },
+      ],
+    },
+  });
 }
 
 export function* fetchSongs() {
@@ -229,6 +257,24 @@ export function* followAlbumSaga(action) {
   }
 }
 
+export function* postVote(action) {
+  try {
+    //check user wallet balance
+    const walletResult = yield call(getWalletBalance, {address: action.walletAddress})
+    if (walletResult.data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount > 0) {
+      const result = yield call(postVoteApi, {id: action.songId});
+      yield put(voteLoadingSuccess());
+      yield put(loadAlbum(action.slug))
+    } else {
+      toast.warn('Insufficient bliiink token')
+    }
+  } catch (e) {
+    console.log(e)
+    yield put(voteLoadingSuccess());
+    //toast.error(e.message);
+  }
+}
+
 export default function* watchAlbum() {
   yield takeLatest(LOAD_ALBUM, albumSaga);
   yield takeLatest(GET_MY_ALBUMS_REQUEST, myAlbumsSaga);
@@ -239,4 +285,5 @@ export default function* watchAlbum() {
   yield takeLatest(UPDATE_ALBUM, updateAlbum);
   yield takeLatest(GET_GENRES, getGenresSaga);
   yield takeLatest(FOLLOW_ALBUM, followAlbumSaga);
+  yield takeLatest(CAST_VOTE, postVote);
 }

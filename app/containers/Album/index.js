@@ -35,7 +35,7 @@ import SongsOptionsBox from '../../components/SongsOptionsBox';
 import CarouselFront from '../../components/CarouselFront';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { followAlbumAction, loadAlbum } from './actions';
-import { makeSelectAlbum, makeSelectAlbumLoader } from './selectors';
+import {makeSelectAlbum, makeSelectAlbumLoader, makeSelectVoteLoader} from './selectors';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { getNewReleases } from "../HomePage/actions";
 import { makeSelectNewReleaseLoading, makeSelectNewReleases } from "../HomePage/selectors";
@@ -47,6 +47,7 @@ import { PLAY_ICON_BG_COLOR } from '../../utils/constants';
 import { useHistory } from 'react-router-dom';
 import { convertSecondsToTime } from '../../utils';
 import Explicit from "../../images/explicit.png";
+import SongVote from "../../components/SongVote";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -83,7 +84,8 @@ const Album = props => {
     newReleasesLoading,
     setPlaylistAction,
     followAlbum,
-    userDetails
+    userDetails,
+    voteLoader
   } = props;
 
   useEffect(() => {
@@ -188,7 +190,7 @@ const Album = props => {
                       id={`songNumber${ele.song.id}`}
                       key={index}
                     >
-                      <div className="col-10">
+                      <div className="col-9">
                         <span className="song-number pr-3">{index + 1}</span>
                         <span
                           onClick={() => singleSongHandler(ele.song.id)}
@@ -208,7 +210,7 @@ const Album = props => {
                           {ele.song.explicitContent && <img className="pl-2 explicitIcon" src={Explicit} alt="explicit icon"/>}
                         </h5>
                       </div>
-                      <div className="col-2 d-flex justify-content-center align-items-center">
+                      <div className="col-3 d-flex justify-content-center align-items-center">
                         <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
                         {role && (
                           <SongsOptionsBox
@@ -223,6 +225,8 @@ const Album = props => {
                             }
                           />
                         )}
+                        {userDetails &&
+                        <SongVote songId={ele.song.id} slug={slug} votes={ele.song.votes} voteLoader={voteLoader} walletAddress={userDetails.privateWalletPublicAddress}/>}
                       </div>
                     </div>
                   ))}
@@ -257,7 +261,8 @@ const mapStateToProps = createStructuredSelector({
   role: makeSelectRole(),
   newReleasesLoading: makeSelectNewReleaseLoading(),
   newReleases: makeSelectNewReleases(),
-  userDetails: makeSelectUserDetails()
+  userDetails: makeSelectUserDetails(),
+  voteLoader: makeSelectVoteLoader()
 });
 
 export function mapDispatchToProps(dispatch) {

@@ -40,3 +40,6 @@ export const GET_GENRES_SUCCESS = 'app/Album/GET_GENRES_SUCCESS';
 export const GET_GENRES_FAIL = 'app/Album/GET_GENRES_FAIL';
 
 export const FOLLOW_ALBUM = 'app/album/FOLLOW_ALBUM';
+export const CAST_VOTE = 'app/album/CAST_VOTE';
+export const CAST_VOTE_LOADING = 'app/album/CAST_VOTE_LOADING';
+export const CAST_VOTE_SUCCESS = 'app/album/CAST_VOTE_SUCCESS';
