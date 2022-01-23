@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import LogoPng from '../../images/logo.png';
 import './index.scss';
 import Button from "react-bootstrap/Button";
+// import {WalletMultiButton} from "@solana/wallet-adapter-react-ui";
 
 function LeftSideBar({role, isInfluencer, userDetails}) {
   const handleSideBar = () => {
@@ -92,7 +93,7 @@ function LeftSideBar({role, isInfluencer, userDetails}) {
                   <li className="nav-item rounded-lg">
                     <Link to="/faq" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
-                      <p className="d-inline-block m-0">FAQ</p>
+                      <p className="d-inline-block m-0">Faq</p>
                     </Link>
                   </li>
                   {/*<li className="nav-item rounded-lg">*/}
@@ -136,7 +137,7 @@ function LeftSideBar({role, isInfluencer, userDetails}) {
                   <li className="nav-item rounded-lg">
                     <Link to="/faq" className="nav-link mb-1">
                       <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
-                      <p className="d-inline-block m-0">FAQ</p>
+                      <p className="d-inline-block m-0">Faq</p>
                     </Link>
                   </li>
                   {/*<li className="nav-item rounded-lg">*/}
@@ -213,16 +214,20 @@ function LeftSideBar({role, isInfluencer, userDetails}) {
               <li className="nav-item rounded-lg">
                 <Link to="/faq" className="nav-link mb-1">
                   <FontAwesomeIcon icon={faQuestionCircle} className="mr-2"/>
-                  <p className="d-inline-block m-0">FAQ</p>
+                  <p className="d-inline-block m-0">Faq</p>
                 </Link>
               </li>
             </ul>
           )}
         </nav>
       </div>
-      {userDetails ? (<Link to="/subscription-plans" className="d-md-none">
+      {userDetails ? (<><Link to="/subscription-plans" className="d-md-none">
           <Button variant="success" className="badge-button mx-2">Subscribe</Button>
-        </Link>) :
+        </Link>
+          {/*<span className="d-md-none" >*/}
+          {/*  <WalletMultiButton />*/}
+          {/*</span>*/}
+        </>) :
         <div className="mt-2">
           <Link to="/auth/login" className="d-md-none">
             <Button variant="outline-success" className="badge-button mr-2">Sign in</Button>

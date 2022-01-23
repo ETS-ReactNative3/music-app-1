@@ -19,6 +19,7 @@ import saga from './saga';
 import reducer from './reducer';
 import { deleteSong, songRequest } from './actions';
 import { makeSelectSong } from './selectors';
+import UploadSongVideo from "../../components/UploadSongVideo";
 
 function SongList({ getSongs, songs, deleteSongAction }) {
   useInjectReducer({ key: 'song', reducer });
@@ -154,6 +155,7 @@ function SongList({ getSongs, songs, deleteSongAction }) {
 
   return (
     <PaperCard title="Song List">
+      <UploadSongVideo/>
       <div className="row pb-5">
         <div className="col">
           <Link to="/song/add">

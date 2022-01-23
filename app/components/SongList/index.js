@@ -59,7 +59,7 @@ const SongList = ({list, heading, singleSongHandler, currentSong, classes, loadi
                   </span>
                   </div>
                   <div className="d-flex align-self-center">
-                    <ShareBox/>
+                    <ShareBox url={window.location.origin+'/album/'+ele.albumSongs[0].album.slug+'?songId='+ele.id}/>
                   </div>
                 </div>
               </div>

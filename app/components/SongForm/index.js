@@ -1,27 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { Button, Form, Modal } from "react-bootstrap";
+import React, {memo, useEffect, useState} from 'react';
+import {useForm, Controller} from 'react-hook-form';
+import {Button, Form, Modal} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {yupResolver} from "@hookform/resolvers/yup";
 import ButtonLoader from "../ButtonLoader";
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
+import {connect, useDispatch, useSelector} from 'react-redux';
+import {getMyAlbumsRequest} from '../../containers/Album/actions';
+import {makeSelectMyAlbums} from '../../containers/Album/selectors';
+import {createStructuredSelector} from 'reselect';
+import {compose} from 'redux';
+import PropTypes from 'prop-types';
+import AlbumFormModal from '../AlbumForm/AlbumFormModal';
 
-function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
-  const [audio, setAudio] = useState({ audioFile: "" })
+function SongForm({genres, formSubmit, song, formLoader, moods, members, getMyAlbums, myAlbums}) {
+  const [audio, setAudio] = useState({audioFile: ""})
   const [counter, setCounter] = useState(0)
   const [indexes, setIndexes] = useState([]);
   const [show, setShow] = useState(false)
+  const [albumFormShow, setAlbumFormShow] = useState(false)
 
   const validationSchema = Yup.object().shape({
     title: Yup.string()
       .required('Title is required'),
-    description: Yup.string()
-      .required('Description is required'),
     genreId: Yup.string()
       .required('Genre is required'),
     collaborator: Yup.array().of(
@@ -31,7 +37,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
           .min(0, 'Min value 0.')
           .max(99, 'Max value 99').required("Percentage is required")
       })
-    )
+    ),
   });
 
   const handleAudioChange = e => {
@@ -42,7 +48,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
     }
   };
 
-  const { register, handleSubmit, errors, reset, control, getValues } = useForm({
+  const {register, handleSubmit, errors, reset, control, getValues} = useForm({
     resolver: yupResolver(validationSchema),
   });
 
@@ -113,8 +119,12 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
       ...provided,
       color: 'black',
     }),
-    menu: provided => ({ ...provided, zIndex: 9999 }),
+    menu: provided => ({...provided, zIndex: 9999}),
   };
+
+  useEffect(() => {
+    getMyAlbums();
+  }, [])
 
   return (
     <>
@@ -132,18 +142,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
               {errors.title && errors.title.message}
             </div>
           </Form.Group>
-          <Form.Group as={Col} controlId="formGridDescription">
-            <label htmlFor="email">Description</label>
-            <textarea
-              name="description"
-              placeholder="Enter song description"
-              className={`form-control ${errors.description ? 'is-invalid' : ''}`}
-              ref={register}
-            />
-            <div className="invalid-feedback">
-              {errors.description && errors.description.message}
-            </div>
-          </Form.Group>
+
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridGenre">
@@ -170,7 +169,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
               dateFormat={'dd/MM/yyyy'}
               name="releaseDate"
               control={control}
-              render={({ onChange, value }) => (
+              render={({onChange, value}) => (
                 <DatePicker
                   popperPlacement="top-start"
                   popperModifiers={{
@@ -184,7 +183,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
                   }}
                   className={`form-control ${errors.releaseDate ? 'is-invalid' : ''}`}
                   selected={value}
-                  style={{ flex: 1 }}
+                  style={{flex: 1}}
                   onChange={onChange}
                 />
               )}
@@ -195,7 +194,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
           </Form.Group>
         </Form.Row>
         <Form.Row>
-          <Form.Group as={Col} controlId="formGridMood" style={{ flex: 0.5, marginRight: 10 }}>
+          <Form.Group as={Col} controlId="formGridMood" style={{flex: 0.5, marginRight: 10}}>
             <label htmlFor="email">Moods</label>
             <Controller
               name="moods"
@@ -226,6 +225,32 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
             </div>
           </Form.Group>
         </Form.Row>
+        {!song &&
+        <Form.Row>
+          <Form.Group as={Col} controlId="formGridAlbum" style={{flex: 0.5, marginRight: 10}}>
+            <label htmlFor="email">Albums</label>
+            <select
+              name="albumId"
+              ref={register}
+              className={`form-control ${errors.albumId ? 'is-invalid' : ''}`}
+            >
+              <option value="" disabled selected>Select album</option>
+              {myAlbums.map(album => (
+                <option key={album.id} value={album.id}>
+                  {album.title}
+                </option>
+              ))}
+            </select>
+
+            <div className="invalid-feedback">
+              {errors.albumId && errors.albumId.message}
+            </div>
+          </Form.Group>
+          <Form.Group as={Col} style={{flex: 0.5, alignSelf: 'flex-end'}}>
+            <Button variant="success" onClick={() => setAlbumFormShow(true)}>Add album</Button>
+          </Form.Group>
+        </Form.Row>
+        }
         <Form.Row>
           <Form.Group as={Col} controlId="fileGridGenre">
             <label htmlFor="inputGroupFile02">Audio</label>
@@ -258,7 +283,7 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
             {audio.audioFile && (
               <div key={audio && audio.audioFile} className="mt-3">
                 <audio controls>
-                  <source src={audio.audioFile} />
+                  <source src={audio.audioFile}/>
                 </audio>
               </div>
             )}
@@ -321,12 +346,14 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
             </button>
           </div>
         </div>
-        {formLoader ? <ButtonLoader /> :
+        {formLoader ? <ButtonLoader/> :
           <button className="btn btn-primary btn-block" type="submit">
             Submit
           </button>
         }
       </form>
+
+      <AlbumFormModal show={albumFormShow} setShow={(value) => setAlbumFormShow(value)}/>
       <Modal
         show={show}
         onHide={() => setShow(false)}
@@ -347,4 +374,27 @@ function SongForm({ genres, formSubmit, song, formLoader, moods, members }) {
   );
 }
 
-export default SongForm;
+SongForm.propTypes = {
+  getMyAlbums: PropTypes.func.isRequired,
+  myAlbums: PropTypes.array.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  myAlbums: makeSelectMyAlbums(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getMyAlbums: () => dispatch(getMyAlbumsRequest()),
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(SongForm);

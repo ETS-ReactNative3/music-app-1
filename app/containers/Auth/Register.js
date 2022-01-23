@@ -23,7 +23,6 @@ function Register({ registerRequest }) {
     name: Yup.string()
 
       .required('Name is required')
-      .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
       .test('space', 'Name is required', val => { return val.trim().toString().length > 0 })
       .test('min', 'Name must have 5 characters atleast', val => { return val.trim().toString().length > 4 })
       .test('max', 'Name should have atmost 50 characters', val => { return val.trim().toString().length < 51 }),

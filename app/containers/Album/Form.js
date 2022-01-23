@@ -22,6 +22,7 @@ import {
 
 import AlbumForm from "../../components/AlbumForm";
 import PaperCard from "../../components/PaperCard";
+import UploadSongVideo from "../../components/UploadSongVideo";
 
 function Form(
   {
@@ -63,6 +64,7 @@ function Form(
 
   return (
     <PaperCard title={addAlbum ? 'Add Album' : 'Edit Album'}>
+      <UploadSongVideo/>
       {
         addAlbum ? <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} songList={songs} formLoader={formLoader}/> :
           <AlbumForm formSubmit={values => onSubmit(values)} genres={genres} album={album} songList={songs} formLoader={formLoader}/>

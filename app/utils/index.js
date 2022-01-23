@@ -108,9 +108,9 @@ export const createDifferenenceTimeString = (start, end) => {
 
 export function getQueryVariable(search, variable) {
   let query = search.substring(1);
-  var vars = query.split("&");
+  let vars = query.split("&");
   for (let i = 0; i < vars.length; i++) {
-    var pair = vars[i].split("=");
+    let pair = vars[i].split("=");
     if (pair[0] == variable) { return pair[1]; }
   }
 }
@@ -209,10 +209,10 @@ export const capatilizeText = (text) => {
 }
 
 /**
- * 
+ *
  * Function to covnert seconds to time (displayable)
- * @param  seconds 
- * @returns 
+ * @param  seconds
+ * @returns
  */
 export const convertSecondsToTime = (seconds) => {
   const format = val => `0${Math.floor(val)}`.slice(-2)

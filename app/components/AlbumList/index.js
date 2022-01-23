@@ -16,7 +16,7 @@ function AlbumList({albums}) {
         <div className="col-md-3 my-3" key={album.id}>
           <div className="card bg-dark">
             <div className="card-body">
-              <Link to={`/album/${album.album.slug}`}>
+              <Link to={`/album/${album.slug}`}>
                 <Image
                   width={200}
                   height={200}
@@ -24,11 +24,11 @@ function AlbumList({albums}) {
                     e.target.onerror = null;
                     e.target.src = defaultImage;
                   }}
-                  src={album.album.artwork}
+                  src={album.artwork}
                   alt="album image"
                 />
                 <div className="pt-4">
-                  <h4>{album.album.title}</h4>
+                  <h4>{album.title}</h4>
                   <h6>Album</h6>
                 </div>
               </Link>

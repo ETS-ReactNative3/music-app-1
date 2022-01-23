@@ -4,8 +4,15 @@
  *
  */
 import produce from 'immer';
-import { saveUsersCountAction } from './action';
-import { FETCH_DISPUTED_CAMPAIGNS, ON_ERROR_DISPUTED_CAMPAIGNS, SAVE_ALBUMS, SAVE_ALBUMS_COUNT, SAVE_DISPUTED_CAMPAIGNS, SAVE_USERS, SAVE_USERS_COUNT } from "./contant";
+import {
+  FETCH_DISPUTED_CAMPAIGNS,
+  ON_ERROR_DISPUTED_CAMPAIGNS,
+  SAVE_ALBUMS,
+  SAVE_ALBUMS_COUNT,
+  SAVE_DISPUTED_CAMPAIGNS, SAVE_INFLUENCER_DATA,
+  SAVE_USERS,
+  SAVE_USERS_COUNT
+} from "./contant";
 
 export const initialState = {
   loading: false,
@@ -13,7 +20,8 @@ export const initialState = {
   users: [],
   userCount: 0,
   albumCount: 0,
-  disputedCampaigns: []
+  disputedCampaigns: [],
+  selectedInfluencerData: null
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -33,18 +41,18 @@ const adminReducer = (state = initialState, action) =>
         draft.albumCount = action.albumCount;
         break;
       case FETCH_DISPUTED_CAMPAIGNS:
-
         draft.loading = true;
         draft.disputedCampaigns = [];
         break;
-
       case SAVE_DISPUTED_CAMPAIGNS:
         draft.loading = false;
         draft.disputedCampaigns = action.disputedCampaigns;
         break;
-
       case ON_ERROR_DISPUTED_CAMPAIGNS:
         draft.loading = false;
+        break;
+      case SAVE_INFLUENCER_DATA:
+        draft.selectedInfluencerData = action.user.influencer;
         break;
     }
   });

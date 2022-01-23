@@ -10,7 +10,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './index.scss';
 
-function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
+function AlbumForm({genres, formSubmit, songList, album, formLoader, showSongs = true}) {
   const [image, setImage] = useState({preview: ""})
   const [show, setShow] = useState(false)
 
@@ -23,8 +23,7 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
       .required('Description is required'),
     albumGenres: Yup.array()
       .required('Genre is required')
-      .nullable(),
-    songs: Yup.array(Yup.object({value: Yup.string()})).required('Songs are required'),
+      .nullable()
   });
 
   const handleChange = e => {
@@ -161,6 +160,7 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
               {errors.albumGenres && errors.albumGenres.message}
             </div>}
           </Form.Group>
+          {showSongs &&
           <Form.Group as={Col} controlId="formGridGenre">
             <label htmlFor="email">Songs</label>
             <Controller
@@ -178,6 +178,7 @@ function AlbumForm({genres, formSubmit, songList, album, formLoader}) {
               {errors.songs && errors.songs.message}
             </div>
           </Form.Group>
+          }
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridGenre">

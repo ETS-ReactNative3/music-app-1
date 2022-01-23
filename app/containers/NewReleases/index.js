@@ -44,11 +44,11 @@ const NewReleases = ({getNewReleasesAction, newReleases, newReleasesLoading}) =>
                     />
                     <div className="pt-4">
                       <h4>{album.title}</h4>
-                      {album.description.length > 45 ? <OverlayTrigger
+                      {album.description.length > 30 ? <OverlayTrigger
                           placement="top"
                           delay={{show: 250, hide: 400}}
                           overlay={<Tooltip id={`song-title-tooltip`}>{album.description}</Tooltip>}
-                        ><h6>{album.description.substring(0, 45)}...</h6></OverlayTrigger> :
+                        ><h6>{album.description.substring(0, 30)}...</h6></OverlayTrigger> :
                         <h6>{album.description}</h6>
                       }
                     </div>

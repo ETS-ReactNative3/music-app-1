@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
@@ -43,7 +42,7 @@ const UserAddCredit = ({ openModal, handleClose, addCredit, id,page, limit }) =>
                     <button
                         className="btn btn-success"
                         onClick={() => {
-                            if (credit && credit > 0) { 
+                            if (credit && credit > 0) {
                                 addCredit(id, credit, page-1, limit)
                                 handleClose()
                             } else {
@@ -60,7 +59,7 @@ const UserAddCredit = ({ openModal, handleClose, addCredit, id,page, limit }) =>
 
 UserAddCredit.propTypes = {
     addCredit: PropTypes.func,
-    openModal: PropTypes.bool, 
+    openModal: PropTypes.bool,
     handleClose: PropTypes.func,
     id: PropTypes.string,
     page: PropTypes.number,

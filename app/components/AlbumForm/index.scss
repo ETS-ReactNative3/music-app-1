@@ -2,3 +2,7 @@
     display: flex;
     margin-top: 0px;
 }
+
+.show .btn:not(.btn-warning) {
+  background-color: #007bff !important;
+}

@@ -7,7 +7,7 @@ const SectionHeading = styled.h3`
   padding: 15px 0;
   display: inline-block;
   margin-bottom: 40px;
-  font-family: 'Work Sans', sans-serif;
+  font-family: 'PT Sans Narrow', sans-serif;
   font-weight: 500;
   border-bottom: 3px solid;
   border-top: none;
@@ -16,4 +16,4 @@ const SectionHeading = styled.h3`
   border-image: linear-gradient(to right, #1fdbae, rgba(0, 0, 0, 0)) 1;
 `;
 
-export default SectionHeading; 
+export default SectionHeading;

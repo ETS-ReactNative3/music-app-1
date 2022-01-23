@@ -106,7 +106,6 @@ const EditAccount = ({
   const validationSchema = Yup.object().shape((userDetails && userDetails.roleId === 2) ? {
     name: Yup.string()
       .required('Name is required')
-      .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
       .test(
         'space',
         'Name is required',
@@ -139,9 +138,7 @@ const EditAccount = ({
     youtube: Yup.string().url('Invalid Url address'),
   } : {
     name: Yup.string()
-
       .required('Name is required')
-      .matches(/^[A-Z a-z]+$/, 'Name should be in valid format')
       .test(
         'space',
         'Name is required',

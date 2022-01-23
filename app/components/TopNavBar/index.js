@@ -21,6 +21,7 @@ import Button from 'react-bootstrap/Button';
 import {Image} from 'react-bootstrap';
 import {server} from '../../../config';
 import {debounce} from 'lodash';
+// import {WalletMultiButton} from "@solana/wallet-adapter-react-ui";
 
 const AsyncTypeahead = withAsync(Typeahead);
 
@@ -136,6 +137,9 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
               <Link to="/subscription-plans" className="d-none d-md-inline-block">
                 <Button variant="success" className="badge-button mr-2">Subscribe</Button>
               </Link>
+              {/*<span className="d-none d-md-inline-block">*/}
+              {/*  <WalletMultiButton/>*/}
+              {/*</span>*/}
               <Dropdown className="d-inline">
                 <Dropdown.Toggle as="button" id="dropdown-basic"
                                  className="badge-button btn btn-outline-success text-white">
@@ -172,10 +176,10 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                     Transactions
                   </Dropdown.Item>
                   {userDetails.roleId === 1 &&
-                    <Dropdown.Item as={Link} to="/user/supportedArtist">
-                      <FontAwesomeIcon icon={faUsers} className="mr-2"/>
-                      Supported Artists
-                    </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/user/supportedArtist">
+                    <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                    Supported Artists
+                  </Dropdown.Item>
                   }
                   {userDetails.roleId === 2 &&
                   <>

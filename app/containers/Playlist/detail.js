@@ -113,7 +113,7 @@ function Detail(
               >
                 {currentSong.playing ? 'Pause' : 'Play All'}
               </span>
-              <ShareBox />
+              <ShareBox url={window.location.origin+'/album/'+playlist.playlistSongs[0].song.albumSongs[0].album.slug} />
               {!playlist.myPlaylist &&
               <div onClick={() => followPlaylist(playlist.id, !playlist.likedPlaylist)}>
                 {playlist.likedPlaylist ?
