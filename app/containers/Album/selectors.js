@@ -71,6 +71,12 @@ const makeSelectRecommendedAlbums = () =>
     substate => substate.recommendedAlbums,
   );
 
+const makeSelectVoteLoader = () =>
+  createSelector(
+    selectAlbumDomain,
+    substate => substate.voteLoader,
+  );
+
 export {
   makeSelectAlbum,
   makeSelectAlbumLoader,
@@ -81,5 +87,6 @@ export {
   makeSelectGenres,
   makeSelectFormLoader,
   makeSelectRecommendedAlbumsLoading,
-  makeSelectRecommendedAlbums
+  makeSelectRecommendedAlbums,
+  makeSelectVoteLoader
 };

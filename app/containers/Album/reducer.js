@@ -26,7 +26,7 @@ import {
   UPDATE_ALBUM_FAIL,
   GET_RECOMMENDED_ALBUMS,
   GET_RECOMMENDED_ALBUMS_SUCCESS,
-  GET_RECOMMENDED_ALBUMS_FAIL
+  GET_RECOMMENDED_ALBUMS_FAIL, CAST_VOTE_LOADING, CAST_VOTE_SUCCESS, CAST_VOTE
 } from './constants';
 
 export const initialState = {
@@ -38,6 +38,7 @@ export const initialState = {
   error: null,
   genres: [],
   editAlbum: null,
+  voteLoader: false
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -91,6 +92,13 @@ const albumReducer = (state = initialState, action) =>
       case UPDATE_ALBUM_SUCCESS:
       case UPDATE_ALBUM_FAIL:
         draft.formLoader = false;
+        break;
+      case CAST_VOTE_LOADING:
+      case CAST_VOTE:
+        draft.voteLoader = true;
+        break;
+      case CAST_VOTE_SUCCESS:
+        draft.voteLoader = false;
         break;
     }
   });
