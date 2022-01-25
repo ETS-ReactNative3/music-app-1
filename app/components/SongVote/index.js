@@ -8,9 +8,15 @@ import {castVote} from "../../containers/Album/actions";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import {toast} from "react-toastify";
 
-const SongVote = ({songId, submitVote, votes, voteLoader, slug}) => {
+const SongVote = ({songId, submitVote, votes, voteLoader, slug, userData}) => {
   const castSongVote = () => {
+    if (userData.credit < 1) {
+      toast.warning('Not enough credits to cast vote')
+      return
+    }
+
     if (!voteLoader) {
       submitVote(songId, slug)
     }
