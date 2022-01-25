@@ -226,7 +226,7 @@ const Album = props => {
                           />
                         )}
                         {userDetails &&
-                        <SongVote songId={ele.song.id} slug={slug} votes={ele.song.votes} voteLoader={voteLoader} walletAddress={userDetails.privateWalletPublicAddress}/>}
+                        <SongVote songId={ele.song.id} slug={slug} votes={ele.song.votes} voteLoader={voteLoader}/>}
                       </div>
                     </div>
                   ))}

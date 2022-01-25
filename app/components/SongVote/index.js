@@ -7,19 +7,30 @@ import {makeSelectFormLoader} from "../../containers/Album/selectors";
 import {castVote} from "../../containers/Album/actions";
 import {connect} from "react-redux";
 import {compose} from "redux";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
-const SongVote = ({songId, submitVote, votes, voteLoader, walletAddress, slug}) => {
-  const castVote = () => {
+const SongVote = ({songId, submitVote, votes, voteLoader, slug}) => {
+  const castSongVote = () => {
     if (!voteLoader) {
-      submitVote(songId, walletAddress, slug)
+      submitVote(songId, slug)
     }
   }
 
   return (
-    <span className={`pl-4 ${voteLoader ? 'cursor-disabled' : 'cursor-pointer'}`} onClick={castVote}>
+    <OverlayTrigger
+      key="top"
+      placement="top"
+      overlay={
+        <Tooltip id={`tooltip-top`}>
+          I like this
+        </Tooltip>
+      }
+    >
+    <span className={`pl-4 ${voteLoader ? 'cursor-disabled' : 'cursor-pointer'}`} onClick={castSongVote}>
       <FontAwesomeIcon icon={faThumbsUp}/>
       <span className="pl-2">{votes}</span>
     </span>
+    </OverlayTrigger>
   );
 }
 
@@ -33,7 +44,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitVote: (songId, walletAddress, slug) => dispatch(castVote(songId, walletAddress, slug)),
+    submitVote: (songId, slug) => dispatch(castVote(songId, slug)),
   };
 }
 

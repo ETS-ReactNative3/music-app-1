@@ -202,11 +202,10 @@ export function followAlbumAction(albumId, like, albumSlug) {
   }
 }
 
-export function castVote(songId, walletAddress, slug) {
+export function castVote(songId, slug) {
   return {
     type: CAST_VOTE,
     songId,
-    walletAddress,
     slug
   }
 }

@@ -14,40 +14,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {renderSocialMediaIcons} from "../../utils";
 import {Link} from "react-router-dom";
 import ChangePassword from "../ChangePassword";
-import * as web3 from '@solana/web3.js';
-import axios from "axios";
 
 function ProfileSidebar({userDetails}) {
   const [showChangePassword, setShowChangePassword] = useState(false);
-  const [privateBalance, setPrivateBalance] = useState(0);
-
-  useEffect( () => {
-    (async function() {
-      const response = await axios({
-        url: `https://api.devnet.solana.com`,
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        data: {
-          jsonrpc: "2.0",
-          id: 1,
-          method: "getTokenAccountsByOwner",
-          params: [
-            userDetails.privateWalletPublicAddress,
-            {
-              mint: "7dKhEzYxMp26kwJUrtdAU8BcoKNTovX7bPryUR8Ut7uH",
-            },
-            {
-              encoding: "jsonParsed",
-            },
-          ],
-        },
-      });
-      if (response.data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount > 0) {
-        setPrivateBalance(response.data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount)
-      }
-    })();
-  }, [userDetails]);
-
 
   return <div className="card bg-dark mb-3">
     <div className="card-header">
@@ -71,17 +40,6 @@ function ProfileSidebar({userDetails}) {
         {userDetails.roleId !== 1 && userDetails.role.title}
         {userDetails.roleId === 1 && userDetails.influencerId && 'Tastemaker'}
         {userDetails.roleId === 1 && !userDetails.influencerId && userDetails.role.title}
-      </div>
-      <div>
-        Bliiink Wallet Address: {userDetails.privateWalletPublicAddress}
-      </div>
-      <div>
-        <img
-          src={PlanSvg}
-          alt="wallet Logo"
-          width={20}
-          height={20}
-        /><span className="font-weight-bold pl-2">  {privateBalance} balance</span>
       </div>
       <div>
         <img
