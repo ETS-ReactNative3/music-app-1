@@ -33,9 +33,8 @@ import ReactGA from "react-ga4";
 const App = () => {
   useEffect(() => {
     if (process.env.HOTJAR_ID) {
-      hotjar.initialize(process.env.HOTJAR_ID, process.env.HOTJAR_HJSV)
+      hotjar.initialize(+process.env.HOTJAR_ID, +process.env.HOTJAR_HJSV)
     }
-
     if (process.env.MEASUREMENT_ID) {
       ReactGA.initialize(process.env.MEASUREMENT_ID)
     }
