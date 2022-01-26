@@ -11,7 +11,7 @@ export function axiosInstance() {
       Authorization: `bearer ${accessToken}`,
     };
   }
-  console.log(process.env.API_URL)
+
   return axios.create({
     baseURL: process.env.API_URL,
     headers,
