@@ -19,7 +19,6 @@ import PlanSvg from '../../images/svg/plan_icon.svg';
 import AvatarSvg from '../../images/user.svg';
 import Button from 'react-bootstrap/Button';
 import {Image} from 'react-bootstrap';
-import {server} from '../../../config';
 import {debounce} from 'lodash';
 // import {WalletMultiButton} from "@solana/wallet-adapter-react-ui";
 
@@ -30,7 +29,7 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
   const [options, setOptions] = useState([]);
   const searchRef = useRef(null);
   const headerRef = useRef('');
-  const SEARCH_URI = `${server.apiURL}albums/search/album/`;
+  const SEARCH_URI = `${process.env.API_URL}albums/search/album/`;
   const history = useHistory();
 
   const handleSearch = query => {

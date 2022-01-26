@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {server} from "../../config";
 
 export function axiosInstance() {
   const accessToken = localStorage.getItem('token');
@@ -14,8 +13,7 @@ export function axiosInstance() {
   }
 
   return axios.create({
-    // baseURL: 'http://localhost:3006/',
-    baseURL: server.apiURL,
+    baseURL: process.env.API_URL,
     headers,
   });
 }

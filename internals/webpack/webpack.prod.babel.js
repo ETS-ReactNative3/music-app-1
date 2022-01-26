@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -81,7 +82,7 @@ module.exports = require('./webpack.base.babel')({
       },
       inject: true,
     }),
-
+    new Dotenv(),
     // Put it in the end to capture all the HtmlWebpackPlugin's
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     // new OfflinePlugin({

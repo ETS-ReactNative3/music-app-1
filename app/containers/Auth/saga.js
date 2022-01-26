@@ -24,10 +24,9 @@ import {
 import history from '../../utils/history';
 import {setRole} from '../App/actions';
 import request from '../../utils/request';
-import {server} from "../../../config";
 
 function loginApi(authParams) {
-  return request(`${server.apiURL}auth/login`, {
+  return request(`${process.env.API_URL}auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -37,7 +36,7 @@ function loginApi(authParams) {
 }
 
 function registerApi(authParams) {
-  return request(`${server.apiURL}auth/register`, {
+  return request(`${process.env.API_URL}auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -47,7 +46,7 @@ function registerApi(authParams) {
 }
 
 function verificationApi(code) {
-  return request(`${server.apiURL}auth/verifyCode`, {
+  return request(`${process.env.API_URL}auth/verifyCode`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -57,7 +56,7 @@ function verificationApi(code) {
 }
 
 function forgotPasswordApi(email) {
-  return request(`${server.apiURL}auth/forgotPassword`, {
+  return request(`${process.env.API_URL}auth/forgotPassword`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -67,7 +66,7 @@ function forgotPasswordApi(email) {
 }
 
 function resetPasswordApi(data) {
-  return request(`${server.apiURL}auth/resetPassword`, {
+  return request(`${process.env.API_URL}auth/resetPassword`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',

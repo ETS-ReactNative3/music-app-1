@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {server} from "../../config";
 
 export function axiosTrackingInstance() {
   const accessToken = localStorage.getItem('token');
@@ -14,8 +13,7 @@ export function axiosTrackingInstance() {
   }
 
   return axios.create({
-    // baseURL: 'http://localhost:3006/',
-    baseURL: server.trackingApiURL,
+    baseURL: process.env.TRACKING_API_URL,
     headers,
   });
 }
