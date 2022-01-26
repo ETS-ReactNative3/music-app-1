@@ -104,7 +104,7 @@ const WithdrawalRequest = (
   }, [paymentMethods]);
 
   const submitAmount = data => {
-    if (!withdrawalAccount) {
+    if (withdrawalAccount === 'no') {
       toast.warning('Add a withdrawal method first');
     } else {
       submitWithdrawAmount({withdrawalMethodsId: withdrawalAccount, ...data})
@@ -220,7 +220,15 @@ const WithdrawalRequest = (
                           height={20}/>
                         </div>
                       </div>
-                      <hr/>
+                      <div className="row">
+                        <div className="col-md-8">
+                          Value in dollar
+                        </div>
+                        <div className="col-md-4">
+                          ${amount}
+                        </div>
+                      </div>
+
                       <div className="row">
                         <div className="col-md-8">
                           New balance After Withdrawal

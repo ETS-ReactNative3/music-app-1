@@ -1,11 +1,11 @@
-import React, {memo, useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
+import React, { memo, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import {createStructuredSelector} from 'reselect';
-import {useParams} from 'react-router-dom';
-import {useInjectSaga} from 'utils/injectSaga';
-import {useInjectReducer} from 'utils/injectReducer';
+import { createStructuredSelector } from 'reselect';
+import { useParams } from 'react-router-dom';
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
 import {
   getGenres,
   getMoodListAction,
@@ -29,6 +29,7 @@ import PaperCard from "../../components/PaperCard";
 import AlertDismissible from '../../components/AlertDismissible';
 import UploadSongVideo from "../../components/UploadSongVideo";
 
+
 function Form(
   {
     genres,
@@ -44,11 +45,11 @@ function Form(
     getMoodList,
     moods
   }) {
-  useInjectReducer({key: 'song', reducer});
-  useInjectSaga({key: 'song', saga});
+  useInjectReducer({ key: 'song', reducer });
+  useInjectSaga({ key: 'song', saga });
 
   const [addSong, setAddSong] = useState(true);
-  const {id} = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     getMoodList()
@@ -64,7 +65,7 @@ function Form(
     if (addSong) {
       postSongAction(data);
     } else {
-      editSong({id, ...data});
+      editSong({ id, ...data });
     }
   };
 
@@ -74,8 +75,8 @@ function Form(
 Disclaimer: Uploading music you don't fully own the rights to will result in account termination.`}/>
       <UploadSongVideo/>
       {
-        addSong ? <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} formLoader={formLoader}/>
-          : <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} song={song} formLoader={formLoader}/>
+        addSong ? <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} formLoader={formLoader} />
+          : <SongForm moods={moods} members={members} formSubmit={values => onSubmit(values)} genres={genres} song={song} formLoader={formLoader} />
       }
     </PaperCard>
   );
