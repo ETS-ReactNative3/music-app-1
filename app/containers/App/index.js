@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import React, {useMemo} from 'react';
+import React, {useEffect} from 'react';
 import {Switch, Route} from 'react-router-dom';
 import {NotFoundPage} from '../NotFoundPage/Loadable';
 import '../../styles/global-style.scss';
@@ -14,6 +14,8 @@ import './index.scss';
 import ThemeWrapper from './ThemeWrapper';
 import Auth from './Auth';
 import Application from './Application';
+import {hotjar} from 'react-hotjar'
+import ReactGA from "react-ga4";
 // import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 // import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 // import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
@@ -29,15 +31,25 @@ import Application from './Application';
 // import { clusterApiUrl } from '@solana/web3.js';
 
 const App = () => {
+  useEffect(() => {
+    if (process.env.HOTJAR_ID) {
+      hotjar.initialize(process.env.HOTJAR_ID, process.env.HOTJAR_HJSV)
+    }
+
+    if (process.env.MEASUREMENT_ID) {
+      ReactGA.initialize(process.env.MEASUREMENT_ID)
+    }
+  }, [])
+
   return (
     // <Context>
-      <ThemeWrapper>
-        <Switch>
-          <Route path="/auth" component={Auth}/>
-          <Route path="/" component={Application}/>
-          <Route path="*" component={NotFoundPage}/>
-        </Switch>
-      </ThemeWrapper>
+    <ThemeWrapper>
+      <Switch>
+        <Route path="/auth" component={Auth}/>
+        <Route path="/" component={Application}/>
+        <Route path="*" component={NotFoundPage}/>
+      </Switch>
+    </ThemeWrapper>
     // </Context>
   );
 };
