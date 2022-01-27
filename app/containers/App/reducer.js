@@ -80,6 +80,7 @@ const appReducer = (state = initialState, action) =>
         const song = state.currentPlaylist.find(item => item.song.id === action.songId)
         if (song) {
           const albumImage = song.album ? song.album.artwork : song.song.albumSongs[0].album.artwork
+          const albumId = song.album ? song.album.id : song.song.albumSongs[0].album.id
           draft.currentSong.songData = {
             id: song.song.id,
             src: song.song.url,
@@ -87,6 +88,7 @@ const appReducer = (state = initialState, action) =>
             artist: song.song.user.name,
             artistId: song.song.user.id,
             artwork: albumImage,
+            albumId: albumId
           }
         }
         break;
