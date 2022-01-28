@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { faPlay, faPause, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PaperCard from '../../components/PaperCard';
-import { Col, Image, Row } from 'react-bootstrap';
+import {Col, Image, OverlayTrigger, Row, Tooltip} from 'react-bootstrap';
 import moment from 'moment';
 import {
   makeSelectRecommended,
@@ -190,7 +190,7 @@ const Album = props => {
                       id={`songNumber${ele.song.id}`}
                       key={index}
                     >
-                      <div className="col-9">
+                      <div className="col-8">
                         <span className="song-number pr-3">{index + 1}</span>
                         <span
                           onClick={() => singleSongHandler(ele.song.id)}
@@ -210,7 +210,16 @@ const Album = props => {
                           {ele.song.explicitContent && <img className="pl-2 explicitIcon" src={Explicit} alt="explicit icon"/>}
                         </h5>
                       </div>
-                      <div className="col-3 d-flex justify-content-center align-items-center">
+                      <div className="col-4 d-flex justify-content-center align-items-center">
+                        <span className="stream-count mx-4 w-25">{ele.streamCount && <OverlayTrigger
+                          key="top"
+                          placement="top"
+                          overlay={
+                            <Tooltip id={`tooltip-top`}>
+                              Stream Count
+                            </Tooltip>
+                          }
+                        ><span>{ele.streamCount.toLocaleString('en-US')}</span></OverlayTrigger>}</span>
                         <span className="song-duration px-4">{ele.song.duration ? convertSecondsToTime(ele.song.duration) : '00:00'}</span>
                         {role && (
                           <SongsOptionsBox

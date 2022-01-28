@@ -17,6 +17,7 @@ import {
   UPDATE_ALBUM,
 } from './constants';
 import { axiosInstance } from '../../utils/api';
+import { axiosTrackingInstance } from '../../utils/trackingApi';
 import {
   deleteAlbumFail,
   deleteAlbumSuccess,
@@ -95,6 +96,10 @@ function postVoteApi(data) {
   return axiosInstance().post('songs/vote', {songId: data.id});
 }
 
+function getSongStreams(id) {
+  return axiosTrackingInstance().get(`records/album/${id}`);
+}
+
 export function* fetchSongs() {
   try {
     const result = yield call(getSongsApi);
@@ -116,9 +121,32 @@ export function* albumSaga(action) {
           : getAlbumInfoForLoggedIn,
         action.slug,
       );
-      yield put(loadAlbumSuccess(result.data));
+      const getStreamCount = yield call(getSongStreams, result.data.id);
+      if (getStreamCount.data.length > 0) {
+        getStreamCount.data.forEach(item => {
+          let index = result.data.albumSongs.findIndex(song => song.songId === item._id);
+          if (index !== -1) {
+            result.data.albumSongs[index].streamCount = item.count
+          }
+        })
+        yield put(loadAlbumSuccess(result.data));
+      } else {
+        yield put(loadAlbumSuccess(result.data));
+      }
     } else {
       const result = yield call(getAlbumInfo, action.slug);
+      const getStreamCount = yield call(getSongStreams, result.data.id);
+      if (getStreamCount.data.length > 0) {
+        getStreamCount.data.forEach(item => {
+          let index = result.data.albumSongs.findIndex(song => song.songId === item._id);
+          if (index !== -1) {
+            result.data.albumSongs[index].streamCount = item.count
+          }
+        })
+        yield put(loadAlbumSuccess(result.data));
+      } else {
+        yield put(loadAlbumSuccess(result.data));
+      }
       yield put(loadAlbumSuccess(result.data));
     }
   } catch (e) {
