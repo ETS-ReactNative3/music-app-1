@@ -186,6 +186,7 @@ export function Playlist(
             data={playlists}
             columns={columns}
           />
+          {playlists.length === 0 && <h4 className='d-flex justify-content-center'>No playlist available.</h4>}
         </div>
       </div>
       <Modal show={popupState} onHide={handleClose}>

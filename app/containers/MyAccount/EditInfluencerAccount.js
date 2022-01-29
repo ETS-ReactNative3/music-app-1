@@ -393,7 +393,7 @@ const EditInfluencerAccount = (
                         inputMode="numeric"
                         className={`form-control ${errors.facebook && errors.facebook.price ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 0, message: "Price should be more than 0"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.facebook && errors.facebook.price && errors.facebook.price.message}
@@ -407,7 +407,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter count"
                         className={`form-control ${errors.facebook && errors.facebook.followers ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 2000, message: "Followers should be greater than 2000"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.facebook && errors.facebook.followers && errors.facebook.followers.message}
@@ -468,7 +468,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter amt."
                         className={`form-control ${errors.twitter && errors.twitter.price ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 0, message: "Price should be more than 0"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.twitter && errors.twitter.price && errors.twitter.price.message}
@@ -482,7 +482,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter count"
                         className={`form-control ${errors.twitter && errors.twitter.followers ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 2000, message: "Followers should be greater than 2000"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.twitter && errors.twitter.followers && errors.twitter.followers.message}
@@ -543,7 +543,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter amt."
                         className={`form-control ${errors.instagram && errors.instagram.price ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 0, message: "Price should be more than 0"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.instagram && errors.instagram.price && errors.instagram.price.message}
@@ -557,7 +557,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter count"
                         className={`form-control ${errors.instagram && errors.instagram.followers ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 2000, message: "Followers should be greater than 2000"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.instagram && errors.instagram.followers && errors.instagram.followers.message}
@@ -618,7 +618,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter amt."
                         className={`form-control ${errors.youtube && errors.youtube.price ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 0, message: "Price should be more than 0"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.youtube && errors.youtube.price && errors.youtube.price.message}
@@ -632,7 +632,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter count"
                         className={`form-control ${errors.youtube && errors.youtube.followers ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 2000, message: "Followers should be greater than 2000"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.youtube && errors.youtube.followers && errors.youtube.followers.message}
@@ -693,7 +693,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter amt."
                         className={`form-control ${errors.blog && errors.blog.price ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 0, message: "Price should be more than 0"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.blog && errors.blog.price && errors.blog.price.message}
@@ -707,7 +707,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter count"
                         className={`form-control ${errors.blog && errors.blog.followers ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 2000, message: "Followers should be greater than 2000"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.blog && errors.blog.followers && errors.blog.followers.message}
@@ -768,7 +768,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter amt."
                         className={`form-control ${errors.radio && errors.radio.price ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 0, message: "Price should be more than 0"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.radio && errors.radio.price && errors.radio.price.message}
@@ -782,7 +782,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter count"
                         className={`form-control ${errors.radio && errors.radio.followers ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 2000, message: "Followers should be greater than 2000"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.radio && errors.radio.followers && errors.radio.followers.message}
@@ -844,7 +844,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter amt."
                         className={`form-control ${errors.tiktok && errors.tiktok.price ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 0, message: "Price should be more than 0"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.tiktok && errors.tiktok.price && errors.tiktok.price.message}
@@ -858,7 +858,7 @@ const EditInfluencerAccount = (
                         placeholder="Enter count"
                         className={`form-control ${errors.tiktok && errors.tiktok.followers ? 'is-invalid' : ''
                         }`}
-                        ref={register({required: 'Field is required'})}
+                        ref={register({required: 'Field is required', min: {value: 2000, message: "Followers should be greater than 2000"}})}
                       />
                       <div className="invalid-feedback">
                         {errors.tiktok && errors.tiktok.followers && errors.tiktok.followers.message}

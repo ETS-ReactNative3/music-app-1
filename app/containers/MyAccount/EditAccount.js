@@ -293,6 +293,12 @@ const EditAccount = ({
                         errors.phone ? 'is-invalid' : ''
                       }`}
                       ref={register}
+                      onKeyDown={(event) => {
+                        if (event.key == "." || event.key === "-"|| event.key === "e") {
+                          event.preventDefault();
+                        }
+                      }}
+
                     />
                     <div className="invalid-feedback">
                       {errors.phone && errors.phone.message}

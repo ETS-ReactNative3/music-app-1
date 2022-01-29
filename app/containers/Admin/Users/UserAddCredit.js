@@ -43,7 +43,7 @@ const UserAddCredit = ({ openModal, handleClose, addCredit, id,page, limit }) =>
                         className="btn btn-success"
                         onClick={() => {
                             if (credit && credit > 0) {
-                                addCredit(id, credit, page-1, limit)
+                                addCredit(id, credit, page, limit)
                                 handleClose()
                             } else {
                                 setErrors('Please add credits')

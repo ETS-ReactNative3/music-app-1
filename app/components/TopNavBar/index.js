@@ -124,6 +124,11 @@ const TopNavBar = ({userDetails, putUserDetails}) => {
                     marginRight: '10px',
                     width: '24px',
                   }}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; 
+                    
+                    currentTarget.src=require('../../images/user.svg');
+                  }}
                 />
                 <span>{option.login}</span>
               </div>

@@ -172,6 +172,7 @@ function SongForm({genres, formSubmit, song, formLoader, moods, members, getMyAl
               render={({onChange, value}) => (
                 <DatePicker
                   popperPlacement="top-start"
+                  minDate={new Date()}
                   popperModifiers={{
                     flip: {
                       behavior: ["top-start"] // don't allow it to flip to be above
